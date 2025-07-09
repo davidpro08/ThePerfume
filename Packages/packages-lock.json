@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.justinpbarnett.unity-mcp": {
+      "version": "https://github.com/justinpbarnett/unity-mcp.git?path=/UnityMcpBridge",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "hash": "e67b806f5425b6877e2e0d5589ef9577d5730560"
+    },
     "com.unity.2d.animation": {
       "version": "11.0.0",
       "depth": 0,
