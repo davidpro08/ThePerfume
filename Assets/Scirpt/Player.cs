@@ -17,6 +17,11 @@ public class Player : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+    void OnInteract(InputValue value)
+    {
+        Debug.Log("Interact");
+    }
+
     void FixedUpdate()
     {
         Vector2 movement = moveInput * moveSpeed;
