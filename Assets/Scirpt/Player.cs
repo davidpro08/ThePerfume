@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+    // TODO: 인벤토리 열기
     void OnInteract(InputValue value)
     {
         Debug.Log("Interact");
