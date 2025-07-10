@@ -100,4 +100,9 @@ InitTestScene*.unity*
 
 # Resources
 /[Aa]ssets/[Rr]esources
+
+# TextMeshPro
+/[Aa]ssets/[Tt]extMeshPro
+
+# AI, MCP configuration
 /.gemini
