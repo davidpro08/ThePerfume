@@ -14,14 +14,25 @@ public class InventoryManager : MonoBehaviour
     // 인벤토리 변경 시 UI 업데이트 등을 위한 이벤트
     public delegate void OnInventoryChanged();
 
+    // 이벤트 방식으로 구현
     public event OnInventoryChanged onInventoryChangedCallback;
     
     // 용량
     // 기본 용량 = 8
-    // 나중에 추가 용량을 얻으면 capacity를 늘리기
-    public readonly int DefaultCapacity = 8;
     public int capacity = 8;
 
+    // 핫바 사이즈
+    // 전체 인벤토리(itemSlots)의 앞부분 N개를 핫바로 간주
+    public readonly int hotbarSize = 8;
+
+    void Awake()
+    {
+        // 인벤토리 슬롯을 초기 용량만큼 미리 생성
+        for (int i = 0; i < capacity; i++)
+        {
+            itemSlots.Add(new ItemSlot());
+        }
+    }
 
     // TODO: 로직이 이렇게 간단하면 안되고, 나중에 수정해야 함
     // 1. 같은 아이템이 있으면 어떻게 처리할것인가?

@@ -3,7 +3,12 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header("기본 설정")]
     public float moveSpeed = 5f;
+    
+    [Header("인벤토리 설정")]
+    public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
+
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
@@ -17,10 +22,17 @@ public class Player : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
-    // TODO: 인벤토리 열기
+    // 인벤토리 열기
     void OnInteract(InputValue value)
     {
-        Debug.Log("Interact");
+        if (inventoryUIManager != null)
+        {
+            inventoryUIManager.ToggleFullInventory();
+        }
+        else
+        {
+            Debug.LogWarning("InventoryUIManager가 Player 스크립트에 연결되지 않았습니다.");
+        }
     }
 
     void FixedUpdate()

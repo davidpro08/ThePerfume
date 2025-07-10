@@ -14,6 +14,14 @@ public class ItemSlot
     public ItemSlot(ItemData data, int amount)
     {
         itemData = data;
+        quantity = amount;
+    }
+
+    // 빈 슬롯을 위한 생성자
+    public ItemSlot()
+    {
+        itemData = null;
+        quantity = 0;
     }
 
     // 개수가 늘어나거나
