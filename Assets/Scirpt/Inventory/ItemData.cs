@@ -24,4 +24,13 @@ public class ItemData : ScriptableObject
     
     // 아이템 종류
     public ItemType itemType = ItemType.Crop; // 아이템 타입
+
+    public ItemData(string itemName, string itemDescription, bool isStackable, int maxStackSize, ItemType itemType)
+    {
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.isStackable = isStackable;
+        this.maxStackSize = maxStackSize;
+        this.itemType = itemType;
+    }
 }
