@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: Test Item
+  m_Name: Test Item 2
   m_EditorClassIdentifier: 
   itemName: "\uD14C\uC2A4\uD2B8 \uC544\uC774\uD15C"
-  itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
-  itemDescription: "\uC313\uC77C \uC218 \uC788\uB294 \uC544\uC78D"
+  itemIcon: {fileID: 8333231276030249781, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  itemDescription: "\uB450\uBC88\uC9F8 \uC544\uC774\uD15C"
   isStackable: 1
   maxStackSize: 99
   itemType: 0

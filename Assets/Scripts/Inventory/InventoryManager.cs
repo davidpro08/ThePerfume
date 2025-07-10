@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+// 싱글톤으로 구현하는 건 어떨까?
 public class InventoryManager : MonoBehaviour
 {
 
@@ -13,10 +15,11 @@ public class InventoryManager : MonoBehaviour
     public delegate void OnInventoryChanged();
 
     public event OnInventoryChanged onInventoryChangedCallback;
-
+    
     // 용량
     // 기본 용량 = 8
     // 나중에 추가 용량을 얻으면 capacity를 늘리기
+    public readonly int DefaultCapacity = 8;
     public int capacity = 8;
 
 
