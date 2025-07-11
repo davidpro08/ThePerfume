@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Item
   m_EditorClassIdentifier: 
   itemName: "\uD14C\uC2A4\uD2B8 \uC544\uC774\uD15C"
-  itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  itemIcon: {fileID: -1212871774, guid: 2fa99103f5b59a34ea02947b14d3adeb, type: 3}
   itemDescription: "\uC313\uC77C \uC218 \uC788\uB294 \uC544\uC774\uD15C"
   isStackable: 1
   maxStackSize: 99

@@ -42,4 +42,5 @@ public class InventorySlotUI : MonoBehaviour
         itemIconImage.enabled = false;
         itemCountText.enabled = false;
     }
+
 }

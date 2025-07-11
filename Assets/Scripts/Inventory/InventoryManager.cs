@@ -148,4 +148,5 @@ public class InventoryManager : MonoBehaviour
             onInventoryChangedCallback.Invoke();
         }
     }
+
 }
