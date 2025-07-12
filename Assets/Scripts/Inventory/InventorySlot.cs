@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
     void Start()
     {
-        _inventoryManager = FindObjectOfType<InventoryManager>();
+        _inventoryManager = FindAnyObjectByType<InventoryManager>();
         if (_inventoryManager != null)
         {
             _inventoryManager.onSlotSelectedCallback += OnManagerSlotSelected;
