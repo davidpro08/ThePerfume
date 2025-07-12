@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
     private Vector2 moveInput;
-    private bool isRunning;
+    private bool isSprint;
     private float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
     private Rigidbody2D rb;
     private Animator animator;
@@ -45,6 +45,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnSprint(InputValue value)
+    {
+        isSprint = value.Get<float>() > 0.5f;
+    }
+
     // 인벤토리 열기
     void OnInteract(InputValue value)
     {
@@ -60,12 +65,12 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 movement = isRunning ? moveInput * moveSpeed * runRate : moveInput * moveSpeed;
+        Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
         rb.linearVelocity = movement;
     }
     void Update()
     {
-        isRunning = Keyboard.current.leftShiftKey.isPressed;
+        isSprint = Keyboard.current.leftShiftKey.isPressed;
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             TryInteract();
