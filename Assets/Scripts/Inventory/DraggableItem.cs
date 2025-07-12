@@ -42,7 +42,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("Dragging");
-        transform.position = Input.mousePosition;
+        transform.position = eventData.position;
+        //transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
