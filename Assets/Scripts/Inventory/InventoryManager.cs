@@ -16,7 +16,27 @@ public class InventoryManager : MonoBehaviour
 
     // 이벤트 방식으로 구현
     public event OnInventoryChanged onInventoryChangedCallback;
-    
+
+    //슬롯 선택 이벤트
+    public delegate void OnSlotSelected(int selectedIndex);
+    public event OnSlotSelected onSlotSelectedCallback;
+    private int _selectedSlotIndex = -1;
+    public int SelectedSlotIndex
+    {
+        get
+        {
+            return _selectedSlotIndex;
+        }
+        private set
+        {
+            if (_selectedSlotIndex != value)
+            {
+                _selectedSlotIndex = value;
+                onSlotSelectedCallback?.Invoke(_selectedSlotIndex);
+            }
+        }
+    }
+
     // 용량
     // 기본 용량 = 8
     public int capacity = 8;
@@ -31,6 +51,34 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < capacity; i++)
         {
             itemSlots.Add(new ItemSlot());
+        }
+    }
+
+    void Update()
+    {
+        //슬롯 선택 감지
+        for (int i = 0; i < hotbarSize; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                {
+                    SelectSlot(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void SelectSlot(int index) // 슬롯 선택 이벤트만 추가해놓음. 업데이트 필요
+    {
+        if (index >= 0 && index < hotbarSize)
+        {
+            SelectedSlotIndex = index;
+            Debug.Log($"핫바 슬롯 {index + 1}번 선택");
+        }
+        else
+        {
+            Debug.Log($"벗어난 슬롯 : {index}");
         }
     }
 
@@ -52,28 +100,28 @@ public class InventoryManager : MonoBehaviour
                 {
                     // 쌓을 수 있는 남은 공간이 이정도
                     int remainingSpace = itemAdd.maxStackSize - slot.quantity;
-                    
+
                     // 이 공간에 들어오는 아이템은 
                     // 아이템 개수 만큼 쌓이고
                     // 아이템 개수가 쌓을 수 있는 공간보다 크면
                     // 쌓을 수 있는 공간만큼만 쌓임
                     int amountToMove = Mathf.Min(amountOfItems,
                         remainingSpace);
-                    
+
                     // 이를 적용
                     slot.AddQuantity(amountToMove);
-                    
+
                     amountOfItems -= amountToMove;
                     // 모든 아이템이 들어갔다면
                     if (amountOfItems <= 0)
                     {
-                        InventoryChanged(); 
+                        InventoryChanged();
                         return true; // 모든 아이템 추가 완료
                     }
                 }
             }
         }
-        
+
         // 2. 남은 아이템 또는 스택 불가능한 아이템: 빈 슬롯에 추가
         while (amountOfItems > 0)
         {
@@ -87,15 +135,15 @@ public class InventoryManager : MonoBehaviour
                 Debug.LogError($"ItemSlot {itemAdd.name} has no empty slot");
                 return false;
             }
-            
+
             // 아이템의 최소 값 확인
             int amountToPlace = itemAdd.isStackable ? Mathf.Min(amountOfItems, itemAdd.maxStackSize) : 1;
-            
+
             emptySlot.itemData = itemAdd;
             emptySlot.quantity = amountToPlace;
             amountOfItems -= amountToPlace;
         }
-        
+
         // UI 변경을 위해 이벤트 부르기
         InventoryChanged();
         return true;
@@ -107,7 +155,7 @@ public class InventoryManager : MonoBehaviour
         for (int i = itemSlots.Count - 1; i >= 0; i--)
         {
             ItemSlot slot = itemSlots[i];
-            
+
             // 지울 아이템과 똑같다면
             if (slot.itemData == itemToRemove)
             {
@@ -132,14 +180,14 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        
+
         // 만약 여기에 도달한다면 quantityToRemove가 남은 것
         Debug.LogWarning("제거하려는 아이템이 인벤토리에 충분하지않습니다: " + itemToRemove.name + quantityToRemove);
         return false; // 제거하려는 아이템이 부족함
     }
-    
-    
-    
+
+
+
     // 이벤트를 받으면 인벤토리 변경 알림
     public void InventoryChanged()
     {
