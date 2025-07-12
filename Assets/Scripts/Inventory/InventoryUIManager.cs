@@ -8,6 +8,7 @@ public class InventoryUIManager : MonoBehaviour
     [Header("필수 연결")]
     [SerializeField] private InventoryManager inventoryManager; // 데이터 소스
     [SerializeField] private GameObject inventorySlotPrefab;  // 슬롯 UI 프리팹
+    public GameObject draggableItemPrefab;
 
     [Header("핫바 설정")]
     [SerializeField] private Transform hotbarSlotsContainer; // 핫바 슬롯들의 부모
@@ -49,7 +50,9 @@ public class InventoryUIManager : MonoBehaviour
         for (int i = 0; i < inventoryManager.hotbarSize; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, hotbarSlotsContainer);
-            hotbarSlotUIs.Add(slotGO.GetComponent<InventorySlotUI>());
+            var SlotUI = slotGO.GetComponent<InventorySlotUI>();
+            SlotUI.draggableItemPrefab = draggableItemPrefab;
+            hotbarSlotUIs.Add(SlotUI);
         }
     }
 
@@ -59,7 +62,9 @@ public class InventoryUIManager : MonoBehaviour
         for (int i = 0; i < inventoryManager.capacity; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, fullInventorySlotsContainer);
-            fullInventorySlotUIs.Add(slotGO.GetComponent<InventorySlotUI>());
+            var SlotUI = slotGO.GetComponent<InventorySlotUI>();
+            SlotUI.draggableItemPrefab = draggableItemPrefab;
+            fullInventorySlotUIs.Add(SlotUI);
         }
     }
 
@@ -99,4 +104,5 @@ public class InventoryUIManager : MonoBehaviour
     {
         fullInventoryPanel.SetActive(!fullInventoryPanel.activeSelf);
     }
+
 }

@@ -35,4 +35,18 @@ public class ItemSlot
     {
         quantity -= amount;
     }
+
+    public bool IsEmpty => itemData == null || quantity <= 0;
+
+    public void CopyTo(ItemSlot target)
+    {
+        target.itemData = itemData;
+        target.quantity = quantity;
+    }
+
+    public void Clear()
+    {
+        itemData = null;
+        quantity = 0;
+    }
 }

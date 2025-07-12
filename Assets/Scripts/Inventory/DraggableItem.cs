@@ -1,16 +1,20 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("UI")]
     public Image image;
-    public Text countText;
+    public TextMeshProUGUI countText;
 
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public ItemData item;
     [HideInInspector] public int quantity = 1;
+
+    [HideInInspector] public ItemSlot boundSlot;
 
     public void InitializeItem(ItemData newItem)
     {
@@ -47,6 +51,15 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(parentAfterDrag);
         image.raycastTarget = true;
         countText.raycastTarget = true;
+    }
+
+    public void BindToSlot(ItemSlot slot)
+    {
+        boundSlot = slot;
+        item = slot.itemData;
+        quantity = slot.quantity;
+        image.sprite = item.itemIcon;
+        RefreshCount();
     }
 
 }
