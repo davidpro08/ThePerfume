@@ -1,9 +1,74 @@
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.U2D;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
     public int slotIndex;
+    //슬롯 선택 임시 확인 기능 > 아웃라인 두껍게 보임
+    public UnityEngine.UI.Outline outlineComponent;
+    public Color normalOutlineColor = Color.clear;
+    public Color selectedOutlineColor = new Color(1f, 1f, 1f, 0.5f);
+    public UnityEngine.Vector2 normalOutlineDistance = UnityEngine.Vector2.zero;
+    public UnityEngine.Vector2 selectedOutlineDistance = new UnityEngine.Vector2(3f, 3f);
+
+    public DraggableItem currentDraggableItem;
+    private InventoryManager _inventoryManager;
+
+    void Awake()
+    {
+        if (outlineComponent == null)
+        {
+            outlineComponent = GetComponent<UnityEngine.UI.Outline>();
+        }
+    }
+    void Start()
+    {
+        _inventoryManager = FindAnyObjectByType<InventoryManager>();
+        if (_inventoryManager != null)
+        {
+            _inventoryManager.onSlotSelectedCallback += OnManagerSlotSelected;
+            SetSelected(_inventoryManager.SelectedSlotIndex == slotIndex);
+        }
+        else
+        {
+            //InventoryManager 발견 실패
+            SetSelected(false);
+        }
+    }
+
+    private void OnManagerSlotSelected(int selectedIndex)
+    {
+        SetSelected(selectedIndex == slotIndex);
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        if (outlineComponent != null)
+        {
+            if (isSelected)
+            {
+                outlineComponent.effectColor = selectedOutlineColor;
+                outlineComponent.effectDistance = selectedOutlineDistance;
+            }
+            else
+            {
+                outlineComponent.effectColor = normalOutlineColor;
+                outlineComponent.effectDistance = normalOutlineDistance;
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (_inventoryManager != null)
+        {
+            _inventoryManager.onSlotSelectedCallback -= OnManagerSlotSelected;
+        }
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         DraggableItem droppedItem = eventData.pointerDrag.GetComponent<DraggableItem>();
@@ -33,6 +98,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             DraggableItem existingItem = transform.GetChild(0).GetComponent<DraggableItem>();
             ItemSlot existingSlot = existingItem.boundSlot;
 
+            // 기존 아이템과 같은 아이템, 쌓을 수 있는 아이템
             if (existingItem.item == droppedItem.item && existingItem.item.isStackable)
             {
                 int total = existingItem.quantity + droppedItem.quantity;
