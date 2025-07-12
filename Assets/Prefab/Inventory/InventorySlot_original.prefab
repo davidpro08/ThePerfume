@@ -301,5 +301,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627504cc97309124dbeacde375fec725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIconImage: {fileID: 2507772585782935921}
-  itemCountText: {fileID: 6092108779303810612}
+  draggableItemPrefab: {fileID: 0}
