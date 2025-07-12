@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
         animator.SetFloat("InputY", moveInput.y);
         animator.SetBool("isWalking", moveInput.magnitude > 0.01f);
 
-        if (moveInput.magnitude < 0.01f)
+        if (moveInput.magnitude > 0.01f)
         {
             animator.SetFloat("LastInputX", moveInput.x);
             animator.SetFloat("LastInputY", moveInput.y);
