@@ -42,7 +42,6 @@ public class InventorySlotUI : MonoBehaviour
     {
         //itemIconImage.enabled = false;
         //itemCountText.enabled = false;
-        //아에 비워두는 형식으로 바꿈
         foreach(Transform child in transform) Destroy(child.gameObject);
     }
 
@@ -52,7 +51,7 @@ public class InventorySlotUI : MonoBehaviour
     public void UpdateSlot(ItemSlot slot)
     {
         //이미 존재하고 있으면 지우기
-        foreach (Transform child in transform) Destroy(child.gameObject);
+        ClearSlot();
         //아이템 데이터있으면 draggableItem스폰
         if (slot.itemData != null)
         {
@@ -60,8 +59,9 @@ public class InventorySlotUI : MonoBehaviour
             DraggableItem draggable = go.GetComponent<DraggableItem>();
             draggable.InitializeItem(slot.itemData);
             draggable.quantity = slot.quantity;
+            draggable.boundSlot = slot;
             draggable.RefreshCount();
-            draggable.parentAfterDrag = transform;
+            //draggable.parentAfterDrag = transform;
         }
     }
     

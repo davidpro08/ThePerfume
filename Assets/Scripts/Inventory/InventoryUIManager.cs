@@ -50,7 +50,10 @@ public class InventoryUIManager : MonoBehaviour
         for (int i = 0; i < inventoryManager.hotbarSize; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, hotbarSlotsContainer);
-            var SlotUI = slotGO.GetComponent<InventorySlotUI>();
+            InventorySlot invSlot = slotGO.GetComponent<InventorySlot>();
+            invSlot.slotIndex = i;
+
+            InventorySlotUI SlotUI = slotGO.GetComponent<InventorySlotUI>();
             SlotUI.draggableItemPrefab = draggableItemPrefab;
             hotbarSlotUIs.Add(SlotUI);
         }
@@ -59,10 +62,13 @@ public class InventoryUIManager : MonoBehaviour
     // 전체 인벤토리 UI를 생성합니다.
     private void InitializeFullInventory()
     {
-        for (int i = 0; i < inventoryManager.capacity; i++)
+        for (int i = inventoryManager.hotbarSize; i < inventoryManager.capacity; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, fullInventorySlotsContainer);
-            var SlotUI = slotGO.GetComponent<InventorySlotUI>();
+
+            InventorySlot invSlot = slotGO.GetComponent<InventorySlot>();
+            invSlot.slotIndex = i;
+            InventorySlotUI SlotUI = slotGO.GetComponent<InventorySlotUI>();
             SlotUI.draggableItemPrefab = draggableItemPrefab;
             fullInventorySlotUIs.Add(SlotUI);
         }
@@ -87,7 +93,7 @@ public class InventoryUIManager : MonoBehaviour
         // 전체 인벤토리 UI 업데이트
         for (int i = 0; i < fullInventorySlotUIs.Count; i++)
         {
-            int slotIndex = i;
+            int slotIndex = inventoryManager.hotbarSize + i;
             if (slotIndex < inventoryManager.itemSlots.Count)
             {
                 fullInventorySlotUIs[i].UpdateSlot(inventoryManager.itemSlots[slotIndex]);

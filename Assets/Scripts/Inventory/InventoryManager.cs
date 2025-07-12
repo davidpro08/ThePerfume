@@ -21,8 +21,8 @@ public class InventoryManager : MonoBehaviour
     // 기본 용량 = 8
     public int capacity = 8;
 
-    // 핫바 사이즈
-    // 전체 인벤토리(itemSlots)의 앞부분 N개를 핫바로 간주
+    //// 핫바 사이즈
+    //// 전체 인벤토리(itemSlots)의 앞부분 N개를 핫바로 간주
     public readonly int hotbarSize = 8;
 
     void Awake()
@@ -141,7 +141,7 @@ public class InventoryManager : MonoBehaviour
     
     
     // 이벤트를 받으면 인벤토리 변경 알림
-    private void InventoryChanged()
+    public void InventoryChanged()
     {
         if (onInventoryChangedCallback != null)
         {

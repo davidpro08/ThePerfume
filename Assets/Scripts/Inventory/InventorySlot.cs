@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Subsystems;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
@@ -23,6 +22,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             sourceSlot.CopyTo(targetSlot); //새로운 슬록에 데이터 복제
             sourceSlot.Clear(); //원래 슬롯에서 빼기
+            //UI 보이는 것 이동
+            droppedItem.transform.SetParent(transform);
+
             droppedItem.boundSlot = targetSlot;
             droppedItem.parentAfterDrag = transform; //앞으로 보이게 저장
         }
@@ -45,10 +47,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     sourceSlot.Clear();
                     GameObject.Destroy(droppedItem.gameObject);
                 }
-                else
+                else //overflow
                 {
                     existingSlot.quantity = maxStack;
                     existingItem.quantity = maxStack;
+                    existingItem.RefreshCount();
 
                     int leftover = total - maxStack;
                     sourceSlot.quantity = leftover;
@@ -62,8 +65,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 //슬롯 바꾸기
                 ItemSlot tmpSlot = new ItemSlot();
                 sourceSlot.CopyTo(tmpSlot);
-                existingSlot.CopyTo(targetSlot);
-                tmpSlot.CopyTo(targetSlot);
+                existingSlot.CopyTo(sourceSlot);
+                tmpSlot.CopyTo(existingSlot);
                 //데이터 바꾸기
                 existingItem.transform.SetParent(originalParent);
                 existingItem.parentAfterDrag = originalParent;
@@ -71,8 +74,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
                 droppedItem.transform.SetParent(transform);
                 droppedItem.parentAfterDrag = transform;
-                droppedItem.boundSlot = targetSlot;
+                droppedItem.boundSlot = existingSlot;
             }
         }
+        inventory.InventoryChanged();
     }
 }
