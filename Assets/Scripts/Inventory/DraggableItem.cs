@@ -1,4 +1,3 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,9 +12,17 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public ItemData item;
     [HideInInspector] public int quantity = 1;
-
     [HideInInspector] public ItemSlot boundSlot;
 
+    private Canvas canvas;
+    private RectTransform rectTransform;
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
+    }
+    
     public void InitializeItem(ItemData newItem)
     {
         item = newItem;
@@ -41,14 +48,14 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging");
-        transform.position = Input.mousePosition;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("End Drag");
         transform.SetParent(parentAfterDrag);
+        rectTransform.anchoredPosition = Vector2.zero;
         image.raycastTarget = true;
         countText.raycastTarget = true;
     }
@@ -61,5 +68,4 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.sprite = item.itemIcon;
         RefreshCount();
     }
-
 }

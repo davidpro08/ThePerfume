@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8073660505715456831}
   - component: {fileID: 2357040896955970319}
   - component: {fileID: 268810495132061235}
+  - component: {fileID: -3159856159337595222}
   m_Layer: 5
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -97,6 +98,18 @@ MonoBehaviour:
   boundSlot:
     itemData: {fileID: 0}
     quantity: 0
+--- !u!210 &-3159856159337595222
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225453282754493574}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &1559799139958694973
 GameObject:
   m_ObjectHideFlags: 0
