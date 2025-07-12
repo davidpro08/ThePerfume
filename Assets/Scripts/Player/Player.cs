@@ -63,23 +63,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void OnPickUp(InputValue value)
     {
-        Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
-        rb.linearVelocity = movement;
-    }
-    void Update()
-    {
-        isSprint = Keyboard.current.leftShiftKey.isPressed;
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-        {
-            TryInteract();
-        }
-    }
-
-    private void TryInteract()
-    {
-        Vector2 origin = (interactionPoint != null) ? (Vector2)interactionPoint.position : (Vector2)transform.position;
+        Vector2 origin = interactionPoint != null ? interactionPoint.position : transform.position;
         // 주변 상호작용 가능 오브젝트 존재 여부 판단
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(origin, InteractionRange, interactableLayer);
 
@@ -100,6 +86,12 @@ public class Player : MonoBehaviour
             }
         }
         Debug.Log($"상호작용 없음");
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
+        rb.linearVelocity = movement;
     }
 
     private void PerformPickup(PickupItems pickupItems)
