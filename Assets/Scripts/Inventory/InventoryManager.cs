@@ -96,10 +96,10 @@ public class InventoryManager : MonoBehaviour
             // 만약 쌓일 수 있으면
             foreach (ItemSlot slot in itemSlots)
             {
-                if (slot.itemData == itemAdd && slot.quantity < itemAdd.maxStackSize)
+                if (slot.itemData == itemAdd && slot.quantity < itemAdd.maxStack)
                 {
                     // 쌓을 수 있는 남은 공간이 이정도
-                    int remainingSpace = itemAdd.maxStackSize - slot.quantity;
+                    int remainingSpace = itemAdd.maxStack - slot.quantity;
 
                     // 이 공간에 들어오는 아이템은 
                     // 아이템 개수 만큼 쌓이고
@@ -137,7 +137,7 @@ public class InventoryManager : MonoBehaviour
             }
 
             // 아이템의 최소 값 확인
-            int amountToPlace = itemAdd.isStackable ? Mathf.Min(amountOfItems, itemAdd.maxStackSize) : 1;
+            int amountToPlace = itemAdd.isStackable ? Mathf.Min(amountOfItems, itemAdd.maxStack) : 1;
 
             emptySlot.itemData = itemAdd;
             emptySlot.quantity = amountToPlace;

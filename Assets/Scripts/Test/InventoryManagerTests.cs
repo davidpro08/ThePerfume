@@ -28,13 +28,13 @@ public class InventoryManagerTests
         stackableItem = ScriptableObject.CreateInstance<ItemData>();
         stackableItem.itemName = "Stackable Potion";
         stackableItem.isStackable = true;
-        stackableItem.maxStackSize = 10;
+        stackableItem.maxStack = 10;
         stackableItem.itemType = ItemType.Crop;
 
         nonStackableItem = ScriptableObject.CreateInstance<ItemData>();
         nonStackableItem.itemName = "Non-Stackable Sword";
         nonStackableItem.isStackable = false;
-        nonStackableItem.maxStackSize = 1; // Non-stackable items have max stack size of 1
+        nonStackableItem.maxStack = 1; // Non-stackable items have max stack size of 1
         nonStackableItem.itemType = ItemType.Essence;
     }
 
@@ -134,7 +134,7 @@ public class InventoryManagerTests
         for (int i = 0; i < inventoryManager.capacity; i++)
         {
             inventoryManager.itemSlots[i].itemData = stackableItem;
-            inventoryManager.itemSlots[i].quantity = stackableItem.maxStackSize;
+            inventoryManager.itemSlots[i].quantity = stackableItem.maxStack;
         }
 
         // Act
@@ -142,7 +142,7 @@ public class InventoryManagerTests
 
         // Assert
         Assert.IsFalse(result); // 추가 실패해야 합니다.
-        Assert.AreEqual(inventoryManager.capacity * stackableItem.maxStackSize, inventoryManager.itemSlots.Where(slot => slot.itemData == stackableItem).Sum(slot => slot.quantity)); // 아이템 수가 변하지 않아야 합니다.
+        Assert.AreEqual(inventoryManager.capacity * stackableItem.maxStack, inventoryManager.itemSlots.Where(slot => slot.itemData == stackableItem).Sum(slot => slot.quantity)); // 아이템 수가 변하지 않아야 합니다.
     }
 
     // RemoveItem Tests

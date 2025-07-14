@@ -101,7 +101,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             if (existingItem.item == droppedItem.item && existingItem.item.isStackable)
             {
                 int total = existingItem.quantity + droppedItem.quantity;
-                int maxStack = existingItem.item.maxStackSize;
+                int maxStack = existingItem.item.maxStack;
 
                 if (total <= maxStack)
                 {
