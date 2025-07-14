@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     [Header("기본 설정")]
     public float moveSpeed = 5f;
 
-    [Header("인벤토리 설정")] 
+    [Header("인벤토리 설정")]
     private bool isOpenInventory = false;
     [SerializeField] public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
     [SerializeField] private InventoryManager inventoryManager;
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
     [Header("일시정지 설정")] private bool isPaused = false;
-    
+
     private Vector2 moveInput;
     private bool isSprint;
     private float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
@@ -60,9 +60,9 @@ public class Player : MonoBehaviour
     {
         // 멈춰 있으면 작동 안해야 함
         if (isPaused) return;
-        
+
         isOpenInventory = !isOpenInventory;
-        
+
         if (inventoryUIManager != null)
         {
             inventoryUIManager.ToggleFullInventory();
@@ -73,11 +73,58 @@ public class Player : MonoBehaviour
         }
     }
 
-    // PlayerInput으로 입력 받을 수 있도록 수정중
+    // PlayerInput으로 입력 받을 수 있도록 수정중 >> 기획서에 맞춰서 키보드/마우스 상호작용으로 나눔
     void OnPickUp(InputValue value)
     {
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            MouseInteration();
+        }
+        else if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            KeyboardInteration();
+        }
+    }
+
+    // 마우스로 상호작용
+    private void MouseInteration()
+    {
+        // 마우스 위치 감지 + 오브젝트 감지
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        RaycastHit2D detection = Physics2D.Raycast(mousePos, Vector2.zero, 0f, interactableLayer);
+
+        if (detection.collider != null)
+        {
+            PickupItems pickupItems = detection.collider.GetComponent<PickupItems>();
+            // 인벤토리에 추가되는 아이템 획득
+            if (pickupItems != null)
+            {
+                if (Vector2.Distance(transform.position, detection.collider.transform.position) <= InteractionRange)
+                {
+                    Debug.Log($"아이템 발견");
+                    PerformPickup(pickupItems);
+                    return;
+                }
+                else
+                {
+                    Debug.Log($"아이템이 너무 멀리 있음");
+                    return;
+                }
+            }
+            // NPC 대화 같은 상호 작용 (추가 예정)
+            else
+            {
+                Debug.Log($"아이템 획득 외 상호작용");
+            }
+        }
+        Debug.Log($"상호작용 없음");
+    }
+
+    //키보드로 상호작용
+    private void KeyboardInteration()
+    {
         Vector2 origin = interactionPoint != null ? interactionPoint.position : transform.position;
-        
+
         // 주변 상호작용 가능 오브젝트 존재 여부 판단
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(origin, InteractionRange, interactableLayer);
 
@@ -91,7 +138,7 @@ public class Player : MonoBehaviour
                 PerformPickup(pickupItems);
                 return;
             }
-            // NPC 대화 같은 상호 작용 (추가 예정)
+            // NPC 대화 같은 상호 작용 (추가 예정)눔눔
             else
             {
                 Debug.Log($"아이템 획득 외 상호작용");
