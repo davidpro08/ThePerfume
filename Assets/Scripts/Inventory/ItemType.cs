@@ -3,7 +3,7 @@ public enum ItemType
 {
     // 아마 아이템 타입마다 동작 방식이 달라야 할 것 같아서 이렇게 설정
     // 나중에 ItemType을 확인하고 로직일 달라질 듯?
-    
+
     // 도구
     Tool,
     // 씨
@@ -14,4 +14,29 @@ public enum ItemType
     Essence,
     // 향수
     Perfume
+}
+
+public enum ToolType
+{
+
+}
+
+public enum SeedType
+{
+
+}
+
+public enum CropType
+{
+
+}
+
+public enum EssenceType
+{
+
+}
+
+public enum PerfumeType
+{
+
 }

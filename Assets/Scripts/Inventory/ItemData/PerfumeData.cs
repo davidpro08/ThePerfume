@@ -1,0 +1,31 @@
+﻿
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Perfume", menuName = "Inventory/Item")]
+public class PerfumeData : ItemData
+{
+    // 농작물 종류
+    public PerfumeType perfumeType;
+
+    // 따듯함 수치
+    public float perfumeWarm = 0f;
+
+    // 차가움 수치
+    public float perfumeCool = 0f;
+
+    //진정 수치
+    public float perfumeRelax = 0f;
+
+    public PerfumeData() { }
+    public PerfumeData(int id, string itemName, string itemDescription,
+    Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
+    int nowStack, bool isTradable, int buyPrice, int sellPrice,
+    PerfumeType perfumeType, float perfumeWarm, float perfumeCool, float perfumeRelax)
+    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    {
+        this.perfumeType = perfumeType;
+        this.perfumeWarm = perfumeWarm;
+        this.perfumeCool = perfumeCool;
+        this.perfumeRelax = perfumeRelax;
+    }
+}

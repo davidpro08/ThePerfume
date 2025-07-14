@@ -73,6 +73,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 아이템/NPC 등 상호작용
     // PlayerInput으로 입력 받을 수 있도록 수정중 >> 기획서에 맞춰서 키보드/마우스 상호작용으로 나눔
     void OnPickUp(InputValue value)
     {
