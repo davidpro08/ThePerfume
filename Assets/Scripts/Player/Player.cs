@@ -36,22 +36,12 @@ public class Player : MonoBehaviour
 
     void OnMove(InputValue value)
     {
-        // 멈춰 있으면 작동 안해야 함
-        // 추가로 인벤토리 열려도 못 움직이도록 하기
-        if (isPaused || isOpenInventory)
-        {
-            // 플레이어 정지하도록 하기
-            moveInput = Vector2.zero;
-            rb.linearVelocity = Vector2.zero;
-            animator.SetBool("isWalking", false);
-            return;
-        } 
-        
         moveInput = value.Get<Vector2>();
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
         animator.SetBool("isWalking", moveInput.magnitude > 0.01f);
 
+        // 확인 코드가 너무 길어지는데
         if (moveInput.magnitude > 0.01f)
         {
             animator.SetFloat("LastInputX", moveInput.x);
@@ -87,6 +77,7 @@ public class Player : MonoBehaviour
     void OnPickUp(InputValue value)
     {
         Vector2 origin = interactionPoint != null ? interactionPoint.position : transform.position;
+        
         // 주변 상호작용 가능 오브젝트 존재 여부 판단
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(origin, InteractionRange, interactableLayer);
 
@@ -117,11 +108,13 @@ public class Player : MonoBehaviour
         // 시간이 흐른다라고 해서.. 그러면 이렇게 구현하면 안 될 것 같긴 한데
         if (isPaused)
         {
+            Debug.Log("일시 정지");
             Time.timeScale = 0f; // 게임 정지
             Time.fixedDeltaTime = 0f; // 물리 정지
         }
         else
         {
+            Debug.Log("일시 정지 해제");
             Time.timeScale = 1f; // 재개
             Time.fixedDeltaTime = 0.02f;
         }
@@ -129,12 +122,18 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 이렇게 하면 멈춰도 시간을 멈추지 않는 이상 이동함
-        // 근데 인벤토리를 여는 행위가 시간을 멈추지 않아서
-        // 이동하는 걸 막을 수 없음
-        // 그래서 두트윈을 사용하는 게 어떨까 싶음
-        Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
-        rb.linearVelocity = movement;
+        // 멈춰 있으면 작동 안해야 함
+        // 추가로 인벤토리 열려도 못 움직이도록 하기
+        if (isPaused || isOpenInventory)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
+        }
+        else
+        {
+            Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
+            rb.linearVelocity = movement;
+        }
     }
 
     private void PerformPickup(PickupItems pickupItems)
