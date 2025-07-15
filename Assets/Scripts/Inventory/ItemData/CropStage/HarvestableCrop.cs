@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HarvestableCrop : MonoBehaviour
@@ -48,6 +49,11 @@ public class HarvestableCrop : MonoBehaviour
                 UpdateSprite();
             }
         }
+    }
+
+    public bool CanHarvest()
+    {
+        return isFullGrowth;
     }
 
     // 성장 단계에 맞게 스프라이트 업데이트

@@ -229,7 +229,7 @@ public class Player : MonoBehaviour
     private void TryPlantSeed(Farm farm)
     {
         // 농지가 비어있는지 페크
-        if (!farm.isOccupied)
+        if (!farm.canPlantSeed())
         {
             Debug.Log($"[player]이미 작물이 심어져 있음");
             return; // 이미 심어져있음
@@ -273,7 +273,7 @@ public class Player : MonoBehaviour
     private void TryHarvestCrop(HarvestableCrop crop)
     {
         // 작물이 완전히 자랐는지 체크
-        if (!crop.isFullGrowth)
+        if (!crop.CanHarvest())
         {
             return; // 아직 다 안 자라남
         }

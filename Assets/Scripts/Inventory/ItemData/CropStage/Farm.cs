@@ -12,14 +12,16 @@ public class Farm : MonoBehaviour
     void Awake()
     {
         farmSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
+        Debug.Log($"[farm] 현재 isOcuppied = false");
         isOccupied = false;
     }
 
     public void PlantSeed(SeedData seedData)
     {
+        Debug.Log($"[farm] [PlantSeed] 현재 isOccupied:{isOccupied}");
         if (isOccupied)
         {
-            Debug.Log($"[farm]이미 씨앗이 심어져 있음");
+            Debug.Log($"[farm]이미 씨앗이 심어져 있음. 현재 isOccupied:{isOccupied}");
             return; // 이미 씨앗이 심어져 있음
         }
         if (seedData.cropPrefabToGrow == null)
@@ -34,6 +36,7 @@ public class Farm : MonoBehaviour
         if (currentCropInstance != null)
         {// 작물의 초기 상태 = 심은 직후 상태
             currentCropInstance.currentStage = 0;
+            isOccupied = true;
             Debug.Log($"[farm]{seedData.itemName}씨앗 심어짐");
         }
         else
@@ -41,7 +44,11 @@ public class Farm : MonoBehaviour
             Debug.Log($"[farm]작물 프리팹 없음");
             return; // 작물 프리팹이 없음
         }
-        isOccupied = true;
+    }
+
+    public bool canPlantSeed()
+    {
+        return !isOccupied;
     }
 
     // 화분 비우기
@@ -53,6 +60,7 @@ public class Farm : MonoBehaviour
             Destroy(currentCropInstance.gameObject);
         }
         isOccupied = false;
+        Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
         currentCropInstance = null;
     }
 }
