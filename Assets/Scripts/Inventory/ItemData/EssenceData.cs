@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Essence", menuName = "Inventory/Item")]
+[CreateAssetMenu(fileName = "New Essence", menuName = "Inventory/Essence")]
 public class EssenceData : ItemData
 {
     // 에센스 종류

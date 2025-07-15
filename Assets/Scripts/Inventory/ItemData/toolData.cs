@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Tool", menuName = "Inventory/Item")]
+[CreateAssetMenu(fileName = "New Tool", menuName = "Inventory/Tool")]
 public class ToolData : ItemData
 {
     // 도구 종류
