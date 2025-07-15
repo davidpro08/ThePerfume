@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Crop", menuName = "Inventory/Item")]
+[CreateAssetMenu(fileName = "New Crop", menuName = "Inventory/Crop")]
 public class CropData : ItemData
 {
     // 농작물 종류

@@ -28,7 +28,9 @@ public enum SeedType
 
 public enum CropType
 {
-
+    rose, // 장비
+    hydrangea, // 수국
+    lavender // 라벤더
 }
 
 public enum EssenceType
