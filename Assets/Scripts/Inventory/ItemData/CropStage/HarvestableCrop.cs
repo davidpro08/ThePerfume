@@ -5,7 +5,7 @@ public class HarvestableCrop : MonoBehaviour
 {
     [Header("농작물 정보")]
     public CropType cropType; // 해당 농작물 종류
-    public ItemData itemType; // 수확 시 얻을 아이템 데이터
+    public CropData cropData; // 수확 시 얻을 아이템 데이터
     public int Quantity = 1; // 수확 시 얻을 아이템 수량
 
     [Header("수확 도구")]
@@ -51,9 +51,19 @@ public class HarvestableCrop : MonoBehaviour
         }
     }
 
-    public bool CanHarvest()
+    public bool CanHarvest() // 수확 가능한지 여부
     {
         return isFullGrowth;
+    }
+
+    public CropData GetHarvestedItem() // 얻을 cropdata 호출
+    {
+        return cropData;
+    }
+
+    public int GetHarvestedQuantity() // 얻을 작물 양 호출
+    {
+        return Quantity;
     }
 
     // 성장 단계에 맞게 스프라이트 업데이트

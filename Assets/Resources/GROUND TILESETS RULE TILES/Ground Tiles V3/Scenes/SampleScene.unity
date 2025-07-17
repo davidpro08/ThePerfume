@@ -762,7 +762,7 @@ MonoBehaviour:
   isOccupied: 0
   currentCropInstance: {fileID: 0}
   emptyFarmSprite: {fileID: -1631455007, guid: 7af5932187b96d04cab85c69a03891c6, type: 3}
-  plantedFarmSprite: {fileID: -169878846, guid: 7af5932187b96d04cab85c69a03891c6, type: 3}
+  wateredFarmSprite: {fileID: -169878846, guid: 7af5932187b96d04cab85c69a03891c6, type: 3}
 --- !u!212 &581073858
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1076,7 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2535d88fe457dc04087d3a9d1e5bdeda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToGive: {fileID: 11400000, guid: 50e113beabd6bfb4abaa5b6ec556e0d9, type: 2}
+  itemToGive: {fileID: 11400000, guid: 135abb67ac8a4e545945de2de09b4016, type: 2}
   quantityToGive: 1
 --- !u!212 &1043665114
 SpriteRenderer:

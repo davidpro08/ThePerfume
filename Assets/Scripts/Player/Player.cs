@@ -96,45 +96,32 @@ public class Player : MonoBehaviour
 
         if (detection.collider != null)
         {
-            PickupItems pickupItems = detection.collider.GetComponent<PickupItems>();
-            // 인벤토리에 추가되는 아이템 획득 (임시)
-            if (pickupItems != null)
-            {
-                if (Vector2.Distance(transform.position, detection.collider.transform.position) <= InteractionRange)
-                {
-                    Debug.Log($"[player]아이템 발견");
-                    PerformPickup(pickupItems);
-                    return;
-                }
-                else
-                {
-                    Debug.Log($"[player]아이템이 너무 멀리 있음");
-                    return;
-                }
-            }
+            // 감지된 오브젝트들 저자
+            Farm detectedFarm = detection.collider.GetComponent<Farm>();
+            HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
+            PickupItems detecteedPickup = detection.collider.GetComponent<PickupItems>();
 
-            // Farm과 상호 작용
-            Farm farm = detection.collider.GetComponent<Farm>();
-            if (farm != null)
+            // 감지된 오브젝트 처리
+            if (detectedCrop != null && detectedCrop.CanHarvest())
             {
-                TryPlantSeed(farm); // 씨앗 심기
+                TryHarvestCrop(detectedCrop); // 수확
                 return;
             }
-            else
+            else if (detectedFarm != null)
             {
-                HarvestableCrop crop = detection.collider.GetComponent<HarvestableCrop>();
-                if (crop != null)
-                {
-                    TryHarvestCrop(crop); // 농작물 수확
-                    return;
-                }
-
-                else
-                {
-                    // 그 외 상호작용
-                }
+                TryPlantSeed(detectedFarm); // 심기
+                return;
             }
-
+            else if (detectedCrop != null)
+            {
+                TryHarvestCrop(detectedCrop); // 수확 안됨
+                return;
+            }
+            else if (detecteedPickup != null)
+            {
+                PerformPickup(detecteedPickup); // 아이템 줍기
+                return;
+            }
         }
         Debug.Log($"상호작용 없음");
     }
@@ -147,36 +134,44 @@ public class Player : MonoBehaviour
         // 주변 상호작용 가능 오브젝트 존재 여부 판단
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(origin, InteractionRange, interactableLayer);
 
+        // 모든 콜라이더 확인
         foreach (Collider2D hitCollider in hitColliders)
         {
-            PickupItems pickupItems = hitCollider.GetComponent<PickupItems>();
-            // 인벤토리에 추가되는 아이템 획득 (임시)
-            if (pickupItems != null)
+            // 거리가 너무 먼 경우
+            if (Vector2.Distance(transform.position, hitCollider.transform.position) > InteractionRange)
             {
-                Debug.Log($"[player]아이템 발견");
-                PerformPickup(pickupItems);
-                return;
+                continue;
             }
 
-            // farm 상호작용
-            Farm farm = hitCollider.GetComponent<Farm>();
-            if (farm != null)
+            // 우선순위 별로 상호작용 오브젝트 상호작용 (작물>농지>바닥에 있는 아이템)
+            HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
+            if (detectedCrop != null)
             {
-                TryPlantSeed(farm); // 작물 심기
-                return;
-            }
-            else
-            {
-                HarvestableCrop crop = hitCollider.GetComponent<HarvestableCrop>();
-                if (crop != null)
+                if (detectedCrop.CanHarvest())
                 {
-                    TryHarvestCrop(crop);
+                    TryHarvestCrop(detectedCrop); // 수확 안됨
                     return;
                 }
-                else
+            }
+            Farm detectedFarm = hitCollider.GetComponent<Farm>();
+            if (detectedFarm != null)
+            {
+                if (detectedFarm.canPlantSeed())
                 {
-                    // 그 외 상호작용
+                    TryPlantSeed(detectedFarm);
+                    return;
                 }
+            }
+            if (detectedCrop != null && !detectedCrop.CanHarvest())
+            {
+                TryHarvestCrop(detectedCrop);
+                return;
+            }
+            PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
+            if (detectedPickup != null)
+            {
+                PerformPickup(detectedPickup);
+                return;
             }
         }
         Debug.Log($"상호작용 없음");
@@ -269,12 +264,13 @@ public class Player : MonoBehaviour
         return null; // 씨앗 아이템 안 들고 있음
     }
 
-    // 농작물 수확
+    // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
     private void TryHarvestCrop(HarvestableCrop crop)
     {
         // 작물이 완전히 자랐는지 체크
         if (!crop.CanHarvest())
         {
+            Debug.Log($"아직 다 안 자라났음");
             return; // 아직 다 안 자라남
         }
 
@@ -282,15 +278,17 @@ public class Player : MonoBehaviour
         ToolData equippedTool = EquippedTool();
         if (equippedTool == null)
         {
+            Debug.Log($"도구 장착 안됨");
             return; // 도구 장착하지 않음
         }
         if (equippedTool.toolType != crop.requiredToolType)
         {
+            Debug.Log($"도구 잘못 장착함");
             return; // 잘못된 도구 장착
         }
 
         // 수확
-        ItemData harvestedItem = crop.itemType;
+        ItemData harvestedItem = crop.cropData;
         int harvestedQuantity = crop.Quantity;
 
         if (inventoryManager.AddItem(harvestedItem, harvestedQuantity))

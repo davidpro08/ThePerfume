@@ -6,13 +6,15 @@ public class Farm : MonoBehaviour
     public bool isOccupied = false; //이미 씨앗이 심어져 있는지
     public HarvestableCrop currentCropInstance; // 현재 심어진 작문의 인스턴스
     private SpriteRenderer farmSpriteRenderer;
-    public Sprite emptyFarmSprite; // 비어져있는 화분 스프라이트
-    public Sprite plantedFarmSprite; // 심여진 화분 스프라이트 (똑같으려나?)
+    public Sprite emptyFarmSprite; // 마른 화분 스프라이트
+    public Sprite wateredFarmSprite; // 젖은 화분 스프라이트
+    private Collider2D farmCollider; // 수확 때 생기는 오류 수정용 > 작물 다 자라면 farm의 collider 끔
 
     void Awake()
     {
         farmSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
         Debug.Log($"[farm] 현재 isOcuppied = false");
+        farmCollider = GetComponent<Collider2D>();
         isOccupied = false;
     }
 
@@ -30,6 +32,7 @@ public class Farm : MonoBehaviour
             return; // 자라날 작물 프리팹 설정 안됨
         }
 
+        // 작물 오브젝트 생성
         GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
         currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
 
@@ -37,6 +40,10 @@ public class Farm : MonoBehaviour
         {// 작물의 초기 상태 = 심은 직후 상태
             currentCropInstance.currentStage = 0;
             isOccupied = true;
+            if (farmCollider != null)
+            {
+                farmCollider.enabled = false; // 씨앗 심으면 farm 콜라이더 종료
+            }
             Debug.Log($"[farm]{seedData.itemName}씨앗 심어짐");
         }
         else
@@ -58,9 +65,14 @@ public class Farm : MonoBehaviour
         {
             currentCropInstance.OnHarvested(); // 작물 수확
             Destroy(currentCropInstance.gameObject);
+            isOccupied = false;
+            Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
+            currentCropInstance = null;
+            if (farmCollider != null)
+            {
+                farmCollider.enabled = true; // 작물 수확하고 나서 콜라이더 활성화
+            }
         }
-        isOccupied = false;
-        Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
-        currentCropInstance = null;
+
     }
 }
