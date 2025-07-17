@@ -18,7 +18,7 @@ public enum ItemType
 
 public enum ToolType
 {
-
+    WeteringCan // 물뿌리개
 }
 
 public enum SeedType
@@ -28,9 +28,9 @@ public enum SeedType
 
 public enum CropType
 {
-    rose, // 장비
-    hydrangea, // 수국
-    lavender // 라벤더
+    Rose, // 장비
+    Hydrangea, // 수국
+    Lavender // 라벤더
 }
 
 public enum EssenceType

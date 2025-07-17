@@ -109,10 +109,30 @@ public class Player : MonoBehaviour
             }
             else if (detectedFarm != null)
             {
-                TryPlantSeed(detectedFarm); // 심기
-                return;
+                ToolData equippedTool = EquippedTool();
+                // 1. 물 주기
+                if (equippedTool != null && equippedTool.toolType == ToolType.WeteringCan)
+                {
+                    if (detectedFarm.CanWatered())
+                    {
+                        detectedFarm.Watering();
+                        equippedTool.nowDurability -= 10;
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log($"[player] 이미 화분이 젖어있음");
+                        return;
+                    }
+                }
+                // 2. 씨앗 심기
+                if (detectedFarm.canPlantSeed())
+                {
+                    TryPlantSeed(detectedFarm);
+                    return;
+                }
             }
-            else if (detectedCrop != null)
+            else if (detectedCrop != null && detectedCrop.CanHarvest())
             {
                 TryHarvestCrop(detectedCrop); // 수확 안됨
                 return;
@@ -145,22 +165,31 @@ public class Player : MonoBehaviour
 
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물>농지>바닥에 있는 아이템)
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
-            if (detectedCrop != null)
+            if (detectedCrop != null && detectedCrop.CanHarvest())
             {
-                if (detectedCrop.CanHarvest())
-                {
-                    TryHarvestCrop(detectedCrop); // 수확 안됨
-                    return;
-                }
+                TryHarvestCrop(detectedCrop); // 수확 안됨
+                return;
             }
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
             if (detectedFarm != null)
             {
-                if (detectedFarm.canPlantSeed())
+                ToolData equippedTool = EquippedTool();
+                if (equippedTool != null && equippedTool.toolType == ToolType.WeteringCan)
                 {
-                    TryPlantSeed(detectedFarm);
-                    return;
+                    if (detectedFarm.CanWatered())
+                    {
+                        detectedFarm.Watering();
+                        equippedTool.nowDurability -= 10; // 내구도 감소
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log($"[palyer] 이미 화분 젖은 상태");
+                        return;
+                    }
                 }
+                TryPlantSeed(detectedFarm);
+                return;
             }
             if (detectedCrop != null && !detectedCrop.CanHarvest())
             {
@@ -223,11 +252,19 @@ public class Player : MonoBehaviour
 
     private void TryPlantSeed(Farm farm)
     {
-        // 농지가 비어있는지 페크
+        // 화분이 비어있는지 페크
         if (!farm.canPlantSeed())
         {
-            Debug.Log($"[player]이미 작물이 심어져 있음");
-            return; // 이미 심어져있음
+            if (!farm.isOccupied)
+            {
+                Debug.Log($"[player]이미 작물이 심어져 있음");
+                return;
+            }
+            else if (!farm.isWatered)
+            {
+                Debug.Log($"[player] 화분에 물 줘야함");
+            }
+            return;
         }
 
         // 현재 플레이어가 씨앗 아이템을 들고 있는지
