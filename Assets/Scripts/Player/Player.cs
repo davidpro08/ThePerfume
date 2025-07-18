@@ -87,6 +87,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    // ESC 누르면 멈추도록 하기
+    void OnPause(InputValue value)
+    {
+        isPaused = !isPaused;
+
+        // 시간이 흐른다라고 해서.. 그러면 이렇게 구현하면 안 될 것 같긴 한데
+        if (isPaused)
+        {
+            Debug.Log("일시 정지");
+            Time.timeScale = 0f; // 게임 정지
+            Time.fixedDeltaTime = 0f; // 물리 정지
+        }
+        else
+        {
+            Debug.Log("일시 정지 해제");
+            Time.timeScale = 1f; // 재개
+            Time.fixedDeltaTime = 0.02f;
+        }
+    }
+    
     // 마우스로 상호작용
     private void MouseInteration()
     {
@@ -107,7 +127,8 @@ public class Player : MonoBehaviour
                 TryHarvestCrop(detectedCrop); // 수확
                 return;
             }
-            else if (detectedFarm != null)
+            
+            if (detectedFarm != null)
             {
                 ToolData equippedTool = EquippedTool();
                 // 1. 물 주기
@@ -163,39 +184,25 @@ public class Player : MonoBehaviour
                 continue;
             }
 
-            // 우선순위 별로 상호작용 오브젝트 상호작용 (작물>농지>바닥에 있는 아이템)
+            // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
+            
+            // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
+            ToolData equippedTool = EquippedTool();
+            
+            // 작물
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
-            if (detectedCrop != null && detectedCrop.CanHarvest())
-            {
-                TryHarvestCrop(detectedCrop); // 수확 안됨
-                return;
-            }
+            if(!TryHarvestCrop(detectedCrop, equippedTool)) return;
+            
+            // 농지
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
-            if (detectedFarm != null)
-            {
-                ToolData equippedTool = EquippedTool();
-                if (equippedTool != null && equippedTool.toolType == ToolType.WeteringCan)
-                {
-                    if (detectedFarm.CanWatered())
-                    {
-                        detectedFarm.Watering();
-                        equippedTool.nowDurability -= 10; // 내구도 감소
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log($"[palyer] 이미 화분 젖은 상태");
-                        return;
-                    }
-                }
-                TryPlantSeed(detectedFarm);
-                return;
-            }
-            if (detectedCrop != null && !detectedCrop.CanHarvest())
-            {
-                TryHarvestCrop(detectedCrop);
-                return;
-            }
+            if (!TryInteractiveFram(detectedFarm, equippedTool)) return;
+            
+            // REVIEW: 이거 왜 또 호출하나요? 
+            // if (detectedCrop != null && !detectedCrop.CanHarvest())
+            // {
+            //     _TryHarvestCrop(detectedCrop);
+            //     return;
+            // }
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
             if (detectedPickup != null)
             {
@@ -205,27 +212,6 @@ public class Player : MonoBehaviour
         }
         Debug.Log($"상호작용 없음");
     }
-
-    // ESC 누르면 멈추도록 하기
-    void OnPause(InputValue value)
-    {
-        isPaused = !isPaused;
-
-        // 시간이 흐른다라고 해서.. 그러면 이렇게 구현하면 안 될 것 같긴 한데
-        if (isPaused)
-        {
-            Debug.Log("일시 정지");
-            Time.timeScale = 0f; // 게임 정지
-            Time.fixedDeltaTime = 0f; // 물리 정지
-        }
-        else
-        {
-            Debug.Log("일시 정지 해제");
-            Time.timeScale = 1f; // 재개
-            Time.fixedDeltaTime = 0.02f;
-        }
-    }
-
     void FixedUpdate()
     {
         // 멈춰 있으면 작동 안해야 함
@@ -248,6 +234,11 @@ public class Player : MonoBehaviour
         if (pickupItems.itemToGive == null) return;
 
         bool added = inventoryManager.AddItem(pickupItems.itemToGive, pickupItems.quantityToGive);
+    }
+
+    private void TryWatering()
+    {
+        
     }
 
     private void TryPlantSeed(Farm farm)
@@ -283,11 +274,12 @@ public class Player : MonoBehaviour
     }
 
     // 현재 플레이어가 씨앗 아이템을 들고 있는지
+    
     private SeedData EquippedSeed()
     {
         if (inventoryManager == null || inventoryManager.SelectedSlotIndex == -1)
         {
-            Debug.Log($"[player]인벤코리 메니저가 없거나 선택된 슬롯이 없음");
+            Debug.Log($"[player]인벤토리 메니저가 없거나 선택된 슬롯이 없음");
             return null; // 인벤토리 매니저가 없거나 선택된 슬롯이 없음
         }
         // 현재 선택된 슬롯의 아이템 가져오기
@@ -302,27 +294,17 @@ public class Player : MonoBehaviour
     }
 
     // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
-    private void TryHarvestCrop(HarvestableCrop crop)
-    {
-        // 작물이 완전히 자랐는지 체크
-        if (!crop.CanHarvest())
-        {
-            Debug.Log($"아직 다 안 자라났음");
-            return; // 아직 다 안 자라남
-        }
 
-        // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
-        ToolData equippedTool = EquippedTool();
-        if (equippedTool == null)
-        {
-            Debug.Log($"도구 장착 안됨");
-            return; // 도구 장착하지 않음
-        }
-        if (equippedTool.toolType != crop.requiredToolType)
-        {
-            Debug.Log($"도구 잘못 장착함");
-            return; // 잘못된 도구 장착
-        }
+
+    /// <summary>
+    /// 작물을 수확하는 코드이다.
+    /// </summary>
+    /// <param name="crop">수학할 작물 정보를</param>
+    /// <param name="equippedTool">착용한 장비</param>
+    /// <returns>성공 여부</returns>
+    private bool TryHarvestCrop(HarvestableCrop crop, ToolData equippedTool)
+    {
+        if (!_TryHarvestCropExceptionHandling(crop, equippedTool)) return false;
 
         // 수확
         ItemData harvestedItem = crop.cropData;
@@ -334,12 +316,115 @@ public class Player : MonoBehaviour
             // 도구 내구도 감소 로직 추가해야함
             // equippedTool.nowDurability -= 10;
             // 이런 식으로 하지 않을까
+
+            return true;
         }
         else
         {
             //가득 찼음. 수확 불가능?
-            return;
+            return false;
         }
+    }
+
+    /// <summary>
+    /// 작물 수확에 대한 예외 처리 부분이다.
+    /// </summary>
+    /// <param name="crop">수확할 작물 정보</param>
+    /// <param name="equippedTool">착용한 장비</param>
+    /// <returns>작물을 수확 가능 여부</returns>
+    private bool _TryHarvestCropExceptionHandling(HarvestableCrop crop, ToolData equippedTool)
+    {
+        // 농작물이 존재하지 않는다면
+        if (ReferenceEquals(crop, null))
+        {
+            Debug.Log($"[{name}] : 농작물 존재하지 않음");
+            return false;
+        }
+        
+        // 농작물이 수확 가능하지 않다면
+        if(!crop.CanHarvest())
+        {
+            Debug.Log($"[{name}] : 농작물 아직 수확 불가능함");
+            return false;
+        }
+
+        // 작물이 완전히 자랐는지 체크
+        if (!crop.CanHarvest())
+        {
+            Debug.Log($"[{name}] : [{crop}] 아직 다 안 자라났음. [{crop.currentStage}]");
+            return false;
+        }
+        
+        // 도구를 장착하지 않고 있다면
+        if (ReferenceEquals(equippedTool, null))
+        {
+            Debug.Log($"[{name}] : 도구 장착하지 않음");
+            return false;
+        }
+        
+        // 도구를 잘못 장착했다면
+        if (equippedTool.toolType != crop.requiredToolType)
+        {
+            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
+                      $"장착한 도구 : [{equippedTool.toolType}]" +
+                      $"필요한 도구 : [{crop.requiredToolType}]");
+            return false;
+        }
+        
+        return true;
+    }
+
+    /// <summary>
+    /// 농지를 만났을 때 상호작용하는 부분이다.
+    /// </summary>
+    /// <param name="farm">찾은 농지</param>
+    /// <param name="equippedTool">착용한 장비</param>
+    /// <returns>성공 여부</returns>
+    private bool TryInteractiveFram(Farm farm, ToolData equippedTool)
+    {
+        if (!TryInteractiveFramExceptionHandling(farm, equippedTool)) return false;
+
+        switch(equippedTool.toolType)
+        {
+            case ToolType.WeteringCan:
+                if (farm.CanWatered())
+                {
+                    farm.Watering();
+                    equippedTool.nowDurability -= 10; // 내구도 감소
+                    return true;
+                }
+                Debug.Log($"[player] 이미 화분 젖은 상태");
+                break;
+            default:
+                TryPlantSeed(farm);
+                return true;
+        }
+        
+        Debug.Log($"오류 상황");
+        return false;
+    }
+
+    /// <summary>
+    /// 농지 상호작용의 예외 처리 부분이다.
+    /// </summary>
+    /// <param name="farm">농장</param>
+    /// <param name="equippedTool">착용한 장비</param>
+    /// <returns>최소 조건 만족 여부</returns>
+    private bool TryInteractiveFramExceptionHandling(Farm farm, ToolData equippedTool)
+    {
+        // farm이 없다면
+        if (farm == null)
+        {
+            Debug.Log($"[{name}] : 농지가 존재하지 않음");
+            return false;
+        }
+
+        if (equippedTool != null)
+        {
+            Debug.Log($"[{name}] : 착용한 장비가 없음");
+            return false;
+        }
+        return true;
     }
 
     // 현재 플레이어가 도구를 들고 있는지
