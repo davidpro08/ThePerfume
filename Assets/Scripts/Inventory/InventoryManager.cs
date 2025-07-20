@@ -5,11 +5,11 @@ using UnityEngine;
 // 싱글톤으로 구현하는 건 어떨까?
 public class InventoryManager : MonoBehaviour
 {
+    // 싱글톤 인스턴스
+    public static InventoryManager Instance { get; private set; }
 
-    // 인벤토리 일단 리스트로 구현했는데, 배열이 더 나을까요?
-    // 슬롯에 아이템을 넣어야 해서 이게 적당하지는 않을 것 같은데
-    public List<ItemSlot> itemSlots = new
-        List<ItemSlot>();
+    // 인벤토리 일단 리스트로 구현
+    public List<ItemSlot> itemSlots = new List<ItemSlot>();
 
     // 인벤토리 변경 시 UI 업데이트 등을 위한 이벤트
     public delegate void OnInventoryChanged();
@@ -47,6 +47,13 @@ public class InventoryManager : MonoBehaviour
 
     void Awake()
     {
+        //이미 인스턴스 있으면 자신 파괴
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
         for (int i = 0; i < capacity; i++)
         {
@@ -186,7 +193,58 @@ public class InventoryManager : MonoBehaviour
         return false; // 제거하려는 아이템이 부족함
     }
 
+    // 슬록 간 아이템 이동 로직
+    public bool TryMoveItem(int sourceIndex, int targetIndex)
+    {
+        if(sourceIndex < 0 || sourceIndex >= itemSlots.Count || targetIndex < 0 || targetIndex >= itemSlots.Count)
+        {
+            Debug.LogWarning("유효하지 않은 슬로 인덱스입니다.");
+            return false;
+        }
 
+        ItemSlot sourceSlot = itemSlots[sourceIndex];
+        ItemSlot targetSlot = itemSlots[targetIndex];
+
+        //같은 슬록으로 이동 시도
+        if (sourceIndex == targetIndex) return false;
+
+        // 소스 슬롯이 비어있으면 이동 불가
+        if (sourceSlot.itemData == null) return false;
+        // 타겟 슬록이 비어있으면
+        if (targetSlot.itemData == null)
+        {
+            sourceSlot.CopyTo(targetSlot);
+            sourceSlot.Clear();
+        }
+
+        //타겟 슬롯과 소스 슬록의 아이템이 동일하고 스택이 가능한 경우
+        else if(targetSlot.itemData == sourceSlot.itemData && targetSlot.itemData.isStackable)
+        {
+            int total = targetSlot.quantity + sourceSlot.quantity;
+            int maxStack = targetSlot.itemData.maxStackSize;
+            if(total <= maxStack) // 만약에 넘치지 않으면 그대로 합쳐
+            {
+                targetSlot.quantity = total;
+                sourceSlot.Clear();
+            }
+            else // 오버플로우하면 일부만 합치고 소스로 돌아가
+            {
+                targetSlot.quantity = maxStack;
+                sourceSlot.quantity = total - maxStack;
+            }
+        }
+
+        //타겟 슬록에 아이템이 있고, 소스 아이템과 다르거나 쌓을 수 없으면 위치 바꾸기
+        else
+        {
+            ItemSlot temp = new ItemSlot();
+            sourceSlot.CopyTo(temp);
+            targetSlot.CopyTo(sourceSlot);
+            temp.CopyTo(targetSlot);
+        }
+        InventoryChanged();
+        return true;
+    }
 
     // 이벤트를 받으면 인벤토리 변경 알림
     public void InventoryChanged()
