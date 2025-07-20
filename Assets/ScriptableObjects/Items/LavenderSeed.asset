@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: Test Item
+  m_Name: LavenderSeed
   m_EditorClassIdentifier: 
-  itemName: TestItem
-  itemIcon: {fileID: -1212871774, guid: 2fa99103f5b59a34ea02947b14d3adeb, type: 3}
-  itemDescription: "\uC313\uC77C \uC218 \uC788\uB294 \uC544\uC774\uD15C"
+  itemName: "\uB77C\uBCA4\uB354 \uC528\uC557"
+  itemIcon: {fileID: -8284407663408332338, guid: fbcb11fba991e9e46a72d7cd1211fc1f, type: 3}
+  itemDescription: 
   isStackable: 1
   isTradable: 1
   buyPrice: 100

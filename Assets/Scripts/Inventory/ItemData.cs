@@ -16,6 +16,10 @@ public class ItemData : ScriptableObject
     
     // 쌓일 수 있나요?
     public bool isStackable = false;
+    // 팔 수 있나요?
+    public bool isTradable = false;
+    public int buyPrice = 100;
+    public int sellPrice = 20;
     
     // 최대 쌓이는 거
     // maxStackSize = 1이면 isStackable = false와 동일한가?
