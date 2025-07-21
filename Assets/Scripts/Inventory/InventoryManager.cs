@@ -221,7 +221,7 @@ public class InventoryManager : MonoBehaviour
         else if(targetSlot.itemData == sourceSlot.itemData && targetSlot.itemData.isStackable)
         {
             int total = targetSlot.quantity + sourceSlot.quantity;
-            int maxStack = targetSlot.itemData.maxStackSize;
+            int maxStack = targetSlot.itemData.maxStack;
             if(total <= maxStack) // 만약에 넘치지 않으면 그대로 합쳐
             {
                 targetSlot.quantity = total;
