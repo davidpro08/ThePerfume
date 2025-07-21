@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3010735770550737857}
   - component: {fileID: 6943399625145043050}
   - component: {fileID: 3871910449119505519}
-  - component: {fileID: 1310124984355858847}
+  - component: {fileID: 906049708259847129}
   - component: {fileID: 2299167825736368637}
   - component: {fileID: 8838550595324902743}
   m_Layer: 5
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -219, y: 134}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6943399625145043050
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1310124984355858847
+--- !u!114 &906049708259847129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,10 +87,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3765029386998667595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8666bf49bb37454e964c6852321f4bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotIndex: 0
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!114 &2299167825736368637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +114,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627504cc97309124dbeacde375fec725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotIndex: 0
+  outlineComponent: {fileID: 8838550595324902743}
+  noramlOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedOutlineColor: {r: 1, g: 1, b: 1, a: 0.5}
+  normalOutlineDistance: {x: 0, y: 0}
+  selectedOutlineDistance: {x: 3, y: 3}
   draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
 --- !u!114 &8838550595324902743
 MonoBehaviour:

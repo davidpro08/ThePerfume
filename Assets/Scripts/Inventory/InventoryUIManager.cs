@@ -7,8 +7,7 @@ public class InventoryUIManager : MonoBehaviour
 {
     [Header("필수 연결")]
     [SerializeField] private InventoryManager inventoryManager; // 데이터 소스
-    [SerializeField] private GameObject inventorySlotPrefab;  // 슬롯 UI 프리팹
-    public GameObject draggableItemPrefab;
+    [SerializeField] private GameObject inventorySlotUIPrefab;  // 슬롯 UI 프리팹
 
     [Header("핫바 설정")]
     [SerializeField] private Transform hotbarSlotsContainer; // 핫바 슬롯들의 부모
@@ -40,8 +39,11 @@ public class InventoryUIManager : MonoBehaviour
 
     void OnDestroy()
     {
-        // 이벤트 구독 해제
-        inventoryManager.onInventoryChangedCallback -= UpdateAllUIs;
+        if(inventoryManager != null)
+        {
+            // 이벤트 구독 해제
+            inventoryManager.onInventoryChangedCallback -= UpdateAllUIs;
+        }
     }
 
     // 핫바 UI를 생성합니다.
@@ -49,13 +51,14 @@ public class InventoryUIManager : MonoBehaviour
     {
         for (int i = 0; i < inventoryManager.hotbarSize; i++)
         {
-            GameObject slotGO = Instantiate(inventorySlotPrefab, hotbarSlotsContainer);
-            InventorySlot invSlot = slotGO.GetComponent<InventorySlot>();
-            invSlot.slotIndex = i;
-
-            InventorySlotUI SlotUI = slotGO.GetComponent<InventorySlotUI>();
-            SlotUI.draggableItemPrefab = draggableItemPrefab;
-            hotbarSlotUIs.Add(SlotUI);
+            GameObject slotGO = Instantiate(inventorySlotUIPrefab, hotbarSlotsContainer);
+            InventorySlotUI invSlot = slotGO.GetComponent<InventorySlotUI>();
+            
+            if(invSlot != null)
+            {
+                invSlot.slotIndex = i;
+                hotbarSlotUIs.Add(invSlot);
+            }
         }
     }
 
@@ -64,13 +67,14 @@ public class InventoryUIManager : MonoBehaviour
     {
         for (int i = inventoryManager.hotbarSize; i < inventoryManager.capacity; i++)
         {
-            GameObject slotGO = Instantiate(inventorySlotPrefab, fullInventorySlotsContainer);
+            GameObject slotGO = Instantiate(inventorySlotUIPrefab, fullInventorySlotsContainer);
+            InventorySlotUI invSlot = slotGO.GetComponent<InventorySlotUI>();
 
-            InventorySlot invSlot = slotGO.GetComponent<InventorySlot>();
-            invSlot.slotIndex = i;
-            InventorySlotUI SlotUI = slotGO.GetComponent<InventorySlotUI>();
-            SlotUI.draggableItemPrefab = draggableItemPrefab;
-            fullInventorySlotUIs.Add(SlotUI);
+            if (invSlot != null)
+            {
+                invSlot.slotIndex = i;
+                fullInventorySlotUIs.Add(invSlot);
+            }
         }
     }
 
@@ -82,11 +86,12 @@ public class InventoryUIManager : MonoBehaviour
         {
             if (i < inventoryManager.itemSlots.Count)
             {
-                hotbarSlotUIs[i].UpdateSlot(inventoryManager.itemSlots[i]);
+                hotbarSlotUIs[i].UpdateSlotUI(inventoryManager.itemSlots[i]);
             }
             else
             {
-                hotbarSlotUIs[i].ClearSlot();
+                // 데이터가 없는 슬롯은 비운다
+                hotbarSlotUIs[i].UpdateSlotUI(new ItemSlot());
             }
         }
 
@@ -96,11 +101,12 @@ public class InventoryUIManager : MonoBehaviour
             int slotIndex = inventoryManager.hotbarSize + i;
             if (slotIndex < inventoryManager.itemSlots.Count)
             {
-                fullInventorySlotUIs[i].UpdateSlot(inventoryManager.itemSlots[slotIndex]);
+                fullInventorySlotUIs[i].UpdateSlotUI(inventoryManager.itemSlots[slotIndex]);
             }
             else
             {
-                fullInventorySlotUIs[i].ClearSlot();
+                // 데이터가 없는 슬롯은 비운다
+                fullInventorySlotUIs[i].UpdateSlotUI(new ItemSlot());
             }
         }
     }
@@ -109,6 +115,11 @@ public class InventoryUIManager : MonoBehaviour
     public void ToggleFullInventory()
     {
         fullInventoryPanel.SetActive(!fullInventoryPanel.activeSelf);
+        // 패널을 열때 UI를 강제적으로 한번 더 업데이트
+        if(fullInventoryPanel.activeSelf)
+        {
+            UpdateAllUIs();
+        }
     }
 
 }

@@ -10,19 +10,19 @@ public class InventoryTestInput : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.I))
         {
             bool added = inventoryManager.AddItem(item1, 1);
             Debug.Log("Added stackable" + added);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             bool added = inventoryManager.AddItem(item2, 1);
             Debug.Log("Added stackable" + added);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             bool added = inventoryManager.AddItem(item3, 5);
             Debug.Log("Added stackable" + added);

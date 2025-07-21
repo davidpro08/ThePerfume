@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: Test Item
+  m_Name: HydrangeaSeed
   m_EditorClassIdentifier: 
-  itemName: TestItem
-  itemIcon: {fileID: -1212871774, guid: 2fa99103f5b59a34ea02947b14d3adeb, type: 3}
-  itemDescription: "\uC313\uC77C \uC218 \uC788\uB294 \uC544\uC774\uD15C"
+  itemName: "\uC218\uAD6D \uC528\uC557"
+  itemIcon: {fileID: 4733483022551550743, guid: 3170dfc1886bed540874467ef1f05409, type: 3}
+  itemDescription: 
   isStackable: 1
   isTradable: 1
   buyPrice: 100
