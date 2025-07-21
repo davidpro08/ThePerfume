@@ -3,16 +3,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [Header("기본 설정")]
-    public float moveSpeed = 5f;
+    [Header("기본 설정")] public float moveSpeed = 5f;
 
-    [Header("인벤토리 설정")]
-    private bool isOpenInventory = false;
+    [Header("인벤토리 설정")] private bool isOpenInventory = false;
     [SerializeField] public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
     [SerializeField] private InventoryManager inventoryManager;
 
-    [Header("상호작용 설정")]
-    [SerializeField] private float InteractionRange = 1f;
+    [Header("상호작용 설정")] [SerializeField] private float InteractionRange = 1f;
     [SerializeField] private LayerMask interactableLayer; // 상호작용할 아이템 레이어
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
@@ -106,7 +103,7 @@ public class Player : MonoBehaviour
             Time.fixedDeltaTime = 0.02f;
         }
     }
-    
+
     // 마우스로 상호작용
     private void MouseInteration()
     {
@@ -116,54 +113,34 @@ public class Player : MonoBehaviour
 
         if (detection.collider != null)
         {
+            // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
+
+            // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
+            ToolData equippedTool = EquippedTool();
+
+            // 작물
+            HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
+            if (!TryHarvestCrop(detectedCrop, equippedTool)) return;
+
             // 감지된 오브젝트들 저자
             Farm detectedFarm = detection.collider.GetComponent<Farm>();
-            HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
-            PickupItems detecteedPickup = detection.collider.GetComponent<PickupItems>();
+            if (!TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
-            // 감지된 오브젝트 처리
-            if (detectedCrop != null && detectedCrop.CanHarvest())
+            // REVIEW: 이거 왜 또 호출하나요? 
+            // if (detectedCrop != null && !detectedCrop.CanHarvest())
+            // {
+            //     _TryHarvestCrop(detectedCrop);
+            //     return;
+            // }
+
+            PickupItems detecteedPickup = detection.collider.GetComponent<PickupItems>();
+            if (detecteedPickup != null)
             {
-                TryHarvestCrop(detectedCrop); // 수확
-                return;
-            }
-            
-            if (detectedFarm != null)
-            {
-                ToolData equippedTool = EquippedTool();
-                // 1. 물 주기
-                if (equippedTool != null && equippedTool.toolType == ToolType.WeteringCan)
-                {
-                    if (detectedFarm.CanWatered())
-                    {
-                        detectedFarm.Watering();
-                        equippedTool.nowDurability -= 10;
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log($"[player] 이미 화분이 젖어있음");
-                        return;
-                    }
-                }
-                // 2. 씨앗 심기
-                if (detectedFarm.canPlantSeed())
-                {
-                    TryPlantSeed(detectedFarm);
-                    return;
-                }
-            }
-            else if (detectedCrop != null && detectedCrop.CanHarvest())
-            {
-                TryHarvestCrop(detectedCrop); // 수확 안됨
-                return;
-            }
-            else if (detecteedPickup != null)
-            {
-                PerformPickup(detecteedPickup); // 아이템 줍기
+                TryPickup(detecteedPickup);
                 return;
             }
         }
+
         Debug.Log($"상호작용 없음");
     }
 
@@ -185,33 +162,33 @@ public class Player : MonoBehaviour
             }
 
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
-            
+
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
             ToolData equippedTool = EquippedTool();
-            
+
             // 작물
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
-            if(!TryHarvestCrop(detectedCrop, equippedTool)) return;
-            
+            if (!TryHarvestCrop(detectedCrop, equippedTool)) return;
+
             // 농지
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
-            if (!TryInteractiveFram(detectedFarm, equippedTool)) return;
-            
+            if (!TryInteractiveFarm(detectedFarm, equippedTool)) return;
+
             // REVIEW: 이거 왜 또 호출하나요? 
             // if (detectedCrop != null && !detectedCrop.CanHarvest())
             // {
             //     _TryHarvestCrop(detectedCrop);
             //     return;
             // }
+            
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
-            if (detectedPickup != null)
-            {
-                PerformPickup(detectedPickup);
-                return;
-            }
+            if (!TryPickup(detectedPickup)) return;
         }
+
         Debug.Log($"상호작용 없음");
+        return;
     }
+
     void FixedUpdate()
     {
         // 멈춰 있으면 작동 안해야 함
@@ -227,54 +204,100 @@ public class Player : MonoBehaviour
             rb.linearVelocity = movement;
         }
     }
-
-    private void PerformPickup(PickupItems pickupItems)
+    /// <summary>
+    /// 자원을 줍는 코드이다.
+    /// </summary>
+    /// <param name="pickupItems">수학할 작물 정보를</param>
+    /// <returns>성공 여부</returns>
+    private bool TryPickup(PickupItems pickupItems)
     {
-        if (inventoryUIManager == null) return;
-        if (pickupItems.itemToGive == null) return;
+        if (pickupItems != null)
+        {
+            Debug.Log($"[{name}] : 주을 아이템 없음");
+            return false;
+        }
+        
+        if (inventoryUIManager == null)
+        {
+            Debug.Log($"[{name}] : 인벤토리 매니저 없음");
+            return false;
+        }
+        
+        if (pickupItems.itemToGive == null)
+        {
+            Debug.Log($"[{name}] : 아이템 정보 없음");
+            return false;
+        }
 
         bool added = inventoryManager.AddItem(pickupItems.itemToGive, pickupItems.quantityToGive);
+        return true;
     }
 
+    /// <summary>
+    /// ?
+    /// </summary>
     private void TryWatering()
     {
-        
     }
 
-    private void TryPlantSeed(Farm farm)
+    /// <summary>
+    /// 작물을 심는 코드이다.
+    /// </summary>
+    /// <param name="farm">작물을 심을 농장이다.</param>
+    /// <returns>성공 여부</returns>
+    private bool TryPlantSeed(Farm farm)
     {
-        // 화분이 비어있는지 페크
-        if (!farm.canPlantSeed())
-        {
-            if (!farm.isOccupied)
-            {
-                Debug.Log($"[player]이미 작물이 심어져 있음");
-                return;
-            }
-            else if (!farm.isWatered)
-            {
-                Debug.Log($"[player] 화분에 물 줘야함");
-            }
-            return;
-        }
-
         // 현재 플레이어가 씨앗 아이템을 들고 있는지
         SeedData equippedSeed = EquippedSeed();
-        if (equippedSeed == null)
-        {
-            Debug.Log($"[player]씨앗 아이템 미장착");
-            return; // 씨앗 아이템을 장착하고 있지 않음
-        }
+
+        if (!TryPlantSeedExceptionHandling(farm, equippedSeed)) return false;
 
         // 씨앗 심기
         farm.PlantSeed(equippedSeed);
 
         // 인벤토리에서 아이템 1개 감소
         inventoryManager.RemoveItem(equippedSeed, 1);
+
+        return true;
     }
 
-    // 현재 플레이어가 씨앗 아이템을 들고 있는지
-    
+    /// <summary>
+    /// 작물을 심는 것이 가능한 지 확인하는 코드이다.
+    /// </summary>
+    /// <param name="farm"></param>
+    /// <param name="equippedSeed"></param>
+    /// <returns>작물을 심는 것이 가능한가?</returns>
+    public bool TryPlantSeedExceptionHandling(Farm farm, SeedData equippedSeed)
+    {
+        // 화분이 비어있는지 페크
+        if (!farm.canPlantSeed())
+        {
+            if (!farm.isOccupied)
+            {
+                Debug.Log($"[{name}] : 이미 작물이 심어져 있음");
+                return false;
+            }
+            
+            if (!farm.isWatered)
+            {
+                Debug.Log($"[{name}] : 화분에 물 줘야함");
+                return false;
+            }
+        }
+        
+        if (equippedSeed == null)
+        {
+            Debug.Log($"[{name}] : 씨앗 아이템 미장착");
+            return false; // 씨앗 아이템을 장착하고 있지 않음
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 현재 플레이어가 씨앗을 들고 있는 지 확인하는 코드이다.
+    /// </summary>
+    /// <returns>씨앗 데이터</returns>
     private SeedData EquippedSeed()
     {
         if (inventoryManager == null || inventoryManager.SelectedSlotIndex == -1)
@@ -282,6 +305,7 @@ public class Player : MonoBehaviour
             Debug.Log($"[player]인벤토리 메니저가 없거나 선택된 슬롯이 없음");
             return null; // 인벤토리 매니저가 없거나 선택된 슬롯이 없음
         }
+
         // 현재 선택된 슬롯의 아이템 가져오기
         ItemSlot selectedSlot = inventoryManager.itemSlots[inventoryManager.SelectedSlotIndex];
 
@@ -290,12 +314,11 @@ public class Player : MonoBehaviour
             Debug.Log($"[player]씨앗 아이템 들고 있음");
             return selectedSlot.itemData as SeedData; // 씨앗 아이템 들고 있음
         }
+
         return null; // 씨앗 아이템 안 들고 있음
     }
 
     // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
-
-
     /// <summary>
     /// 작물을 수확하는 코드이다.
     /// </summary>
@@ -313,10 +336,7 @@ public class Player : MonoBehaviour
         if (inventoryManager.AddItem(harvestedItem, harvestedQuantity))
         {
             crop.OnHarvested();
-            // 도구 내구도 감소 로직 추가해야함
-            // equippedTool.nowDurability -= 10;
-            // 이런 식으로 하지 않을까
-
+            equippedTool.nowDurability -= equippedTool.useDurability;
             return true;
         }
         else
@@ -340,9 +360,9 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : 농작물 존재하지 않음");
             return false;
         }
-        
+
         // 농작물이 수확 가능하지 않다면
-        if(!crop.CanHarvest())
+        if (!crop.CanHarvest())
         {
             Debug.Log($"[{name}] : 농작물 아직 수확 불가능함");
             return false;
@@ -354,14 +374,14 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : [{crop}] 아직 다 안 자라났음. [{crop.currentStage}]");
             return false;
         }
-        
+
         // 도구를 장착하지 않고 있다면
         if (ReferenceEquals(equippedTool, null))
         {
             Debug.Log($"[{name}] : 도구 장착하지 않음");
             return false;
         }
-        
+
         // 도구를 잘못 장착했다면
         if (equippedTool.toolType != crop.requiredToolType)
         {
@@ -370,7 +390,7 @@ public class Player : MonoBehaviour
                       $"필요한 도구 : [{crop.requiredToolType}]");
             return false;
         }
-        
+
         return true;
     }
 
@@ -380,26 +400,31 @@ public class Player : MonoBehaviour
     /// <param name="farm">찾은 농지</param>
     /// <param name="equippedTool">착용한 장비</param>
     /// <returns>성공 여부</returns>
-    private bool TryInteractiveFram(Farm farm, ToolData equippedTool)
+    private bool TryInteractiveFarm(Farm farm, ToolData equippedTool)
     {
         if (!TryInteractiveFramExceptionHandling(farm, equippedTool)) return false;
 
-        switch(equippedTool.toolType)
+        switch (equippedTool.toolType)
         {
             case ToolType.WeteringCan:
                 if (farm.CanWatered())
                 {
                     farm.Watering();
-                    equippedTool.nowDurability -= 10; // 내구도 감소
+                    equippedTool.nowDurability -= equippedTool.useDurability; // 내구도 감소
                     return true;
                 }
-                Debug.Log($"[player] 이미 화분 젖은 상태");
+                else
+                {
+                    Debug.Log($"[player] 이미 화분 젖은 상태");
+                    return false;
+                }
+
                 break;
             default:
                 TryPlantSeed(farm);
                 return true;
         }
-        
+
         Debug.Log($"오류 상황");
         return false;
     }
@@ -424,23 +449,43 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : 착용한 장비가 없음");
             return false;
         }
+
         return true;
     }
 
-    // 현재 플레이어가 도구를 들고 있는지
+    /// <summary>
+    /// 현재 사용자가 도구를 들고 있는지 확인하는 코드이다.
+    /// </summary>
+    /// <returns>도구 아이템 정보</returns>
     private ToolData EquippedTool()
     {
-        if (inventoryManager == null || inventoryManager.SelectedSlotIndex == -1)
+        if (inventoryManager == null)
         {
-            return null; // 인벤토리 매니저가 없거나 선택된 슬롯이 없음
+            Debug.Log($"[{name}] : 인벤토리 매니저 연결 안됨");
+            return null; // 인벤토리 매니저가 없음
         }
+
+        if (inventoryManager.SelectedSlotIndex == -1)
+        {
+            Debug.Log($"[{name}] : 선택된 슬롯 없음");
+            return null; // 선택된 슬롯이 없음
+        }
+
         // 현재 선택된 슬롯의 아이템 가져오기
         ItemSlot selectedSlot = inventoryManager.itemSlots[inventoryManager.SelectedSlotIndex];
 
-        if (selectedSlot.itemData != null && selectedSlot.itemData.itemType == ItemType.Tool)
+        if (ReferenceEquals(selectedSlot.itemData, null))
         {
-            return selectedSlot.itemData as ToolData; // 도규 아이템 들고 있음
+            Debug.Log($"[{name}] : 도구 아이템의 정보가 없음");
+            return null;
         }
-        return null; // 도구앗 아이템 안 들고 있음
+
+        if (selectedSlot.itemData.itemType != ItemType.Tool)
+        {
+            Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
+            return null;
+        }
+
+        return selectedSlot.itemData as ToolData; // 도규 아이템 들고 있음
     }
 }
