@@ -7,11 +7,14 @@ public class ToolData : ItemData
     // 도구 종류
     public ToolType toolType;
 
-    //최대 내구도
-    public int maxDurability = 0;
+    // 최대 내구도
+    public int maxDurability = 100;
 
-    //현재 내구도
-    public int nowDurability = 0;
+    // 현재 내구도
+    public int nowDurability = 90;
+    
+    // 한 번 사용할 때 내구도 깎이는 거
+    public int useDurability = 1;
 
     public ToolData() { }
     public ToolData(int id, string itemName, string itemDescription,

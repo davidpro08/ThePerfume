@@ -116,51 +116,29 @@ public class Player : MonoBehaviour
 
         if (detection.collider != null)
         {
-            // 감지된 오브젝트들 저자
-            Farm detectedFarm = detection.collider.GetComponent<Farm>();
-            HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
-            PickupItems detecteedPickup = detection.collider.GetComponent<PickupItems>();
-
-            // 감지된 오브젝트 처리
-            if (detectedCrop != null && detectedCrop.CanHarvest())
-            {
-                TryHarvestCrop(detectedCrop); // 수확
-                return;
-            }
+            // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
             
-            if (detectedFarm != null)
+            // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
+            ToolData equippedTool = EquippedTool();
+            
+            // 작물
+            HarvestableCrop detectedCrop = GetComponent<Collider>().GetComponent<HarvestableCrop>();
+            if(!TryHarvestCrop(detectedCrop, equippedTool)) return;
+            
+            // 농지
+            Farm detectedFarm = detection.collider.GetComponent<Farm>();
+            if (!TryInteractiveFram(detectedFarm, equippedTool)) return;
+            
+            // REVIEW: 이거 왜 또 호출하나요? 
+            // if (detectedCrop != null && !detectedCrop.CanHarvest())
+            // {
+            //     _TryHarvestCrop(detectedCrop);
+            //     return;
+            // }
+            PickupItems detectedPickup = detection.collider.GetComponent<PickupItems>();
+            if (detectedPickup != null)
             {
-                ToolData equippedTool = EquippedTool();
-                // 1. 물 주기
-                if (equippedTool != null && equippedTool.toolType == ToolType.WeteringCan)
-                {
-                    if (detectedFarm.CanWatered())
-                    {
-                        detectedFarm.Watering();
-                        equippedTool.nowDurability -= 10;
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log($"[player] 이미 화분이 젖어있음");
-                        return;
-                    }
-                }
-                // 2. 씨앗 심기
-                if (detectedFarm.canPlantSeed())
-                {
-                    TryPlantSeed(detectedFarm);
-                    return;
-                }
-            }
-            else if (detectedCrop != null && detectedCrop.CanHarvest())
-            {
-                TryHarvestCrop(detectedCrop); // 수확 안됨
-                return;
-            }
-            else if (detecteedPickup != null)
-            {
-                PerformPickup(detecteedPickup); // 아이템 줍기
+                PerformPickup(detectedPickup);
                 return;
             }
         }
@@ -294,8 +272,6 @@ public class Player : MonoBehaviour
     }
 
     // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
-
-
     /// <summary>
     /// 작물을 수확하는 코드이다.
     /// </summary>
