@@ -1179,6 +1179,8 @@ MonoBehaviour:
     quantity: 1
   - itemData: {fileID: 11400000, guid: 69b00659297b5494681e0284f35d6326, type: 2}
     quantity: 98
+  - itemData: {fileID: 11400000, guid: 135abb67ac8a4e545945de2de09b4016, type: 2}
+    quantity: 98
   capacity: 32
 --- !u!4 &946015220
 Transform:

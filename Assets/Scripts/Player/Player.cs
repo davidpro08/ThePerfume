@@ -120,11 +120,11 @@ public class Player : MonoBehaviour
 
             // 작물
             HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
-            if (!TryHarvestCrop(detectedCrop, equippedTool)) return;
+            if (TryHarvestCrop(detectedCrop, equippedTool)) return;
 
             // 감지된 오브젝트들 저자
             Farm detectedFarm = detection.collider.GetComponent<Farm>();
-            if (!TryInteractiveFarm(detectedFarm, equippedTool)) return;
+            if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
             // REVIEW: 이거 왜 또 호출하나요? 
             // if (detectedCrop != null && !detectedCrop.CanHarvest())
@@ -132,13 +132,9 @@ public class Player : MonoBehaviour
             //     _TryHarvestCrop(detectedCrop);
             //     return;
             // }
-
-            PickupItems detecteedPickup = detection.collider.GetComponent<PickupItems>();
-            if (detecteedPickup != null)
-            {
-                TryPickup(detecteedPickup);
-                return;
-            }
+            
+            PickupItems detectedPickup = detection.collider.GetComponent<PickupItems>();
+            if (TryPickup(detectedPickup)) return;
         }
 
         Debug.Log($"상호작용 없음");
@@ -168,11 +164,11 @@ public class Player : MonoBehaviour
 
             // 작물
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
-            if (!TryHarvestCrop(detectedCrop, equippedTool)) return;
+            if (TryHarvestCrop(detectedCrop, equippedTool)) return;
 
             // 농지
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
-            if (!TryInteractiveFarm(detectedFarm, equippedTool)) return;
+            if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
             // REVIEW: 이거 왜 또 호출하나요? 
             // if (detectedCrop != null && !detectedCrop.CanHarvest())
@@ -182,7 +178,7 @@ public class Player : MonoBehaviour
             // }
             
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
-            if (!TryPickup(detectedPickup)) return;
+            if (TryPickup(detectedPickup)) return;
         }
 
         Debug.Log($"상호작용 없음");
@@ -211,7 +207,7 @@ public class Player : MonoBehaviour
     /// <returns>성공 여부</returns>
     private bool TryPickup(PickupItems pickupItems)
     {
-        if (pickupItems != null)
+        if (pickupItems == null)
         {
             Debug.Log($"[{name}] : 주을 아이템 없음");
             return false;
@@ -291,6 +287,7 @@ public class Player : MonoBehaviour
             return false; // 씨앗 아이템을 장착하고 있지 않음
         }
 
+        Debug.Log($"[{name}] : 작물 심기 가능");
         return true;
     }
 
@@ -300,22 +297,34 @@ public class Player : MonoBehaviour
     /// <returns>씨앗 데이터</returns>
     private SeedData EquippedSeed()
     {
-        if (inventoryManager == null || inventoryManager.SelectedSlotIndex == -1)
+        if (inventoryManager == null)
         {
-            Debug.Log($"[player]인벤토리 메니저가 없거나 선택된 슬롯이 없음");
-            return null; // 인벤토리 매니저가 없거나 선택된 슬롯이 없음
+            Debug.Log($"[{name}] : 인벤토리 매니저 없음");
+            return null; // 인벤토리 매니저가 없음
+        }
+            
+        if(inventoryManager.SelectedSlotIndex == -1)
+        {
+            Debug.Log($"[{name}] : 선택된 슬롯 없음");
+            return null; // 선택된 슬롯이 없음
         }
 
         // 현재 선택된 슬롯의 아이템 가져오기
         ItemSlot selectedSlot = inventoryManager.itemSlots[inventoryManager.SelectedSlotIndex];
 
-        if (selectedSlot.itemData != null && selectedSlot.itemData.itemType == ItemType.Seed)
+        if (selectedSlot.itemData == null)
         {
-            Debug.Log($"[player]씨앗 아이템 들고 있음");
-            return selectedSlot.itemData as SeedData; // 씨앗 아이템 들고 있음
+            Debug.Log($"[{name}] : 선택된 아이템 없음");
+            return null; // 선택된 슬롯이 없음
         }
-
-        return null; // 씨앗 아이템 안 들고 있음
+        
+        if (selectedSlot.itemData.itemType != ItemType.Seed)
+        {
+            Debug.Log($"[{name}] : 선택된 아이템이 씨앗이 아님");
+            return null; // 선택된 아이템이 씨앗이 아님
+        }
+        
+        return selectedSlot.itemData as SeedData; // 씨앗 아이템 들고 있음
     }
 
     // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
@@ -391,6 +400,7 @@ public class Player : MonoBehaviour
             return false;
         }
 
+        Debug.Log($"[{name}] : 작물 수확 가능");
         return true;
     }
 
@@ -402,27 +412,33 @@ public class Player : MonoBehaviour
     /// <returns>성공 여부</returns>
     private bool TryInteractiveFarm(Farm farm, ToolData equippedTool)
     {
-        if (!TryInteractiveFramExceptionHandling(farm, equippedTool)) return false;
-
-        switch (equippedTool.toolType)
+        if (!TryInteractiveFarmExceptionHandling(farm)) return false;
+        
+        if (equippedTool == null)
         {
-            case ToolType.WeteringCan:
-                if (farm.CanWatered())
-                {
-                    farm.Watering();
-                    equippedTool.nowDurability -= equippedTool.useDurability; // 내구도 감소
-                    return true;
-                }
-                else
-                {
-                    Debug.Log($"[player] 이미 화분 젖은 상태");
-                    return false;
-                }
+            Debug.Log($"식물 심기");
+            if(!TryPlantSeed(farm)) return false;
+            return true;
+        }
 
-                break;
-            default:
-                TryPlantSeed(farm);
-                return true;
+        else
+        {
+            switch (equippedTool.toolType)
+            {
+                case ToolType.WateringCan:
+                    if (farm.CanWatered())
+                    {
+                        farm.Watering();
+                        equippedTool.nowDurability -= equippedTool.useDurability; // 내구도 감소
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log($"[player] 이미 화분 젖은 상태");
+                        return false;
+                    }
+                    break;
+            }
         }
 
         Debug.Log($"오류 상황");
@@ -433,9 +449,8 @@ public class Player : MonoBehaviour
     /// 농지 상호작용의 예외 처리 부분이다.
     /// </summary>
     /// <param name="farm">농장</param>
-    /// <param name="equippedTool">착용한 장비</param>
     /// <returns>최소 조건 만족 여부</returns>
-    private bool TryInteractiveFramExceptionHandling(Farm farm, ToolData equippedTool)
+    private bool TryInteractiveFarmExceptionHandling(Farm farm)
     {
         // farm이 없다면
         if (farm == null)
@@ -444,12 +459,7 @@ public class Player : MonoBehaviour
             return false;
         }
 
-        if (equippedTool != null)
-        {
-            Debug.Log($"[{name}] : 착용한 장비가 없음");
-            return false;
-        }
-
+        Debug.Log($"[{name}] : 농지와 상호작용 가능");
         return true;
     }
 
@@ -486,6 +496,7 @@ public class Player : MonoBehaviour
             return null;
         }
 
+        Debug.Log($"[{name}] : 도구 반환");
         return selectedSlot.itemData as ToolData; // 도규 아이템 들고 있음
     }
 }

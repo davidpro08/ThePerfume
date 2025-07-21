@@ -18,7 +18,7 @@ public enum ItemType
 
 public enum ToolType
 {
-    WeteringCan // 물뿌리개
+    WateringCan // 물뿌리개
 }
 
 public enum SeedType
