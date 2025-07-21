@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
     [SerializeField] private InventoryManager inventoryManager;
 
-    [Header("상호작용 설정")] [SerializeField] private float InteractionRange = 1f;
+    [Header("상호작용 설정")][SerializeField] private float InteractionRange = 1f;
     [SerializeField] private LayerMask interactableLayer; // 상호작용할 아이템 레이어
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
             Time.fixedDeltaTime = 0.02f;
         }
     }
-    
+
     // 마우스로 상호작용
     private void MouseInteration()
     {
@@ -126,13 +126,13 @@ public class Player : MonoBehaviour
             Farm detectedFarm = detection.collider.GetComponent<Farm>();
             if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
-            // REVIEW: 이거 왜 또 호출하나요? 
+            // REVIEW: 이거 왜 또 호출하나요? >> 필요없으면 없애도 상관 없는 코드입니다
             // if (detectedCrop != null && !detectedCrop.CanHarvest())
             // {
             //     _TryHarvestCrop(detectedCrop);
             //     return;
             // }
-            
+
             PickupItems detectedPickup = detection.collider.GetComponent<PickupItems>();
             if (TryPickup(detectedPickup)) return;
         }
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
             //     _TryHarvestCrop(detectedCrop);
             //     return;
             // }
-            
+
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
             if (TryPickup(detectedPickup)) return;
         }
@@ -212,13 +212,13 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : 주을 아이템 없음");
             return false;
         }
-        
+
         if (inventoryUIManager == null)
         {
             Debug.Log($"[{name}] : 인벤토리 매니저 없음");
             return false;
         }
-        
+
         if (pickupItems.itemToGive == null)
         {
             Debug.Log($"[{name}] : 아이템 정보 없음");
@@ -273,14 +273,14 @@ public class Player : MonoBehaviour
                 Debug.Log($"[{name}] : 이미 작물이 심어져 있음");
                 return false;
             }
-            
+
             if (!farm.isWatered)
             {
                 Debug.Log($"[{name}] : 화분에 물 줘야함");
                 return false;
             }
         }
-        
+
         if (equippedSeed == null)
         {
             Debug.Log($"[{name}] : 씨앗 아이템 미장착");
@@ -302,8 +302,8 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : 인벤토리 매니저 없음");
             return null; // 인벤토리 매니저가 없음
         }
-            
-        if(inventoryManager.SelectedSlotIndex == -1)
+
+        if (inventoryManager.SelectedSlotIndex == -1)
         {
             Debug.Log($"[{name}] : 선택된 슬롯 없음");
             return null; // 선택된 슬롯이 없음
@@ -317,13 +317,13 @@ public class Player : MonoBehaviour
             Debug.Log($"[{name}] : 선택된 아이템 없음");
             return null; // 선택된 슬롯이 없음
         }
-        
+
         if (selectedSlot.itemData.itemType != ItemType.Seed)
         {
             Debug.Log($"[{name}] : 선택된 아이템이 씨앗이 아님");
             return null; // 선택된 아이템이 씨앗이 아님
         }
-        
+
         return selectedSlot.itemData as SeedData; // 씨앗 아이템 들고 있음
     }
 
@@ -339,6 +339,7 @@ public class Player : MonoBehaviour
         if (!_TryHarvestCropExceptionHandling(crop, equippedTool)) return false;
 
         // 수확
+        /*
         ItemData harvestedItem = crop.cropData;
         int harvestedQuantity = crop.Quantity;
 
@@ -353,6 +354,10 @@ public class Player : MonoBehaviour
             //가득 찼음. 수확 불가능?
             return false;
         }
+        */
+
+        crop.OnHarvested();
+        return true;
     }
 
     /// <summary>
@@ -413,11 +418,11 @@ public class Player : MonoBehaviour
     private bool TryInteractiveFarm(Farm farm, ToolData equippedTool)
     {
         if (!TryInteractiveFarmExceptionHandling(farm)) return false;
-        
+
         if (equippedTool == null)
         {
             Debug.Log($"식물 심기");
-            if(!TryPlantSeed(farm)) return false;
+            if (!TryPlantSeed(farm)) return false;
             return true;
         }
 

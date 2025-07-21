@@ -7,6 +7,7 @@ public class HarvestableCrop : MonoBehaviour
     public CropType cropType; // 해당 농작물 종류
     public CropData cropData; // 수확 시 얻을 아이템 데이터
     public int Quantity = 1; // 수확 시 얻을 아이템 수량
+    public GameObject collectableItemPrefab; // 바닥에 스폰될 프리팹
 
     [Header("수확 도구")]
     public ToolType requiredToolType;
@@ -18,6 +19,7 @@ public class HarvestableCrop : MonoBehaviour
     public int currentStage = 0; // 현재 성장 단계
 
     public bool isFullGrowth => currentStage == cropStage.fullGrowthIndex; // 완전히 자랐는지 여부
+    public Farm parentFarm;
 
     void Awake()
     {
@@ -78,6 +80,35 @@ public class HarvestableCrop : MonoBehaviour
     // 수확 후 화분 상태 초기화 (player 상호작용에 들어갈 예정)
     public void OnHarvested()
     {
-        Debug.Log("${cropType} 수확");
+        Debug.Log("${name} 수확");
+        Debug.Log($"[HarvestableCrop] collectableItemPrefab 상태: {(collectableItemPrefab != null ? collectableItemPrefab.name : "NULL")}");
+        Debug.Log($"[HarvestableCrop] cropData 상태: {(cropData != null ? cropData.itemName : "NULL")}");
+
+        if (collectableItemPrefab != null && cropData != null)
+        {
+            Debug.Log("${name} 수확 시도");
+            // 아이템 스폰
+            GameObject spawnItem = Instantiate(collectableItemPrefab, transform.position, Quaternion.identity);
+            ColletableItem collectable = spawnItem.GetComponent<ColletableItem>();
+
+            if (collectable != null)
+            {
+                // 아이템 초기화
+                collectable.Initialize(cropData, Quantity);
+            }
+            else
+            {
+                Debug.Log($"{collectableItemPrefab.name}에 colleableItem.cs 없음");
+            }
+
+            if (parentFarm != null)
+            {
+                parentFarm.ClearFarm();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

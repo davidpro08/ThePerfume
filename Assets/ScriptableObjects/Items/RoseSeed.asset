@@ -9,15 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
+  m_Script: {fileID: 11500000, guid: c36b3be4e87f21e49a910162455668ee, type: 3}
   m_Name: RoseSeed
   m_EditorClassIdentifier: 
-  itemName: "\uC7A5\uBBF8\uC528\uC557"
-  itemIcon: {fileID: 7080048011328901178, guid: 532ee62ce8d31da4c8498e43437e8a27, type: 3}
-  itemDescription: 
-  isStackable: 1
-  isTradable: 1
-  buyPrice: 100
-  sellPrice: 20
-  maxStackSize: 24
-  itemType: 0
+  id: 0
+  itemName: New Item
+  itemDescription: Null Description
+  itemIcon: {fileID: 0}
+  itemType: 2
+  isStackable: 0
+  maxStack: 99
+  nowStack: 1
+  isTradable: 0
+  buyPrice: 0
+  sellPrice: 0
+  growIntoCropType: 0
+  cropPrefabToGrow: {fileID: 0}
