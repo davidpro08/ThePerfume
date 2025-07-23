@@ -80,13 +80,13 @@ public class HarvestableCrop : MonoBehaviour
     // 수확 후 화분 상태 초기화 (player 상호작용에 들어갈 예정)
     public void OnHarvested()
     {
-        Debug.Log("${name} 수확");
+        Debug.Log($"{name} 수확");
         Debug.Log($"[HarvestableCrop] collectableItemPrefab 상태: {(collectableItemPrefab != null ? collectableItemPrefab.name : "NULL")}");
         Debug.Log($"[HarvestableCrop] cropData 상태: {(cropData != null ? cropData.itemName : "NULL")}");
 
         if (collectableItemPrefab != null && cropData != null)
         {
-            Debug.Log("${name} 수확 시도");
+            Debug.Log($"{name} 수확 시도");
             // 아이템 스폰
             GameObject spawnItem = Instantiate(collectableItemPrefab, transform.position, Quaternion.identity);
             ColletableItem collectable = spawnItem.GetComponent<ColletableItem>();

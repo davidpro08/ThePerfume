@@ -126,13 +126,6 @@ public class Player : MonoBehaviour
             Farm detectedFarm = detection.collider.GetComponent<Farm>();
             if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
-            // REVIEW: 이거 왜 또 호출하나요? >> 필요없으면 없애도 상관 없는 코드입니다
-            // if (detectedCrop != null && !detectedCrop.CanHarvest())
-            // {
-            //     _TryHarvestCrop(detectedCrop);
-            //     return;
-            // }
-
             PickupItems detectedPickup = detection.collider.GetComponent<PickupItems>();
             if (TryPickup(detectedPickup)) return;
         }
@@ -226,7 +219,7 @@ public class Player : MonoBehaviour
         }
 
         bool added = inventoryManager.AddItem(pickupItems.itemToGive, pickupItems.quantityToGive);
-        return true;
+        return added;
     }
 
     /// <summary>

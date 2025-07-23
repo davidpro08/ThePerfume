@@ -1996,8 +1996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryManager: {fileID: 946015219}
-  inventorySlotPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
-  draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
+  inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
   hotbarSlotsContainer: {fileID: 1221397243}
   fullInventoryPanel: {fileID: 806160421}
   fullInventorySlotsContainer: {fileID: 1730014934}

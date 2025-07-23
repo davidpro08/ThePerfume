@@ -47,6 +47,7 @@ public class Farm : MonoBehaviour
 
         if (currentCropInstance != null)
         {// 작물의 초기 상태 = 심은 직후 상태
+            currentCropInstance.parentFarm = this;
             currentCropInstance.currentStage = 0;
             isOccupied = true;
             UpdateSprite();
@@ -92,11 +93,12 @@ public class Farm : MonoBehaviour
     {
         if (currentCropInstance != null)
         {
-            currentCropInstance.OnHarvested(); // 작물 수확
-            Destroy(currentCropInstance.gameObject);
+            //currentCropInstance.OnHarvested(); // 작물 수확
+            //Destroy(currentCropInstance.gameObject);
             isOccupied = false;
             isWatered = false;
             Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
+            Destroy(currentCropInstance.gameObject);
             currentCropInstance = null;
             UpdateSprite();
             if (farmCollider != null)
