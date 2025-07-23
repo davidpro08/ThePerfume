@@ -163,12 +163,6 @@ public class Player : MonoBehaviour
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
             if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
-            // REVIEW: 이거 왜 또 호출하나요? 
-            // if (detectedCrop != null && !detectedCrop.CanHarvest())
-            // {
-            //     _TryHarvestCrop(detectedCrop);
-            //     return;
-            // }
 
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
             if (TryPickup(detectedPickup)) return;
@@ -242,10 +236,12 @@ public class Player : MonoBehaviour
         if (!TryPlantSeedExceptionHandling(farm, equippedSeed)) return false;
 
         // 씨앗 심기
-        farm.PlantSeed(equippedSeed);
+        if (farm.PlantSeed(equippedSeed))
+        {
+            // 인벤토리에서 아이템 1개 감소
+            inventoryManager.RemoveItem(equippedSeed, 1);
+        }
 
-        // 인벤토리에서 아이템 1개 감소
-        inventoryManager.RemoveItem(equippedSeed, 1);
 
         return true;
     }
