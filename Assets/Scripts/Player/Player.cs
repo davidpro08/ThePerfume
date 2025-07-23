@@ -114,6 +114,12 @@ public class Player : MonoBehaviour
         if (detection.collider != null)
         {
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
+            // 플레이어 위치와 감지된 오브젝트 사이의 거리 계산
+            float distaceToTarget = Vector2.Distance(transform.position, detection.collider.transform.position);
+            if (distaceToTarget > InteractionRange)
+            {
+                return;
+            }
 
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
             ToolData equippedTool = EquippedTool();
