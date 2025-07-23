@@ -48,12 +48,16 @@ public class InventoryManager : MonoBehaviour
     void Awake()
     {
         //이미 인스턴스 있으면 자신 파괴
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
+
+        //인벤토리 매니저가 씬 전환 시 파괴되지 않음
+        DontDestroyOnLoad(gameObject);
+
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
         for (int i = 0; i < capacity; i++)
         {
@@ -196,7 +200,7 @@ public class InventoryManager : MonoBehaviour
     // 슬록 간 아이템 이동 로직
     public bool TryMoveItem(int sourceIndex, int targetIndex)
     {
-        if(sourceIndex < 0 || sourceIndex >= itemSlots.Count || targetIndex < 0 || targetIndex >= itemSlots.Count)
+        if (sourceIndex < 0 || sourceIndex >= itemSlots.Count || targetIndex < 0 || targetIndex >= itemSlots.Count)
         {
             Debug.LogWarning("유효하지 않은 슬로 인덱스입니다.");
             return false;
@@ -218,11 +222,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         //타겟 슬롯과 소스 슬록의 아이템이 동일하고 스택이 가능한 경우
-        else if(targetSlot.itemData == sourceSlot.itemData && targetSlot.itemData.isStackable)
+        else if (targetSlot.itemData == sourceSlot.itemData && targetSlot.itemData.isStackable)
         {
             int total = targetSlot.quantity + sourceSlot.quantity;
             int maxStack = targetSlot.itemData.maxStack;
-            if(total <= maxStack) // 만약에 넘치지 않으면 그대로 합쳐
+            if (total <= maxStack) // 만약에 넘치지 않으면 그대로 합쳐
             {
                 targetSlot.quantity = total;
                 sourceSlot.Clear();

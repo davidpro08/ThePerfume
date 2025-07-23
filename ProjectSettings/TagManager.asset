@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - farm
+  - bench
   layers:
   - Default
   - TransparentFX
@@ -44,7 +46,7 @@ TagManager:
   - name: Background
     uniqueID: 2497881411
     locked: 0
-  - name: farm
+  - name: furniture
     uniqueID: 886909895
     locked: 0
   - name: crop

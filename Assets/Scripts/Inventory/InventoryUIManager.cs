@@ -25,11 +25,11 @@ public class InventoryUIManager : MonoBehaviour
     {
         // 인벤토리 데이터 변경 이벤트에 구독
         inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
-        
+
         // UI 초기화
         InitializeHotbar();
         InitializeFullInventory();
-        
+
         // 업데이트 해주기
         UpdateAllUIs();
 
@@ -39,7 +39,7 @@ public class InventoryUIManager : MonoBehaviour
 
     void OnDestroy()
     {
-        if(inventoryManager != null)
+        if (inventoryManager != null)
         {
             // 이벤트 구독 해제
             inventoryManager.onInventoryChangedCallback -= UpdateAllUIs;
@@ -53,8 +53,8 @@ public class InventoryUIManager : MonoBehaviour
         {
             GameObject slotGO = Instantiate(inventorySlotUIPrefab, hotbarSlotsContainer);
             InventorySlotUI invSlot = slotGO.GetComponent<InventorySlotUI>();
-            
-            if(invSlot != null)
+
+            if (invSlot != null)
             {
                 invSlot.slotIndex = i;
                 hotbarSlotUIs.Add(invSlot);
@@ -116,7 +116,7 @@ public class InventoryUIManager : MonoBehaviour
     {
         fullInventoryPanel.SetActive(!fullInventoryPanel.activeSelf);
         // 패널을 열때 UI를 강제적으로 한번 더 업데이트
-        if(fullInventoryPanel.activeSelf)
+        if (fullInventoryPanel.activeSelf)
         {
             UpdateAllUIs();
         }

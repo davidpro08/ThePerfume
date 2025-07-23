@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -121,6 +123,16 @@ public class Player : MonoBehaviour
                 return;
             }
 
+            if (detection.collider.CompareTag("bench"))
+            {
+                SceneChanger sceneChanger = detection.collider.GetComponent<SceneChanger>();
+                if (sceneChanger != null)
+                {
+                    sceneChanger.MoveToScene();
+                    return;
+                }
+            }
+
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
             ToolData equippedTool = EquippedTool();
 
@@ -159,6 +171,17 @@ public class Player : MonoBehaviour
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
 
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
+            // 작업대
+            SceneChanger sceneChanger = hitCollider.GetComponent<SceneChanger>();
+            if (sceneChanger != null)
+            {
+                if (hitCollider.CompareTag("bench"))
+                {
+                    sceneChanger.MoveToScene();
+                    return;
+                }
+            }
+
             ToolData equippedTool = EquippedTool();
 
             // 작물
@@ -426,10 +449,12 @@ public class Player : MonoBehaviour
             switch (equippedTool.toolType)
             {
                 case ToolType.WateringCan:
+                    // 물 주는 애니메이션이 이 아래에 들어가야함
+                    // 여기!
+                    equippedTool.nowDurability -= equippedTool.useDurability; // 내구도 감소
                     if (farm.CanWatered())
                     {
                         farm.Watering();
-                        equippedTool.nowDurability -= equippedTool.useDurability; // 내구도 감소
                         return true;
                     }
                     else
@@ -437,7 +462,6 @@ public class Player : MonoBehaviour
                         Debug.Log($"[player] 이미 화분 젖은 상태");
                         return false;
                     }
-                    break;
             }
         }
 

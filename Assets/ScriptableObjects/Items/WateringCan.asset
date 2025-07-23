@@ -24,5 +24,6 @@ MonoBehaviour:
   buyPrice: 0
   sellPrice: 0
   toolType: 0
-  maxDurability: 103
-  nowDurability: 90
+  maxDurability: 50
+  nowDurability: 50
+  useDurability: 10
