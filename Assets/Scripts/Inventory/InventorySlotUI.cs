@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.InputSystem.Composites;
 
 // 각 인벤토리 UI 슬롯의 동작을 제어합니다.
 public class InventorySlotUI : MonoBehaviour, IDropHandler
@@ -19,6 +20,10 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     private DraggableItem _currentDraggableItem;
 
     private InventoryManager _inventoryManager;
+
+    // Bench용 변수
+    private BenchInventoryUIManager _benchUIManger;
+    private Button _slotButton;
 
     private void Awake()
     {
@@ -38,6 +43,15 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
                 _currentDraggableItem.ClearVisuals();
             }
         }
+
+        //bench용 클릭을 위한 버튼 컴포넌트 추가/클릭 리스터 등록
+        _slotButton = GetComponent<Button>();
+        if (_slotButton == null)
+        {
+            _slotButton = gameObject.AddComponent<Button>();
+        }
+        _slotButton.onClick.RemoveAllListeners();
+        _slotButton.onClick.AddListener(OnSlotClicked);
     }
     private void Start()
     {
@@ -81,6 +95,10 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             _inventoryManager.onSlotSelectedCallback -= OnManagerSlotSelected;
         }
+        if (_slotButton != null)
+        {
+            _slotButton.onClick.RemoveAllListeners();
+        }
     }
 
     // InventoryManager의 데이터에 따라 현재 슬록 UI 업데이트
@@ -96,6 +114,10 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             _currentDraggableItem.ClearVisuals();
         }
+        if (_slotButton != null)
+        {
+            _slotButton.interactable = (slotData.itemData != null);
+        }
     }
 
     // draggableItem이 슬록에 드롭되면 호출
@@ -109,34 +131,47 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
 
         _inventoryManager.TryMoveItem(sourceSlotIndex, targetSlotIndex);
     }
+
+    private void OnSlotClicked()
+    {
+        if (_benchUIManger != null)
+        {
+            _benchUIManger.OnSlotClicked(slotIndex);
+        }
+    }
+
+    public void SetBenchManager(BenchInventoryUIManager manager)
+    {
+        _benchUIManger = manager;
+    }
 }
 
-    //[SerializeField] private Image itemIconImage;
-    //[SerializeField] private TextMeshProUGUI itemCountText;
+//[SerializeField] private Image itemIconImage;
+//[SerializeField] private TextMeshProUGUI itemCountText;
 
-    //// ItemSlot 데이터로 슬롯의 UI(아이콘, 수량)를 업데이트합니다.
-    //public void UpdateSlot(ItemSlot slot)
-    //{
-    //    // 슬롯에 아이템이 있는지 확인
-    //    if (slot.itemData != null)
-    //    {
-    //        itemIconImage.sprite = slot.itemData.itemIcon;
-    //        itemIconImage.enabled = true;
+//// ItemSlot 데이터로 슬롯의 UI(아이콘, 수량)를 업데이트합니다.
+//public void UpdateSlot(ItemSlot slot)
+//{
+//    // 슬롯에 아이템이 있는지 확인
+//    if (slot.itemData != null)
+//    {
+//        itemIconImage.sprite = slot.itemData.itemIcon;
+//        itemIconImage.enabled = true;
 
-    //        // 아이템을 쌓을 수 있을 때만 수량 보이기
-    //        if (slot.itemData.isStackable)
-    //        {
-    //            itemCountText.text = slot.quantity.ToString();
-    //            itemCountText.enabled = true;
-    //        }
-    //        else
-    //        {
-    //            itemCountText.enabled = false;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        // 슬롯이 비어있으면 아이콘과 텍스트를 모두 비활성화
-    //        ClearSlot();
-    //    }
-    //}
+//        // 아이템을 쌓을 수 있을 때만 수량 보이기
+//        if (slot.itemData.isStackable)
+//        {
+//            itemCountText.text = slot.quantity.ToString();
+//            itemCountText.enabled = true;
+//        }
+//        else
+//        {
+//            itemCountText.enabled = false;
+//        }
+//    }
+//    else
+//    {
+//        // 슬롯이 비어있으면 아이콘과 텍스트를 모두 비활성화
+//        ClearSlot();
+//    }
+//}
