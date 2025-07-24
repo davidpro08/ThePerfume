@@ -6,6 +6,7 @@ TagManager:
   tags:
   - farm
   - bench
+  - Exit
   layers:
   - Default
   - TransparentFX

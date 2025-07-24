@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class BenchInventoryUIManager : MonoBehaviour
 {
+    public static BenchInventoryUIManager Instance { get; private set; }
     [Header("필수연결")]
     [SerializeField] private InventoryManager inventoryManager; // 데이터 소스
     [SerializeField] private GameObject inventorySlotUIPrefab;
@@ -37,6 +38,13 @@ public class BenchInventoryUIManager : MonoBehaviour
     void Awake()
     {
         Debug.Log($"Awake 실행");
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         inventoryManager = InventoryManager.Instance;
         if (inventoryManager == null)
         {
@@ -274,20 +282,21 @@ public class BenchInventoryUIManager : MonoBehaviour
     {
         int chosenQuantity = (int)quantitySlider.value;
 
-        CloseAllUI();
+        CloseAllUI(true);
     }
 
     // 수량 조절창 취소 버튼
     public void OnQuantityCanvasNOButton()
     {
-        CloseAllUI();
+        CloseAllUI(false);
     }
 
-    private void CloseAllUI()
+    public void CloseAllUI(bool mainInventoryClose)
     {
         if (warningCanvas != null) warningCanvas.SetActive(false);
         if (quantityCanvas != null) quantityCanvas.SetActive(false);
-        if (benchInventoryPanel != null) benchInventoryPanel.SetActive(false);
+
+        if (mainInventoryClose && benchInventoryPanel != null) benchInventoryPanel.SetActive(false);
 
         ResetSelection();
     }
