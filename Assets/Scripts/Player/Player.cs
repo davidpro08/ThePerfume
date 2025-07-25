@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
@@ -27,10 +28,40 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+
+    }
+    private void Start()
+    {
+        // inventoryManager = InventoryManager.Instance;
+        // if (inventoryManager == null)
+        // {
+        //     // DontDestoryOnLoad로 인해 지정해준게 빠져버려서 수정해봄
+        //     //inventoryManager = FindAnyObjectByType<InventoryManager>();
+        //     inventoryManager = InventoryManager.Instance;
+        //     Debug.Log($"[Player] 인벤토리 매니저 연결 완료");
+        // }
+
+        // 연결이 제대로 됐는지 확인
         if (inventoryManager == null)
         {
-            inventoryManager = FindAnyObjectByType<InventoryManager>();
+            Debug.Log($"[Player] InventoryManger 미발견");
+            StartCoroutine(WaitForInventoryManager());
         }
+        else
+        {
+            inventoryManager = InventoryManager.Instance;
+        }
+    }
+
+    private IEnumerator WaitForInventoryManager()
+    {
+        while (InventoryManager.Instance == null)
+        {
+            yield return null;
+        }
+        inventoryManager = InventoryManager.Instance;
+        Debug.Log($"InventoryManager 참조 완료");
     }
 
     void OnMove(InputValue value)
@@ -186,15 +217,15 @@ public class Player : MonoBehaviour
 
             // 작물
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
-            if (TryHarvestCrop(detectedCrop, equippedTool)) return;
+            if (detectedCrop != null && TryHarvestCrop(detectedCrop, equippedTool)) return;
 
             // 농지
             Farm detectedFarm = hitCollider.GetComponent<Farm>();
-            if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
+            if (detectedFarm != null && TryInteractiveFarm(detectedFarm, equippedTool)) return;
 
 
             PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
-            if (TryPickup(detectedPickup)) return;
+            if (detectedPickup != null && TryPickup(detectedPickup)) return;
         }
 
         Debug.Log($"상호작용 없음");
@@ -506,7 +537,14 @@ public class Player : MonoBehaviour
         }
 
         // 현재 선택된 슬롯의 아이템 가져오기
-        ItemSlot selectedSlot = inventoryManager.itemSlots[inventoryManager.SelectedSlotIndex];
+        // 범위 밖 인덱스 오류로 인해 안전장치 추가
+        int selectedRealIndex = inventoryManager.SelectedSlotIndex;
+        if (selectedRealIndex < 0 || selectedRealIndex >= inventoryManager.itemSlots.Count)
+        {
+            Debug.Log($"[{name}] : 선택된 슬롯 인덱스가 유효 범위를 넘어감");
+            return null;
+        }
+        ItemSlot selectedSlot = inventoryManager.itemSlots[selectedRealIndex];
 
         if (ReferenceEquals(selectedSlot.itemData, null))
         {

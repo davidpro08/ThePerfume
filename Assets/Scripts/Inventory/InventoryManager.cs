@@ -21,6 +21,7 @@ public class InventoryManager : MonoBehaviour
     public delegate void OnSlotSelected(int selectedIndex);
     public event OnSlotSelected onSlotSelectedCallback;
     private int _selectedSlotIndex = -1;
+
     public int SelectedSlotIndex
     {
         get
@@ -54,10 +55,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
-
-        //인벤토리 매니저가 씬 전환 시 파괴되지 않음
         DontDestroyOnLoad(gameObject);
-
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
         for (int i = 0; i < capacity; i++)
         {

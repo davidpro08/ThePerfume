@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 6943399625145043050}
   - component: {fileID: 3871910449119505519}
   - component: {fileID: 906049708259847129}
-  - component: {fileID: 2299167825736368637}
   - component: {fileID: 8838550595324902743}
   - component: {fileID: -534642558023074187}
+  - component: {fileID: 6366910199606324508}
   m_Layer: 5
-  m_Name: InventorySlot
+  m_Name: BenchInventorySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,26 +103,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &2299167825736368637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3765029386998667595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627504cc97309124dbeacde375fec725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotIndex: 0
-  outlineComponent: {fileID: 8838550595324902743}
-  noramlOutlineColor: {r: 0, g: 0, b: 0, a: 0}
-  selectedOutlineColor: {r: 1, g: 1, b: 1, a: 0.5}
-  normalOutlineDistance: {x: 0, y: 0}
-  selectedOutlineDistance: {x: 3, y: 3}
-  draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
-  _inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
 --- !u!114 &8838550595324902743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,3 +162,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6366910199606324508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3765029386998667595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6770208aa09185d4a9f73190f085b13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotIndex: 0
+  outlineComponent: {fileID: 0}
+  noramlOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedOutlineColor: {r: 1, g: 1, b: 1, a: 0.5}
+  normalOutlineDistance: {x: 0, y: 0}
+  selectedOutlineDistance: {x: 3, y: 3}
+  draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
+  _inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
+  draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}

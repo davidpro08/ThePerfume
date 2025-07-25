@@ -14,12 +14,12 @@ public class BenchInventoryUIManager : MonoBehaviour
     [SerializeField] private GameObject benchInventoryPanel; // 인벤토리 패널
     [SerializeField] private Transform benchSlotContainer; // 인벤토리 슬롯들의 부모
 
-    [Header("경고창UI")]
+    [Header("인벤토리 경고창UI")]
     [SerializeField] private GameObject warningCanvas;
     [SerializeField] private TextMeshProUGUI warningMessageText;
     [SerializeField] private Button warningOkButton;
 
-    [Header("수량 조절창UI")]
+    [Header("인벤토리 수량 조절창UI")]
     [SerializeField] private GameObject quantityCanvas;
     [SerializeField] private Image quantityItemImage;
     [SerializeField] private TextMeshProUGUI ItemNameText;
@@ -30,10 +30,16 @@ public class BenchInventoryUIManager : MonoBehaviour
     [SerializeField] private Button quantityOkButton;
     [SerializeField] private Button quantityNoButton;
 
+    [Header("아이템 생성 설정")]
+    [SerializeField] private Transform itemSpawnTray; // 아이템이 올라갈 철재 쟁반
+    // 쟁반 위에 올려놓을 범위인데 임시로 넣어버렸습니다. 스프라이트 오면 수정 필요합니다~
+    [SerializeField] private float spawnRadius = 1.5f;
+
     private List<InventorySlotUI> allSlotUI = new List<InventorySlotUI>();
     private int currentlySelectedIndex = -1; // 선택된 슬롯 없음
     private ItemData selectedItemData; // 현재 선택된 아이템 데이터
     private int selectedItemQuantity; // 현재 선택된 아이템 전체 수량 (슬라이더의 최대값이 될 것임)
+    private int chosenSpawnQuantity; // 생성할 수량
 
     void Awake()
     {
@@ -48,6 +54,7 @@ public class BenchInventoryUIManager : MonoBehaviour
         inventoryManager = InventoryManager.Instance;
         if (inventoryManager == null)
         {
+            Debug.Log($"[BenchInventoryUIManager] InventoryManager 존재 안 함.");
             enabled = false;
             return;
         }
@@ -56,12 +63,7 @@ public class BenchInventoryUIManager : MonoBehaviour
         inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
         Debug.Log($"이벤트 구독 완");
 
-        if (benchInventoryPanel != null)
-        {
-            benchInventoryPanel.SetActive(true);
-            Debug.Log($"benchInventoryPanel 활성화 설정 완");
-        }
-
+        if (benchInventoryPanel != null) benchInventoryPanel.SetActive(false);
         if (warningCanvas != null) warningCanvas.SetActive(false);
         if (quantityCanvas != null) quantityCanvas.SetActive(false);
 
@@ -114,7 +116,7 @@ public class BenchInventoryUIManager : MonoBehaviour
         for (int i = 0; i < inventoryManager.capacity; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotUIPrefab, benchSlotContainer);
-            InventorySlotUI inventorySlot = slotGO.GetComponent<InventorySlotUI>();
+            BenchInventorySlotUI inventorySlot = slotGO.GetComponent<BenchInventorySlotUI>();
 
             if (inventorySlot != null)
             {
@@ -149,6 +151,16 @@ public class BenchInventoryUIManager : MonoBehaviour
         }
         currentlySelectedIndex = -1;
         Debug.Log($"슬롯 초기화 완료");
+    }
+
+    public void OpenInventory()
+    {
+        if (benchInventoryPanel == null)
+        {
+            Debug.Log("benchInventoryPanel 연결 안됨");
+        }
+        benchInventoryPanel.SetActive(true);
+        UpdateAllUIs();
     }
 
     public void OnSlotClicked(int index)
@@ -281,7 +293,7 @@ public class BenchInventoryUIManager : MonoBehaviour
     public void OnQuantityCanvasOKButton()
     {
         int chosenQuantity = (int)quantitySlider.value;
-
+        SpawnItemOnTray(selectedItemData, chosenSpawnQuantity);
         CloseAllUI(true);
     }
 
@@ -299,5 +311,23 @@ public class BenchInventoryUIManager : MonoBehaviour
         if (mainInventoryClose && benchInventoryPanel != null) benchInventoryPanel.SetActive(false);
 
         ResetSelection();
+    }
+
+    private void SpawnItemOnTray(ItemData itemToSpawn, int count)
+    {
+        CropData cropData = itemToSpawn as CropData;
+        if (itemToSpawn == null || cropData.itemPrefab == null || itemSpawnTray == null)
+        {
+            return;
+        }
+        Vector3 trayCenter = itemSpawnTray.position;
+
+        for (int i = 0; i < count; i++)
+        {
+            Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
+            Vector3 spawnPostion = trayCenter + new Vector3(randomPos.x, randomPos.y, 0);
+            GameObject spawndItem = Instantiate(cropData.itemPrefab, spawnPostion, Quaternion.identity);
+            spawndItem.transform.SetParent(itemSpawnTray);
+        }
     }
 }

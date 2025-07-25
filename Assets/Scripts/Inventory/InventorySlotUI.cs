@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using UnityEngine.InputSystem.Composites;
 
 // 각 인벤토리 UI 슬롯의 동작을 제어합니다.
 public class InventorySlotUI : MonoBehaviour, IDropHandler
@@ -19,11 +18,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     [SerializeField] private GameObject draggableItemPrefab;
     private DraggableItem _currentDraggableItem;
 
-    private InventoryManager _inventoryManager;
-
-    // Bench용 변수
-    private BenchInventoryUIManager _benchUIManger;
-    private Button _slotButton;
+    [SerializeField] private InventoryManager _inventoryManager;
 
     private void Awake()
     {
@@ -31,7 +26,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             outlineComponent = GetComponent<Outline>();
         }
-        _inventoryManager = InventoryManager.Instance;
+        // _inventoryManager = InventoryManager.Instance;
 
         if (draggableItemPrefab != null)
         {
@@ -43,15 +38,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
                 _currentDraggableItem.ClearVisuals();
             }
         }
-
-        //bench용 클릭을 위한 버튼 컴포넌트 추가/클릭 리스터 등록
-        _slotButton = GetComponent<Button>();
-        if (_slotButton == null)
-        {
-            _slotButton = gameObject.AddComponent<Button>();
-        }
-        _slotButton.onClick.RemoveAllListeners();
-        _slotButton.onClick.AddListener(OnSlotClicked);
     }
     private void Start()
     {
@@ -95,10 +81,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             _inventoryManager.onSlotSelectedCallback -= OnManagerSlotSelected;
         }
-        if (_slotButton != null)
-        {
-            _slotButton.onClick.RemoveAllListeners();
-        }
     }
 
     // InventoryManager의 데이터에 따라 현재 슬록 UI 업데이트
@@ -114,10 +96,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             _currentDraggableItem.ClearVisuals();
         }
-        if (_slotButton != null)
-        {
-            _slotButton.interactable = (slotData.itemData != null);
-        }
     }
 
     // draggableItem이 슬록에 드롭되면 호출
@@ -130,19 +108,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         int targetSlotIndex = this.slotIndex;
 
         _inventoryManager.TryMoveItem(sourceSlotIndex, targetSlotIndex);
-    }
-
-    private void OnSlotClicked()
-    {
-        if (_benchUIManger != null)
-        {
-            _benchUIManger.OnSlotClicked(slotIndex);
-        }
-    }
-
-    public void SetBenchManager(BenchInventoryUIManager manager)
-    {
-        _benchUIManger = manager;
     }
 }
 

@@ -6,6 +6,7 @@ public class CropData : ItemData
 {
     // 농작물 종류
     public CropType cropType;
+    public GameObject itemPrefab; // 손질할 때 필요한 프리팹
 
     public CropData() { }
     public CropData(int id, string itemName, string itemDescription,
