@@ -213,7 +213,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            ToolData equippedTool = EquippedTool();
+            ToolData equippedTool = InventoryManager.Instance.EquippedTool();
 
             // 작물
             HarvestableCrop detectedCrop = hitCollider.GetComponent<HarvestableCrop>();
@@ -375,88 +375,7 @@ public class Player : MonoBehaviour
 
         return selectedSlot.itemData as SeedData; // 씨앗 아이템 들고 있음
     }
-
-    // 농작물 수확 >> 생각해보니깐 수확하는데 잎 직접 딴다고 했던거 같은데
-    /// <summary>
-    /// 작물을 수확하는 코드이다.
-    /// </summary>
-    /// <param name="crop">수학할 작물 정보를</param>
-    /// <param name="equippedTool">착용한 장비</param>
-    /// <returns>성공 여부</returns>
-    private bool TryHarvestCrop(HarvestableCrop crop, ToolData equippedTool)
-    {
-        if (!_TryHarvestCropExceptionHandling(crop, equippedTool)) return false;
-
-        // 수확
-        /*
-        ItemData harvestedItem = crop.cropData;
-        int harvestedQuantity = crop.Quantity;
-
-        if (inventoryManager.AddItem(harvestedItem, harvestedQuantity))
-        {
-            crop.OnHarvested();
-            equippedTool.nowDurability -= equippedTool.useDurability;
-            return true;
-        }
-        else
-        {
-            //가득 찼음. 수확 불가능?
-            return false;
-        }
-        */
-
-        crop.OnHarvested();
-        return true;
-    }
-
-    /// <summary>
-    /// 작물 수확에 대한 예외 처리 부분이다.
-    /// </summary>
-    /// <param name="crop">수확할 작물 정보</param>
-    /// <param name="equippedTool">착용한 장비</param>
-    /// <returns>작물을 수확 가능 여부</returns>
-    private bool _TryHarvestCropExceptionHandling(HarvestableCrop crop, ToolData equippedTool)
-    {
-        // 농작물이 존재하지 않는다면
-        if (ReferenceEquals(crop, null))
-        {
-            Debug.Log($"[{name}] : 농작물 존재하지 않음");
-            return false;
-        }
-
-        // 농작물이 수확 가능하지 않다면
-        if (!crop.CanHarvest())
-        {
-            Debug.Log($"[{name}] : 농작물 아직 수확 불가능함");
-            return false;
-        }
-
-        // 작물이 완전히 자랐는지 체크
-        if (!crop.CanHarvest())
-        {
-            Debug.Log($"[{name}] : [{crop}] 아직 다 안 자라났음. [{crop.currentStage}]");
-            return false;
-        }
-
-        // 도구를 장착하지 않고 있다면
-        if (ReferenceEquals(equippedTool, null))
-        {
-            Debug.Log($"[{name}] : 도구 장착하지 않음");
-            return false;
-        }
-
-        // 도구를 잘못 장착했다면
-        if (equippedTool.toolType != crop.requiredToolType)
-        {
-            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
-                      $"장착한 도구 : [{equippedTool.toolType}]" +
-                      $"필요한 도구 : [{crop.requiredToolType}]");
-            return false;
-        }
-
-        Debug.Log($"[{name}] : 작물 수확 가능");
-        return true;
-    }
+    
 
     /// <summary>
     /// 농지를 만났을 때 상호작용하는 부분이다.
@@ -517,48 +436,4 @@ public class Player : MonoBehaviour
         Debug.Log($"[{name}] : 농지와 상호작용 가능");
         return true;
     }
-
-    /// <summary>
-    /// 현재 사용자가 도구를 들고 있는지 확인하는 코드이다.
-    /// </summary>
-    /// <returns>도구 아이템 정보</returns>
-    private ToolData EquippedTool()
-    {
-        if (inventoryManager == null)
-        {
-            Debug.Log($"[{name}] : 인벤토리 매니저 연결 안됨");
-            return null; // 인벤토리 매니저가 없음
-        }
-
-        if (inventoryManager.SelectedSlotIndex == -1)
-        {
-            Debug.Log($"[{name}] : 선택된 슬롯 없음");
-            return null; // 선택된 슬롯이 없음
-        }
-
-        // 현재 선택된 슬롯의 아이템 가져오기
-        // 범위 밖 인덱스 오류로 인해 안전장치 추가
-        int selectedRealIndex = inventoryManager.SelectedSlotIndex;
-        if (selectedRealIndex < 0 || selectedRealIndex >= inventoryManager.itemSlots.Count)
-        {
-            Debug.Log($"[{name}] : 선택된 슬롯 인덱스가 유효 범위를 넘어감");
-            return null;
-        }
-        ItemSlot selectedSlot = inventoryManager.itemSlots[selectedRealIndex];
-
-        if (ReferenceEquals(selectedSlot.itemData, null))
-        {
-            Debug.Log($"[{name}] : 도구 아이템의 정보가 없음");
-            return null;
-        }
-
-        if (selectedSlot.itemData.itemType != ItemType.Tool)
-        {
-            Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
-            return null;
-        }
-
-        Debug.Log($"[{name}] : 도구 반환");
-        return selectedSlot.itemData as ToolData; // 도규 아이템 들고 있음
-    }
-}
+    

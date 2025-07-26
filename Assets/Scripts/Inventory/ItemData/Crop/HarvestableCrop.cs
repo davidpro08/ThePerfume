@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HarvestableCrop : MonoBehaviour
+public class HarvestableCrop : MonoBehaviour, IInteract
 {
     [Header("농작물 정보")]
     public CropType cropType; // 해당 농작물 종류
@@ -53,21 +53,6 @@ public class HarvestableCrop : MonoBehaviour
         }
     }
 
-    public bool CanHarvest() // 수확 가능한지 여부
-    {
-        return isFullGrowth;
-    }
-
-    public CropData GetHarvestedItem() // 얻을 cropdata 호출
-    {
-        return cropData;
-    }
-
-    public int GetHarvestedQuantity() // 얻을 작물 양 호출
-    {
-        return Quantity;
-    }
-
     // 성장 단계에 맞게 스프라이트 업데이트
     private void UpdateSprite()
     {
@@ -77,38 +62,100 @@ public class HarvestableCrop : MonoBehaviour
         }
     }
 
-    // 수확 후 화분 상태 초기화 (player 상호작용에 들어갈 예정)
-    public void OnHarvested()
+    public void Interact(Player player)
     {
-        Debug.Log($"{name} 수확");
-        Debug.Log($"[HarvestableCrop] collectableItemPrefab 상태: {(collectableItemPrefab != null ? collectableItemPrefab.name : "NULL")}");
-        Debug.Log($"[HarvestableCrop] cropData 상태: {(cropData != null ? cropData.itemName : "NULL")}");
+        if (!CanInteract(player)) return;
+        
+        if(OnHarvested()) Reset();
+    }
+    
+    /// <summary>
+    /// 수확을 실행하고 복제품을 떨어뜨립니다.
+    /// </summary>
+    public bool OnHarvested()
+    {
+        // Debug.Log($"{name} 수확");
+        // Debug.Log($"[HarvestableCrop] collectableItemPrefab 상태: {(collectableItemPrefab != null ? collectableItemPrefab.name : "NULL")}");
+        // Debug.Log($"[HarvestableCrop] cropData 상태: {(cropData != null ? cropData.itemName : "NULL")}");
 
-        if (collectableItemPrefab != null && cropData != null)
+        if (ReferenceEquals(collectableItemPrefab, null) && ReferenceEquals(cropData, null))
         {
-            Debug.Log($"{name} 수확 시도");
-            // 아이템 스폰
-            GameObject spawnItem = Instantiate(collectableItemPrefab, transform.position, Quaternion.identity);
-            ColletableItem collectable = spawnItem.GetComponent<ColletableItem>();
-
-            if (collectable != null)
-            {
-                // 아이템 초기화
-                collectable.Initialize(cropData, Quantity);
-            }
-            else
-            {
-                Debug.Log($"{collectableItemPrefab.name}에 colleableItem.cs 없음");
-            }
-
-            if (parentFarm != null)
-            {
-                parentFarm.ClearFarm();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            Debug.Log($"{name} : 작물 데이터가 없거나 소환할 프리팹이 없음");
+            return false;
         }
+        
+        Debug.Log($"{name} 수확 시도");
+        // 아이템 스폰
+        GameObject spawnItem = Instantiate(collectableItemPrefab, transform.position, Quaternion.identity);
+        ColletableItem collectable = spawnItem.GetComponent<ColletableItem>();
+        
+        if (collectable != null)
+        {
+            // 아이템 초기화
+            collectable.Initialize(cropData, Quantity);
+        }
+        else
+        {
+            Debug.Log($"{collectableItemPrefab.name}에 collectableItem.cs 없음");
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 수확 후 화분 상태를 초기화합니다.
+    /// </summary>
+    public void Reset()
+    {
+        if (parentFarm != null)
+        {
+            parentFarm.ClearFarm();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// 작물 수확에 대한 예외 처리 부분이다.
+    /// </summary>
+
+    public bool CanInteract(Player player)
+    {
+        // 농작물이 존재하지 않는다면
+        if (ReferenceEquals(cropData, null))
+        {
+            Debug.Log($"[{name}] : 농작물 존재하지 않음");
+            return false;
+        }
+
+        // 작물이 완전히 자랐는지 체크
+        if (!isFullGrowth)
+        {
+            Debug.Log($"[{name}] : [{cropData.name}] 아직 다 안 자라났음. [{currentStage}]");
+            return false;
+        }
+
+        ToolData toolData = InventoryManager.Instance.EquippedTool();
+        
+        // 도구를 장착하지 않고 있다면
+        if (ReferenceEquals(toolData, null))
+        {
+            Debug.Log($"[{name}] : 도구 장착하지 않음");
+            return false;
+        }
+
+        // 도구를 잘못 장착했다면
+        if (toolData.toolType != requiredToolType)
+        {
+            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
+                      $"장착한 도구 : [{toolData.toolType}]" +
+                      $"필요한 도구 : [{requiredToolType}]");
+            return false;
+        }
+
+        Debug.Log($"[{name}] : 작물 수확 가능");
+        return true;
     }
 }
