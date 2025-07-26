@@ -70,6 +70,56 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     }
     
     /// <summary>
+    /// 작물 수확에 대한 예외 처리 부분이다.
+    /// </summary>
+
+    public bool CanInteract(Player player)
+    {
+        // 농작물이 존재하지 않는다면
+        if (ReferenceEquals(cropData, null))
+        {
+            Debug.Log($"[{name}] : 농작물 존재하지 않음");
+            return false;
+        }
+
+        // 작물이 완전히 자랐는지 체크
+        if (!isFullGrowth)
+        {
+            Debug.Log($"[{name}] : [{cropData.name}] 아직 다 안 자라났음. [{currentStage}]");
+            return false;
+        }
+
+        ItemData itemData = InventoryManager.Instance.EquippedItem();
+        
+        if (itemData.itemType != ItemType.Tool)
+        {
+            Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
+            return false;
+        }
+
+        ToolData toolData = Caster.CastTo<ToolData>(itemData);
+        
+        // 도구를 장착하지 않고 있다면
+        if (ReferenceEquals(toolData, null))
+        {
+            Debug.Log($"[{name}] : 도구 장착하지 않음");
+            return false;
+        }
+
+        // 도구를 잘못 장착했다면
+        if (toolData.toolType != requiredToolType)
+        {
+            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
+                      $"장착한 도구 : [{toolData.toolType}]" +
+                      $"필요한 도구 : [{requiredToolType}]");
+            return false;
+        }
+
+        Debug.Log($"[{name}] : 작물 수확 가능");
+        return true;
+    }
+    
+    /// <summary>
     /// 수확을 실행하고 복제품을 떨어뜨립니다.
     /// </summary>
     public bool OnHarvested()
@@ -116,46 +166,5 @@ public class HarvestableCrop : MonoBehaviour, IInteract
             Destroy(gameObject);
         }
     }
-
-    /// <summary>
-    /// 작물 수확에 대한 예외 처리 부분이다.
-    /// </summary>
-
-    public bool CanInteract(Player player)
-    {
-        // 농작물이 존재하지 않는다면
-        if (ReferenceEquals(cropData, null))
-        {
-            Debug.Log($"[{name}] : 농작물 존재하지 않음");
-            return false;
-        }
-
-        // 작물이 완전히 자랐는지 체크
-        if (!isFullGrowth)
-        {
-            Debug.Log($"[{name}] : [{cropData.name}] 아직 다 안 자라났음. [{currentStage}]");
-            return false;
-        }
-
-        ToolData toolData = InventoryManager.Instance.EquippedTool();
-        
-        // 도구를 장착하지 않고 있다면
-        if (ReferenceEquals(toolData, null))
-        {
-            Debug.Log($"[{name}] : 도구 장착하지 않음");
-            return false;
-        }
-
-        // 도구를 잘못 장착했다면
-        if (toolData.toolType != requiredToolType)
-        {
-            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
-                      $"장착한 도구 : [{toolData.toolType}]" +
-                      $"필요한 도구 : [{requiredToolType}]");
-            return false;
-        }
-
-        Debug.Log($"[{name}] : 작물 수확 가능");
-        return true;
-    }
+    
 }

@@ -258,10 +258,10 @@ public class InventoryManager : MonoBehaviour
     }
     
     /// <summary>
-    /// 현재 사용자가 도구를 들고 있는지 확인하는 코드이다.
+    /// 현재 사용자가 아이템 들고 있는지 확인하는 코드이다.
     /// </summary>
-    /// <returns>도구 아이템 정보</returns>
-    public ToolData EquippedTool()
+    /// <returns>아이템 정보</returns>
+    public ItemData EquippedItem()
     {
         if (SelectedSlotIndex == -1)
         {
@@ -281,18 +281,11 @@ public class InventoryManager : MonoBehaviour
 
         if (ReferenceEquals(selectedSlot.itemData, null))
         {
-            Debug.Log($"[{name}] : 도구 아이템의 정보가 없음");
+            Debug.Log($"[{name}] : 아이템의 정보가 없음");
             return null;
         }
 
-        if (selectedSlot.itemData.itemType != ItemType.Tool)
-        {
-            Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
-            return null;
-        }
-
-        Debug.Log($"[{name}] : 도구 반환");
-        return selectedSlot.itemData as ToolData; // 도규 아이템 들고 있음
+        return selectedSlot.itemData;
     }
 
 }
