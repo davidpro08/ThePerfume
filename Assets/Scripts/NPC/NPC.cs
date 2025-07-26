@@ -12,6 +12,7 @@ namespace NPC
         public bool CanInteract(Player player)
         {
             Interact(player);
+            return true;
         }
     }
 }

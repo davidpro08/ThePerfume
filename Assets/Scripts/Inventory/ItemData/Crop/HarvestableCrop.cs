@@ -89,31 +89,33 @@ public class HarvestableCrop : MonoBehaviour, IInteract
             return false;
         }
 
+        // REVIEW: 맨손으로 수확한다는 거 아니었나요?
         ItemData itemData = InventoryManager.Instance.EquippedItem();
         
-        if (itemData.itemType != ItemType.Tool)
-        {
-            Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
-            return false;
-        }
-
-        ToolData toolData = Caster.CastTo<ToolData>(itemData);
         
-        // 도구를 장착하지 않고 있다면
-        if (ReferenceEquals(toolData, null))
-        {
-            Debug.Log($"[{name}] : 도구 장착하지 않음");
-            return false;
-        }
+        // if (itemData.itemType != ItemType.Tool)
+        // {
+        //     Debug.Log($"[{name}] : 들고 있는 아이템의 종류가 도구가 아님");
+        //     return false;
+        // }
 
-        // 도구를 잘못 장착했다면
-        if (toolData.toolType != requiredToolType)
-        {
-            Debug.Log($"[{name}] : 도구 잘못 장착함. " +
-                      $"장착한 도구 : [{toolData.toolType}]" +
-                      $"필요한 도구 : [{requiredToolType}]");
-            return false;
-        }
+        // ToolData toolData = Caster.CastTo<ToolData>(itemData);
+        //
+        // // 도구를 장착하지 않고 있다면
+        // if (ReferenceEquals(toolData, null))
+        // {
+        //     Debug.Log($"[{name}] : 도구 장착하지 않음");
+        //     return false;
+        // }
+        //
+        // // 도구를 잘못 장착했다면
+        // if (toolData.toolType != requiredToolType)
+        // {
+        //     Debug.Log($"[{name}] : 도구 잘못 장착함. " +
+        //               $"장착한 도구 : [{toolData.toolType}]" +
+        //               $"필요한 도구 : [{requiredToolType}]");
+        //     return false;
+        // }
 
         Debug.Log($"[{name}] : 작물 수확 가능");
         return true;
