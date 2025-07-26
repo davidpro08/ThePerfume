@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer; // 상호작용할 아이템 레이어
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
-    [Header("일시정지 설정")] private bool isPaused = false;
-
     private Vector2 moveInput;
     private bool isSprint;
     private float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
@@ -90,9 +88,6 @@ public class Player : MonoBehaviour
     // 인벤토리 열기
     void OnInteract(InputValue value)
     {
-        // 멈춰 있으면 작동 안해야 함
-        if (isPaused) return;
-
         isOpenInventory = !isOpenInventory;
 
         if (inventoryUIManager != null)
@@ -116,26 +111,6 @@ public class Player : MonoBehaviour
         else if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             KeyboardInteration();
-        }
-    }
-
-    // ESC 누르면 멈추도록 하기
-    void OnPause(InputValue value)
-    {
-        isPaused = !isPaused;
-
-        // 시간이 흐른다라고 해서.. 그러면 이렇게 구현하면 안 될 것 같긴 한데
-        if (isPaused)
-        {
-            Debug.Log("일시 정지");
-            Time.timeScale = 0f; // 게임 정지
-            Time.fixedDeltaTime = 0f; // 물리 정지
-        }
-        else
-        {
-            Debug.Log("일시 정지 해제");
-            Time.timeScale = 1f; // 재개
-            Time.fixedDeltaTime = 0.02f;
         }
     }
 
@@ -218,7 +193,7 @@ public class Player : MonoBehaviour
     {
         // 멈춰 있으면 작동 안해야 함
         // 추가로 인벤토리 열려도 못 움직이도록 하기
-        if (isPaused || isOpenInventory)
+        if (isOpenInventory)
         {
             rb.linearVelocity = Vector2.zero;
             animator.SetBool("isWalking", false);
