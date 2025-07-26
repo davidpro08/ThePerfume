@@ -165,20 +165,10 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-
-            // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
-            ToolData equippedTool = EquippedTool();
-
-            // 작물
-            HarvestableCrop detectedCrop = detection.collider.GetComponent<HarvestableCrop>();
-            if (TryHarvestCrop(detectedCrop, equippedTool)) return;
-
-            // 감지된 오브젝트들 저자
-            Farm detectedFarm = detection.collider.GetComponent<Farm>();
-            if (TryInteractiveFarm(detectedFarm, equippedTool)) return;
-
-            PickupItems detectedPickup = detection.collider.GetComponent<PickupItems>();
-            if (TryPickup(detectedPickup)) return;
+            
+            // 상호작용 부분
+            IInteract interact = detection.collider.GetComponent<IInteract>();
+            interact.Interact(this);
         }
 
         Debug.Log($"상호작용 없음");
@@ -200,7 +190,6 @@ public class Player : MonoBehaviour
             {
                 continue;
             }
-
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
 
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
@@ -214,16 +203,10 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-
-            ToolData equippedTool = InventoryManager.Instance.EquippedTool();
-
             // 작물
             IInteract interact = hitCollider.GetComponent<IInteract>();
             interact.Interact(this);
-
-            PickupItems detectedPickup = hitCollider.GetComponent<PickupItems>();
-            if (detectedPickup != null && TryPickup(detectedPickup)) return;
-
+            
             return;
         }
 
@@ -245,35 +228,6 @@ public class Player : MonoBehaviour
             Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
             rb.linearVelocity = movement;
         }
-    }
-
-    /// <summary>
-    /// 자원을 줍는 코드이다.
-    /// </summary>
-    /// <param name="pickupItems">수학할 작물 정보를</param>
-    /// <returns>성공 여부</returns>
-    private bool TryPickup(PickupItems pickupItems)
-    {
-        if (pickupItems == null)
-        {
-            Debug.Log($"[{name}] : 주을 아이템 없음");
-            return false;
-        }
-
-        if (inventoryUIManager == null)
-        {
-            Debug.Log($"[{name}] : 인벤토리 매니저 없음");
-            return false;
-        }
-
-        if (pickupItems.itemToGive == null)
-        {
-            Debug.Log($"[{name}] : 아이템 정보 없음");
-            return false;
-        }
-
-        bool added = inventoryManager.AddItem(pickupItems.itemToGive, pickupItems.quantityToGive);
-        return added;
     }
 }
     
