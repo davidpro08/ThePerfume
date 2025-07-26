@@ -6,6 +6,7 @@ using UnityEngine;
         [Header("대화창 관련 요소")]
         public GameObject dialogueObject;
         public TextMeshProUGUI dialogueText;
+        public bool isActive = false;
         
         // 싱글톤 인스턴스
         public static NpcDialogueManager Instance { get; private set; }
@@ -40,8 +41,15 @@ using UnityEngine;
                 Debug.Log($"[{name}] : dialogueText 요소 연결 필요");
                 return;
             }
-
-            dialogueObject.SetActive(!dialogueObject.activeSelf);
+            
+            // 상태 반전
+            isActive = !isActive;
+            
+            // 텍스트 설정하고 열거나 닫는 부분
             dialogueText.text = text;
+            dialogueObject.SetActive(isActive);
+            
+            // TODO: 플레이어 통제를 위해 설정했는데, 안할거면 로직 바꾸기
+            PauseManager.Instance.TogglePause();
         }
     }

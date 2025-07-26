@@ -14,7 +14,6 @@ public class Npc : MonoBehaviour, IInteract
         // 임시로 맨 첫번째만 사용
         if (!CanInteract(player)) return;
         
-        
         NpcDialogueManager.Instance.SetDialogueText(dialogueObjects[0]);
     }
 

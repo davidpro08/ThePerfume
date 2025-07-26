@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     private Vector2 _moveInput;
     private bool _isSprint;
-    private readonly float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
+    private readonly float _runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
     private Rigidbody2D _rb;
     private Animator _animator;
 
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
         }
 
         // 움직일 때만 속도 적용
-        Vector2 movement = _isSprint ? _moveInput * (moveSpeed * runRate) : _moveInput * moveSpeed;
+        Vector2 movement = _isSprint ? _moveInput * (moveSpeed * _runRate) : _moveInput * moveSpeed;
         _rb.linearVelocity = movement;
     }
     
@@ -147,8 +147,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-
-            // 상호작용 부분
+            
             IInteract interact = detection.collider.GetComponent<IInteract>();
             interact.Interact(this);
         }
@@ -185,8 +184,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-
-            // 작물
+            
             IInteract interact = hitCollider.GetComponent<IInteract>();
             interact.Interact(this);
 
