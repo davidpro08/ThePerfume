@@ -194,7 +194,6 @@ public class Player : MonoBehaviour
         }
 
         Debug.Log($"상호작용 없음");
-        return;
     }
 
     // PlayerInput에서 Pause 액션 호출 시 연결

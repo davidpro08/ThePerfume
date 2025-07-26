@@ -29,17 +29,19 @@ using UnityEngine;
         /// <returns></returns>
         public void SetDialogueText(string text)
         {
-            if (dialogueObject != null)
+            if (dialogueObject == null)
             {
                 Debug.Log($"[{name}] : dialogueObject 요소 연결 필요");
+                return;
             }
             
-            if(dialogueText != null)
+            if(dialogueText == null)
             {
                 Debug.Log($"[{name}] : dialogueText 요소 연결 필요");
+                return;
             }
 
-            if (dialogueObject != null) dialogueObject.SetActive(dialogueObject.activeSelf);
-            if (dialogueText != null) dialogueText.text = text;
+            dialogueObject.SetActive(!dialogueObject.activeSelf);
+            dialogueText.text = text;
         }
     }
