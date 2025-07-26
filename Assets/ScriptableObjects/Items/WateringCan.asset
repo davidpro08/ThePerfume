@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   itemName: "\uBB3C\uBFCC\uB9AC\uAC1C"
   itemDescription: Null Description
-  itemIcon: {fileID: 5778961287088506303, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
+  itemIcon: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}
   itemType: 0
   isStackable: 0
   maxStack: 99
@@ -25,4 +25,5 @@ MonoBehaviour:
   sellPrice: 0
   toolType: 0
   maxDurability: 103
-  nowDurability: 90
+  nowDurability: 82
+  useDurability: 1

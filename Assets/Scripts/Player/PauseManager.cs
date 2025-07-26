@@ -2,12 +2,11 @@
 using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
-{ 
-    // 싱글톤
+{
     public static PauseManager Instance { get; private set; }
     [SerializeField] private GameObject pauseMenuUI;
 
-    private bool isPaused = false;
+    private bool isPaused;
 
     private void Awake()
     {

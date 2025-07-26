@@ -10,83 +10,90 @@ public class Player : MonoBehaviour
 
     [Header("인벤토리 설정")] private bool isOpenInventory = false;
     [SerializeField] public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
-    [SerializeField] private InventoryManager inventoryManager;
 
     [Header("상호작용 설정")] [SerializeField] private float InteractionRange = 1f;
     [SerializeField] private LayerMask interactableLayer; // 상호작용할 아이템 레이어
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
-    private Vector2 moveInput;
-    private bool isSprint;
-    private float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
-    private Rigidbody2D rb;
-    private Animator animator;
+    private Vector2 _moveInput;
+    private bool _isSprint;
+    private readonly float runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
+    private Rigidbody2D _rb;
+    private Animator _animator;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-
-
+        _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        // inventoryManager = InventoryManager.Instance;
-        // if (inventoryManager == null)
-        // {
-        //     // DontDestoryOnLoad로 인해 지정해준게 빠져버려서 수정해봄
-        //     //inventoryManager = FindAnyObjectByType<InventoryManager>();
-        //     inventoryManager = InventoryManager.Instance;
-        //     Debug.Log($"[Player] 인벤토리 매니저 연결 완료");
-        // }
 
-        // 연결이 제대로 됐는지 확인
-        if (inventoryManager == null)
-        {
-            Debug.Log($"[Player] InventoryManger 미발견");
-            StartCoroutine(WaitForInventoryManager());
-        }
-        else
-        {
-            inventoryManager = InventoryManager.Instance;
-        }
     }
 
-    private IEnumerator WaitForInventoryManager()
+    void FixedUpdate()
     {
-        while (InventoryManager.Instance == null)
+        // 인벤토리 여면 못 움직이게
+        if (isOpenInventory)
         {
-            yield return null;
+            _rb.linearVelocity = Vector2.zero;
+            _animator.SetBool("isWalking", false);
+            return;
         }
 
-        inventoryManager = InventoryManager.Instance;
-        Debug.Log($"InventoryManager 참조 완료");
-    }
+        // 입력이 거의 없으면 멈추고 Idle 유지
+        if (_moveInput.magnitude <= 0.01f)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _animator.SetBool("isWalking", false);
+            return;
+        }
 
+        // 움직일 때만 속도 적용
+        Vector2 movement = _isSprint ? _moveInput * (moveSpeed * runRate) : _moveInput * moveSpeed;
+        _rb.linearVelocity = movement;
+    }
+    
     void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
-        animator.SetFloat("InputX", moveInput.x);
-        animator.SetFloat("InputY", moveInput.y);
-        animator.SetBool("isWalking", moveInput.magnitude > 0.01f);
-
-        // 확인 코드가 너무 길어지는데
-        if (moveInput.magnitude > 0.01f)
-        {
-            animator.SetFloat("LastInputX", moveInput.x);
-            animator.SetFloat("LastInputY", moveInput.y);
-        }
+        _moveInput = value.Get<Vector2>();
+        UpdateAnimator(_moveInput);
     }
+    
+    private void UpdateAnimator(Vector2 input)
+    {
+        float magnitude = input.magnitude;
+
+        if (magnitude <= 0.01f)
+        {
+            // Idle 상태에서는 isWalking만 false, 방향 값은 그대로 유지
+            _animator.SetBool("isWalking", false);
+            return;
+        }
+
+        // 움직이는 경우에만 파라미터 갱신
+        _animator.SetBool("isWalking", true);
+        _animator.SetFloat("InputX", input.x);
+        _animator.SetFloat("InputY", input.y);
+        SetLastInputDirection(input);  // 마지막 방향 갱신
+    }
+
+    private void SetLastInputDirection(Vector2 input)
+    {
+        _animator.SetFloat("LastInputX", input.x);
+        _animator.SetFloat("LastInputY", input.y);
+    }
+
 
     void OnSprint(InputValue value)
     {
-        isSprint = value.Get<float>() > 0.5f;
-        Debug.Log("Sprint state: " + isSprint);
+        _isSprint = value.Get<float>() > 0.5f;
+        Debug.Log("Sprint state: " + _isSprint);
     }
 
     // 인벤토리 열기
-    void OnInteract(InputValue value)
+    void OnOpenInventory(InputValue value)
     {
         isOpenInventory = !isOpenInventory;
 
@@ -102,7 +109,7 @@ public class Player : MonoBehaviour
 
     // 아이템/NPC 등 상호작용
     // PlayerInput으로 입력 받을 수 있도록 수정중 >> 기획서에 맞춰서 키보드/마우스 상호작용으로 나눔
-    void OnPickUp(InputValue value)
+    void OnInteract(InputValue value)
     {
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -140,7 +147,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-            
+
             // 상호작용 부분
             IInteract interact = detection.collider.GetComponent<IInteract>();
             interact.Interact(this);
@@ -178,10 +185,11 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
+
             // 작물
             IInteract interact = hitCollider.GetComponent<IInteract>();
             interact.Interact(this);
-            
+
             return;
         }
 
@@ -189,21 +197,9 @@ public class Player : MonoBehaviour
         return;
     }
 
-    void FixedUpdate()
+    // PlayerInput에서 Pause 액션 호출 시 연결
+    public void OnPause(InputValue value)
     {
-        // 멈춰 있으면 작동 안해야 함
-        // 추가로 인벤토리 열려도 못 움직이도록 하기
-        if (isOpenInventory)
-        {
-            rb.linearVelocity = Vector2.zero;
-            animator.SetBool("isWalking", false);
-        }
-        else
-        {
-            Vector2 movement = isSprint ? moveInput * (moveSpeed * runRate) : moveInput * moveSpeed;
-            rb.linearVelocity = movement;
-        }
+        PauseManager.Instance.TogglePause();
     }
 }
-    
-    
