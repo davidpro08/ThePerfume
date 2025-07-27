@@ -56,6 +56,7 @@ public class Farm : MonoBehaviour, IInteract
                 // 물 주는 애니메이션이 이 아래에 들어가야함
                 // 여기!
                 toolData.nowDurability -= toolData.useDurability; // 내구도 감소
+                Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
                 if (!isWatered)
                 {
                     isWatered = true;
@@ -123,13 +124,22 @@ public class Farm : MonoBehaviour, IInteract
             case ToolType.WateringCan:
                 // 물 주는 애니메이션이 이 아래에 들어가야함
                 // 여기!
-                toolData.nowDurability -= toolData.useDurability; // 내구도 감소
-                if (!isOccupied)
+                //toolData.nowDurability -= toolData.useDurability; // 내구도 감소
+                //(내구도 빠지는거는 Interact에서 합니다!)
+                if (toolData.nowDurability > 0)
                 {
-                    return true;
+                    if (!isOccupied)
+                    {
+                        return true;
+                    }
+                    Debug.Log($"[player] 이미 화분 젖은 상태");
+                    return false;
                 }
-                Debug.Log($"[player] 이미 화분 젖은 상태");
-                return false;
+                else
+                {
+                    Debug.Log("물뿌리개 물이 없음");
+                    return false;
+                }
         }
 
         Debug.Log($"오류 상황");

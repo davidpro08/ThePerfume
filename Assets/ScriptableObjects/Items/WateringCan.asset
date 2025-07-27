@@ -18,12 +18,12 @@ MonoBehaviour:
   itemIcon: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}
   itemType: 0
   isStackable: 0
-  maxStack: 99
+  maxStack: 1
   nowStack: 1
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
   toolType: 0
-  maxDurability: 103
-  nowDurability: 82
+  maxDurability: 5
+  nowDurability: 5
   useDurability: 1

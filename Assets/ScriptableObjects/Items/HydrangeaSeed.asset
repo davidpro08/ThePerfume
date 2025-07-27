@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
   m_Name: HydrangeaSeed
   m_EditorClassIdentifier: 
+  id: 0
   itemName: "\uC218\uAD6D \uC528\uC557"
-  itemIcon: {fileID: 4733483022551550743, guid: 3170dfc1886bed540874467ef1f05409, type: 3}
   itemDescription: 
+  itemIcon: {fileID: 4733483022551550743, guid: 3170dfc1886bed540874467ef1f05409, type: 3}
+  itemType: 0
   isStackable: 1
+  maxStack: 24
+  nowStack: 1
   isTradable: 1
   buyPrice: 100
   sellPrice: 20
-  maxStackSize: 24
-  itemType: 0

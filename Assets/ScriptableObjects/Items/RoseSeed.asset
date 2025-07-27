@@ -18,10 +18,10 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemType: 2
   isStackable: 0
-  maxStack: 99
+  maxStack: 24
   nowStack: 1
-  isTradable: 0
-  buyPrice: 0
-  sellPrice: 0
+  isTradable: 1
+  buyPrice: 100
+  sellPrice: 20
   growIntoCropType: 0
   cropPrefabToGrow: {fileID: 0}
