@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueObject: {fileID: 1140479768}
   dialogueText: {fileID: 779434350}
+  isActive: 0
 --- !u!4 &86026771
 Transform:
   m_ObjectHideFlags: 0
@@ -1673,15 +1674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4884560d52b43ae83b2afdb1e9fcc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSlots:
-  - itemData: {fileID: 11400000, guid: 6d5977b0c8245eb4faf92a9df5b126e9, type: 2}
-    quantity: 1
-  - itemData: {fileID: 11400000, guid: 093ea26ec45b07d4fb61edece1a509fa, type: 2}
-    quantity: 1
-  - itemData: {fileID: 11400000, guid: 69b00659297b5494681e0284f35d6326, type: 2}
-    quantity: 98
-  - itemData: {fileID: 11400000, guid: 135abb67ac8a4e545945de2de09b4016, type: 2}
-    quantity: 98
+  itemSlots: []
   capacity: 32
 --- !u!4 &946015220
 Transform:
@@ -2556,9 +2549,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 806160422}
   - {fileID: 195401302}
-  - {fileID: 1885920004}
+  - {fileID: 806160422}
   - {fileID: 1140479769}
   - {fileID: 305898490}
   m_Father: {fileID: 0}
@@ -3273,16 +3265,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885920003}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1467298114}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885920005
@@ -3396,5 +3388,6 @@ SceneRoots:
   - {fileID: 1698908473}
   - {fileID: 1467298114}
   - {fileID: 946015220}
+  - {fileID: 1885920004}
   - {fileID: 86026771}
   - {fileID: 1443983857}

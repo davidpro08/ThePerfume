@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -93,11 +93,9 @@ MonoBehaviour:
   image: {fileID: 2357040896955970319}
   countText: {fileID: 4575356915619388}
   parentAfterDrag: {fileID: 0}
-  item: {fileID: 11400000, guid: 69b00659297b5494681e0284f35d6326, type: 2}
-  quantity: 1
-  boundSlot:
-    itemData: {fileID: 0}
-    quantity: 0
+  currentItemData: {fileID: 0}
+  currentQuantity: 0
+  boundSlot: {fileID: 0}
 --- !u!210 &-3159856159337595222
 SortingGroup:
   m_ObjectHideFlags: 0

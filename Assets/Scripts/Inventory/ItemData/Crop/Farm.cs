@@ -44,6 +44,7 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[farm] [PlantSeed] 현재 isOccupied:{isOccupied}");
             Debug.Log($"[farm] [Watering] 현재 isWatered:{isWatered}");
             PlantSeed(seedData);
+            InventoryManager.Instance.RemoveItem(seedData, 1); // 아이템 제거
             return;
         }
         
