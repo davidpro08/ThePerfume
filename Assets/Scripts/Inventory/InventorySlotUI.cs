@@ -26,7 +26,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             outlineComponent = GetComponent<Outline>();
         }
-        // _inventoryManager = InventoryManager.Instance;
+        _inventoryManager = InventoryManager.Instance;
 
         if (draggableItemPrefab != null)
         {

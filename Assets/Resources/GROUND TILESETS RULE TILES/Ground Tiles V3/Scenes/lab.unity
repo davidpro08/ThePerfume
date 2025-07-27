@@ -301,7 +301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   inventoryUIManager: {fileID: 1885920005}
-  inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
   InteractionRange: 1
   interactableLayer:
     serializedVersion: 2
@@ -1051,7 +1050,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.14}
+    oldSize: {x: 0.96, y: 0.6}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1117,7 +1116,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 5778961287088506303, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
+  m_Sprite: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1501,63 +1500,6 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 2
   m_ConstraintCount: 1
---- !u!1001 &1242839713
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -4.48693
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.13296
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5037359685435975535, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718732849109508798, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-      propertyPath: m_Name
-      value: InventoryManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
 --- !u!1 &1262821345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,7 +1745,6 @@ RectTransform:
   m_Children:
   - {fileID: 806160422}
   - {fileID: 195401302}
-  - {fileID: 1885920004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2122,16 +2063,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885920003}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1467298114}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885920005
@@ -2146,7 +2087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a925e6dbb2d3741b69b734273f090c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
+  inventoryManager: {fileID: 5159817342875904055}
   inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
   hotbarSlotsContainer: {fileID: 1221397243}
   fullInventoryPanel: {fileID: 806160421}
@@ -2228,6 +2169,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+--- !u!4 &5037359684531314126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718732850351806495}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.48693, y: 1.13296, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5159817342875904055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718732850351806495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4884560d52b43ae83b2afdb1e9fcc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlots: []
+  capacity: 32
+--- !u!1 &5718732850351806495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5037359684531314126}
+  - component: {fileID: 5159817342875904055}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2244,4 +2231,5 @@ SceneRoots:
   - {fileID: 1789767751}
   - {fileID: 1698908473}
   - {fileID: 1467298114}
-  - {fileID: 1242839713}
+  - {fileID: 5037359684531314126}
+  - {fileID: 1885920004}

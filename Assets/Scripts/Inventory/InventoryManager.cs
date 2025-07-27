@@ -201,6 +201,8 @@ public class InventoryManager : MonoBehaviour
         if (sourceIndex < 0 || sourceIndex >= itemSlots.Count || targetIndex < 0 || targetIndex >= itemSlots.Count)
         {
             Debug.LogWarning("유효하지 않은 슬로 인덱스입니다.");
+            Debug.Log($"itemSlots: {itemSlots.Count}");
+            Debug.Log($"sourceSlotIndex: {sourceIndex}, targetSlotIndex: {targetIndex}");
             return false;
         }
 
@@ -255,8 +257,10 @@ public class InventoryManager : MonoBehaviour
         {
             onInventoryChangedCallback.Invoke();
         }
+        else Debug.LogWarning("Inventory change event was not invoked");
+
     }
-    
+
     /// <summary>
     /// 현재 사용자가 아이템 들고 있는지 확인하는 코드이다.
     /// </summary>

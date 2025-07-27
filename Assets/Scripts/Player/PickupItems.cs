@@ -14,8 +14,9 @@ public class PickupItems : MonoBehaviour, IInteract
     public void Interact(Player player)
     {
         if (!CanInteract(player)) return;
-        
+
         // 아이템 추가
+        Debug.Log($"Item was added [{itemToGive}], 수량: {quantityToGive}");
         InventoryManager.Instance.AddItem(itemToGive, quantityToGive);
     }
 

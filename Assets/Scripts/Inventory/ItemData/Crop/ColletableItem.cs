@@ -54,7 +54,7 @@ public class ColletableItem : MonoBehaviour
     // 아이템 획득 시도
     private void TryPickup()
     {
-        InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
+        InventoryManager inventoryManager = FindAnyObjectByType<InventoryManager>();
         if (inventoryManager == null)
         {
             Debug.Log("인벤토리 매니저 없음");
