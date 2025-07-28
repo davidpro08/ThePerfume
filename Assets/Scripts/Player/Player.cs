@@ -31,11 +31,23 @@ public class Player : MonoBehaviour
     {
 
     }
+    private void Update()
+    {
+        if (PauseManager.Instance.IsPaused() || isOpenInventory)
+        {
+            if (_moveInput != Vector2.zero)
+            {
+                _moveInput = Vector2.zero;
+            }
+            return;
+        }
+
+    }
 
     void FixedUpdate()
     {
         // 인벤토리 여면 못 움직이게
-        if (isOpenInventory)
+        if (PauseManager.Instance.IsPaused() || isOpenInventory)
         {
             _rb.linearVelocity = Vector2.zero;
             _animator.SetBool("isWalking", false);
@@ -57,6 +69,7 @@ public class Player : MonoBehaviour
     
     void OnMove(InputValue value)
     {
+        if (PauseManager.Instance.IsPaused() || isOpenInventory) return;
         _moveInput = value.Get<Vector2>();
         UpdateAnimator(_moveInput);
     }
