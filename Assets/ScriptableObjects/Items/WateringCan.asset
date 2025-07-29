@@ -23,7 +23,8 @@ MonoBehaviour:
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 1
   toolType: 0
   maxDurability: 5
-  nowDurability: 5
+  nowDurability: 2
   useDurability: 1

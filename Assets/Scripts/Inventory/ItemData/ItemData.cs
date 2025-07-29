@@ -42,6 +42,9 @@ public class ItemData : ScriptableObject
     // 판매 가격
     public int sellPrice = 0;
 
+    // 인벤토리 슬롯에서 너무 작게 보이면 키기
+    public bool scaleUpUI = false;
+
     public ItemData()
     {
         

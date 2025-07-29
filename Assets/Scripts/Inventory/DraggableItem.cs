@@ -25,12 +25,20 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         currentItemData = item;
         currentQuantity = quantity;
         boundSlot = boundSlotUI;
-
+        
         if (item != null)
         {
             image.sprite = item.itemIcon;
+            image.preserveAspect = true;
             image.enabled = true;
             RefreshCount();
+
+            image.rectTransform.localScale = Vector3.one;
+
+            if (item.scaleUpUI)
+            {
+                image.rectTransform.localScale = new Vector3(1.4f, 1.4f, 1f);
+            }
         }
         else
         {
