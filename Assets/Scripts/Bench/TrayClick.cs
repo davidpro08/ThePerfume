@@ -29,6 +29,12 @@ public class TrayClick : MonoBehaviour
                     Debug.Log($"Instance null");
                     return;
                 }
+
+                if (BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
+                {
+                    Debug.Log($"트레이에 아이템 있어서 인벤토리 열 수 없음");
+                    return;
+                }
                 Debug.Log($"Tray OpenInventory call");
                 BenchInventoryUIManager.Instance.OpenInventory();
             }

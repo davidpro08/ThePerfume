@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 
 // 각 인벤토리 UI 슬롯의 동작을 제어합니다.
 public class InventorySlotUI : MonoBehaviour, IDropHandler
@@ -16,11 +17,11 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     public Vector2 selectedOutlineDistance = new Vector2(3f, 3f);
 
     [SerializeField] private GameObject draggableItemPrefab;
-    private DraggableItem _currentDraggableItem;
+    protected DraggableItem _currentDraggableItem;
 
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] protected InventoryManager _inventoryManager;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (outlineComponent == null)
         {
@@ -84,7 +85,8 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     }
 
     // InventoryManager의 데이터에 따라 현재 슬록 UI 업데이트
-    public void UpdateSlotUI(ItemSlot slotData)
+
+    public virtual void UpdateSlotUI(ItemSlot slotData)
     {
         if (_currentDraggableItem == null) return;
         if (slotData.itemData != null)

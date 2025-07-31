@@ -47,6 +47,9 @@ TagManager:
   - name: Background
     uniqueID: 2497881411
     locked: 0
+  - name: overUI
+    uniqueID: 2327287963
+    locked: 0
   - name: furniture
     uniqueID: 886909895
     locked: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3212240494310798647}
   - component: {fileID: 7248960083920790193}
   - component: {fileID: 2653162951930300549}
+  - component: {fileID: -9149831631057242507}
   m_Layer: 5
   m_Name: benchSlot
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317043906844998266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -121,6 +122,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-9149831631057242507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317043906844998266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ec775345f6430448e9eaae490e99a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  countText: {fileID: 0}
+  parentAfterDrag: {fileID: 0}
+  currentItemData: {fileID: 0}
+  currentQuantity: 0
+  boundSlot: {fileID: 0}
 --- !u!1 &9108591013616419346
 GameObject:
   m_ObjectHideFlags: 0
