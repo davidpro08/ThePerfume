@@ -1910,7 +1910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5992284256025247862}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1443983856}
+        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!222 &1760731233443569290
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1994,7 +2006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2730497970852263581
 Transform:
   m_ObjectHideFlags: 0
@@ -2461,6 +2473,7 @@ GameObject:
   - component: {fileID: 276029848235985377}
   - component: {fileID: 2926605698418286039}
   - component: {fileID: 8775010303358628979}
+  - component: {fileID: 8775010303358628980}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -9022,7 +9035,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2926605698418286039}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8775010303358628980}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: MoveToScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8775010303358628980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878942619751524518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a998d682910d2924291f8da1988ddc80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: Main
 --- !u!224 &8800547821471034788
 RectTransform:
   m_ObjectHideFlags: 0
