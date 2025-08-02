@@ -182,4 +182,5 @@ MonoBehaviour:
   selectedOutlineDistance: {x: 3, y: 3}
   draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
   _inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}
-  draggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
+  BenchdraggableItemPrefab: {fileID: 1225453282754493574, guid: 02497e6e5049c4f409cf5c8382fd5fac, type: 3}
+  _inventoryManager: {fileID: 5159817344118198934, guid: e80bf0c63f6f4864aa014571c16b684d, type: 3}

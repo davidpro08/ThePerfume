@@ -13,6 +13,7 @@ public class BenchInventoryUIManager : MonoBehaviour
     [Header("인벤토리 설정")]
     [SerializeField] private GameObject benchInventoryPanel; // 인벤토리 패널
     [SerializeField] private Transform benchSlotContainer; // 인벤토리 슬롯들의 부모
+    [SerializeField] private Button cancleButton; // 취소 버튼
 
     [Header("인벤토리 경고창UI")]
     [SerializeField] private GameObject warningCanvas;
@@ -34,12 +35,14 @@ public class BenchInventoryUIManager : MonoBehaviour
     [SerializeField] private Transform itemSpawnTray; // 아이템이 올라갈 철재 쟁반
     // 쟁반 위에 올려놓을 범위인데 임시로 넣어버렸습니다. 스프라이트 오면 수정 필요합니다~
     [SerializeField] private float spawnRadius = 1.5f;
+    // 트레이 위에 생성된 아이템 리스트
+    private List<GameObject> spawnedItemOnTray = new List<GameObject>();
 
     private List<InventorySlotUI> allSlotUI = new List<InventorySlotUI>();
     private int currentlySelectedIndex = -1; // 선택된 슬롯 없음
     private ItemData selectedItemData; // 현재 선택된 아이템 데이터
     private int selectedItemQuantity; // 현재 선택된 아이템 전체 수량 (슬라이더의 최대값이 될 것임)
-    private int chosenSpawnQuantity; // 생성할 수량
+
 
     void Awake()
     {
@@ -67,6 +70,11 @@ public class BenchInventoryUIManager : MonoBehaviour
         if (warningCanvas != null) warningCanvas.SetActive(false);
         if (quantityCanvas != null) quantityCanvas.SetActive(false);
 
+        if (cancleButton != null)
+        {
+            cancleButton.onClick.RemoveAllListeners();
+            cancleButton.onClick.AddListener(OnInventoryPannelCancleButton);
+        }
         if (warningOkButton != null)
         {
             warningOkButton.onClick.RemoveAllListeners();
@@ -101,6 +109,7 @@ public class BenchInventoryUIManager : MonoBehaviour
         if (warningOkButton != null) quantityOkButton.onClick.RemoveAllListeners();
         if (quantityOkButton != null) quantityOkButton.onClick.RemoveAllListeners();
         if (quantityNoButton != null) quantityNoButton.onClick.RemoveAllListeners();
+        if (cancleButton != null) cancleButton.onClick.RemoveAllListeners();
     }
 
     private void IntializeAllInventorySlots()
@@ -205,6 +214,12 @@ public class BenchInventoryUIManager : MonoBehaviour
         }
     }
 
+    // 인벤토리 창 닫기
+    private void OnInventoryPannelCancleButton()
+    {
+        CloseAllUI(true);
+    }
+
     // 경고창 표시
     private void ShowWarningCanvas(string message)
     {
@@ -293,7 +308,8 @@ public class BenchInventoryUIManager : MonoBehaviour
     public void OnQuantityCanvasOKButton()
     {
         int chosenQuantity = (int)quantitySlider.value;
-        SpawnItemOnTray(selectedItemData, chosenSpawnQuantity);
+        SpawnItemOnTray(selectedItemData, chosenQuantity);
+        InventoryManager.Instance.RemoveItem(selectedItemData, chosenQuantity);
         CloseAllUI(true);
     }
 
@@ -313,21 +329,65 @@ public class BenchInventoryUIManager : MonoBehaviour
         ResetSelection();
     }
 
+    // ============================ 시스템 관련 코드 =====================================
+    // tray에 아이템 랜덤 생성
     private void SpawnItemOnTray(ItemData itemToSpawn, int count)
     {
+        Debug.Log($"SpawnItemOnTray. 아이템: {itemToSpawn?.name}, 수량: {count}");
         CropData cropData = itemToSpawn as CropData;
         if (itemToSpawn == null || cropData.itemPrefab == null || itemSpawnTray == null)
         {
+            if (itemToSpawn == null) Debug.Log("itemToSpawn=null");
+            if (cropData == null) Debug.Log($"CropData 형변환 실패");
+            if (cropData != null && cropData.itemPrefab == null) Debug.Log($"CropData.itemPrefab==null");
+            if (itemSpawnTray == null) Debug.Log($"itemSpawnTray==null");
             return;
         }
         Vector3 trayCenter = itemSpawnTray.position;
 
         for (int i = 0; i < count; i++)
         {
+            Debug.Log($"아이템 {i + 1}개 생성 중");
             Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPostion = trayCenter + new Vector3(randomPos.x, randomPos.y, 0);
             GameObject spawndItem = Instantiate(cropData.itemPrefab, spawnPostion, Quaternion.identity);
+
+            if (spawndItem == null)
+            {
+                Debug.Log($"Instantiate 실패");
+                continue;
+            }
+
+            // ===============================================
+            // 작물 성장 단계 중 마지막 스프라이트 호출
+            HarvestableCrop harvestableCrop = spawndItem.GetComponent<HarvestableCrop>();
+            if (harvestableCrop != null)
+            {
+                harvestableCrop.SetFullGrowth();
+            }
+            // ===============================================
+
             spawndItem.transform.SetParent(itemSpawnTray);
+            spawnedItemOnTray.Add(spawndItem);
+            Debug.Log($"{spawndItem.name} 생성 및 리스트 추가 끝");
         }
+        Debug.Log($"총 {spawnedItemOnTray.Count}개 아이템이 트레이 위에 올라감");
+    }
+
+    // Tray 아이템 삭제
+    public void RemoveSpawnedItemd(GameObject itemToRemove)
+    {
+        if (spawnedItemOnTray.Contains(itemToRemove))
+        {
+            spawnedItemOnTray.Remove(itemToRemove);
+            Destroy(itemToRemove);
+        }
+    }
+
+    // 아이템 존재 여부 확인
+    public bool HasSpawnedItemOnTray()
+    {
+        // 리스트가 비어있으면 false
+        return spawnedItemOnTray != null && spawnedItemOnTray.Count > 0;
     }
 }
