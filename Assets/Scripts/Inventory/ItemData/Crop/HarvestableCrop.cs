@@ -111,4 +111,23 @@ public class HarvestableCrop : MonoBehaviour
             }
         }
     }
+
+    // ===============================================
+    // 트레이 위 작물을 최종 성장 단계로 보이게 함
+    public void SetFullGrowth()
+    {
+        if (cropStage == null)
+        {
+            return;
+        }
+
+        if (cropStage.fullGrowthIndex < 0 || cropStage.fullGrowthIndex >= cropStage.totalStage)
+        {
+            return;
+        }
+
+        currentStage = cropStage.fullGrowthIndex;
+        UpdateSprite();
+    }
+    // ===============================================
 }

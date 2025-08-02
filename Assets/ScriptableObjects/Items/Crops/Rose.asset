@@ -24,4 +24,5 @@ MonoBehaviour:
   buyPrice: 0
   sellPrice: 0
   cropType: 0
-  itemPrefab: {fileID: 972827365955715103, guid: ea98c150871f8ea4a898e32965c048c2, type: 3}
+  itemPrefab: {fileID: 7879290774041444335, guid: 04bba30e7dfdf0347bf34dc220bd1fe6, type: 3}
+  itemPrefabOnUI: {fileID: 5494312074637828506, guid: 321a3e9dcb7424a41adf8d8dfef6e604, type: 3}

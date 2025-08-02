@@ -357,6 +357,15 @@ public class BenchInventoryUIManager : MonoBehaviour
                 continue;
             }
 
+            // ===============================================
+            // 작물 성장 단계 중 마지막 스프라이트 호출
+            HarvestableCrop harvestableCrop = spawndItem.GetComponent<HarvestableCrop>();
+            if (harvestableCrop != null)
+            {
+                harvestableCrop.SetFullGrowth();
+            }
+            // ===============================================
+
             spawndItem.transform.SetParent(itemSpawnTray);
             spawnedItemOnTray.Add(spawndItem);
             Debug.Log($"{spawndItem.name} 생성 및 리스트 추가 끝");

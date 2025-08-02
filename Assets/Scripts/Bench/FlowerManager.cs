@@ -23,7 +23,7 @@ public class FlowerManager : MonoBehaviour
     [SerializeField] private Sprite[] bowlFillSprites; // Bowl이 차는 단계
 
     private GameObject currentMainFlower;
-    private List<FlowerPetal> allPetalFlower = new List<FlowerPetal>();
+    private List<FlowerPetalUI> allPetalFlower = new List<FlowerPetalUI>();
     private int collectedPetalCount = 0;
     private bool isHandling = false;
 
@@ -34,7 +34,7 @@ public class FlowerManager : MonoBehaviour
     }
 
     // 손질 시작 함수 (tray에서 작물 클릭 시 TrayClick에서 호출)
-    public void StartHandling(ItemData cropItemData)
+    public void StartHandling(ItemData cropItemData, GameObject clickedTrayItem = null)
     {
         // ========================================================
         // Blocking Canvas 위에 손질 가능 작물 중복 방지
@@ -46,66 +46,91 @@ public class FlowerManager : MonoBehaviour
         if (blockingCanvas != null) blockingCanvas.SetActive(true);
 
         CropData cropData = cropItemData as CropData;
-        if (cropData == null || cropData.itemPrefab == null) return;
+        if (cropData == null || cropData.itemPrefabOnUI == null) return;
 
-        currentMainFlower = Instantiate(cropData.itemPrefab, mainFlowerSpawnPoint.position, Quaternion.identity);
+        currentMainFlower = Instantiate(cropData.itemPrefabOnUI, mainFlowerSpawnPoint);
+        currentMainFlower.transform.localPosition = Vector3.zero;
+
+        RectTransform centerRect = currentMainFlower.transform.Find("center")?.GetComponent<RectTransform>();
+        if (centerRect == null)
+        {
+            Debug.LogWarning("꽃 중심 오브젝트 없음");
+            return;
+        }
 
         allPetalFlower.Clear();
-        allPetalFlower.AddRange(currentMainFlower.GetComponentsInChildren<FlowerPetal>());
+        allPetalFlower.AddRange(currentMainFlower.GetComponentsInChildren<FlowerPetalUI>());
+
+        foreach (FlowerPetalUI petal in allPetalFlower)
+        {
+            petal.Initialize(this, centerRect);
+            petal.gameObject.SetActive(true);
+        }
+
         collectedPetalCount = 0;
-        UpdateBowlSprite(); // Bowl 초기화
-
-        // bowl 클릭 감지 + 스크립트 활성화
+        UpdateBowlSprite();
     }
 
-    public void EndHandling()
+    // 손질 종료 후
+    // FlowPetalUI 스크립트에서 호출 + 꽃잎 뜯길 때마다 bowl에 갯수 추가
+    public void AddPetalToBowl(FlowerPetalUI petal)
     {
-        if (blockingCanvas != null) blockingCanvas.SetActive(false);
-        if (currentMainFlower != null) Destroy(currentMainFlower);
-        currentMainFlower = null;
-        allPetalFlower.Clear();
-
-        // =============================================================
-        //BenchInventoryUIManager.Instance.RemoveSpawnedItemd(꽃작물아이템, 갯수);
-        // =============================================================
-
-        // ========================================================
-        // StartHandling에 오류 수정 설명 연장선
-        isHandling = false;
-        // ========================================================
-    }
-
-    public void AddPetalToBowl(FlowerPetal petal)
-    {
+        Debug.Log("FlowerManager 입장~");
         collectedPetalCount++;
         UpdateBowlSprite();
 
+        Debug.Log($"collectedPetalCount:{collectedPetalCount}, allPetalFlower.Count:{allPetalFlower.Count}");
         if (collectedPetalCount >= allPetalFlower.Count)
         {
             Debug.Log($"모든 꽃잎 뜯기 완");
-            // bowl 클릭
+            if (blockingCanvas != null) blockingCanvas.SetActive(false);
+            if (currentMainFlower != null)
+            {
+                Destroy(currentMainFlower);
+                currentMainFlower = null;
+                allPetalFlower.Clear();
+            }
+
+            // ===============================
+            // tray 위의 clone 파괴
+            //
+            // ===============================
         }
     }
 
     public void OnBowlClicked()
     {
-        if (collectedPetalCount == 0)
-        {
-            Debug.Log($"bowl 비어있음");
-            return;
-        }
+        // tray 위에 프리팹이 남았는지 확인
+        // ============================================================
+        // 
+        // ============================================================
 
-        if (collectedPetalCount < allPetalFlower.Count)
+        // 인벤토리 추가 + 제거 (테스트용 수정 필요)
+        // 꽃잎 아이템 연결을 위해서 cropItem에 추가를 하든지 해야함
+        // =============================================================
+        if (InventoryManager.Instance != null)
         {
-            Debug.Log($"손질 덜 되었음");
-            return;
+            // Clone으로 뽑아냈던 인벤토리 내의 아이템 삭제
+            // BenchInventoryUIManager.Instance.RemoveSpawnedItemd(꽃작물 아이템, 갯수);
+            //
+            // 새로운 아이템 추가
+            // if (꽃잎 아이템 != null){
+            //     InventoryManager.Instance.AddItem(꽃잎 아이템, collectedPetalCount);
+            // }
+            // else {
+            //     Debug.LogError("꽃잎 아이템 할당 안됨");
+            // }
         }
+        else
+        {
+            Debug.LogError("InventoryManager.Instance==null");
+        }
+        // =============================================================
 
-        // 인벤토리 추가
-        // =============================================================
-        //InventoryManager.Instance.AddItem(꽃잎 아이템, 갯수);
-        // =============================================================
-        EndHandling();
+        // ========================================================
+        // StartHandling에 오류 수정 설명 연장선
+        isHandling = false;
+        // ========================================================        
     }
     public void UpdateBowlSprite()
     {

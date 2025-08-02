@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2559338328374273278}
   - component: {fileID: 4310567204582667705}
   - component: {fileID: 5107016577018209589}
+  - component: {fileID: 6899958470613561293}
   m_Layer: 8
   m_Name: rosePrefab
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1959824155
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,3 +156,16 @@ MonoBehaviour:
   cropStage: {fileID: 11400000, guid: dc2444c6bdde6144ea744773cc0e5abf, type: 2}
   currentStage: 0
   parentFarm: {fileID: 0}
+--- !u!114 &6899958470613561293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7879290774041444335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c16aa74e87f8f74594c66d6643043e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
