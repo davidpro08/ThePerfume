@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
-public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler
 {
     private FlowerManager flowerManager;
     private bool isHandled = false; // 꽃잎이 뜯겼는지
     [SerializeField] private float dragHandleThreshold = 60f; // 꽃잎 뜯는 거리? 값
     private RectTransform rectTransform; // 꽃잎 자신 위치
     private RectTransform centerRect; // 중심 위치 (center)
+    private Vector2 initialAnchoredPos; // 초기 위치
 
     void Awake()
     {
@@ -20,6 +22,8 @@ public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler
         this.flowerManager = manager;
         this.centerRect = center;
         this.isHandled = false;
+
+        initialAnchoredPos = rectTransform.anchoredPosition;
     }
 
     // 클릭 시 뜯기 로직
@@ -39,7 +43,11 @@ public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler
         // 꽃잎 UI 마우스 커서 따라가기
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), eventData.position, eventData.pressEventCamera, out Vector2 localPointPos);
         rectTransform.anchoredPosition = localPointPos;
+        // =================================================
+    }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
         if (centerRect == null)
         {
             Debug.LogWarning("centerRect == null");
@@ -54,7 +62,11 @@ public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler
             Debug.Log($"뜯겨야하는데");
             HarvestPetal();
         }
-        // =================================================
+        else
+        {
+            rectTransform.anchoredPosition = initialAnchoredPos;
+            Debug.Log("원래 위치로 돌아가기");
+        }
     }
 
     // ==================================================

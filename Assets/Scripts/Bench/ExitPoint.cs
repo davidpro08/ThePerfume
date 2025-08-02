@@ -32,15 +32,22 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (BenchInventoryUIManager.Instance != null)
+        if (FlowerManager.Instance.IsExitable() && !BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
         {
-            BenchInventoryUIManager.Instance.CloseAllUI(true);
-        }
+            if (BenchInventoryUIManager.Instance != null)
+            {
+                BenchInventoryUIManager.Instance.CloseAllUI(true);
+            }
 
-        if (string.IsNullOrEmpty(targetSceneName))
-        {
-            return;
+            if (string.IsNullOrEmpty(targetSceneName))
+            {
+                return;
+            }
+            SceneManager.LoadScene(targetSceneName);
         }
-        SceneManager.LoadScene(targetSceneName);
+        else
+        {
+            Debug.LogWarning("못닫느다");
+        }
     }
 }

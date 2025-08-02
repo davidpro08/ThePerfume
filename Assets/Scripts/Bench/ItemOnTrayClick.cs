@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -57,7 +58,8 @@ public class ItemOnTrayClick : MonoBehaviour
 
         if (FlowerManager.Instance != null)
         {
-            FlowerManager.Instance.StartHandling((ItemData));
+            FlowerManager.Instance.StartHandling(ItemData, this.gameObject);
+            Debug.Log($"[ItemOnTrayClick] {this.gameObject.name}, {this.gameObject != null}");
         }
         else
         {

@@ -309,6 +309,7 @@ public class BenchInventoryUIManager : MonoBehaviour
     {
         int chosenQuantity = (int)quantitySlider.value;
         SpawnItemOnTray(selectedItemData, chosenQuantity);
+        InventoryManager.Instance.RemoveItem(selectedItemData, chosenQuantity);
         CloseAllUI(true);
     }
 

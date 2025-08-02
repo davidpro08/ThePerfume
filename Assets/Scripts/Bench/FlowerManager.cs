@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class FlowerManager : MonoBehaviour
 {
@@ -17,15 +18,20 @@ public class FlowerManager : MonoBehaviour
 
     [SerializeField] private GameObject blockingCanvas;
     [SerializeField] private Transform mainFlowerSpawnPoint;
-    [SerializeField] private SpriteRenderer bowlSpriteRenderer;
 
-    // bowl이 차는 단계가 어떻게 표현될지 모르겠었어 그냥 작물성장단계처럼 만들어놨습니다
-    [SerializeField] private Sprite[] bowlFillSprites; // Bowl이 차는 단계
+    [Header("Bowl 설정")]
+    [SerializeField] private Transform bowlTransform;
+    [SerializeField] private SpriteRenderer bowlSpriteRenderer;
+    [SerializeField] private float bowlPetalSpawnRadius = 0.5f;
+    [SerializeField] private float petalStackZOffsest = 0.01f;
 
     private GameObject currentMainFlower;
     private List<FlowerPetalUI> allPetalFlower = new List<FlowerPetalUI>();
+    private int totalPetalInBowl = 0;
     private int collectedPetalCount = 0;
+    private CropData currentCropItemData;
     private bool isHandling = false;
+    public GameObject _TrayClick;
 
     void Awake()
     {
@@ -43,12 +49,13 @@ public class FlowerManager : MonoBehaviour
         isHandling = true;
         // ========================================================
 
+        _TrayClick = clickedTrayItem;
+
         if (blockingCanvas != null) blockingCanvas.SetActive(true);
 
-        CropData cropData = cropItemData as CropData;
-        if (cropData == null || cropData.itemPrefabOnUI == null) return;
+        this.currentCropItemData = cropItemData as CropData;
 
-        currentMainFlower = Instantiate(cropData.itemPrefabOnUI, mainFlowerSpawnPoint);
+        currentMainFlower = Instantiate(currentCropItemData.itemPrefabOnUI, mainFlowerSpawnPoint);
         currentMainFlower.transform.localPosition = Vector3.zero;
 
         RectTransform centerRect = currentMainFlower.transform.Find("center")?.GetComponent<RectTransform>();
@@ -68,7 +75,6 @@ public class FlowerManager : MonoBehaviour
         }
 
         collectedPetalCount = 0;
-        UpdateBowlSprite();
     }
 
     // 손질 종료 후
@@ -77,7 +83,11 @@ public class FlowerManager : MonoBehaviour
     {
         Debug.Log("FlowerManager 입장~");
         collectedPetalCount++;
+        totalPetalInBowl++;
+
+        // 여기에 애니메이션 넣어도 되고, UpdateBowlSprite에 애니메이션 넣어도 되고
         UpdateBowlSprite();
+
 
         Debug.Log($"collectedPetalCount:{collectedPetalCount}, allPetalFlower.Count:{allPetalFlower.Count}");
         if (collectedPetalCount >= allPetalFlower.Count)
@@ -93,16 +103,40 @@ public class FlowerManager : MonoBehaviour
 
             // ===============================
             // tray 위의 clone 파괴
-            //
+            if (_TrayClick != null)
+            {
+                Debug.Log("_TrayClick != null");
+                if (BenchInventoryUIManager.Instance != null)
+                {
+                    BenchInventoryUIManager.Instance.RemoveSpawnedItemd(_TrayClick);
+                }
+                else
+                {
+                    Debug.LogWarning("BenchInventoryUIManager.Instance == null");
+                    Destroy(_TrayClick);
+                }
+                _TrayClick = null;
+            }
+            else
+            {
+                Debug.Log("_TrayClick == null");
+            }
+            isHandling = false;
             // ===============================
         }
     }
 
     public void OnBowlClicked()
     {
+        Debug.Log("OnBowlClicked called");
         // tray 위에 프리팹이 남았는지 확인
         // ============================================================
-        // 
+        if (totalPetalInBowl == 0)
+        {
+            return;
+        }
+        // 근데 생각해보니깐 tray랑 bowl 위에 아무것도 없어야지 나갈 수 있도록 하면
+        // 굳이 이걸 확인할 필요가 있나
         // ============================================================
 
         // 인벤토리 추가 + 제거 (테스트용 수정 필요)
@@ -111,15 +145,29 @@ public class FlowerManager : MonoBehaviour
         if (InventoryManager.Instance != null)
         {
             // Clone으로 뽑아냈던 인벤토리 내의 아이템 삭제
-            // BenchInventoryUIManager.Instance.RemoveSpawnedItemd(꽃작물 아이템, 갯수);
-            //
+            ItemData harvestedPetalItemData = null;
+            if (currentCropItemData != null && currentCropItemData.petal != null)
+            {
+                harvestedPetalItemData = currentCropItemData.petal;
+            }
+
             // 새로운 아이템 추가
-            // if (꽃잎 아이템 != null){
-            //     InventoryManager.Instance.AddItem(꽃잎 아이템, collectedPetalCount);
-            // }
-            // else {
-            //     Debug.LogError("꽃잎 아이템 할당 안됨");
-            // }
+            if (harvestedPetalItemData != null)
+            {
+                InventoryManager.Instance.AddItem(harvestedPetalItemData, totalPetalInBowl);
+                totalPetalInBowl = 0;
+                if (bowlTransform != null)
+                {
+                    foreach (Transform child in bowlTransform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("꽃잎 아이템 할당 안됨");
+            }
         }
         else
         {
@@ -132,12 +180,47 @@ public class FlowerManager : MonoBehaviour
         isHandling = false;
         // ========================================================        
     }
+
     public void UpdateBowlSprite()
     {
-        if (bowlSpriteRenderer == null || bowlFillSprites == null || bowlFillSprites.Length == 0) return;
+        Sprite petalSpriteToUse = null;
 
-        float fillRatio = (float)collectedPetalCount / allPetalFlower.Count;
-        int spriteIndex = Mathf.FloorToInt(fillRatio * (bowlFillSprites.Length - 1));
-        bowlSpriteRenderer.sprite = bowlFillSprites[spriteIndex];
+        if (currentCropItemData != null && currentCropItemData.petal != null && currentCropItemData.petal.itemIcon != null)
+        {
+            petalSpriteToUse = currentCropItemData.petal.itemIcon;
+        }
+        else
+        {
+            Debug.LogWarning("CropData or Petal == null");
+            return;
+        }
+
+
+        if (petalSpriteToUse != null && bowlTransform != null)
+        {
+            GameObject newSmallPetal = new GameObject($"SmallPeata_{totalPetalInBowl}");
+
+            SpriteRenderer sr = newSmallPetal.AddComponent<SpriteRenderer>();
+            sr.sprite = petalSpriteToUse;
+            sr.sortingLayerName = bowlSpriteRenderer.sortingLayerName;
+            sr.sortingOrder = bowlSpriteRenderer.sortingOrder + totalPetalInBowl;
+
+            Vector3 bowlCneter = bowlTransform.position;
+            Vector2 randomOffset = Random.insideUnitCircle * bowlPetalSpawnRadius;
+            Vector3 spawnPos = new Vector3(bowlCneter.x + randomOffset.x, bowlCneter.y + randomOffset.y, bowlCneter.z + (collectedPetalCount * petalStackZOffsest));
+            newSmallPetal.transform.position = spawnPos;
+            newSmallPetal.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+            newSmallPetal.transform.localScale = Vector3.one * Random.Range(0.9f, 1.1f);
+            newSmallPetal.transform.SetParent(bowlTransform);
+        }
+        else
+        {
+            Debug.LogWarning("smallPetalSprite or bowlTranform == null");
+        }
+    }
+
+    public bool IsExitable()
+    {
+        return (totalPetalInBowl == 0);
     }
 }
