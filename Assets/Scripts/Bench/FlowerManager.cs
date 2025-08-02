@@ -51,6 +51,26 @@ public class FlowerManager : MonoBehaviour
 
         _TrayClick = clickedTrayItem;
 
+        // tray 위의 clone 파괴
+        if (_TrayClick != null)
+        {
+            Debug.Log("_TrayClick != null");
+            if (BenchInventoryUIManager.Instance != null)
+            {
+                BenchInventoryUIManager.Instance.RemoveSpawnedItemd(_TrayClick);
+            }
+            else
+            {
+                Debug.LogWarning("BenchInventoryUIManager.Instance == null");
+                Destroy(_TrayClick);
+            }
+            _TrayClick = null;
+        }
+        else
+        {
+            Debug.Log("_TrayClick == null");
+        }
+
         if (blockingCanvas != null) blockingCanvas.SetActive(true);
 
         this.currentCropItemData = cropItemData as CropData;
@@ -102,25 +122,7 @@ public class FlowerManager : MonoBehaviour
             }
 
             // ===============================
-            // tray 위의 clone 파괴
-            if (_TrayClick != null)
-            {
-                Debug.Log("_TrayClick != null");
-                if (BenchInventoryUIManager.Instance != null)
-                {
-                    BenchInventoryUIManager.Instance.RemoveSpawnedItemd(_TrayClick);
-                }
-                else
-                {
-                    Debug.LogWarning("BenchInventoryUIManager.Instance == null");
-                    Destroy(_TrayClick);
-                }
-                _TrayClick = null;
-            }
-            else
-            {
-                Debug.Log("_TrayClick == null");
-            }
+
             isHandling = false;
             // ===============================
         }
