@@ -36,7 +36,9 @@ public class ExitPoint : MonoBehaviour
         {
             if (BenchInventoryUIManager.Instance != null)
             {
-                BenchInventoryUIManager.Instance.CloseAllUI(true);
+                // ==================================================
+                //BenchInventoryUIManager.Instance.CloseAllUI(true);
+                // ==================================================
             }
 
             if (string.IsNullOrEmpty(targetSceneName))
