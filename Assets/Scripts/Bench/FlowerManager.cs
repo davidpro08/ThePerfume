@@ -30,7 +30,7 @@ public class FlowerManager : MonoBehaviour
     private int totalPetalInBowl = 0;
     private int collectedPetalCount = 0;
     private CropData currentCropItemData;
-    private bool isHandling = false;
+    public bool isHandling = false;
     public GameObject _TrayClick;
 
     void Awake()

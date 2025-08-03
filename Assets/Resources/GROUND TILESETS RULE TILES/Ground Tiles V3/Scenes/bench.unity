@@ -723,59 +723,6 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 2
   m_ConstraintCount: 1
---- !u!1 &641865725
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 641865726}
-  - component: {fileID: 641865727}
-  m_Layer: 5
-  m_Name: InventoryUIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &641865726
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 641865725}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1935223635}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &641865727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 641865725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05a925e6dbb2d3741b69b734273f090c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 0}
-  inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
-  hotbarSlotsContainer: {fileID: 616968959}
-  fullInventoryPanel: {fileID: 511668525}
-  fullInventorySlotsContainer: {fileID: 163117313}
 --- !u!1 &650907984
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSlots: []
-  capacity: 32
+  capacity: 8
 --- !u!4 &1307852230
 Transform:
   m_ObjectHideFlags: 0
@@ -1299,7 +1246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c2d46abf749c6459965250481150e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUIManager: {fileID: 641865727}
+  inventoryUIManager: {fileID: 0}
 --- !u!114 &1403801930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,7 +2034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2262,7 +2209,6 @@ RectTransform:
   m_Children:
   - {fileID: 511668528}
   - {fileID: 311243877}
-  - {fileID: 641865726}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

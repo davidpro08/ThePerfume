@@ -16,7 +16,7 @@ public class TrayClick : MonoBehaviour
             //==================================================================
             // UI가 열려도 월드 오브젝트 클릭 무시가 안됨
             // UI가 열려있으면 월드 오브젝트 클릭 무시
-            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1))
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1) || FlowerManager.Instance.isHandling)
             {
                 Debug.Log($"UI open");
                 return;
