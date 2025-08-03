@@ -10,6 +10,8 @@ public enum ItemType
     Seed,
     // 농작물
     Crop,
+    // 손질된 재료
+    Material,
     // 에센스
     Essence,
     // 향수
@@ -33,6 +35,10 @@ public enum CropType
     Lavender // 라벤더
 }
 
+public enum MaterialType
+{
+    RosePetal
+}
 public enum EssenceType
 {
 

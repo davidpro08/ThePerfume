@@ -35,6 +35,18 @@ public class TrayClick : MonoBehaviour
                         Debug.Log($"Instance null");
                         return;
                     }
+
+                    // Tray 위에 프리팹이 있어도 프리팹 클릭 시 인벤토리 같이 열리는 오류 수정
+                    Transform trayTransform = hit2D.collider.transform;
+                    foreach (Transform child in trayTransform)
+                    {
+                        if (child.GetComponent<ItemOnTrayClick>() != null)
+                        {
+                            Debug.Log("트레이에 아이템 있어서 인벤토리 못열음");
+                            return;
+                        }
+                    }
+
                     if (BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
                     {
                         Debug.Log("트레이에 아이템 있어서 인벤토리 못열음");
