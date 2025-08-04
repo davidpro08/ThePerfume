@@ -68,7 +68,7 @@ public class BenchInventoryUIManager : InventoryUIManager
     }
 
     // 경고창 표시
-    private void ShowWarningCanvas(string message)
+    public void ShowWarningCanvas(string message)
     {
         if (warningCanvas != null)
         {
@@ -92,11 +92,11 @@ public class BenchInventoryUIManager : InventoryUIManager
     {
         Debug.Log($"SpawnItemOnTray. 아이템: {itemToSpawn?.name}, 수량: {count}");
         CropData cropData = itemToSpawn as CropData;
-        if (itemToSpawn == null || cropData == null || cropData.itemPrefab == null || itemSpawnTray == null)
+        if (itemToSpawn == null || cropData == null || cropData.itemOnTray == null || itemSpawnTray == null)
         {
             if (itemToSpawn == null) Debug.Log("itemToSpawn=null");
             if (cropData == null) Debug.Log($"CropData 형변환 실패");
-            if (cropData.itemPrefab == null) Debug.Log($"CropData.itemPrefab==null");
+            if (cropData.itemOnTray == null) Debug.Log($"CropData.itemOnTray==null");
             if (itemSpawnTray == null) Debug.Log($"itemSpawnTray==null");
             return;
         }
