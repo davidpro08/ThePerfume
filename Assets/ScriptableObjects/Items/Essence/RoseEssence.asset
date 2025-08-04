@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   itemName: New Item
   itemDescription: Null Description
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 3831350427314131726, guid: a3cf840b1eba4784b956551c6ffb8ed3, type: 3}
   itemType: 4
   isStackable: 1
   maxStack: 99
