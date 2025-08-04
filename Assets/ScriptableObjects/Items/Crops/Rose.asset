@@ -27,4 +27,4 @@ MonoBehaviour:
   itemPrefab: {fileID: 7879290774041444335, guid: 04bba30e7dfdf0347bf34dc220bd1fe6, type: 3}
   itemOnTray: {fileID: 5197423724709296559, guid: 6392344a29c57344aa7f8fb32050f97e, type: 3}
   itemPrefabOnUI: {fileID: 5494312074637828506, guid: 321a3e9dcb7424a41adf8d8dfef6e604, type: 3}
-  petal: {fileID: 11400000, guid: c0ab55fe2bc585148a9819b54f8e81a0, type: 2}
+  petal: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}

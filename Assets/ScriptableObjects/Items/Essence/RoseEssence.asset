@@ -9,17 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: RosePetal
+  m_Script: {fileID: 11500000, guid: fb7ba50320746fe45b50927b63d46592, type: 3}
+  m_Name: RoseEssence
   m_EditorClassIdentifier: 
   id: 0
   itemName: New Item
   itemDescription: Null Description
-  itemIcon: {fileID: -781294158744790408, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
-  itemType: 3
+  itemIcon: {fileID: 0}
+  itemType: 4
   isStackable: 1
   maxStack: 99
   nowStack: 1
-  isTradable: 1
+  isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  essenceType: 0
+  essenceWarm: 0
+  essenceCool: 0
+  essenceRelax: 0
+  canBaseNote: 0
+  canMiddleNote: 0
+  canTopNote: 0
+  prefabInTube: {fileID: 6339408399911262275, guid: 67c575e3a35117f469d467233f7373e2, type: 3}

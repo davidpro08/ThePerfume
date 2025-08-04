@@ -42,6 +42,10 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     }
     private void Start()
     {
+        // ================================================
+        _inventoryManager = InventoryManager.Instance;
+        // ================================================
+
         if (_inventoryManager != null)
         {
             _inventoryManager.onSlotSelectedCallback += OnManagerSlotSelected;
