@@ -6,15 +6,15 @@ using System.Collections.Generic;
 public class InventoryUIManager : MonoBehaviour
 {
     [Header("필수 연결")]
-    [SerializeField] private InventoryManager inventoryManager; // 데이터 소스
-    [SerializeField] private GameObject inventorySlotUIPrefab;  // 슬롯 UI 프리팹
+    [SerializeField] protected InventoryManager inventoryManager; // 데이터 소스
+    [SerializeField] protected GameObject inventorySlotUIPrefab;  // 슬롯 UI 프리팹
 
     [Header("핫바 설정")]
-    [SerializeField] private Transform hotbarSlotsContainer; // 핫바 슬롯들의 부모
+    [SerializeField] protected Transform hotbarSlotsContainer; // 핫바 슬롯들의 부모
 
     [Header("전체 인벤토리 설정")]
-    [SerializeField] private GameObject fullInventoryPanel;   // 전체 인벤토리 패널
-    [SerializeField] private Transform fullInventorySlotsContainer; // 전체 인벤토리 슬롯들의 부모
+    [SerializeField] protected GameObject fullInventoryPanel;   // 전체 인벤토리 패널
+    [SerializeField] protected Transform fullInventorySlotsContainer; // 전체 인벤토리 슬롯들의 부모
 
     // 핫바 리스트
     private List<InventorySlotUI> hotbarSlotUIs = new List<InventorySlotUI>();
@@ -47,7 +47,7 @@ public class InventoryUIManager : MonoBehaviour
     }
 
     // 핫바 UI를 생성합니다.
-    private void InitializeHotbar()
+    protected void InitializeHotbar()
     {
         for (int i = 0; i < inventoryManager.hotbarSize; i++)
         {
@@ -63,7 +63,7 @@ public class InventoryUIManager : MonoBehaviour
     }
 
     // 전체 인벤토리 UI를 생성합니다.
-    private void InitializeFullInventory()
+    protected void InitializeFullInventory()
     {
         for (int i = inventoryManager.hotbarSize; i < inventoryManager.capacity; i++)
         {
@@ -79,7 +79,7 @@ public class InventoryUIManager : MonoBehaviour
     }
 
     // 모든 UI(핫바 + 전체 인벤토리)를 새로고침합니다.
-    private void UpdateAllUIs()
+    protected void UpdateAllUIs()
     {
         // 핫바 UI 업데이트
         for (int i = 0; i < hotbarSlotUIs.Count; i++)

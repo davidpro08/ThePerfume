@@ -8,40 +8,40 @@ public class ItemOnTrayClick : MonoBehaviour
     public ItemData ItemData;
 
     // ===============================================
-    // bench 씬에서만 작동하도록 제한해놓음
-    private string targetSceneName = "bench";
+    // bench 씬에서만 작동하도록 제한해놓음 >> 필요 없어짐
+    // private string targetSceneName = "bench";
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnScneneLoaded;
-    }
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnScneneLoaded;
-    }
-    private void OnScneneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        CheckCurrentScene();
-    }
-    private void CheckCurrentScene()
-    {
-        string currentScene = SceneManager.GetActiveScene().name;
-        Debug.Log($"[ItemOnTrayClick] 현재 씬 = {currentScene}");
+    // void OnEnable()
+    // {
+    //     SceneManager.sceneLoaded += OnScneneLoaded;
+    // }
+    // void OnDisable()
+    // {
+    //     SceneManager.sceneLoaded -= OnScneneLoaded;
+    // }
+    // private void OnScneneLoaded(Scene scene, LoadSceneMode mode)
+    // {
+    //     CheckCurrentScene();
+    // }
+    // private void CheckCurrentScene()
+    // {
+    //     string currentScene = SceneManager.GetActiveScene().name;
+    //     Debug.Log($"[ItemOnTrayClick] 현재 씬 = {currentScene}");
 
-        Collider2D col = GetComponent<Collider2D>();
-        if (col == null) return;
+    //     Collider2D col = GetComponent<Collider2D>();
+    //     if (col == null) return;
 
-        if (currentScene == targetSceneName)
-        {
-            col.enabled = true;
-            Debug.Log($"[{name}] Bench 씬 > Collider 활성화");
-        }
-        else
-        {
-            col.enabled = false;
-            Debug.Log($"[{name}] Bench 씬 > Collider 비활성화");
-        }
-    }
+    //     if (currentScene == targetSceneName)
+    //     {
+    //         col.enabled = true;
+    //         Debug.Log($"[{name}] Bench 씬 > Collider 활성화");
+    //     }
+    //     else
+    //     {
+    //         col.enabled = false;
+    //         Debug.Log($"[{name}] Bench 씬 > Collider 비활성화");
+    //     }
+    // }
     // ===============================================
 
     void OnMouseDown()
