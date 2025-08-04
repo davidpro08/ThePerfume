@@ -50,6 +50,6 @@ using UnityEngine;
             dialogueObject.SetActive(isActive);
             
             // TODO: 플레이어 통제를 위해 설정했는데, 안할거면 로직 바꾸기
-            PauseManager.Instance.TogglePause();
+            // PauseManager.Instance.TogglePause();
         }
     }

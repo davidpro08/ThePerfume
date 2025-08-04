@@ -23,17 +23,17 @@ public class PauseManager : MonoBehaviour
         TogglePause();
     }
 
-    public void TogglePause()
+    public void TogglePause(bool setUI = false)
     {
         if (isPaused) Resume();
-        else Pause();
+        else Pause(setUI);
     }
 
-    private void Pause()
+    private void Pause(bool setUI)
     {
         Time.timeScale = 0f;
         isPaused = true;
-        pauseMenuUI.SetActive(true);
+        if(setUI) pauseMenuUI.SetActive(true);
     }
 
     public void Resume()
