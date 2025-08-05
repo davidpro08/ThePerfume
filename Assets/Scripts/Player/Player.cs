@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [Header("인벤토리 설정")] private bool isOpenInventory = false;
     [SerializeField] public InventoryUIManager inventoryUIManager; // 연결할 인벤토리 UI 관리자
 
-    [Header("상호작용 설정")] [SerializeField] private float InteractionRange = 1f;
+    [Header("상호작용 설정")][SerializeField] private float InteractionRange = 1f;
     [SerializeField] private LayerMask interactableLayer; // 상호작용할 아이템 레이어
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if (PauseManager.Instance.IsPaused() || isOpenInventory)
+        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory)
         {
             if (_moveInput != Vector2.zero)
             {
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         // 인벤토리 여면 못 움직이게
-        if (PauseManager.Instance.IsPaused() || isOpenInventory)
+        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory)
         {
             _rb.linearVelocity = Vector2.zero;
             _animator.SetBool("isWalking", false);
@@ -66,14 +66,14 @@ public class Player : MonoBehaviour
         Vector2 movement = _isSprint ? _moveInput * (moveSpeed * _runRate) : _moveInput * moveSpeed;
         _rb.linearVelocity = movement;
     }
-    
+
     void OnMove(InputValue value)
     {
-        if (PauseManager.Instance.IsPaused() || isOpenInventory) return;
+        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory) return;
         _moveInput = value.Get<Vector2>();
         UpdateAnimator(_moveInput);
     }
-    
+
     private void UpdateAnimator(Vector2 input)
     {
         float magnitude = input.magnitude;
@@ -160,7 +160,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-            
+
             IInteract interact = detection.collider.GetComponent<IInteract>();
             interact.Interact(this);
         }
@@ -197,7 +197,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-            
+
             IInteract interact = hitCollider.GetComponent<IInteract>();
             interact.Interact(this);
 
@@ -210,6 +210,6 @@ public class Player : MonoBehaviour
     // PlayerInput에서 Pause 액션 호출 시 연결
     public void OnPause(InputValue value)
     {
-        PauseManager.Instance.TogglePause();
+        PauseManager.Instance.TogglePause(true);
     }
 }
