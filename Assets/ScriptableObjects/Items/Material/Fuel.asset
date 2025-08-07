@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: RosePetal
+  m_Script: {fileID: 11500000, guid: 90910606cfd308e48855c639e173d470, type: 3}
+  m_Name: Fuel
   m_EditorClassIdentifier: 
   id: 0
-  itemName: New Item
+  itemName: Fuel
   itemDescription: Null Description
-  itemIcon: {fileID: -781294158744790408, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
+  itemIcon: {fileID: 3985221016008397036, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
   itemType: 3
   isStackable: 1
   maxStack: 99
   nowStack: 1
-  isTradable: 1
+  isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  itemPrefab: {fileID: 8828659807489044836, guid: 3fbad496b0530854092e5833a37ec81c, type: 3}

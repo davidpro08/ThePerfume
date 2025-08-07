@@ -1218,6 +1218,7 @@ MonoBehaviour:
   bowlSpriteRenderer: {fileID: 1638205263}
   bowlPetalSpawnRadius: 0.5
   petalStackZOffsest: 0.01
+  isHandling: 0
   _TrayClick: {fileID: 0}
 --- !u!4 &1403801928
 Transform:
@@ -1246,7 +1247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c2d46abf749c6459965250481150e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUIManager: {fileID: 0}
+  inventoryUIManager: {fileID: 2039236028}
 --- !u!114 &1403801930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1570,7 +1571,6 @@ GameObject:
   - component: {fileID: 1638205264}
   - component: {fileID: 1638205263}
   - component: {fileID: 1638205262}
-  - component: {fileID: 1638205265}
   - component: {fileID: 1638205266}
   m_Layer: 8
   m_Name: Bowl
@@ -1686,18 +1686,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!114 &1638205265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638205261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2a1045c583753489de72f73f265072, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1638205266
 MonoBehaviour:
   m_ObjectHideFlags: 0
