@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HarvestableCrop : MonoBehaviour
+public class HarvestableCrop : MonoBehaviour, IInteract
 {
     [Header("농작물 정보")]
     public CropType cropType; // 해당 농작물 종류
@@ -130,4 +130,13 @@ public class HarvestableCrop : MonoBehaviour
         UpdateSprite();
     }
     // ===============================================
+    public void Interact(Player player)
+    {
+        if(CanInteract(player))OnHarvested();
+    }
+
+    public bool CanInteract(Player player)
+    {
+        return CanHarvest();
+    }
 }

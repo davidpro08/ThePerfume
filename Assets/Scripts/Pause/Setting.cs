@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -21,9 +22,47 @@ namespace PausePanel
 
         private List<Resolution> _resolutions;
         private int _resolutionNum;
-        private FullScreenMode _screenMode;
 
         private void Start()
+        {
+            // Initialize UI elements with current settings
+            InitializeAudioSettings();
+            InitializeGraphicsSettings();
+
+            // Add listeners for UI elements
+            AddListeners();
+        }
+
+        private void InitializeAudioSettings()
+        {
+            // Get initial volumes from the mixer and set the sliders
+            // The values are in dB, so we need to convert them back to linear (0-1)
+            masterMixer.GetFloat("Master", out float masterVol);
+            masterSlider.value = Mathf.Pow(10, masterVol / 20);
+
+            masterMixer.GetFloat("BGM", out float bgmVol);
+            bgmSlider.value = Mathf.Pow(10, bgmVol / 20);
+
+            masterMixer.GetFloat("SFX", out float sfxVol);
+            sfxSlider.value = Mathf.Pow(10, sfxVol / 20);
+        }
+
+        private void InitializeGraphicsSettings()
+        {
+            // Quality Settings
+            qualityDropdown.ClearOptions();
+            qualityDropdown.AddOptions(QualitySettings.names.ToList());
+            qualityDropdown.value = QualitySettings.GetQualityLevel();
+            qualityDropdown.RefreshShownValue();
+
+            // Fullscreen Toggle
+            fullScreenToggle.isOn = Screen.fullScreen;
+
+            // Resolution Dropdown
+            InitializeResolutions();
+        }
+
+        private void AddListeners()
         {
             // Audio
             masterSlider.onValueChanged.AddListener(SetMasterVolume);
@@ -31,11 +70,9 @@ namespace PausePanel
             sfxSlider.onValueChanged.AddListener(SetSfxVolume);
 
             // Graphics
-            InitializeResolutions();
-            InitializeQualitySettings();
-
-            fullScreenToggle.onValueChanged.AddListener(SetFullScreen);
             qualityDropdown.onValueChanged.AddListener(SetQuality);
+            fullScreenToggle.onValueChanged.AddListener(SetFullScreen);
+            resolutionDropdown.onValueChanged.AddListener(SetResolution);
         }
 
         // Audio Control
@@ -46,16 +83,16 @@ namespace PausePanel
         // Graphics Control
         private void InitializeResolutions()
         {
-            _resolutions = new List<Resolution>();
+            _resolutions = Screen.resolutions.ToList();
             resolutionDropdown.ClearOptions();
-            _resolutions.AddRange(Screen.resolutions);
             
             var options = new List<string>();
             _resolutionNum = 0;
             for (int i = 0; i < _resolutions.Count; i++)
             {
-                options.Add($"{_resolutions[i].width} x {_resolutions[i].height} {_resolutions[i].refreshRateRatio}hz");
-                if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)
+                options.Add($"{_resolutions[i].width} x {_resolutions[i].height} @ {Mathf.RoundToInt((float)_resolutions[i].refreshRateRatio.value)}hz");
+                if (_resolutions[i].width == Screen.currentResolution.width && 
+                    _resolutions[i].height == Screen.currentResolution.height)
                 {
                     _resolutionNum = i;
                 }
@@ -63,38 +100,25 @@ namespace PausePanel
             resolutionDropdown.AddOptions(options);
             resolutionDropdown.value = _resolutionNum;
             resolutionDropdown.RefreshShownValue();
-            
-            resolutionDropdown.onValueChanged.AddListener(SetResolution);
         }
 
         public void SetResolution(int index)
         {
             _resolutionNum = index;
-            Screen.SetResolution(_resolutions[_resolutionNum].width, _resolutions[_resolutionNum].height, _screenMode);
-        }
-
-        private void InitializeQualitySettings()
-        {
-            qualityDropdown.ClearOptions();
-            var qualityOptions = new List<string>();
-            foreach (var qualityName in QualitySettings.names)
-            {
-                qualityOptions.Add(qualityName);
-            }
-            qualityDropdown.AddOptions(qualityOptions);
-            qualityDropdown.value = QualitySettings.GetQualityLevel();
-            qualityDropdown.RefreshShownValue();
+            Resolution resolution = _resolutions[_resolutionNum];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode);
         }
         
         public void SetFullScreen(bool isFull)
         {
-            _screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
-            Screen.SetResolution(_resolutions[_resolutionNum].width, _resolutions[_resolutionNum].height, _screenMode);
+            FullScreenMode screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+            Resolution resolution = _resolutions[_resolutionNum];
+            Screen.SetResolution(resolution.width, resolution.height, screenMode);
         }
 
         public void SetQuality(int qualityIndex)
         {
-            QualitySettings.SetQualityLevel(qualityIndex);
+            QualitySettings.SetQualityLevel(qualityIndex, true);
         }
     }
 }

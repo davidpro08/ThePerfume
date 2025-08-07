@@ -1,6 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -162,7 +159,7 @@ public class Player : MonoBehaviour
             }
 
             IInteract interact = detection.collider.GetComponent<IInteract>();
-            interact.Interact(this);
+            if(interact != null) interact.Interact(this);
         }
 
         Debug.Log($"상호작용 없음");
