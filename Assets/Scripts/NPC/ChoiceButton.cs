@@ -23,6 +23,7 @@ namespace NPC
         {
             currentDialogue = text;
             nextDialogueId = nextId;
+            
             gameObject.SetActive(true);
         }
 
