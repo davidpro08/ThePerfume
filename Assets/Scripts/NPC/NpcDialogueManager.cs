@@ -159,6 +159,12 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.Log("선택지가 없습니다.");
             return false;
         }
+        
+        if (currentDialogue.nextDialogueIds == null || choicesLength != currentDialogue.nextDialogueIds.Length)
+        {
+            Debug.LogError("Choices and nextDialogueIds lengths do not match in IsHaveChoices!");
+            return false;
+        }
 
         return true;
     }
@@ -170,20 +176,24 @@ public class NpcDialogueManager : MonoBehaviour
     {
         int choicesLength = currentDialogue.choices.Length;
 
+        
+
         // 오브젝트 풀링을 이용해서 리소스 최소화
-        if (choiceButtons.Count < choicesLength)
+        while (choiceButtons.Count < choicesLength)
         {
-            Debug.Log("선택지 개수가 부족합니다. 더 생성합니다.");
             MakeMoreChoiceButtons();
         }
 
-        for (int i = 0; i < currentDialogue.choices.Length; i++)
+        // Activate and setup required buttons
+        for (int i = 0; i < choicesLength; i++) // Iterate only up to choicesLength
         {
-            int choiceIndex = i;
-            ChoiceButton choiceButton = choiceButtons[choiceIndex];
-            
-            // 선택시 표시하기 위해 세팅
-            choiceButton.Setting(currentDialogue.choices[i], currentDialogue.nextDialogueIds[i]);
+            choiceButtons[i].Setup(currentDialogue.choices[i], currentDialogue.nextDialogueIds[i]);
+        }
+
+        // Hide any excess buttons in the pool
+        for (int i = choicesLength; i < choiceButtons.Count; i++) // Start from choicesLength
+        {
+            choiceButtons[i].Hide();
         }
     }
 
@@ -192,12 +202,18 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     private void MakeMoreChoiceButtons()
     {
-        GameObject button = Instantiate(choiceButtonPrefab, choiceButtonContainer);
-        button.SetActive(false);
-
-        ChoiceButton choiceButton = button.GetComponent<ChoiceButton>();
-        choiceButton.button.onClick.AddListener(() => OnChoiceSelected(choiceButton.nextDialogueId));
+        GameObject buttonObj = Instantiate(choiceButtonPrefab, choiceButtonContainer);
+        ChoiceButton choiceButton = buttonObj.GetComponent<ChoiceButton>();
+        
+        choiceButton.OnChoiceSelected += HandleChoiceSelected; // 이벤트 구독
         choiceButtons.Add(choiceButton);
+        buttonObj.SetActive(false);
+    }
+
+    private void HandleChoiceSelected(string nextDialogueId)
+    {
+        // 모든 버튼을 숨기는 로직을 OnChoiceSelected에서 처리
+        OnChoiceSelected(nextDialogueId);
     }
 
     /// <summary>
@@ -207,7 +223,7 @@ public class NpcDialogueManager : MonoBehaviour
     {
         foreach (ChoiceButton choiceButton in choiceButtons)
         {
-            choiceButton.OtherSelected();
+            choiceButton.Hide();
         }
         
         StartDialogue(currentNpcId, nextDialogueId);
@@ -223,7 +239,7 @@ public class NpcDialogueManager : MonoBehaviour
             StopCoroutine(typewriterCoroutine);
             dialogueText.text = currentDialogue.dialogueText;
             isTyping = false;
-            DisplayChoices();
+            if (IsHaveChoices()) DisplayChoices();
             return;
         }
 
