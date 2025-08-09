@@ -5,6 +5,7 @@ using UnityEngine;
 public class CSVDialogueParser : MonoBehaviour
 {
     [Header("CSV 설정")]
+    [Tooltip("인스펙터에서 대화 CSV 파일을 여기에 할당하세요.")]
     public TextAsset dialogueCSV;
 
     private DialogueData dialogueData;
@@ -31,87 +32,37 @@ public class CSVDialogueParser : MonoBehaviour
     {
         if (dialogueCSV == null)
         {
-            Debug.LogError("Dialogue CSV 파일이 설정되지 않았습니다!");
+            Debug.LogError("Dialogue CSV 파일이 할당되지 않았습니다!");
             return;
         }
 
-        dialogueData = ParseCSV(dialogueCSV.text);
+        var parsedData = CSVParser.ParseFromText(dialogueCSV.text);
+        dialogueData = InterpretDialogueData(parsedData);
         Debug.Log($"총 {dialogueData.dialogues.Count}개의 대화 데이터를 로드했습니다.");
     }
 
-    DialogueData ParseCSV(string csvText)
+    private DialogueData InterpretDialogueData(List<Dictionary<string, object>> parsedData)
     {
-        DialogueData data = new DialogueData();
-        string[] lines = csvText.Split('\n');
+        var data = new DialogueData();
 
-        // 첫 번째 줄은 헤더이므로 건너뛰기
-        for (int i = 1; i < lines.Length; i++)
+        foreach (var row in parsedData)
         {
-            string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
+            string id = GetString(row, "id");
+            if (string.IsNullOrEmpty(id)) continue;
 
-            string[] values = ParseCSVLine(line);
-            if (values.Length >= 3)
-            {
-                string id = values[0];
-                string npcId = values[1];
-                string dialogueText = values[2];
-
-                // 선택지 처리 (4번째 컬럼)
-                string[] choices = new string[0];
-                if (values.Length > 3 && !string.IsNullOrEmpty(values[3]))
-                {
-                    choices = values[3].Split('|');
-                }
-
-                // 다음 대화 ID 처리 (5번째 컬럼)
-                string[] nextDialogueIds = new string[0];
-                if (values.Length > 4 && !string.IsNullOrEmpty(values[4]))
-                {
-                    nextDialogueIds = values[4].Split('|');
-                }
-
-                // 조건 처리 (6번째 컬럼)
-                string condition = values.Length > 5 ? values[5] : "";
-
-                // 종료 대화 여부 (7번째 컬럼)
-                bool isEndDialogue = values.Length > 6 && values[6].ToLower() == "true";
-
-                DialogueEntry entry = new DialogueEntry(id, npcId, dialogueText, choices, nextDialogueIds, condition, isEndDialogue);
-                data.dialogues.Add(entry);
-            }
+            var entry = new DialogueEntry(
+                id,
+                GetString(row, "npcId"),
+                GetString(row, "dialogueText").Replace("\\n", "\n"), // Allow newline characters in dialogue
+                GetString(row, "choices").Split('|'),
+                GetString(row, "nextDialogueIds").Split('|'),
+                GetString(row, "condition"),
+                GetBool(row, "isEndDialogue")
+            );
+            data.dialogues.Add(entry);
         }
 
         return data;
-    }
-
-    string[] ParseCSVLine(string line)
-    {
-        List<string> result = new List<string>();
-        bool inQuotes = false;
-        string currentValue = "";
-
-        for (int i = 0; i < line.Length; i++)
-        {
-            char c = line[i];
-
-            if (c == '"')
-            {
-                inQuotes = !inQuotes;
-            }
-            else if (c == ',' && !inQuotes)
-            {
-                result.Add(currentValue);
-                currentValue = "";
-            }
-            else
-            {
-                currentValue += c;
-            }
-        }
-
-        result.Add(currentValue);
-        return result.ToArray();
     }
 
     public DialogueData GetDialogueData()
@@ -128,4 +79,23 @@ public class CSVDialogueParser : MonoBehaviour
     {
         return dialogueData?.GetDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
     }
+    
+    #region Helper Methods
+
+    private string GetString(Dictionary<string, object> dict, string key)
+    {
+        return dict.ContainsKey(key) ? dict[key].ToString() : "";
+    }
+
+    private bool GetBool(Dictionary<string, object> dict, string key)
+    {
+        if (dict.ContainsKey(key))
+        {
+            string val = dict[key].ToString();
+            return val == "1" || val.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+        return false;
+    }
+
+    #endregion
 }

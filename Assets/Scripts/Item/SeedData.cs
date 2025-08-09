@@ -11,7 +11,7 @@ public class SeedData : ItemData
     // 일단 위에 추가해놓음
 
 
-    private SeedType seedType;
+    public SeedType seedType;
     public SeedData() { }
     public SeedData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
