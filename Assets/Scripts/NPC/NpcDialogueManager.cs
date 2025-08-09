@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -21,7 +22,7 @@ public class NpcDialogueManager : MonoBehaviour
     public bool useTypewriterEffect = true;
 
     // 현재 대화 상태
-    private DialogueEntry currentDialogue;
+    [SerializeField]private DialogueEntry currentDialogue;
     private string currentNpcId;
     private bool isTyping = false;
     private Coroutine typewriterCoroutine;
@@ -169,6 +170,12 @@ public class NpcDialogueManager : MonoBehaviour
     private void DisplayChoices()
     {
         int choicesLength = currentDialogue.choices.Length;
+        int nextDialogueLength = currentDialogue.nextDialogueIds.Length;
+
+        if (choicesLength > nextDialogueLength)
+        {
+            Debug.LogError("선택지와 다음 선택지 ID 개수가 잘못되었습니다. 아마 데이터 문제이거나 파싱 문제일 겁니다. 선택지 개수는 다음 문장 개수보다 클 수 없습니다.");
+        }
 
         // 오브젝트 풀링을 이용해서 리소스 최소화
         while (choiceButtons.Count < choicesLength)
@@ -182,7 +189,6 @@ public class NpcDialogueManager : MonoBehaviour
             if (i < choicesLength)
             {
                 ChoiceButton choiceButton = choiceButtons[i];
-                choiceButton.gameObject.SetActive(true);
                 choiceButton.Setting(currentDialogue.choices[i], currentDialogue.nextDialogueIds[i]);
             }
             else
@@ -229,6 +235,12 @@ public class NpcDialogueManager : MonoBehaviour
             dialogueText.text = currentDialogue.dialogueText;
             isTyping = false;
             DisplayChoices();
+            return;
+        }
+        
+        // 선택지가 있을 때는 다음 버튼 무시
+        if (currentDialogue.choices.Length != 0)
+        {
             return;
         }
 

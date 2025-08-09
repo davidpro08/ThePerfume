@@ -12,8 +12,8 @@ public class ItemData : ScriptableObject
     public string itemName = "New Item";
     
     // 아이템 설명
-    [TextArea(3, 10)]
-    public string itemDescription = "Null Description";
+    [FormerlySerializedAs("itemDescription")] [TextArea(3, 10)]
+    public string description = "Null Description";
     
     // 아이템에 아이콘 할당
     public Sprite itemIcon = null;
@@ -50,11 +50,11 @@ public class ItemData : ScriptableObject
         
     }
     
-    public ItemData(int id, string itemName, string itemDescription, Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack, int nowStack, bool isTradable, int buyPrice, int sellPrice)
+    public ItemData(int id, string itemName, string description, Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack, int nowStack, bool isTradable, int buyPrice, int sellPrice)
     {
         this.id = id;
         this.itemName = itemName;
-        this.itemDescription = itemDescription;
+        this.description = description;
         this.itemIcon = itemIcon;
         this.itemType = itemType;
         this.isStackable = isStackable;

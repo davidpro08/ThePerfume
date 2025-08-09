@@ -13,11 +13,11 @@ public class SeedData : ItemData
 
     private SeedType seedType;
     public SeedData() { }
-    public SeedData(int id, string itemName, string itemDescription,
+    public SeedData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     SeedType seedType)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.seedType = seedType;
     }

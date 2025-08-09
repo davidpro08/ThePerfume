@@ -17,11 +17,11 @@ public class PerfumeData : ItemData
     public float perfumeRelax = 0f;
 
     public PerfumeData() { }
-    public PerfumeData(int id, string itemName, string itemDescription,
+    public PerfumeData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     PerfumeType perfumeType, float perfumeWarm, float perfumeCool, float perfumeRelax)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.perfumeType = perfumeType;
         this.perfumeWarm = perfumeWarm;

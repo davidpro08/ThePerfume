@@ -13,12 +13,12 @@ public class CropData : ItemData
     
 
     public CropData() { }
-    public CropData(int id, string itemName, string itemDescription,
+    public CropData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     CropType cropType, GameObject itemPrefab, GameObject itemPrefabOnUI,
     ItemData petal, GameObject itemOnTray)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.cropType = cropType;
         this.growPrefab = itemPrefab;

@@ -29,12 +29,12 @@ public class EssenceData : ItemData
     public GameObject prefabInTube;
 
     public EssenceData() { }
-    public EssenceData(int id, string itemName, string itemDescription,
+    public EssenceData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
     bool canBaseNote, bool canMiddleNote, bool canTopNote, GameObject prefabInTube)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.essenceType = essenceType;
         this.essenceWarm = essenceWarm;

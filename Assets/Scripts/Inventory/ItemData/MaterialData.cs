@@ -7,11 +7,11 @@ public class MaterialData : ItemData
     public EssenceData essenceData; // 에센스 데이터
 
     public MaterialData() { }
-    public MaterialData(int id, string itemName, string itemDescription,
+    public MaterialData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     GameObject itemPrefab, EssenceData essenceData)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.itemPrefab = itemPrefab;
         this.essenceData = essenceData;

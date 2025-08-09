@@ -17,11 +17,11 @@ public class ToolData : ItemData
     public int useDurability = 1;
 
     public ToolData() { }
-    public ToolData(int id, string itemName, string itemDescription,
+    public ToolData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     ToolType toolType, int maxDurability, int nowDurability)
-    : base(id, itemName, itemDescription, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
+    : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.toolType = toolType;
         this.maxDurability = maxDurability;
