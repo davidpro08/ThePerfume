@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   itemName: roseSeed
-  itemDescription: "\uC7A5\uBBF8 \uC528\uC557"
+  description: "\uC7A5\uBBF8 \uC528\uC557"
   itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
-  itemType: 1
+  itemType: 2
   isStackable: 1
   maxStack: 20
   nowStack: 1
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 0
   growIntoCropType: 0
   cropPrefabToGrow: {fileID: 7879290774041444335, guid: 04bba30e7dfdf0347bf34dc220bd1fe6, type: 3}
+  seedType: 0

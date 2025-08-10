@@ -44,17 +44,20 @@ public class ItemOnTrayClick : MonoBehaviour
     // }
     // ===============================================
 
-    void OnMouseDown()
+    public void OnCropClicked()
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("UI 위 클릭 무시");
-            return;
-        }
+        // if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        // {
+        //     Debug.Log("UI 위 클릭 무시");
+        //     return;
+        // }
 
         Debug.Log($"{gameObject.name} 클릭");
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
+        TrayClick.cropClicked = false;
+
+        Debug.Log($"FlowerManager.Instance == {FlowerManager.Instance}");
 
         if (FlowerManager.Instance != null)
         {

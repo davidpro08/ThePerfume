@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   itemName: New Item
-  itemDescription: Null Description
+  description: Null Description
   itemIcon: {fileID: -93750458980389090, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
-  itemType: 2
+  itemType: 3
   isStackable: 1
   maxStack: 99
   nowStack: 1
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 0
   cropType: 0
-  itemPrefab: {fileID: 7879290774041444335, guid: 04bba30e7dfdf0347bf34dc220bd1fe6, type: 3}
+  growPrefab: {fileID: 0}
   itemOnTray: {fileID: 5197423724709296559, guid: 6392344a29c57344aa7f8fb32050f97e, type: 3}
   itemPrefabOnUI: {fileID: 5494312074637828506, guid: 321a3e9dcb7424a41adf8d8dfef6e604, type: 3}
   petal: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
