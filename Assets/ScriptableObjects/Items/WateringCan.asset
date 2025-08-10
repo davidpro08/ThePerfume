@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   itemName: "\uBB3C\uBFCC\uB9AC\uAC1C"
-  itemDescription: Null Description
+  description: Null Description
   itemIcon: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}
   itemType: 0
   isStackable: 0
@@ -26,5 +26,5 @@ MonoBehaviour:
   scaleUpUI: 1
   toolType: 0
   maxDurability: 5
-  nowDurability: 2
+  nowDurability: 5
   useDurability: 1
