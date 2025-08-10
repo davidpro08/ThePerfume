@@ -53,14 +53,15 @@ public class Farm : MonoBehaviour, IInteract
         switch (toolData.toolType)
         {
             case ToolType.WateringCan:
-                // 물 주는 애니메이션이 이 아래에 들어가야함
-                // 여기!
-                toolData.nowDurability -= toolData.useDurability; // 내구도 감소
-                InventoryManager.Instance.InventoryChanged();
-                Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
+                
                 if (!isWatered)
                 {
                     isWatered = true;
+                    // 물 주는 애니메이션이 이 아래에 들어가야함
+                    // 여기!
+                    toolData.nowDurability -= toolData.useDurability; // 내구도 감소
+                    InventoryManager.Instance.InventoryChanged();
+                    Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
                     
                     if (farmSpriteRenderer != null)
                     {
