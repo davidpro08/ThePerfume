@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4387860046628155464}
   - component: {fileID: 2640140991710449220}
-  - component: {fileID: 8492843000162969973}
   - component: {fileID: 2566131847094428307}
+  - component: {fileID: 1088297733044911840}
   m_Layer: 8
   m_Name: RoseFlowerOnTray
-  m_TagString: Untagged
+  m_TagString: CropOnTray
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5197423724709296559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -2.8395, y: -3.6303, z: 0}
-  m_LocalScale: {x: 0.8975, y: 4.6657, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2111, y: -0.2848, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2640140991710449220
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0.35983825, b: 0.35983825, a: 1}
+  m_Sprite: {fileID: 1644465312645540473, guid: 82fc92b4d4b804a4e9ee39d1badb6048, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,7 +89,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &8492843000162969973
+--- !u!114 &2566131847094428307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197423724709296559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c16aa74e87f8f74594c66d6643043e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
+--- !u!60 &1088297733044911840
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,8 +139,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.27, y: 0.36}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -135,20 +148,21 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.5, y: -0.28866667}
-      - {x: 0.5, y: -0.28866667}
+    - - {x: 0.08740559, y: 0.1392525}
+      - {x: 0.04538358, y: 0.17707212}
+      - {x: -0.03917847, y: 0.17800467}
+      - {x: -0.06616191, y: 0.15199529}
+      - {x: -0.09862678, y: 0.1510764}
+      - {x: -0.122744635, y: 0.11658489}
+      - {x: -0.12553695, y: 0.05209797}
+      - {x: -0.13499999, y: -0.05615019}
+      - {x: -0.011126697, y: -0.048309878}
+      - {x: 0.07414317, y: -0.17600934}
+      - {x: 0.11563376, y: -0.17797993}
+      - {x: 0.11224111, y: -0.13272117}
+      - {x: 0.055263963, y: -0.043053176}
+      - {x: 0.10325708, y: -0.02522945}
+      - {x: 0.13601995, y: 0.023569178}
+      - {x: 0.13599771, y: 0.10712434}
+      - {x: 0.11196004, y: 0.13909623}
   m_UseDelaunayMesh: 0
---- !u!114 &2566131847094428307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5197423724709296559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c16aa74e87f8f74594c66d6643043e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
