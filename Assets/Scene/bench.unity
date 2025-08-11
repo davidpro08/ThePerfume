@@ -5124,7 +5124,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1403801928}
   - component: {fileID: 1403801927}
-  - component: {fileID: 1403801929}
   - component: {fileID: 1403801930}
   m_Layer: 0
   m_Name: BenchManager
@@ -5168,19 +5167,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1403801929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403801926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41c2d46abf749c6459965250481150e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryUIManager: {fileID: 2039236028}
 --- !u!114 &1403801930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5482,8 +5468,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1574989294}
   - component: {fileID: 1574989293}
-  - component: {fileID: 1574989295}
   - component: {fileID: 1574989296}
+  - component: {fileID: 1574989297}
   m_Layer: 8
   m_Name: Tray
   m_TagString: Untagged
@@ -5566,21 +5552,6 @@ Transform:
   - {fileID: 1010576208}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1574989295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574989291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 690d98f37b473264d9da36d5f5661e1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractableLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!60 &1574989296
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5636,6 +5607,18 @@ PolygonCollider2D:
       - {x: 0.6495631, y: -0.19489388}
       - {x: 0.65276474, y: -0.058708504}
   m_UseDelaunayMesh: 0
+--- !u!114 &1574989297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574989291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0b8a67a6087ff4da1ad0a8799852c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1622652274
 GameObject:
   m_ObjectHideFlags: 0
@@ -5782,8 +5765,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1638205264}
   - component: {fileID: 1638205263}
-  - component: {fileID: 1638205266}
   - component: {fileID: 1638205267}
+  - component: {fileID: 1638205268}
   m_Layer: 8
   m_Name: Bowl
   m_TagString: Untagged
@@ -5861,21 +5844,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1638205266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638205261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 690d98f37b473264d9da36d5f5661e1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractableLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!60 &1638205267
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5933,6 +5901,18 @@ PolygonCollider2D:
       - {x: 0.6129348, y: 0.22885394}
       - {x: 0.27831408, y: 0.42814234}
   m_UseDelaunayMesh: 0
+--- !u!114 &1638205268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638205261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0b8a67a6087ff4da1ad0a8799852c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1658837291
 GameObject:
   m_ObjectHideFlags: 0
