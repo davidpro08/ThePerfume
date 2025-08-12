@@ -58,7 +58,7 @@ public class ClickTube : MonoBehaviour
                         return;
                     }
 
-                    if (TillInventoryUIManager.Instance == null)
+                    if (TillUIManager.Instance == null)
                     {
                         Debug.Log($"Instance null");
                         return;
@@ -68,11 +68,11 @@ public class ClickTube : MonoBehaviour
                     if (selectedSlot.itemData.itemName == "Fuel")
                     {
                         Debug.Log($"TubeFuel SpawnItemOnTubeFuel call");
-                        TillInventoryUIManager.Instance.SpawnItemOnTube(selectedSlot.itemData, 1, TillInventoryUIManager.Instance.tubeFuelTransformPos);
+                        TillUIManager.Instance.SpawnItemOnTube(selectedSlot.itemData, 1, TillUIManager.Instance.tubeFuelTransformPos);
                     }
                     else
                     {
-                        TillInventoryUIManager.Instance.ShowWarningCanvas("No Fuel Item");
+                        TillUIManager.Instance.ShowWarningCanvas("No Fuel Item");
                         return;
                     }
                     // ==================================================
@@ -95,36 +95,36 @@ public class ClickTube : MonoBehaviour
                         return;
                     }
 
-                    if (TillInventoryUIManager.Instance == null)
+                    if (TillUIManager.Instance == null)
                     {
                         Debug.Log($"Instance null");
                         return;
                     }
 
-                    if (selectedSlot.itemData.itemType == ItemType.Material && selectedSlot.itemData.itemName != "Fuel" && !TillInventoryUIManager.Instance.isMakingEssence)
+                    if (selectedSlot.itemData.itemType == ItemType.Material && selectedSlot.itemData.itemName != "Fuel" && !TillUIManager.Instance.isMakingEssence)
                     {
                         Debug.Log($"Tray SpawnItemOnTubeFuel call");
-                        TillInventoryUIManager.Instance.SpawnItemOnTube(selectedSlot.itemData, 1, TillInventoryUIManager.Instance.tubePetalTransformPos);
+                        TillUIManager.Instance.SpawnItemOnTube(selectedSlot.itemData, 1, TillUIManager.Instance.tubePetalTransformPos);
                     }
-                    else if (TillInventoryUIManager.Instance.isMakingEssence)
+                    else if (TillUIManager.Instance.isMakingEssence)
                     {
-                        TillInventoryUIManager.Instance.ShowWarningCanvas("exist essence");
+                        TillUIManager.Instance.ShowWarningCanvas("exist essence");
                     }
                     else
                     {
-                        TillInventoryUIManager.Instance.ShowWarningCanvas("No Harvested Crop Item");
+                        TillUIManager.Instance.ShowWarningCanvas("No Harvested Crop Item");
                         return;
                     }
                 }
 
                 else if (clickedObjectName == tubeEssenceName)
                 {
-                    if (TillInventoryUIManager.Instance == null)
+                    if (TillUIManager.Instance == null)
                     {
                         Debug.Log("FlowerManager.Instance == null");
                         return;
                     }
-                    TillInventoryUIManager.Instance.OnTubeEssenceClicked();
+                    TillUIManager.Instance.OnTubeEssenceClicked();
                 }
             }
         }

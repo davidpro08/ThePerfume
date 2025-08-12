@@ -623,6 +623,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &602366920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 602366921}
+  m_Layer: 0
+  m_Name: "========\uC784\uC2DC \uC624\uBE0C\uC81D\uD2B8======="
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &602366921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602366920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.06545, y: -0.56713, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644120054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1354,75 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1576548752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576548754}
+  - component: {fileID: 1576548753}
+  - component: {fileID: 1576548755}
+  m_Layer: 5
+  m_Name: InventoryUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1576548753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576548752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a925e6dbb2d3741b69b734273f090c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 644120055}
+  inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
+  hotbarSlotsContainer: {fileID: 452154494}
+  fullInventoryPanel: {fileID: 1584175406}
+  fullInventorySlotsContainer: {fileID: 1795858678}
+--- !u!224 &1576548754
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576548752}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1576548755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576548752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa695f900542d341b931d4922ae8769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FuelItem: {fileID: 11400000, guid: dae1457b782b7a147918e1ab986a7a5a, type: 2}
+  RosePetalItem: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
+  inventoryManager: {fileID: 644120055}
 --- !u!1 &1584175406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,7 +1542,7 @@ GameObject:
   - component: {fileID: 1671531432}
   - component: {fileID: 1671531433}
   m_Layer: 0
-  m_Name: StillInventoryUIManager
+  m_Name: TillUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1475,12 +1575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d59ecbc80f6d643bab8f95343ccc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 644120055}
-  inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
-  hotbarSlotsContainer: {fileID: 452154494}
-  fullInventoryPanel: {fileID: 1584175406}
-  fullInventorySlotsContainer: {fileID: 1795858678}
-  inventoryUIManager: {fileID: 1671531432}
   warningCanvas: {fileID: 1727222304}
   warningMessageText: {fileID: 321251328}
   warningOkButton: {fileID: 722902966}
@@ -1495,6 +1589,7 @@ MonoBehaviour:
   tubeEssenceTransformPos: {fileID: 1364282145}
   makingTime: 1
   isMakingEssence: 0
+  isWarningCanvasOpen: 0
 --- !u!114 &1671531433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2196,13 +2291,15 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1479714657}
-  - {fileID: 1671531431}
-  - {fileID: 644120056}
-  - {fileID: 2032770897}
   - {fileID: 1872971554}
-  - {fileID: 1727222308}
+  - {fileID: 1671531431}
   - {fileID: 1256381667}
   - {fileID: 1725854644}
   - {fileID: 330411187}
   - {fileID: 1732864830}
+  - {fileID: 1727222308}
   - {fileID: 556065210}
+  - {fileID: 602366921}
+  - {fileID: 1576548754}
+  - {fileID: 2032770897}
+  - {fileID: 644120056}

@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BenchInventoryUIManager : MonoBehaviour
+public class BenchUIManager : MonoBehaviour
 {
-    public static BenchInventoryUIManager Instance { get; private set; }
+    public static BenchUIManager Instance { get; private set; }
     [Header("인벤토리 경고창UI")]
     [SerializeField] private GameObject warningCanvas;
     [SerializeField] private TextMeshProUGUI warningMessageText;

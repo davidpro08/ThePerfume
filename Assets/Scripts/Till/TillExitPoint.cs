@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class ExitPoint : MonoBehaviour
+public class TillExitPoint : MonoBehaviour
 {
     [Header("나가기 설정")]
     [SerializeField] private string targetSceneName = "lab";
@@ -32,7 +32,7 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && !BenchUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchUIManager.Instance.HasSpawnedItemOnTray())
+        if (!InventoryUIManager.isFullInventoryOpen && TillUIManager.Instance.isWarningCanvasOpen)
         {
             if (string.IsNullOrEmpty(targetSceneName))
             {
@@ -42,16 +42,7 @@ public class ExitPoint : MonoBehaviour
         }
         else
         {
-            if (!FlowerManager.Instance.IsExitable())
-            {
-                BenchUIManager.Instance.ShowWarningCanvas("bowl에 꽃잎이 남아있습니다.");
-                Debug.LogWarning($"IsExitable : Bowl에 꽃잎이 남아있음");
-            }
-            if (BenchUIManager.Instance.HasSpawnedItemOnTray())
-            {
-                BenchUIManager.Instance.ShowWarningCanvas("Tray 위에 작물이 남아있습니다.");
-                Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
-            }
+            // 근데 이걸 닫을 때 이걸 확인해야하나..? 닫아도 계속 유지되도록 하는거 아닌가
         }
     }
 }

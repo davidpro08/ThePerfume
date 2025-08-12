@@ -6,10 +6,10 @@ using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine.InputSystem;
 
-public class TillInventoryUIManager : InventoryUIManager
+public class TillUIManager : MonoBehaviour
 {
-    public static TillInventoryUIManager Instance { get; private set; }
-    [SerializeField] private InventoryUIManager inventoryUIManager;
+    public static TillUIManager Instance { get; private set; }
+
     [Header("인벤토리 경고창UI")]
     [SerializeField] private GameObject warningCanvas;
     [SerializeField] private TextMeshProUGUI warningMessageText;
@@ -28,7 +28,7 @@ public class TillInventoryUIManager : InventoryUIManager
     public bool isMakingEssence = false;
     private GameObject spawnedEssence;
     private EssenceData currentEssenceData;
-    private bool isOpenInventory = false;
+    public bool isWarningCanvasOpen = false;
 
     void Awake()
     {
@@ -40,12 +40,6 @@ public class TillInventoryUIManager : InventoryUIManager
         }
         Instance = this;
 
-
-
-        inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
-        Debug.Log($"이벤트 구독 완");
-
-        if (fullInventoryPanel != null) fullInventoryPanel.SetActive(false);
         if (warningCanvas != null) warningCanvas.SetActive(false);
 
         if (warningOkButton != null)
@@ -55,41 +49,9 @@ public class TillInventoryUIManager : InventoryUIManager
         }
     }
 
-    void Start()
-    {
-        inventoryManager = InventoryManager.Instance;
-        if (inventoryManager == null)
-        {
-            Debug.Log($"[TillInventoryUIManager] InventoryManager 존재 안 함.");
-            enabled = false;
-            return;
-        }
-        Debug.Log($"InventoryManager 참조 성공");
-
-        inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
-        InitializeHotbar();
-        InitializeFullInventory();
-        UpdateAllUIs();
-    }
-
     void OnDestroy()
     {
-        if (inventoryManager != null) inventoryManager.onInventoryChangedCallback -= UpdateAllUIs;
         if (warningOkButton != null) warningOkButton.onClick.RemoveAllListeners();
-    }
-
-    void OnInteract(InputValue value)
-    {
-        isOpenInventory = !isOpenInventory;
-
-        if (inventoryUIManager != null)
-        {
-            inventoryUIManager.ToggleFullInventory();
-        }
-        else
-        {
-            Debug.LogWarning("InventoryUIManager가 Player 스크립트에 연결되지 않았습니다.");
-        }
     }
 
     // 경고창 표시
@@ -99,6 +61,7 @@ public class TillInventoryUIManager : InventoryUIManager
         {
             warningMessageText.text = message;
             warningCanvas.SetActive(true);
+            isWarningCanvasOpen = true;
         }
     }
     // 경고창 끄기
@@ -107,6 +70,7 @@ public class TillInventoryUIManager : InventoryUIManager
         if (warningCanvas != null)
         {
             warningCanvas.SetActive(false);
+            isWarningCanvasOpen = false;
         }
     }
 

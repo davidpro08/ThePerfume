@@ -55,7 +55,7 @@ public class ItemOnTrayClick : MonoBehaviour
         if (FlowerManager.Instance != null)
         {
             FlowerManager.Instance.StartHandling(ItemData, this);
-            BenchInventoryUIManager.Instance.RemoveSpawnedItemd(this.gameObject);
+            BenchUIManager.Instance.RemoveSpawnedItemd(this.gameObject);
             Debug.Log($"[ItemOnTrayClick] {this.gameObject.name}, {this.gameObject != null}");
         }
         else

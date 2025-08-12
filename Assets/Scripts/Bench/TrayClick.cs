@@ -21,7 +21,7 @@ public class TrayClick : MonoBehaviour
             // UI가 열려도 월드 오브젝트 클릭 무시가 안됨
             // UI가 열려있으면 월드 오브젝트 클릭 무시
             Debug.Log($"InventoryUIManager.isFullInventoryOpen : {InventoryUIManager.isFullInventoryOpen}");
-            if (InventoryUIManager.isFullInventoryOpen || BenchInventoryUIManager.Instance.warningCanvasOpen || FlowerManager.Instance.blockingCanvasOpen)
+            if (InventoryUIManager.isFullInventoryOpen || BenchUIManager.Instance.warningCanvasOpen || FlowerManager.Instance.blockingCanvasOpen)
             {
                 if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1) || FlowerManager.Instance.isHandling)
                 {
@@ -56,7 +56,7 @@ public class TrayClick : MonoBehaviour
                 if (hit.collider.gameObject.name == trayName)
                 {
                     Debug.Log("Tray clicked");
-                    if (BenchInventoryUIManager.Instance == null)
+                    if (BenchUIManager.Instance == null)
                     {
                         Debug.Log($"Instance null");
                         return;
@@ -79,11 +79,11 @@ public class TrayClick : MonoBehaviour
                     if (selectedSlot.itemData.itemType == ItemType.Crop)
                     {
                         Debug.Log($"Tray SpawnItemOnTray call");
-                        BenchInventoryUIManager.Instance.SpawnItemOnTray(selectedSlot.itemData, 1);
+                        BenchUIManager.Instance.SpawnItemOnTray(selectedSlot.itemData, 1);
                     }
                     else
                     {
-                        BenchInventoryUIManager.Instance.ShowWarningCanvas("No Crop Item");
+                        BenchUIManager.Instance.ShowWarningCanvas("No Crop Item");
                     }
                     return;
                 }
