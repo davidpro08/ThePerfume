@@ -32,7 +32,7 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (FlowerManager.Instance.IsExitable() && !BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
+        if (!FlowerManager.Instance.blockingCanvasOpen && !BenchInventoryUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
         {
             if (BenchInventoryUIManager.Instance != null)
             {
@@ -49,7 +49,16 @@ public class ExitPoint : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("못닫느다");
+            if (!FlowerManager.Instance.IsExitable())
+            {
+                BenchInventoryUIManager.Instance.ShowWarningCanvas("bowl에 꽃잎이 남아있습니다.");
+                Debug.LogWarning($"IsExitable : Bowl에 꽃잎이 남아있음");
+            }
+            if (BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
+            {
+                BenchInventoryUIManager.Instance.ShowWarningCanvas("Tray 위에 작물이 남아있습니다.");
+                Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
+            }
         }
     }
 }

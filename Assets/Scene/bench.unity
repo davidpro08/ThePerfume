@@ -5148,10 +5148,11 @@ MonoBehaviour:
   mainFlowerSpawnPoint: {fileID: 2000925220}
   bowlTransform: {fileID: 1638205264}
   bowlSpriteRenderer: {fileID: 1638205263}
-  bowlPetalSpawnRadius: 0.5
+  bowlPetalSpawnRadius: 1
   petalStackZOffsest: 0.01
-  isHandling: 0
+  isHandling: 1
   _TrayClick: {fileID: 0}
+  blockingCanvasOpen: 0
 --- !u!4 &1403801928
 Transform:
   m_ObjectHideFlags: 0
@@ -7969,7 +7970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2011359582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8176,11 +8177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275775bf3ae1a6848a7ee349de65d41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 1307852229}
-  inventorySlotUIPrefab: {fileID: 3765029386998667595, guid: ca46a8f9352aab74e8fd9b101d8b4f0c, type: 3}
-  hotbarSlotsContainer: {fileID: 771641241}
-  fullInventoryPanel: {fileID: 1101472116}
-  fullInventorySlotsContainer: {fileID: 1828975351}
   warningCanvas: {fileID: 164872411}
   warningMessageText: {fileID: 1622652276}
   warningOkButton: {fileID: 1826467105}
@@ -8191,6 +8187,7 @@ MonoBehaviour:
   - {fileID: 888598247}
   - {fileID: 650907985}
   - {fileID: 1010576208}
+  warningCanvasOpen: 0
 --- !u!1 &2070603130
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BenchInventoryUIManager : InventoryUIManager
+public class BenchInventoryUIManager : MonoBehaviour
 {
     public static BenchInventoryUIManager Instance { get; private set; }
     [Header("인벤토리 경고창UI")]
@@ -19,6 +19,8 @@ public class BenchInventoryUIManager : InventoryUIManager
     [SerializeField] private List<Transform> transformPos;
     // 트레이 위에 생성된 아이템 리스트
     private List<GameObject> spawnedItemOnTray = new List<GameObject>();
+    public bool warningCanvasOpen = false;
+
 
     void Awake()
     {
@@ -30,21 +32,7 @@ public class BenchInventoryUIManager : InventoryUIManager
         }
         Instance = this;
 
-        inventoryManager = InventoryManager.Instance;
-        if (inventoryManager == null)
-        {
-            Debug.Log($"[BenchInventoryUIManager] InventoryManager 존재 안 함.");
-            enabled = false;
-            return;
-        }
-        Debug.Log($"InventoryManager 참조 성공");
-
-        inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
-        Debug.Log($"이벤트 구독 완");
-
-        if (fullInventoryPanel != null) fullInventoryPanel.SetActive(false);
         if (warningCanvas != null) warningCanvas.SetActive(false);
-        // if (quantityCanvas != null) quantityCanvas.SetActive(false);
 
         if (warningOkButton != null)
         {
@@ -53,17 +41,8 @@ public class BenchInventoryUIManager : InventoryUIManager
         }
     }
 
-    void Start()
-    {
-        inventoryManager.onInventoryChangedCallback += UpdateAllUIs;
-        InitializeHotbar();
-        InitializeFullInventory();
-        UpdateAllUIs();
-    }
-
     void OnDestroy()
     {
-        if (inventoryManager != null) inventoryManager.onInventoryChangedCallback -= UpdateAllUIs;
         if (warningOkButton != null) warningOkButton.onClick.RemoveAllListeners();
     }
 
@@ -74,6 +53,7 @@ public class BenchInventoryUIManager : InventoryUIManager
         {
             warningMessageText.text = message;
             warningCanvas.SetActive(true);
+            warningCanvasOpen = true;
         }
     }
     // 경고창 끄기
@@ -82,7 +62,7 @@ public class BenchInventoryUIManager : InventoryUIManager
         if (warningCanvas != null)
         {
             warningCanvas.SetActive(false);
-            //ResetSelection();
+            warningCanvasOpen = false;
         }
     }
 
@@ -94,11 +74,10 @@ public class BenchInventoryUIManager : InventoryUIManager
         CropData cropData = itemToSpawn as CropData;
         if (itemToSpawn == null || cropData == null || cropData.itemOnTray == null || itemSpawnTray == null)
         {
-            if (itemToSpawn == null) Debug.Log("itemToSpawn=null");
-            if (cropData == null) Debug.Log($"CropData 형변환 실패");
-            if (cropData.itemOnTray == null) Debug.Log($"CropData.itemOnTray==null");
-            if (itemSpawnTray == null) Debug.Log($"itemSpawnTray==null");
-            return;
+            if (itemToSpawn == null) { Debug.Log("itemToSpawn=null"); return; }
+            if (cropData == null) { Debug.Log($"CropData 형변환 실패"); return; }
+            if (cropData.itemOnTray == null) { Debug.Log($"CropData.itemOnTray==null"); return; }
+            if (itemSpawnTray == null) { Debug.Log($"itemSpawnTray==null"); return; }
         }
 
         int spawnd = 0;

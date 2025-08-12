@@ -9,6 +9,8 @@ public class TrayClick : MonoBehaviour
     private string bowlName = "Bowl";
     public static bool cropClicked = false;
 
+
+
     void Update()
     {
         // if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
@@ -18,11 +20,16 @@ public class TrayClick : MonoBehaviour
             //==================================================================
             // UI가 열려도 월드 오브젝트 클릭 무시가 안됨
             // UI가 열려있으면 월드 오브젝트 클릭 무시
-            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1) || FlowerManager.Instance.isHandling)
+            Debug.Log($"InventoryUIManager.isFullInventoryOpen : {InventoryUIManager.isFullInventoryOpen}");
+            if (InventoryUIManager.isFullInventoryOpen || BenchInventoryUIManager.Instance.warningCanvasOpen || FlowerManager.Instance.blockingCanvasOpen)
             {
-                Debug.Log($"UI open");
-                return;
+                if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1) || FlowerManager.Instance.isHandling)
+                {
+                    Debug.Log($"UI open");
+                    return;
+                }
             }
+
             //==================================================================
 
             // ======================================================================
@@ -35,7 +42,7 @@ public class TrayClick : MonoBehaviour
             foreach (var hit in hitsAll)
             {
                 ItemOnTrayClick itemOnTrayClick = hit.collider.GetComponent<ItemOnTrayClick>();
-                if (itemOnTrayClick!=null)
+                if (itemOnTrayClick != null)
                 {
                     Debug.Log("Crop detected");
                     itemOnTrayClick.OnCropClicked();
