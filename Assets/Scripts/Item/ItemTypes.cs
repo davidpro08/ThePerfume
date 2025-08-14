@@ -6,7 +6,8 @@ public enum ItemType
     Crop,
     Essence,
     Perfume,
-    Material
+    Material,
+    Installation
 }
 
 public enum CropType
