@@ -28,8 +28,6 @@ public class Distiller : MonoBehaviour
         currentState = distillerState;
     }
 
-    // 씬 이동 요청
-
     private void LoadDistillerState()
     {
         DistillerState loadedState = TillDataManager.Instance.GetDistillerState(distillerID);
@@ -40,7 +38,7 @@ public class Distiller : MonoBehaviour
         }
         else
         {
-            currentState = new DistillerState();
+            currentState = new DistillerState { distillerID = this.distillerID };
             Debug.Log($"[증류기 {distillerID}] 증류기 초기 설정 완료");
         }
     }

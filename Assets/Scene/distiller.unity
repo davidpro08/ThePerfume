@@ -1540,7 +1540,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1671531431}
   - component: {fileID: 1671531432}
-  - component: {fileID: 1671531433}
   m_Layer: 0
   m_Name: TillUIManager
   m_TagString: Untagged
@@ -1590,21 +1589,6 @@ MonoBehaviour:
   makingTime: 1
   isMakingEssence: 0
   isWarningCanvasOpen: 0
---- !u!114 &1671531433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671531430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa695f900542d341b931d4922ae8769, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FuelItem: {fileID: 11400000, guid: dae1457b782b7a147918e1ab986a7a5a, type: 2}
-  RosePetalItem: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
-  inventoryManager: {fileID: 644120055}
 --- !u!1 &1725854642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,6 +1834,66 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1732454246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1732454249}
+  - component: {fileID: 1732454248}
+  - component: {fileID: 1732454247}
+  m_Layer: 0
+  m_Name: TillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1732454247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732454246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19104084de9d33b45bc46df98207c46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1732454248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732454246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa695f900542d341b931d4922ae8769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FuelItem: {fileID: 11400000, guid: dae1457b782b7a147918e1ab986a7a5a, type: 2}
+  RosePetalItem: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
+  inventoryManager: {fileID: 644120055}
+--- !u!4 &1732454249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732454246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.35922, y: -0.63269, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1732864827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2291,12 +2335,13 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1479714657}
+  - {fileID: 1732864830}
   - {fileID: 1872971554}
   - {fileID: 1671531431}
+  - {fileID: 1732454249}
   - {fileID: 1256381667}
   - {fileID: 1725854644}
   - {fileID: 330411187}
-  - {fileID: 1732864830}
   - {fileID: 1727222308}
   - {fileID: 556065210}
   - {fileID: 602366921}
