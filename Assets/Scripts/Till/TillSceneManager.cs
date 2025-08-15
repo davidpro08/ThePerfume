@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,31 +20,41 @@ public class TillSceneManager : MonoBehaviour
 
     void Start()
     {
-        if (SceneChanger.Instance == null) Debug.Log("[TillSceneManager] SceneChanger.Instance == null");
+        if (SceneChanger.Instance == null)
+        {
+            Debug.Log("[TillSceneManager] SceneChanger.Instance == null");
+            return;
+        }
 
         loadedDistillerID = SceneChanger.Instance.currentDistillerID;
 
-        if (!string.IsNullOrEmpty(loadedDistillerID))
+        if (string.IsNullOrEmpty(loadedDistillerID))
         {
-            currentDistillerState = TillDataManager.Instance.GetDistillerState(loadedDistillerID);
-            if (currentDistillerState != null)
-            {
-                Debug.Log($"Till [증류기 {loadedDistillerID}] 씬 입장~");
-                UpdateTillUI();
-            }
-            else
-            {
-                Debug.Log($"Till [증류기 {loadedDistillerID}] 씬 오류...");
-            }
+            loadedDistillerID = Guid.NewGuid().ToString();
+            SceneChanger.Instance.currentDistillerID = loadedDistillerID;
+
+            currentDistillerState = new DistillerState();
+            TillDataManager.Instance.UpdateDistillerState(loadedDistillerID, currentDistillerState);
+
+            Debug.Log($"Till 씬 입장~ 새로운 증류기 생성 : {loadedDistillerID}");
         }
         else
         {
-            Debug.Log("Till 씬 입장~ ID 없음...");
-            currentDistillerState = new DistillerState();
-            UpdateTillUI();
+            currentDistillerState = TillDataManager.Instance.GetDistillerState(loadedDistillerID);
+            if (currentDistillerState == null)
+            {
+                currentDistillerState = TillDataManager.Instance.GetDistillerState(loadedDistillerID);
+                TillDataManager.Instance.UpdateDistillerState(loadedDistillerID, currentDistillerState);
+                Debug.Log($"Till [증류기 {loadedDistillerID}] 씬 입장~ ( ID만 존재, 새로 생성함 )");
+            }
+            else
+            {
+                Debug.Log($"Till [증류기 {loadedDistillerID}] 씬 입장~");
+            }
         }
 
-        SceneChanger.Instance.ResetDistillerID();
+        TillUIManager.Instance.SetActiveDistillerID(loadedDistillerID);
+        UpdateTillUI();
     }
 
     void UpdateTillUI()

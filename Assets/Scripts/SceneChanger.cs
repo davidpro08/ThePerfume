@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,6 +38,11 @@ public class SceneChanger : MonoBehaviour
 
     public void GoToTillScene(string id)
     {
+        if (string.IsNullOrEmpty(targetSceneName))
+        {
+            Debug.Log("씬 이름이 설정 안됨", this);
+            return;
+        }
         currentDistillerID = id;
         SceneManager.LoadScene(targetSceneName);
     }

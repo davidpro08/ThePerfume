@@ -37,6 +37,9 @@ public class TillUIManager : MonoBehaviour
     public GameObject currentPetal = null;
     public GameObject currentEssence = null;
 
+    public string ActiveDistillerID { get; private set; }
+    public void SetActiveDistillerID(string id) => ActiveDistillerID = id;
+
     void Awake()
     {
         Debug.Log($"Awake 실행");
@@ -122,16 +125,15 @@ public class TillUIManager : MonoBehaviour
         {
             if (spawnPoint == null)
             {
-                Debug.Log("[SpawnItemOnTube] spawnPoint 중 오브젝트 파괴");
+                Debug.Log("[SpawnItemOnTube] spawnPoint == null");
                 continue;
             }
 
-            if (spawnPoint.childCount > 0)
+            // 초기화 후에 생성
+            for (int i = spawnPoint.childCount - 1; i >= 0; i--)
             {
-                foreach (Transform child in spawnPoint)
-                {
-                    Destroy(child.gameObject);
-                }
+                Destroy(spawnPoint.GetChild(i).gameObject);
+                spawnedItemOnTube.Remove(spawnPoint.GetChild(i).gameObject);
             }
 
             if (spawnPoint.childCount == 0)
@@ -211,6 +213,7 @@ public class TillUIManager : MonoBehaviour
         foreach (GameObject item in spawnedItemOnTube)
         {
             Destroy(item);
+            spawnedItemOnTube.Remove(item);
         }
         spawnedItemOnTube.Clear();
 
@@ -230,6 +233,7 @@ public class TillUIManager : MonoBehaviour
             {
                 InventoryManager.Instance.AddItem(currentEssenceData, 1);
                 Destroy(spawnedEssence);
+                spawnedItemOnTube.Remove(spawnedEssence);
                 spawnedEssence = null;
                 Debug.Log("에센스 인벤토리에 추가 완료");
                 isMakingEssence = false;
@@ -250,8 +254,8 @@ public class TillUIManager : MonoBehaviour
     {
         if (spawnedItemOnTube.Contains(itemToRemove))
         {
-            spawnedItemOnTube.Remove(itemToRemove);
             Destroy(itemToRemove);
+            spawnedItemOnTube.Remove(itemToRemove);
         }
     }
 
@@ -296,27 +300,22 @@ public class TillUIManager : MonoBehaviour
     {
         if (currentFuel1 != null)
         {
-            //Destroy(currentFuel1);
             currentFuel1 = null;
         }
         if (currentFuel2 != null)
         {
-            //Destroy(currentFuel2);
             currentFuel2 = null;
         }
         if (currentFuel3 != null)
         {
-            //Destroy(currentFuel3);
             currentFuel3 = null;
         }
         if (currentPetal != null)
         {
-            //Destroy(currentPetal);
             currentPetal = null;
         }
         if (currentEssence != null)
         {
-            //Destroy(currentEssence);
             currentEssence = null;
         }
     }

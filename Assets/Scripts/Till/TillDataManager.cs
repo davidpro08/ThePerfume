@@ -43,21 +43,25 @@ public class TillDataManager : MonoBehaviour
 
     public DistillerState GetDistillerState(string distillerID)
     {
-        if (allDistillerState.ContainsKey(distillerID))
+        if (string.IsNullOrEmpty(distillerID))
         {
-            return allDistillerState[distillerID];
+            Debug.Log("[TillDataManager] GetDistillerState : null / empty id");
+            return null;
         }
-        return null;
+        DistillerState state;
+        return allDistillerState.TryGetValue(distillerID, out state) ? state : null;
     }
 
     public void UpdateDistillerState(string distillerID, DistillerState distillerState)
     {
-        if (allDistillerState.ContainsKey(distillerID))
+        if (string.IsNullOrEmpty(distillerID))
         {
-            allDistillerState[distillerID] = distillerState;
-            Debug.Log($"증류기 {distillerID} 상태 업데이트");
-            SaveAllDistillerData();
+            Debug.Log($"[TillDataManager] UpdateDistillerState: null/empty id");
+            return;
         }
+        allDistillerState[distillerID] = distillerState ?? new DistillerState { distillerID = distillerID };
+        Debug.Log($"증류기 {distillerID} 상태 업데이트");
+        SaveAllDistillerData();
     }
 
     private void SaveAllDistillerData()

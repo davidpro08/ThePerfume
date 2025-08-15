@@ -47,4 +47,9 @@ public class Distiller : MonoBehaviour
     {
         TillDataManager.Instance.UpdateDistillerState(distillerID, currentState);
     }
+
+    public void EnterTillScene()
+    {
+        SceneChanger.Instance.GoToTillScene(distillerID);
+    }
 }
