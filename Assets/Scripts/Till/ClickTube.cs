@@ -30,14 +30,23 @@ public class ClickTube : MonoBehaviour
             if (hitsAll.Length > 0)
             {
                 Debug.Log("hitsAll.Lenght>0");
-                foreach (var hit in hitsAll)
-                {
-                    Debug.Log($"{hit.collider.gameObject.name} 인식");
-                }
+
 
                 RaycastHit2D hit2D = hitsAll[0];
                 string clickedObjectName = hit2D.collider.gameObject.name;
                 Debug.Log($"{clickedObjectName} clicked");
+
+                foreach (var hit in hitsAll)
+                {
+                    string clickedName = hit.collider.gameObject.name;
+
+                    if (clickedName == tubeFuelName || clickedName == tubePetalName || clickedName == tubeEssenceName)
+                    {
+                        clickedObjectName = clickedName;
+                        hit2D = hit;
+                        break;
+                    }
+                }
 
                 if (clickedObjectName == tubeFuelName)
                 {

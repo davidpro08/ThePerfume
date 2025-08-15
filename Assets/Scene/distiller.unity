@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 556065210}
   - component: {fileID: 556065209}
   - component: {fileID: 556065208}
-  - component: {fileID: 556065207}
+  - component: {fileID: 556065211}
   m_Layer: 8
   m_Name: ExitPoint
   m_TagString: Exit
@@ -491,22 +491,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &556065207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556065206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c5a611ad4aa6c746a76cc44e115ff1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: lab
-  clickableLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!61 &556065208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -623,6 +607,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &556065211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556065206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0b90d95f14cbb4bab370b56d73ebf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: lab
+  clickableLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &602366920
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &644120055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,7 +1371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1576548753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1589,6 +1589,11 @@ MonoBehaviour:
   makingTime: 1
   isMakingEssence: 0
   isWarningCanvasOpen: 0
+  currentFuel1: {fileID: 1776752580}
+  currentFuel2: {fileID: 1621626666}
+  currentFuel3: {fileID: 1993518456}
+  currentPetal: {fileID: 545840257}
+  currentEssence: {fileID: 1364282144}
 --- !u!1 &1725854642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,7 +1698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!58 &1725854646
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1864,6 +1869,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19104084de9d33b45bc46df98207c46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tubeFuelSpawnPoint1: {fileID: 1776752580}
+  tubeFuelSpawnPoint2: {fileID: 1621626666}
+  tubeFuelSpawnPoint3: {fileID: 1993518456}
+  tubePetalSpawnPoint: {fileID: 545840257}
+  tubeEssenceSpawnPoint: {fileID: 1364282144}
 --- !u!114 &1732454248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2245,7 +2255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2032770894
 MonoBehaviour:
   m_ObjectHideFlags: 0

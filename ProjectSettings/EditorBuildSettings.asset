@@ -17,6 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/NPC_house.unity
     guid: 70dcfbcabe2e7f342b828d8afa2d1044
+  - enabled: 1
+    path: Assets/Scene/distiller.unity
+    guid: 2ae906997f694624b88ed11ab7ff9c57
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 672bd15268b8f514db9b3cae2ceed715, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -66,6 +66,7 @@ public class TillDataManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(wrapper);
         // 실제 파일 저장 러트
         string filePath = Application.persistentDataPath + "/distillerData.json";
+        System.IO.File.WriteAllText(filePath, jsonData);
         Debug.Log("증류기 데이터 저장 " + filePath);
     }
 

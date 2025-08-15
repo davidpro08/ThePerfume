@@ -32,7 +32,7 @@ public class TillExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (!InventoryUIManager.isFullInventoryOpen && TillUIManager.Instance.isWarningCanvasOpen)
+        if (!InventoryUIManager.isFullInventoryOpen && !TillUIManager.Instance.isWarningCanvasOpen)
         {
             if (string.IsNullOrEmpty(targetSceneName))
             {

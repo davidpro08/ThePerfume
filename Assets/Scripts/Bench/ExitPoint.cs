@@ -32,6 +32,8 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
+        if (FlowerManager.Instance == null) Debug.Log("[HandleExit] TillUIManager.Instance == null");
+
         if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && !BenchUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchUIManager.Instance.HasSpawnedItemOnTray())
         {
             if (string.IsNullOrEmpty(targetSceneName))
