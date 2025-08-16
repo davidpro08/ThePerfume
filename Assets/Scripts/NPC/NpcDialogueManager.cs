@@ -23,10 +23,12 @@ public class NpcDialogueManager : MonoBehaviour
 
     [Header("초상화 관리")]
     [SerializeField] private NpcPortraitManager currentPortraitManager;
+    [SerializeField] private Image dialoguePortraitImage; // 대화창의 초상화 이미지
 
     // 현재 대화 상태
     [SerializeField] private DialogueEntry currentDialogue;
     private string currentNpcId;
+    private Npc currentNpc; // 현재 대화 중인 NPC 객체
     private bool isTyping = false;
     private Coroutine typewriterCoroutine;
 
@@ -53,6 +55,39 @@ public class NpcDialogueManager : MonoBehaviour
 
     /// <summary>
     /// NPC와의 대화 시작
+    /// </summary>
+    public void StartDialogue(Npc npc, string dialogueId = null)
+    {
+        if (CSVDialogueParser.Instance == null)
+        {
+            Debug.LogError("CSVDialogueParser가 없습니다!");
+            return;
+        }
+
+        currentNpcId = npc.GetNpcId();
+        currentNpc = npc; // NPC 객체 저장
+
+        if (string.IsNullOrEmpty(dialogueId))
+        {
+            var npcDialogues = CSVDialogueParser.Instance.GetDialoguesByNpcId(currentNpcId);
+            currentDialogue = (npcDialogues.Count > 0) ? npcDialogues[0] : null;
+        }
+        else
+        {
+            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueId);
+        }
+
+        if (currentDialogue == null)
+        {
+            Debug.LogError($"대화 데이터를 찾을 수 없습니다! NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
+            return;
+        }
+
+        ShowDialogue(currentDialogue);
+    }
+
+    /// <summary>
+    /// NPC와의 대화 시작 (기존 호환성을 위한 오버로드)
     /// </summary>
     public void StartDialogue(string npcId, string dialogueId = null)
     {
@@ -115,7 +150,7 @@ public class NpcDialogueManager : MonoBehaviour
             dialogueText.text = dialogue.dialogueText;
 
             // 선택지가 표시되어야 하는지 확인 (Next_Dialogue_ID가 2개 이상일 때만)
-            if (dialogue.ShouldShowChoices()) 
+            if (dialogue.ShouldShowChoices())
             {
                 DisplayChoices();
             }
@@ -130,23 +165,18 @@ public class NpcDialogueManager : MonoBehaviour
     /// <param name="dialogue">대화 엔트리</param>
     private void UpdatePortraitForDialogue(DialogueEntry dialogue)
     {
-        if (currentPortraitManager != null)
+        // 현재 대화 중인 NPC 객체가 있으면 대화창 초상화만 업데이트
+        if (currentNpc != null && dialoguePortraitImage != null)
         {
-            currentPortraitManager.UpdatePortrait(dialogue.condition);
-        }
-        else
-        {
-            // 현재 NPC의 초상화 매니저 찾기
-            var npc = FindObjectOfType<Npc>();
-            if (npc != null && npc.GetNpcId() == currentNpcId)
+            Sprite portraitSprite = currentNpc.GetCurrentPortraitSprite();
+            if (portraitSprite != null)
             {
-                var portraitManager = npc.GetComponent<NpcPortraitManager>();
-                if (portraitManager != null)
-                {
-                    currentPortraitManager = portraitManager;
-                    currentPortraitManager.UpdatePortrait(dialogue.condition);
-                }
+                dialoguePortraitImage.sprite = portraitSprite;
             }
+        }
+        else if (dialoguePortraitImage == null)
+        {
+            Debug.LogWarning("대화창 초상화 이미지가 설정되지 않았습니다.");
         }
     }
 

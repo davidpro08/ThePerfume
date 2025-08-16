@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 86026771}
   - component: {fileID: 86026770}
   - component: {fileID: 86026772}
+  - component: {fileID: 86026773}
   m_Layer: 0
   m_Name: NpcDialogueManager
   m_TagString: Untagged
@@ -382,13 +383,15 @@ MonoBehaviour:
   choiceButtonContainer: {fileID: 1445127100}
   textSpeed: 0.05
   useTypewriterEffect: 1
+  currentPortraitManager: {fileID: 86026773}
+  dialoguePortraitImage: {fileID: 588722067}
   currentDialogue:
     id: 
     npcId: 
     dialogueText: 
     choices: []
     nextDialogueIds: []
-    condition: 
+    condition: 0
     isEndDialogue: 0
 --- !u!4 &86026771
 Transform:
@@ -418,6 +421,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueCSV: {fileID: 4900000, guid: fa715317473a89344aa3410e982fc94d, type: 3}
+  requiredColumns:
+  - ID
+  - NPC_ID
+  - DIALOGUE_TEXT
+--- !u!114 &86026773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86026769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2ec9f7062f82c46a820ced5600e335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portraitImage: {fileID: 0}
+  npc: {fileID: 0}
+  defaultPortrait: {fileID: 0}
+  happyPortrait: {fileID: 0}
+  sadPortrait: {fileID: 0}
+  angryPortrait: {fileID: 0}
+  surprisedPortrait: {fileID: 0}
+  confusedPortrait: {fileID: 0}
+  excitedPortrait: {fileID: 0}
+  calmPortrait: {fileID: 0}
+  nervousPortrait: {fileID: 0}
+  friendlyPortrait: {fileID: 0}
+  hostilePortrait: {fileID: 0}
 --- !u!1 &88714708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,6 +2537,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &588722065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588722066}
+  - component: {fileID: 588722068}
+  - component: {fileID: 588722067}
+  m_Layer: 5
+  m_Name: Portrait
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &588722066
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588722065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7683636535577610058}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -50, y: 300}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &588722067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588722065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 2963904068632966414, guid: 601411d2190732a4f8eafb5787be6a17, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &588722068
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588722065}
+  m_CullTransparentMesh: 1
 --- !u!1 &630251173
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,7 +4290,7 @@ GameObject:
   - component: {fileID: 991086487}
   - component: {fileID: 991086486}
   m_Layer: 8
-  m_Name: NPC (1)
+  m_Name: Isolde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4201,8 +4308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428e83726959497f91896121a93a1a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: npc_002
+  npcId: Isolde
   startDialogueId: 
+  portraitData: {fileID: 11400000, guid: 51e51a0868e69254293d12af3b0b5751, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
 --- !u!61 &991086487
@@ -6447,7 +6555,7 @@ GameObject:
   - component: {fileID: 1620257969}
   - component: {fileID: 1620257968}
   m_Layer: 8
-  m_Name: NPC
+  m_Name: Ansel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6465,8 +6573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428e83726959497f91896121a93a1a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: npc_001
+  npcId: Ansel
   startDialogueId: 
+  portraitData: {fileID: 11400000, guid: 54159f4c45cc27049a0a67f717a1ab80, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
 --- !u!61 &1620257969
@@ -8184,7 +8293,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 7.8
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14612,6 +14721,7 @@ RectTransform:
   - {fileID: 2843540564863546192}
   - {fileID: 94285836}
   - {fileID: 1445127100}
+  - {fileID: 588722066}
   m_Father: {fileID: 988003427038816349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
