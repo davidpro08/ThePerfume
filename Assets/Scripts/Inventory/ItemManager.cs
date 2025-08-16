@@ -40,44 +40,110 @@ public class ItemManager : MonoBehaviour
             return;
         }
 
-        // 데이터 로드 전, 기존 데이터 초기화
-        itemDatabase.Clear();
-        var parsedData = CSVParser.ParseFromText(itemCsvFile.text);
-
-        foreach (var row in parsedData)
+        try
         {
-            int id = GetInt(row, "id");
-            if (id == 0) continue; // Skip rows with invalid ID
+            // 데이터 로드 전, 기존 데이터 초기화
+            itemDatabase.Clear();
 
-            ItemType itemType = GetEnum<ItemType>(row, "itemType");
+            // 새로운 CSVParser의 object 타입 파싱 메서드 사용 (대소문자 구분 없음)
+            var parsedData = CSVParser.ParseFromTextAsObject(itemCsvFile.text, true);
 
-            ItemData itemData = CreateItemData(itemType);
-            if (itemData == null) continue;
-
-            PopulateBaseItemData(itemData, row, id, itemType);
-            PopulateSpecificItemData(itemData, row);
-
-            if (!itemDatabase.ContainsKey(id))
+            // 데이터 검증 (대소문자 구분 없음)
+            if (!ValidateItemData(parsedData))
             {
-                itemDatabase.Add(id, itemData);
+                Debug.LogError("아이템 CSV 데이터 검증에 실패했습니다.");
+                return;
+            }
+
+            foreach (var row in parsedData)
+            {
+                int id = GetInt(row, "id");
+                if (id == 0) continue; // Skip rows with invalid ID
+
+                ItemType itemType = GetEnum<ItemType>(row, "itemType");
+
+                ItemData itemData = CreateItemData(itemType);
+                if (itemData == null) continue;
+
+                PopulateBaseItemData(itemData, row, id, itemType);
+                PopulateSpecificItemData(itemData, row);
+
+                if (!itemDatabase.ContainsKey(id))
+                {
+                    itemDatabase.Add(id, itemData);
+                }
+                else
+                {
+                    Debug.LogWarning($"Item with ID {id} already exists in the database. Skipping duplicate.");
+                }
+            }
+
+            // 인스펙터 표시용 리스트 업데이트
+            UpdateItemDataForInspector();
+
+            Debug.Log($"아이템 데이터 로드 완료: {itemDatabase.Count}개 아이템");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"아이템 데이터 로드 중 오류 발생: {e.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 아이템 CSV 데이터의 유효성을 검증합니다.
+    /// </summary>
+    private bool ValidateItemData(List<Dictionary<string, object>> parsedData)
+    {
+        if (parsedData == null || parsedData.Count == 0)
+        {
+            Debug.LogWarning("파싱된 아이템 데이터가 없습니다.");
+            return false;
+        }
+
+        // 필수 컬럼 검증 (대소문자 구분 없음)
+        string[] requiredColumns = { "id", "itemName", "itemType" };
+        var firstRow = parsedData[0];
+        foreach (var column in requiredColumns)
+        {
+            if (!CSVParser.ContainsKeyCaseInsensitive(firstRow, column))
+            {
+                Debug.LogError($"필수 컬럼 '{column}'이(가) 아이템 CSV에 없습니다.");
+                return false;
+            }
+        }
+
+        // 데이터 행 검증
+        int validRows = 0;
+        for (int i = 0; i < parsedData.Count; i++)
+        {
+            var row = parsedData[i];
+            if (CSVParser.ContainsKeyCaseInsensitive(row, "id") && GetInt(row, "id") > 0)
+            {
+                validRows++;
             }
             else
             {
-                Debug.LogWarning($"Item with ID {id} already exists in the database. Skipping duplicate.");
+                Debug.LogWarning($"행 {i + 1}: 유효하지 않은 ID");
             }
         }
-        
-        // 인스펙터 표시용 리스트 업데이트
-        UpdateItemDataForInspector();
+
+        if (validRows == 0)
+        {
+            Debug.LogError("유효한 아이템 데이터가 없습니다.");
+            return false;
+        }
+
+        Debug.Log($"아이템 데이터 검증 완료: {validRows}개 유효한 행");
+        return true;
     }
-    
+
     /// <summary>
     /// 데이터베이스의 모든 아이템을 인스펙터 확인용 리스트에 복사합니다.
     /// </summary>
     private void UpdateItemDataForInspector()
     {
         itemDataForInspector.Clear();
-        foreach(var itemData in itemDatabase.Values)
+        foreach (var itemData in itemDatabase.Values)
         {
             itemDataForInspector.Add(itemData);
         }
@@ -97,7 +163,7 @@ public class ItemManager : MonoBehaviour
                 return ScriptableObject.CreateInstance<EssenceData>();
             case ItemType.Perfume:
                 return ScriptableObject.CreateInstance<PerfumeData>();
-            case ItemType.Etc: 
+            case ItemType.Etc:
             case ItemType.Material:
                 return ScriptableObject.CreateInstance<MaterialData>();
             default:
@@ -167,32 +233,36 @@ public class ItemManager : MonoBehaviour
 
     private string GetString(Dictionary<string, object> dict, string key)
     {
-        return dict.ContainsKey(key) ? dict[key].ToString() : "";
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        return value?.ToString() ?? "";
     }
 
     private int GetInt(Dictionary<string, object> dict, string key)
     {
-        if (dict.ContainsKey(key) && int.TryParse(dict[key].ToString(), out int value))
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        if (value != null && int.TryParse(value.ToString(), out int result))
         {
-            return value;
+            return result;
         }
         return 0;
     }
 
     private float GetFloat(Dictionary<string, object> dict, string key)
     {
-        if (dict.ContainsKey(key) && float.TryParse(dict[key].ToString(), out float value))
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        if (value != null && float.TryParse(value.ToString(), out float result))
         {
-            return value;
+            return result;
         }
         return 0f;
     }
 
     private bool GetBool(Dictionary<string, object> dict, string key)
     {
-        if (dict.ContainsKey(key))
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        if (value != null)
         {
-            string val = dict[key].ToString();
+            string val = value.ToString();
             return val == "1" || val.Equals("true", StringComparison.OrdinalIgnoreCase);
         }
         return false;
@@ -200,9 +270,10 @@ public class ItemManager : MonoBehaviour
 
     private T GetEnum<T>(Dictionary<string, object> dict, string key) where T : struct
     {
-        if (dict.ContainsKey(key))
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        if (value != null)
         {
-            string valueStr = dict[key].ToString();
+            string valueStr = value.ToString();
             if (!string.IsNullOrEmpty(valueStr) && Enum.TryParse<T>(valueStr, true, out T result))
             {
                 return result;

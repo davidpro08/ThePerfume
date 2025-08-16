@@ -67,4 +67,22 @@ public class Npc : MonoBehaviour, IInteract
     {
         startDialogueId = dialogueId;
     }
+
+    /// <summary>
+    /// NPC ID 반환
+    /// </summary>
+    /// <returns>NPC ID</returns>
+    public string GetNpcId()
+    {
+        return npcId;
+    }
+
+    /// <summary>
+    /// 시작 대화 ID 반환
+    /// </summary>
+    /// <returns>시작 대화 ID</returns>
+    public string GetStartDialogueId()
+    {
+        return startDialogueId;
+    }
 }

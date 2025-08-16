@@ -21,8 +21,11 @@ public class NpcDialogueManager : MonoBehaviour
     [Header("대화 설정")] public float textSpeed = 0.05f;
     public bool useTypewriterEffect = true;
 
+    [Header("초상화 관리")]
+    [SerializeField] private NpcPortraitManager currentPortraitManager;
+
     // 현재 대화 상태
-    [SerializeField]private DialogueEntry currentDialogue;
+    [SerializeField] private DialogueEntry currentDialogue;
     private string currentNpcId;
     private bool isTyping = false;
     private Coroutine typewriterCoroutine;
@@ -95,6 +98,9 @@ public class NpcDialogueManager : MonoBehaviour
         isActive = true;
         dialogueObject.SetActive(true);
 
+        // NPC 상태에 따른 초상화 업데이트
+        UpdatePortraitForDialogue(dialogue);
+
         if (typewriterCoroutine != null)
         {
             StopCoroutine(typewriterCoroutine);
@@ -108,11 +114,40 @@ public class NpcDialogueManager : MonoBehaviour
         {
             dialogueText.text = dialogue.dialogueText;
 
-            // 선택지가 있는 대화라면 선택지 나오게 함
-            if (IsHaveChoices()) DisplayChoices();
+            // 선택지가 표시되어야 하는지 확인 (Next_Dialogue_ID가 2개 이상일 때만)
+            if (dialogue.ShouldShowChoices()) 
+            {
+                DisplayChoices();
+            }
         }
 
         PauseManager.Instance.PauseForDialogue();
+    }
+
+    /// <summary>
+    /// 대화에 따른 초상화 업데이트
+    /// </summary>
+    /// <param name="dialogue">대화 엔트리</param>
+    private void UpdatePortraitForDialogue(DialogueEntry dialogue)
+    {
+        if (currentPortraitManager != null)
+        {
+            currentPortraitManager.UpdatePortrait(dialogue.condition);
+        }
+        else
+        {
+            // 현재 NPC의 초상화 매니저 찾기
+            var npc = FindObjectOfType<Npc>();
+            if (npc != null && npc.GetNpcId() == currentNpcId)
+            {
+                var portraitManager = npc.GetComponent<NpcPortraitManager>();
+                if (portraitManager != null)
+                {
+                    currentPortraitManager = portraitManager;
+                    currentPortraitManager.UpdatePortrait(dialogue.condition);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -129,8 +164,12 @@ public class NpcDialogueManager : MonoBehaviour
         }
 
         isTyping = false;
-        // 선택지가 있는 대화라면 선택지 나오게 함
-        if (IsHaveChoices()) DisplayChoices();
+
+        // 선택지가 표시되어야 하는지 확인 (Next_Dialogue_ID가 2개 이상일 때만)
+        if (currentDialogue.ShouldShowChoices())
+        {
+            DisplayChoices();
+        }
     }
 
     private bool IsHaveChoices()
@@ -141,27 +180,8 @@ public class NpcDialogueManager : MonoBehaviour
             return false;
         }
 
-        if (currentDialogue.choices == null)
-        {
-            Debug.Log("선택지 대화가 아닙니다.");
-            return false;
-        }
-
-        if (!nextButton)
-        {
-            Debug.LogError("nextButton 프리팹을 연결해주세요!");
-            return false;
-        }
-
-        int choicesLength = currentDialogue.choices.Length;
-
-        if (choicesLength == 0)
-        {
-            Debug.Log("선택지가 없습니다.");
-            return false;
-        }
-
-        return true;
+        // Next_Dialogue_ID가 2개 이상일 때만 선택지 표시
+        return currentDialogue.ShouldShowChoices();
     }
 
     /// <summary>
@@ -169,6 +189,12 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     private void DisplayChoices()
     {
+        if (!currentDialogue.ShouldShowChoices())
+        {
+            Debug.Log("선택지를 표시할 수 없습니다. Next_Dialogue_ID가 2개 미만입니다.");
+            return;
+        }
+
         int choicesLength = currentDialogue.choices.Length;
         int nextDialogueLength = currentDialogue.nextDialogueIds.Length;
 
@@ -220,7 +246,7 @@ public class NpcDialogueManager : MonoBehaviour
         {
             choiceButton.OtherSelected();
         }
-        
+
         StartDialogue(currentNpcId, nextDialogueId);
     }
 
@@ -234,18 +260,39 @@ public class NpcDialogueManager : MonoBehaviour
             StopCoroutine(typewriterCoroutine);
             dialogueText.text = currentDialogue.dialogueText;
             isTyping = false;
-            DisplayChoices();
+
+            // 선택지가 표시되어야 하는지 확인
+            if (currentDialogue.ShouldShowChoices())
+            {
+                DisplayChoices();
+            }
             return;
         }
-        
+
         // 선택지가 있을 때는 다음 버튼 무시
-        if (currentDialogue.choices.Length != 0)
+        if (currentDialogue.ShouldShowChoices())
         {
             return;
         }
 
-        if (currentDialogue.isEndDialogue || currentDialogue.nextDialogueIds.Length == 0)
+        // 대화 종료 또는 다음 대화가 없는 경우
+        if (currentDialogue.isEndDialogue || !currentDialogue.HasValidNextDialogue())
         {
+            // 대화 종료 시 다음 시작 대화 ID 설정
+            if (currentDialogue.isEndDialogue && !string.IsNullOrEmpty(currentNpcId))
+            {
+                string nextStartId = currentDialogue.GetNextStartDialogueId();
+                if (!string.IsNullOrEmpty(nextStartId))
+                {
+                    // NPC의 다음 시작 대화 ID 업데이트
+                    var npc = FindObjectOfType<Npc>();
+                    if (npc != null && npc.GetNpcId() == currentNpcId)
+                    {
+                        npc.SetStartDialogueId(nextStartId);
+                    }
+                }
+            }
+
             EndDialogue();
         }
         else
