@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine.InputSystem;
-using System.Linq;
 
 public class TillUIManager : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class TillUIManager : MonoBehaviour
     [SerializeField] public List<Transform> tubeFuelTransformPos; // Fuel Tube 자식 (위치 지정)
     [SerializeField] private Transform itemSpawnTubePetal;
     [SerializeField] public List<Transform> tubePetalTransformPos; // Fuel Tube 자식 (위치 지정)
-    [SerializeField] public Transform tubeEssenceTransformPos;
+    [SerializeField] private Transform tubeEssenceTransformPos;
     [SerializeField] private float makingTime = 15f;
 
     private List<GameObject> spawnedItemOnTube = new List<GameObject>();
@@ -31,14 +30,8 @@ public class TillUIManager : MonoBehaviour
     private EssenceData currentEssenceData;
     public bool isWarningCanvasOpen = false;
 
-    public GameObject currentFuel1 = null;
-    public GameObject currentFuel2 = null;
-    public GameObject currentFuel3 = null;
-    public GameObject currentPetal = null;
-    public GameObject currentEssence = null;
-
-    public string ActiveDistillerID { get; private set; }
-    public void SetActiveDistillerID(string id) => ActiveDistillerID = id;
+    private GameObject selectedFuelOnTube;
+    private GameObject selectedPetalOnTube;
 
     void Awake()
     {
@@ -57,8 +50,6 @@ public class TillUIManager : MonoBehaviour
             warningOkButton.onClick.RemoveAllListeners();
             warningOkButton.onClick.AddListener(OnWarningCanvasOkButton);
         }
-
-
     }
 
     void OnDestroy()
@@ -87,11 +78,10 @@ public class TillUIManager : MonoBehaviour
     }
 
     // ============================ 시스템 관련 코드 =====================================
-    // Tube에 아이템 랜덤 생성 > 투입
+    // Tube에 아이템 랜덤 생성
     public void SpawnItemOnTube(ItemData itemToSpawn, int count, List<Transform> transformPos)
     {
         Debug.Log($"SpawnItemOnTray. 아이템: {itemToSpawn?.name}, 수량: {count}");
-
         MaterialData materialData = itemToSpawn as MaterialData;
         if (itemToSpawn == null || materialData == null || materialData.itemPrefab == null || itemSpawnTubeFuel == null)
         {
@@ -102,40 +92,10 @@ public class TillUIManager : MonoBehaviour
             return;
         }
 
-        List<Transform> currnetSpawnPoint = null;
-
-        if (itemToSpawn.itemName == "Fuel")
-        {
-            currnetSpawnPoint = tubeFuelTransformPos;
-        }
-        else if (itemToSpawn.itemType == ItemType.Material)
-        {
-            currnetSpawnPoint = new List<Transform>(tubePetalTransformPos);
-        }
-
-        if (currnetSpawnPoint == null || currnetSpawnPoint.Count == 0 || currnetSpawnPoint.Any(t => t == null))
-        {
-            Debug.Log("[SpawnItemOnTube] 스폰 포인트 못 팢음");
-            return;
-        }
-
         int spawnd = 0;
 
         foreach (Transform spawnPoint in transformPos)
         {
-            if (spawnPoint == null)
-            {
-                Debug.Log("[SpawnItemOnTube] spawnPoint == null");
-                continue;
-            }
-
-            // 초기화 후에 생성
-            for (int i = spawnPoint.childCount - 1; i >= 0; i--)
-            {
-                Destroy(spawnPoint.GetChild(i).gameObject);
-                spawnedItemOnTube.Remove(spawnPoint.GetChild(i).gameObject);
-            }
-
             if (spawnPoint.childCount == 0)
             {
                 GameObject spawndItem = Instantiate(materialData.itemPrefab, spawnPoint.position, Quaternion.identity);
@@ -152,13 +112,6 @@ public class TillUIManager : MonoBehaviour
                 spawnd++;
                 InventoryManager.Instance.RemoveItem(itemToSpawn, 1);
 
-                DistillerState state = TillDataManager.Instance.GetDistillerState(SceneChanger.Instance.currentDistillerID);
-                if (state != null && itemToSpawn != null)
-                {
-                    state.currentIngredient.Add(itemToSpawn);
-                    TillDataManager.Instance.UpdateDistillerState(SceneChanger.Instance.currentDistillerID, state);
-                }
-
                 if (spawnd >= count) break;
             }
         }
@@ -171,22 +124,36 @@ public class TillUIManager : MonoBehaviour
 
     private void TryMakingEssence()
     {
+        if (isMakingEssence) return;
+
         int fuelCount = 0;
         int petalCount = 0;
+
+        selectedFuelOnTube = null;
+        selectedPetalOnTube = null;
         MaterialData foundPetal = null;
 
         foreach (GameObject item in spawnedItemOnTube)
         {
             TubeItemDisplay display = item.GetComponent<TubeItemDisplay>();
 
-            if (display == null) continue;
+            if (display == null || display.myItemData == null) continue;
 
             ItemData data = display.myItemData;
-            if (data.itemName == "Fuel") fuelCount++;
+            if (data.itemName == "Fuel")
+            {
+                fuelCount++;
+                if (selectedFuelOnTube == null)
+                    selectedFuelOnTube = item;
+            }
             else if (data is MaterialData material)
             {
                 petalCount++;
-                foundPetal = material;
+                if (selectedPetalOnTube == null)
+                {
+                    selectedPetalOnTube = item;
+                    foundPetal = material;
+                }
             }
         }
 
@@ -210,12 +177,19 @@ public class TillUIManager : MonoBehaviour
         isMakingEssence = true;
         yield return new WaitForSeconds(makingTime);
 
-        foreach (GameObject item in spawnedItemOnTube)
+        if (selectedFuelOnTube != null && spawnedItemOnTube.Contains(selectedFuelOnTube))
         {
-            Destroy(item);
-            spawnedItemOnTube.Remove(item);
+            spawnedItemOnTube.Remove(selectedFuelOnTube);
+            Destroy(selectedFuelOnTube);
         }
-        spawnedItemOnTube.Clear();
+        if (selectedPetalOnTube != null && spawnedItemOnTube.Contains(selectedPetalOnTube))
+        {
+            spawnedItemOnTube.Remove(selectedPetalOnTube);
+            Destroy(selectedPetalOnTube);
+        }
+
+        selectedFuelOnTube = null;
+        selectedPetalOnTube = null;
 
         spawnedEssence = Instantiate(currentEssenceData.prefabInTube);
         spawnedEssence.transform.SetParent(tubeEssenceTransformPos, false);
@@ -233,7 +207,6 @@ public class TillUIManager : MonoBehaviour
             {
                 InventoryManager.Instance.AddItem(currentEssenceData, 1);
                 Destroy(spawnedEssence);
-                spawnedItemOnTube.Remove(spawnedEssence);
                 spawnedEssence = null;
                 Debug.Log("에센스 인벤토리에 추가 완료");
                 isMakingEssence = false;
@@ -254,8 +227,8 @@ public class TillUIManager : MonoBehaviour
     {
         if (spawnedItemOnTube.Contains(itemToRemove))
         {
-            Destroy(itemToRemove);
             spawnedItemOnTube.Remove(itemToRemove);
+            Destroy(itemToRemove);
         }
     }
 
@@ -266,58 +239,5 @@ public class TillUIManager : MonoBehaviour
         return spawnedItemOnTube != null && spawnedItemOnTube.Count > 0;
     }
 
-
-    // 아이템 display 생성
-    public void DisplayItemOnTube(ItemData itemDisplay, Transform spawnPoint, int indexInTube = 0)
-    {
-        MaterialData materialData = itemDisplay as MaterialData;
-        if (itemDisplay == null || materialData == null || materialData.itemPrefab == null)
-        {
-            Debug.Log($"DisplayItemOnTue : no item data, {itemDisplay?.name}");
-            return;
-        }
-
-        // 기존 아이템 파괴
-        GameObject displayedItem = Instantiate(materialData.itemPrefab, spawnPoint.position, Quaternion.identity);
-        if (displayedItem == null)
-        {
-            Debug.Log($"displayItemOnTube : Instantiate 실패, {itemDisplay?.name}");
-            return;
-        }
-
-        displayedItem.transform.SetParent(spawnPoint);
-        displayedItem.transform.localPosition = Vector3.zero;
-        // 스프라이트 크기 조절
-
-        if (spawnPoint == tubeFuelTransformPos[0]) currentFuel1 = displayedItem;
-        else if (spawnPoint == tubeFuelTransformPos[1]) currentFuel2 = displayedItem;
-        else if (spawnPoint == tubeFuelTransformPos[2]) currentFuel3 = displayedItem;
-        else if (spawnPoint == tubePetalTransformPos[0]) currentPetal = displayedItem;
-        else if (spawnPoint == tubeEssenceTransformPos) currentEssence = displayedItem;
-    }
-
-    public void ClearAllDisplayedTubeItem()
-    {
-        if (currentFuel1 != null)
-        {
-            currentFuel1 = null;
-        }
-        if (currentFuel2 != null)
-        {
-            currentFuel2 = null;
-        }
-        if (currentFuel3 != null)
-        {
-            currentFuel3 = null;
-        }
-        if (currentPetal != null)
-        {
-            currentPetal = null;
-        }
-        if (currentEssence != null)
-        {
-            currentEssence = null;
-        }
-    }
 }
 

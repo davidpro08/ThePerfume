@@ -38,7 +38,6 @@ public class TillExitPoint : MonoBehaviour
             {
                 return;
             }
-            SceneChanger.Instance.ResetDistillerID();
             SceneManager.LoadScene(targetSceneName);
         }
         else

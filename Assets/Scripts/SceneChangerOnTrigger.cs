@@ -8,15 +8,10 @@ public class SceneChangerOnTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        Distiller distiller = GetComponent<Distiller>();
         if (sceneChanger != null)
         {
-            if (distiller != null)
-            {
-                sceneChanger.GoToTillScene(distiller.distillerID);
-            }
-            else sceneChanger.MoveToScene();
+            sceneChanger.MoveToScene();
         }
-        else Debug.LogWarning("SceneChanger ï¿½ï¿½ï¿½ï¿½Èµï¿½", this);
+        else Debug.LogWarning("SceneChanger ¿¬°á¾ÈµÊ", this);
     }
 }

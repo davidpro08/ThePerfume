@@ -670,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &644120055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +1043,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1256381667}
   - component: {fileID: 1256381666}
-  - component: {fileID: 1256381668}
   - component: {fileID: 1256381669}
   m_Layer: 8
   m_Name: TubeFuel
@@ -1125,21 +1124,6 @@ Transform:
   - {fileID: 1993518457}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1256381668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1256381665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a08edd8f598ffa488c1e63e67c2e849, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractableLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!61 &1256381669
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1371,7 +1355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1576548753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1589,11 +1573,6 @@ MonoBehaviour:
   makingTime: 1
   isMakingEssence: 0
   isWarningCanvasOpen: 0
-  currentFuel1: {fileID: 1776752580}
-  currentFuel2: {fileID: 1621626666}
-  currentFuel3: {fileID: 1993518456}
-  currentPetal: {fileID: 545840257}
-  currentEssence: {fileID: 1364282144}
 --- !u!1 &1725854642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,7 +1583,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1725854644}
   - component: {fileID: 1725854643}
-  - component: {fileID: 1725854645}
   - component: {fileID: 1725854646}
   m_Layer: 8
   m_Name: TubePetal
@@ -1684,21 +1662,6 @@ Transform:
   - {fileID: 545840258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1725854645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725854642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a08edd8f598ffa488c1e63e67c2e849, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractableLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!58 &1725854646
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1850,6 +1813,7 @@ GameObject:
   - component: {fileID: 1732454249}
   - component: {fileID: 1732454248}
   - component: {fileID: 1732454247}
+  - component: {fileID: 1732454250}
   m_Layer: 0
   m_Name: TillManager
   m_TagString: Untagged
@@ -1869,11 +1833,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19104084de9d33b45bc46df98207c46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadedDistillerID: 
+  currentDistillerState:
+    distillerID: 
+    currentIngredient: []
+    currentProgress: 0
+    completedProduct: {fileID: 0}
   tubeFuelSpawnPoint1: {fileID: 1776752580}
   tubeFuelSpawnPoint2: {fileID: 1621626666}
   tubeFuelSpawnPoint3: {fileID: 1993518456}
   tubePetalSpawnPoint: {fileID: 545840257}
   tubeEssenceSpawnPoint: {fileID: 1364282144}
+  spawnedFuelPrefab: {fileID: 0}
+  spawnedPetalPrefab: {fileID: 0}
+  spawnedEssencePrefab: {fileID: 0}
 --- !u!114 &1732454248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1904,6 +1877,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1732454250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732454246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a08edd8f598ffa488c1e63e67c2e849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractableLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1732864827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,7 +2243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2032770894
 MonoBehaviour:
   m_ObjectHideFlags: 0
