@@ -6,7 +6,7 @@ using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 
 // 각 인벤토리 UI 슬롯의 동작을 제어합니다.
-public class InventorySlotUI : MonoBehaviour, IDropHandler
+public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
     public int slotIndex;
 
@@ -55,6 +55,15 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         {
             Debug.LogError("InventoryManager를 찾을 수 없었습니다! (슬롯 선택 기능x)");
             SetSelected(false);
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            _inventoryManager.SelectSlot(slotIndex);
+            
         }
     }
 
@@ -115,6 +124,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
 
         _inventoryManager.TryMoveItem(sourceSlotIndex, targetSlotIndex);
     }
+
 }
 
 //[SerializeField] private Image itemIconImage;
