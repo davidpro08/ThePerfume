@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4971880858324438694}
   - component: {fileID: 8795814113536447936}
   m_Layer: 0
-  m_Name: Fuel
+  m_Name: Fuel 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5324566007851720682, guid: 762f2440cbcd6284792d95a3c5303fd4, type: 3}
+  m_Sprite: {fileID: 3121514189315614870, guid: 25e341766164fdb49ad861a54642f3ba, type: 3}
   m_Color: {r: 0.25067383, g: 0.25067383, b: 0.25067383, a: 1}
   m_FlipX: 0
   m_FlipY: 0
