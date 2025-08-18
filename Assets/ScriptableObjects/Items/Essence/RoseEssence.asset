@@ -23,7 +23,7 @@ MonoBehaviour:
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
-  scaleUpUI: 0
+  scaleUpUI: 1
   essenceType: 0
   essenceWarm: 0
   essenceCool: 0
@@ -31,5 +31,4 @@ MonoBehaviour:
   canBaseNote: 0
   canMiddleNote: 0
   canTopNote: 0
-  prefabInProgress: {fileID: 6339408399911262275, guid: ff5ee8d177d784b44b605c009f1475d0, type: 3}
-  prefabInTube: {fileID: 6339408399911262275, guid: 67c575e3a35117f469d467233f7373e2, type: 3}
+  essenceStage: {fileID: 0}

@@ -49,20 +49,24 @@ public class Distiller : MonoBehaviour
             TillUIManager.Instance.ShowWarningCanvas("no empty fuel slot");
             return;
         }
-        if (!TryConsumeInventoryFuel(out MaterialData fuelData))
+
+        if (!TryConsumeInventoryFuel(out FuelData fuelData))
         {
             TillUIManager.Instance.ShowWarningCanvas("need fuel item");
             return;
         }
 
-        SpawnToSlot(fuelData, slot);
+        int slotIndex = slot.GetSiblingIndex();
+        if (slotIndex >= fuelData.itemPrefabs.Count) return;
+
+        FuelSpawnToSlot(fuelData, slotIndex, slot);
         TillSaveService.Touch(distillerID, SaveSnapshot());
         TryStartCraft();
     }
 
     public void PlacePetal(MaterialData petalData)
     {
-        if (petalData == null)
+        if (petalData == null || !petalData.itemPrefab)
         {
             TillUIManager.Instance.ShowWarningCanvas("need petal item");
             return;
@@ -81,7 +85,7 @@ public class Distiller : MonoBehaviour
         }
 
 
-        SpawnToSlot(petalData, slot);
+        PetalSpawnToSlot(petalData, slot);
         TillSaveService.Touch(distillerID, SaveSnapshot());
         TryStartCraft();
     }
@@ -122,14 +126,17 @@ public class Distiller : MonoBehaviour
         craftStartUtcMs = TillSaveService.NowUnixMs();
         currentEssenceID = petal.essenceData.id;
 
-        var essence = dataBase?.ResolveEssence(currentEssenceID);
-        if (essence != null && essence.prefabInProgress != null)
+        EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
+        if (essence != null && essence.essenceStage != null)
         {
             if (spawnedEssence != null) Destroy(spawnedEssence);
 
-            spawnedEssence = Instantiate(essence.prefabInProgress, essenceTransform);
-            spawnedEssence.transform.localPosition = Vector3.zero;
+            spawnedEssence = new GameObject("EssenceProgress");
+            spawnedEssence.transform.SetParent(essenceTransform, false);
             Debug.Log("Essence prefab spawned at: " + spawnedEssence.transform.position);
+
+            var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
+            image.sprite = essence.essenceStage.progressStage[0];
         }
 
         TillSaveService.Touch(distillerID, SaveSnapshot());
@@ -154,7 +161,26 @@ public class Distiller : MonoBehaviour
 
     IEnumerator CraftCoroutine(long remainMs)
     {
-        yield return new WaitForSeconds(remainMs / 1000f);
+        var essence = dataBase?.ResolveEssence(currentEssenceID);
+        if (essence == null || essence.essenceStage == null) yield break;
+
+        float totalTime = craftDurationSec;
+        float elapsed = 0f;
+        int stageIndex = 0;
+
+        var image = spawnedEssence?.GetComponent<UnityEngine.UI.Image>();
+
+        while (elapsed < totalTime)
+        {
+            elapsed += Time.deltaTime;
+            stageIndex = Mathf.Min(Mathf.FloorToInt((elapsed / totalTime) * essence.essenceStage.progressStage.Count), essence.essenceStage.progressStage.Count - 1);
+
+            if (image != null)
+            {
+                image.sprite = essence.essenceStage.progressStage[stageIndex];
+            }
+            yield return null;
+        }
         FinalizeCraft();
     }
 
@@ -166,13 +192,17 @@ public class Distiller : MonoBehaviour
 
         if (spawnedEssence != null) Destroy(spawnedEssence);
 
-        var essence = dataBase?.ResolveEssence(currentEssenceID);
-        if (essence != null && essence.prefabInTube != null)
+        EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
+        if (essence != null)
         {
-            if (spawnedEssence != null) Destroy(spawnedEssence);
+            if (essence.essenceStage != null && essence.essenceStage.progressStage.Count > 0)
+            {
+                spawnedEssence = new GameObject("EssenceFinal");
+                spawnedEssence.transform.SetParent(essenceTransform, false);
 
-            spawnedEssence = Instantiate(essence.prefabInTube, essenceTransform);
-            spawnedEssence.transform.localPosition = Vector3.zero;
+                var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
+                image.sprite = essence.essenceStage.progressStage[^1];
+            }
         }
         isMaking = false;
         TillSaveService.Touch(distillerID, SaveSnapshot(essenceReady: true));
@@ -235,8 +265,8 @@ public class Distiller : MonoBehaviour
         foreach (int index in data.occupiedFuelSlots)
         {
             if (index < 0 || index >= fuelSlotParent.Count) continue;
-            var fuel = dataBase?.ResolveItem(fuelID); // fuel의 id
-            if (fuel is MaterialData fuelMat) SpawnToSlot(fuelMat, fuelSlotParent[index]);
+            var fuel = dataBase?.ResolveFuel(fuelID); // fuel의 id
+            if (fuel is FuelData fuelMat) FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
         }
 
         // 꽃잎 복원
@@ -244,7 +274,7 @@ public class Distiller : MonoBehaviour
         {
             if (p.index < 0 || p.index >= petalSlotParent.Count) continue;
             var petal = dataBase?.ResolveMaterial(p.itemID);
-            if (petal != null) SpawnToSlot(petal, petalSlotParent[p.index]);
+            if (petal != null) PetalSpawnToSlot(petal, petalSlotParent[p.index]);
         }
 
         // 제작 진행/씬 밖 보정
@@ -255,10 +285,15 @@ public class Distiller : MonoBehaviour
         if (data.essenceReady && data.essenceid != 0) //  && data.essenceid.HasValue
         {
             var essence = dataBase?.ResolveEssence(data.essenceid);
-            if (essence != null && essence.prefabInTube != null)
+
+
+            if (essence.essenceStage != null && essence.essenceStage.progressStage.Count > 0)
             {
-                spawnedEssence = Instantiate(essence.prefabInTube, essenceTransform);
-                spawnedEssence.transform.localPosition = Vector3.zero;
+                spawnedEssence = new GameObject("EssenceFinal");
+                spawnedEssence.transform.SetParent(essenceTransform, false);
+
+                var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
+                image.sprite = essence.essenceStage.progressStage[^1];
             }
             isMaking = false;
         }
@@ -275,7 +310,22 @@ public class Distiller : MonoBehaviour
         return null;
     }
 
-    void SpawnToSlot(MaterialData data, Transform slot)
+    void FuelSpawnToSlot(FuelData data, int slotIndex, Transform slot)
+    {
+        if (data == null || slot == null) return;
+        if (slotIndex < 0 || slotIndex >= data.itemPrefabs.Count) return;
+
+        GameObject prefab = data.itemPrefabs[slotIndex];
+        if (prefab == null) return;
+
+        GameObject go = Instantiate(prefab, slot);
+        go.transform.localPosition = Vector3.zero;
+
+        TubeItemDisplay display = go.GetComponent<TubeItemDisplay>();
+        if (display != null) display.myItemData = data;
+    }
+
+    void PetalSpawnToSlot(MaterialData data, Transform slot)
     {
         if (data == null || data.itemPrefab == null || slot == null) return;
         GameObject go = Instantiate(data.itemPrefab, slot);
@@ -354,7 +404,7 @@ public class Distiller : MonoBehaviour
         }
     }
 
-    bool TryConsumeInventoryFuel(out MaterialData fuelData)
+    bool TryConsumeInventoryFuel(out FuelData fuelData)
     {
         fuelData = null;
         if (InventoryManager.Instance == null) return false;
@@ -366,7 +416,7 @@ public class Distiller : MonoBehaviour
         if (slot == null || slot.itemData == null) return false;
         if (slot.itemData.itemName != "Fuel") return false;
 
-        fuelData = slot.itemData as MaterialData;
+        fuelData = slot.itemData as FuelData;
         if (fuelData == null) return false;
 
         return InventoryManager.Instance.RemoveItem(fuelData, 1);

@@ -25,16 +25,15 @@ public class EssenceData : ItemData
     // 탑 노트 가능 유무
     public bool canTopNote = false;
 
-    // 에센스 관에서 프리팹
-    public GameObject prefabInProgress;
-    public GameObject prefabInTube;
+    // 에센스 관에서 스프라이트
+    public EssenceStage essenceStage;
 
     public EssenceData() { }
     public EssenceData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
-    bool canBaseNote, bool canMiddleNote, bool canTopNote, GameObject prefabInTube)
+    bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage)
     : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.essenceType = essenceType;
@@ -44,6 +43,6 @@ public class EssenceData : ItemData
         this.canBaseNote = canBaseNote;
         this.canMiddleNote = canMiddleNote;
         this.canTopNote = canTopNote;
-        this.prefabInTube = prefabInTube;
+        this.essenceStage = essenceStage;
     }
 }

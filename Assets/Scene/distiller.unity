@@ -1594,7 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa695f900542d341b931d4922ae8769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FuelItem: {fileID: 11400000, guid: dae1457b782b7a147918e1ab986a7a5a, type: 2}
+  FuelItem: {fileID: 0}
   RosePetalItem: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
   inventoryManager: {fileID: 644120055}
 --- !u!1 &1584175406

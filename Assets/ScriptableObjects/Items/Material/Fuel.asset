@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90910606cfd308e48855c639e173d470, type: 3}
+  m_Script: {fileID: 11500000, guid: f89217e4d0fd947438cba698f2baaae2, type: 3}
   m_Name: Fuel
   m_EditorClassIdentifier: 
   id: 99
   itemName: Fuel
   description: Null Description
-  itemIcon: {fileID: 3985221016008397036, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
-  itemType: 3
+  itemIcon: {fileID: 6361883398351979161, guid: 99695def4c32a8f4ab1c88e9dff5cf60, type: 3}
+  itemType: 6
   isStackable: 1
   maxStack: 99
   nowStack: 1
@@ -24,5 +24,7 @@ MonoBehaviour:
   buyPrice: 0
   sellPrice: 0
   scaleUpUI: 0
-  itemPrefab: {fileID: 8828659807489044836, guid: 3fbad496b0530854092e5833a37ec81c, type: 3}
-  essenceData: {fileID: 0}
+  itemPrefabs:
+  - {fileID: 8828659807489044836, guid: 3fbad496b0530854092e5833a37ec81c, type: 3}
+  - {fileID: 8828659807489044836, guid: c79db00d69eb23848bce86d3eec16386, type: 3}
+  - {fileID: 8828659807489044836, guid: eb2615d5389b5fa40a93baccc99d75b8, type: 3}
