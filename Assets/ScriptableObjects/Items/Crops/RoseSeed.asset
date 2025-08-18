@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36b3be4e87f21e49a910162455668ee, type: 3}
   m_Name: RoseSeed
   m_EditorClassIdentifier: 
-  id: 1
+  id: 11
   itemName: roseSeed
   description: "\uC7A5\uBBF8 \uC528\uC557"
   itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}

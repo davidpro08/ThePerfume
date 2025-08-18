@@ -26,6 +26,7 @@ public class EssenceData : ItemData
     public bool canTopNote = false;
 
     // 에센스 관에서 프리팹
+    public GameObject prefabInProgress;
     public GameObject prefabInTube;
 
     public EssenceData() { }

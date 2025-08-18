@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90910606cfd308e48855c639e173d470, type: 3}
   m_Name: Fuel
   m_EditorClassIdentifier: 
-  id: 0
+  id: 99
   itemName: Fuel
-  itemDescription: Null Description
+  description: Null Description
   itemIcon: {fileID: 3985221016008397036, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
   itemType: 3
   isStackable: 1
@@ -23,4 +23,6 @@ MonoBehaviour:
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 0
   itemPrefab: {fileID: 8828659807489044836, guid: 3fbad496b0530854092e5833a37ec81c, type: 3}
+  essenceData: {fileID: 0}

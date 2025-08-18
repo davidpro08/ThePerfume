@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b44ec13286a54d4493339f75e729f88, type: 3}
   m_Name: Till
   m_EditorClassIdentifier: 
-  id: 99
+  id: 3
   itemName: Till
   description: Null Description
   itemIcon: {fileID: -2942521417658886191, guid: 53c995a3fd00f6c4486ba12bc866a60c, type: 3}

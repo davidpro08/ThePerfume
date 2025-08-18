@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9610b1111841874cb0ed5a84ccdcc7f, type: 3}
   m_Name: Rose
   m_EditorClassIdentifier: 
-  id: 0
+  id: 10
   itemName: New Item
   description: Null Description
   itemIcon: {fileID: -93750458980389090, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}

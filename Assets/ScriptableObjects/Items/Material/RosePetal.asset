@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90910606cfd308e48855c639e173d470, type: 3}
   m_Name: RosePetal
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: New Item
+  id: 12
+  itemName: RosePetal
   description: Null Description
   itemIcon: {fileID: -781294158744790408, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
   itemType: 6
