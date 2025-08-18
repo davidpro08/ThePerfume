@@ -1752,7 +1752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de9fd09ad2e9a742b95b3fa21b86065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EntryMethodToTill>k__BackingField: 0
 --- !u!4 &404247261
 Transform:
   m_ObjectHideFlags: 0
@@ -3884,6 +3883,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &949255436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 949255437}
+  m_Layer: 0
+  m_Name: RayCastPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &949255437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949255436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2730497970852263581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &968612756
 GameObject:
   m_ObjectHideFlags: 0
@@ -5057,7 +5087,7 @@ GameObject:
   - component: {fileID: 1241181264}
   - component: {fileID: 1241181266}
   - component: {fileID: 1241181265}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Farm_Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8043,7 +8073,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 949255437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &2843540564863546192
@@ -8520,6 +8551,7 @@ GameObject:
   - component: {fileID: 8523376116241350241}
   - component: {fileID: 1961591922195562047}
   - component: {fileID: 6196238972347444029}
+  - component: {fileID: 8523376116241350242}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -12051,6 +12083,14 @@ PrefabInstance:
       propertyPath: m_CompositeOperation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4405213093663351183, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_Size.x
       value: 22
@@ -15018,6 +15058,25 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &8523376116241350242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4948990678458227509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39c8aa6bb0330f4cbc91806c8b2c7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  farmTile: {fileID: 11400000, guid: 7b2e7a8b04d54574e9f4116c8c0c23a5, type: 2}
+  farmTileMap: {fileID: 1241181266}
+  castDistance: 1
+  raycastPoint: {fileID: 949255437}
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!222 &8530706238609627946
 CanvasRenderer:
   m_ObjectHideFlags: 0
