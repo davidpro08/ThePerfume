@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Essence", menuName = "Inventory/Essence")]
@@ -25,19 +27,22 @@ public class EssenceData : ItemData
     // 탑 노트 가능 유무
     public bool canTopNote = false;
 
-    // 에센스 관에서 나올 스프라이트 단계
+    // 에센스 관에서 스프라이트
     public EssenceStage essenceStage;
-    // 에센스 고유 색
+    // 조합대 관에서의 스프라이트
+    public Sprite mixtureTubeSprite;
+    // 조합대 향수병에서의 스프라이트;
+    public List<Sprite> mixturePerfumeSprite;
+    // 에센스 색상 코드
     public Color color;
 
-    public EssenceData()
-    { }
+    public EssenceData() { }
     public EssenceData(int id, string itemName, string description,
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
     bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage,
-    Color color)
+    Color color, Sprite mixtureTubeSprite, List<Sprite> mixturePerfumeSprite)
     : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.essenceType = essenceType;
@@ -49,5 +54,7 @@ public class EssenceData : ItemData
         this.canTopNote = canTopNote;
         this.essenceStage = essenceStage;
         this.color = color;
+        this.mixtureTubeSprite = mixtureTubeSprite;
+        this.mixturePerfumeSprite = mixturePerfumeSprite;
     }
 }

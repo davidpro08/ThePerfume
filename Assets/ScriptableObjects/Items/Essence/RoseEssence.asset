@@ -31,4 +31,7 @@ MonoBehaviour:
   canBaseNote: 0
   canMiddleNote: 0
   canTopNote: 0
-  essenceStage: {fileID: 0}
+  essenceStage: {fileID: 11400000, guid: 6914d0a6864488a479acd7279df981b4, type: 2}
+  mixtureTubeSprite: {fileID: -8568077161798745367, guid: a3cf840b1eba4784b956551c6ffb8ed3, type: 3}
+  mixturePerfumeSprite: []
+  color: {r: 1, g: 0.26819396, b: 0.26819396, a: 1}
