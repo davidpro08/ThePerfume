@@ -66,6 +66,22 @@ public class Distiller : MonoBehaviour
 
     public void PlacePetal(MaterialData petalData)
     {
+        if (spawnedEssence != null)
+        {
+            EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
+            if (essence != null)
+            {
+                SpriteRenderer sr = spawnedEssence.GetComponent<SpriteRenderer>();
+                if (sr != null && sr.sprite == essence.essenceStage.progressStage[^1])
+                {
+
+                    TillUIManager.Instance.ShowWarningCanvas("Essence is already");
+                    return;
+                }
+            }
+
+        }
+
         if (petalData == null || !petalData.itemPrefab)
         {
             TillUIManager.Instance.ShowWarningCanvas("need petal item");
@@ -133,10 +149,11 @@ public class Distiller : MonoBehaviour
 
             spawnedEssence = new GameObject("EssenceProgress");
             spawnedEssence.transform.SetParent(essenceTransform, false);
-            Debug.Log("Essence prefab spawned at: " + spawnedEssence.transform.position);
+            spawnedEssence.transform.localPosition = Vector3.zero;
 
-            var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
-            image.sprite = essence.essenceStage.progressStage[0];
+            var sr = spawnedEssence.AddComponent<SpriteRenderer>();
+            sr.sprite = essence.essenceStage.progressStage[0];
+            sr.sortingOrder = 10;
         }
 
         TillSaveService.Touch(distillerID, SaveSnapshot());
@@ -168,16 +185,16 @@ public class Distiller : MonoBehaviour
         float elapsed = 0f;
         int stageIndex = 0;
 
-        var image = spawnedEssence?.GetComponent<UnityEngine.UI.Image>();
+        var sr = spawnedEssence?.GetComponent<SpriteRenderer>();
 
         while (elapsed < totalTime)
         {
             elapsed += Time.deltaTime;
             stageIndex = Mathf.Min(Mathf.FloorToInt((elapsed / totalTime) * essence.essenceStage.progressStage.Count), essence.essenceStage.progressStage.Count - 1);
 
-            if (image != null)
+            if (sr != null)
             {
-                image.sprite = essence.essenceStage.progressStage[stageIndex];
+                sr.sprite = essence.essenceStage.progressStage[stageIndex];
             }
             yield return null;
         }
@@ -199,9 +216,11 @@ public class Distiller : MonoBehaviour
             {
                 spawnedEssence = new GameObject("EssenceFinal");
                 spawnedEssence.transform.SetParent(essenceTransform, false);
+                spawnedEssence.transform.localPosition = Vector3.zero;
 
-                var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
-                image.sprite = essence.essenceStage.progressStage[^1];
+                var sr = spawnedEssence.AddComponent<SpriteRenderer>();
+                sr.sprite = essence.essenceStage.progressStage[^1];
+                sr.sortingOrder = 10;
             }
         }
         isMaking = false;
@@ -261,21 +280,43 @@ public class Distiller : MonoBehaviour
             spawnedEssence = null;
         }
 
-        // 연료 복원
-        foreach (int index in data.occupiedFuelSlots)
+        if (!data.essenceReady)
         {
-            if (index < 0 || index >= fuelSlotParent.Count) continue;
-            var fuel = dataBase?.ResolveFuel(fuelID); // fuel의 id
-            if (fuel is FuelData fuelMat) FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
+            // 연료 복원
+            foreach (int index in data.occupiedFuelSlots)
+            {
+                if (index < 0 || index >= fuelSlotParent.Count) continue;
+                var fuel = dataBase?.ResolveFuel(fuelID); // fuel의 id
+                if (fuel is FuelData fuelMat) FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
+            }
+
+            // 꽃잎 복원
+            foreach (PetalSlotData p in data.petalSlots)
+            {
+                if (p.index < 0 || p.index >= petalSlotParent.Count) continue;
+                var petal = dataBase?.ResolveMaterial(p.itemID);
+                if (petal != null) PetalSpawnToSlot(petal, petalSlotParent[p.index]);
+            }
+        }
+        else
+        {
+            bool ConsumeOneFuel = false;
+            foreach (int index in data.occupiedFuelSlots)
+            {
+                if (index < 0 || index >= fuelSlotParent.Count) continue;
+                var fuel = dataBase?.ResolveFuel(fuelID); // fuel의 id
+                if (fuel is FuelData fuelMat)
+                {
+                    if (!ConsumeOneFuel)
+                    {
+                        ConsumeOneFuel = true;
+                        continue;
+                    }
+                    FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
+                }
+            }
         }
 
-        // 꽃잎 복원
-        foreach (PetalSlotData p in data.petalSlots)
-        {
-            if (p.index < 0 || p.index >= petalSlotParent.Count) continue;
-            var petal = dataBase?.ResolveMaterial(p.itemID);
-            if (petal != null) PetalSpawnToSlot(petal, petalSlotParent[p.index]);
-        }
 
         // 제작 진행/씬 밖 보정
         isMaking = data.isMaking;
@@ -291,9 +332,11 @@ public class Distiller : MonoBehaviour
             {
                 spawnedEssence = new GameObject("EssenceFinal");
                 spawnedEssence.transform.SetParent(essenceTransform, false);
+                spawnedEssence.transform.localPosition = Vector3.zero;
 
-                var image = spawnedEssence.AddComponent<UnityEngine.UI.Image>();
-                image.sprite = essence.essenceStage.progressStage[^1];
+                var sr = spawnedEssence.AddComponent<SpriteRenderer>();
+                sr.sprite = essence.essenceStage.progressStage[^1];
+                sr.sortingOrder = 10;
             }
             isMaking = false;
         }

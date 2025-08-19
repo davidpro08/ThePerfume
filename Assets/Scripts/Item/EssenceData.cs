@@ -27,6 +27,8 @@ public class EssenceData : ItemData
 
     // 에센스 관에서 스프라이트
     public EssenceStage essenceStage;
+    // 에센스 색상 코드
+    public Color color;
 
     public EssenceData() { }
     public EssenceData(int id, string itemName, string description,
