@@ -24,13 +24,18 @@ public class ClickTarget : MonoBehaviour, IPointerClickHandler, IDragHandler, IE
         switch (type)
         {
             case TargetType.Base:
-                // 아이템 소환
-                break;
+            // 아이템 소환
             case TargetType.Middle:
-                // 아이템 소환
-                break;
+            // 아이템 소환
             case TargetType.Top:
                 // 아이템 소환
+                EssenceData essence = currentSelectedEssence();
+                if (essence == null)
+                {
+                    TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                    return;
+                }
+                mixture.PlaceEssence(essence);
                 break;
             case TargetType.Perfume:
                 // 향수가 완성됐는지 확인
@@ -77,5 +82,18 @@ public class ClickTarget : MonoBehaviour, IPointerClickHandler, IDragHandler, IE
                 // 퍼퓸관에 탑 넣기
                 break;
         }
+    }
+
+    private EssenceData currentSelectedEssence()
+    {
+        if (InventoryManager.Instance == null) return null;
+
+        int index = InventoryManager.Instance.SelectedSlotIndex;
+        if (index < 0 || index >= InventoryManager.Instance.itemSlots.Count) return null;
+
+        ItemSlot selectedSlot = InventoryManager.Instance.itemSlots[index];
+        if (selectedSlot == null || selectedSlot.itemData == null) return null;
+
+        return selectedSlot.itemData as EssenceData;
     }
 }
