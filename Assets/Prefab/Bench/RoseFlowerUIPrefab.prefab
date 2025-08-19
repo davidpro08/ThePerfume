@@ -264,7 +264,6 @@ GameObject:
   - component: {fileID: 4428836513784470890}
   - component: {fileID: 8580887190922974872}
   - component: {fileID: 5101171513396812168}
-  - component: {fileID: 498135647789428968}
   m_Layer: 5
   m_Name: green
   m_TagString: Untagged
@@ -329,19 +328,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &498135647789428968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3323559624277671073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e07870e9d5243340834071bd445247f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragHandleThreshold: 100
 --- !u!1 &3913862132979958334
 GameObject:
   m_ObjectHideFlags: 0

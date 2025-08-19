@@ -32,3 +32,4 @@ MonoBehaviour:
   canMiddleNote: 0
   canTopNote: 0
   essenceStage: {fileID: 11400000, guid: 6914d0a6864488a479acd7279df981b4, type: 2}
+  color: {r: 1, g: 0.26819396, b: 0.26819396, a: 1}
