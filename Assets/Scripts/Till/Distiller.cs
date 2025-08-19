@@ -153,6 +153,7 @@ public class Distiller : MonoBehaviour
 
             var sr = spawnedEssence.AddComponent<SpriteRenderer>();
             sr.sprite = essence.essenceStage.progressStage[0];
+            sr.color = essence.color;
             sr.sortingOrder = 10;
         }
 
@@ -195,6 +196,7 @@ public class Distiller : MonoBehaviour
             if (sr != null)
             {
                 sr.sprite = essence.essenceStage.progressStage[stageIndex];
+                sr.color = essence.color;
             }
             yield return null;
         }
@@ -220,6 +222,7 @@ public class Distiller : MonoBehaviour
 
                 var sr = spawnedEssence.AddComponent<SpriteRenderer>();
                 sr.sprite = essence.essenceStage.progressStage[^1];
+                sr.color = essence.color;
                 sr.sortingOrder = 10;
             }
         }
@@ -336,6 +339,7 @@ public class Distiller : MonoBehaviour
 
                 var sr = spawnedEssence.AddComponent<SpriteRenderer>();
                 sr.sprite = essence.essenceStage.progressStage[^1];
+                sr.color = essence.color;
                 sr.sortingOrder = 10;
             }
             isMaking = false;

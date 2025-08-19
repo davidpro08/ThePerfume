@@ -1,4 +1,5 @@
 ﻿
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Essence", menuName = "Inventory/Essence")]
@@ -35,7 +36,8 @@ public class EssenceData : ItemData
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
-    bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage)
+    bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage,
+    Color color)
     : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.essenceType = essenceType;
@@ -46,5 +48,6 @@ public class EssenceData : ItemData
         this.canMiddleNote = canMiddleNote;
         this.canTopNote = canTopNote;
         this.essenceStage = essenceStage;
+        this.color = color;
     }
 }
