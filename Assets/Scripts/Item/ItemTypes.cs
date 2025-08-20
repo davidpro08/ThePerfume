@@ -45,3 +45,10 @@ public enum ToolType
     Axe,
     Pickaxe
 }
+
+public enum InstallationType
+{
+    Farm,
+    Bench,
+    Distiller
+}

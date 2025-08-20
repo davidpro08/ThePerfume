@@ -1,34 +1,69 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Farm : MonoBehaviour, IInteract
 {
     [Header("화분 상태")]
     public bool isOccupied = false; //이미 씨앗이 심어져 있는지
-    public HarvestableCrop currentCropInstance; // 현재 심어진 작물의 인스턴스
-    private SpriteRenderer farmSpriteRenderer;
-    public Sprite emptyFarmSprite; // 마른 화분 스프라이트
-    public Sprite wateredFarmSprite; // 젖은 화분 스프라이트
-    private Collider2D farmCollider; // 수확 때 생기는 오류 수정용 > 작물 다 자라면 farm의 collider 끔
     public bool isWatered = false; // 마른 상태인지 젖은 상태인지 확인
+    public HarvestableCrop currentCropInstance; // 현재 심어진 작물의 인스턴스
+    
+
+    //private SpriteRenderer farmSpriteRenderer;
+    //public Sprite emptyFarmSprite; // 마른 화분 스프라이트
+    //public Sprite wateredFarmSprite; // 젖은 화분 스프라이트
+
+    [Header("References")]
+    private Collider2D farmCollider; // 수확 때 생기는 오류 수정용 > 작물 다 자라면 farm의 collider 끔
+    private Tilemap tilemap;
+    private Vector3Int gridPosition;
+
+    // 타일은 BuildController에서 다루고 Interact는 여기서
+    [Header("화분 타일")]
+    public TileBase emptyFarmTile;
+    public TileBase plantedFarmTile;
+    public TileBase wateredFarmTile;
 
     void Awake()
     {
-        farmSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
-        Debug.Log($"[farm] 현재 isOcuppied = false");
+        //farmSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
+        //Debug.Log($"[farm] 현재 isOcuppied = false");
         farmCollider = GetComponent<Collider2D>();
         isOccupied = false;
         isWatered = false;
-        UpdateSprite();
+        //UpdateSprite();
     }
 
-    private void UpdateSprite()
+    public void Init(Vector3Int pos, Tilemap map)
     {
-        if (farmSpriteRenderer != null)
-        {
-            farmSpriteRenderer.enabled = true;
-            farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
-        }
+        gridPosition = pos;
+        tilemap = map;
+        UpdateTile();
     }
+
+    private void UpdateTile()
+    {
+        if (tilemap == null) return;
+
+        if (isWatered && !isOccupied)
+        {
+            tilemap.SetTile(gridPosition, wateredFarmTile);
+        }
+        else if (!isWatered && isOccupied)
+        {
+            tilemap.SetTile(gridPosition, plantedFarmTile);
+        }
+        else
+            tilemap.SetTile(gridPosition, emptyFarmTile);
+    }
+    //private void UpdateSprite()
+    //{
+    //    if (farmSpriteRenderer != null)
+    //    {
+    //        farmSpriteRenderer.enabled = true;
+    //        farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
+    //    }
+    //}
 
     public void Interact(Player player)
     {
@@ -62,12 +97,12 @@ public class Farm : MonoBehaviour, IInteract
                     toolData.nowDurability -= toolData.useDurability; // 내구도 감소
                     InventoryManager.Instance.InventoryChanged();
                     Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
-                    
-                    if (farmSpriteRenderer != null)
-                    {
-                        farmSpriteRenderer.enabled = true;
-                        farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
-                    }
+                    UpdateTile();
+                    //if (farmSpriteRenderer != null)
+                    //{
+                    //    farmSpriteRenderer.enabled = true;
+                    //    farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
+                    //}
                 }
                 else
                 {
@@ -85,6 +120,8 @@ public class Farm : MonoBehaviour, IInteract
     /// <returns></returns>
     public void PlantSeed(SeedData seedData)
     {
+        isOccupied = true;
+        UpdateTile();
         // 작물 오브젝트 생성
         GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
         currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
@@ -92,8 +129,7 @@ public class Farm : MonoBehaviour, IInteract
         // 작물의 초기 상태 = 심은 직후 상태
         currentCropInstance.parentFarm = this;
         currentCropInstance.currentStage = 0;
-        isOccupied = true;
-        UpdateSprite();
+
         if (farmCollider != null)
         {
             farmCollider.enabled = false; // 씨앗 심으면 farm 콜라이더 종료
@@ -140,7 +176,6 @@ public class Farm : MonoBehaviour, IInteract
                         Debug.Log("물뿌리개 물이 없음");
                         return false;
                     }
-
                     break;
                 default:
                     break;
@@ -201,7 +236,7 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
             Destroy(currentCropInstance.gameObject);
             currentCropInstance = null;
-            UpdateSprite();
+            UpdateTile();
             if (farmCollider != null)
             {
                 farmCollider.enabled = true; // 작물 수확하고 나서 콜라이더 활성화

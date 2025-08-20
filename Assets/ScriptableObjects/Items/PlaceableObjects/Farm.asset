@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b44ec13286a54d4493339f75e729f88, type: 3}
+  m_Name: Farm
+  m_EditorClassIdentifier: 
+  id: 0
+  itemName: "\uD654\uB2E8"
+  description: Null Description
+  itemIcon: {fileID: -1542017975, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
+  itemType: 7
+  isStackable: 1
+  maxStack: 24
+  nowStack: 1
+  isTradable: 0
+  buyPrice: 0
+  sellPrice: 0
+  scaleUpUI: 0
+  itemPrefab: {fileID: 551434483720038043, guid: 0ca2dd2d201a06e4f8af72529e6727ef, type: 3}
+  itemTile: {fileID: 0}
+  usesTilemap: 0
+  installationType: 0

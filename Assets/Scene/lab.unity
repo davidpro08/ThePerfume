@@ -4907,7 +4907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2535d88fe457dc04087d3a9d1e5bdeda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToGive: {fileID: 11400000, guid: 69b00659297b5494681e0284f35d6326, type: 2}
+  itemToGive: {fileID: 11400000, guid: 4a8268659a9682e4c8504c021c0e190c, type: 2}
   quantityToGive: 1
 --- !u!212 &1214223823
 SpriteRenderer:
@@ -4953,7 +4953,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 8333231276030249781, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  m_Sprite: {fileID: -1542017975, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5017,7 +5017,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.5, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -14818,6 +14818,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7734718530396451338, guid: 0ca2dd2d201a06e4f8af72529e6727ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15071,12 +15075,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmTile: {fileID: 11400000, guid: 7b2e7a8b04d54574e9f4116c8c0c23a5, type: 2}
-  farmTileMap: {fileID: 1241181266}
+  installationTilemap: {fileID: 0}
   castDistance: 1
   raycastPoint: {fileID: 949255437}
   layer:
     serializedVersion: 2
     m_Bits: 1024
+  farmData: {fileID: 0}
 --- !u!222 &8530706238609627946
 CanvasRenderer:
   m_ObjectHideFlags: 0
