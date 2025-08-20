@@ -25,6 +25,6 @@ MonoBehaviour:
   sellPrice: 0
   scaleUpUI: 0
   itemPrefab: {fileID: 551434483720038043, guid: 0ca2dd2d201a06e4f8af72529e6727ef, type: 3}
-  itemTile: {fileID: 11400000, guid: 7eb32f2f36ce519408429d89d315d6b6, type: 2}
+  itemTile: {fileID: 11400000, guid: 9a285a97e72fd9044b169d713aba1337, type: 2}
   usesTilemap: 1
   installationType: 0

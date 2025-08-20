@@ -104,7 +104,7 @@ MonoBehaviour:
   isOccupied: 0
   isWatered: 0
   currentCropInstance: {fileID: 0}
-  emptyFarmTile: {fileID: 11400000, guid: 7eb32f2f36ce519408429d89d315d6b6, type: 2}
+  emptyFarmTile: {fileID: 11400000, guid: 9a285a97e72fd9044b169d713aba1337, type: 2}
   plantedFarmTile: {fileID: 0}
   wateredFarmTile: {fileID: 11400000, guid: e30fbf1c849fbce498ce4ca5e7c30d0c, type: 2}
 --- !u!61 &8710338102519530094

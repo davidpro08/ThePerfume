@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -65,6 +66,7 @@ public class BuildController : MonoBehaviour
     //    destroyBlock = false;
     //}
 
+    private Dictionary<Vector3Int, GameObject> placedObjects = new Dictionary<Vector3Int, GameObject>();
     IEnumerator PlaceBlock(InstallationData installData, Vector2 pos)
     {
         yield return null;
@@ -72,6 +74,10 @@ public class BuildController : MonoBehaviour
         // 그리드에 맞춰
         pos = new Vector2(Mathf.Floor(pos.x), Mathf.Floor(pos.y));
         Vector3Int gridPos = new Vector3Int((int)pos.x, (int)pos.y, 0);
+
+        if(placedObjects.ContainsKey(gridPos)) { // 이미 무언가 설치됐는지 확인
+            yield break;
+        }
 
         switch (installData.installationType)
         {
@@ -85,6 +91,8 @@ public class BuildController : MonoBehaviour
 
                     Farm farm = farmObj.GetComponent<Farm>();
                     if (farm != null) farm.Init(gridPos, installationTilemap);
+
+                    placedObjects[gridPos] = farmObj;
                 }
                 break;
             default:

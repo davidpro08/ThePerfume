@@ -49,7 +49,7 @@ public class Farm : MonoBehaviour, IInteract
         {
             tilemap.SetTile(gridPosition, wateredFarmTile);
         }
-        else if (!isWatered && isOccupied)
+        else if (isOccupied)
         {
             tilemap.SetTile(gridPosition, plantedFarmTile);
         }
