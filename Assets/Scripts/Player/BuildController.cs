@@ -4,7 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class BuildController : MonoBehaviour
 {
-    public AutoTile farmTile;
     public Tilemap installationTilemap;
 
     public float castDistance = 1.0f;
@@ -74,15 +73,24 @@ public class BuildController : MonoBehaviour
         pos = new Vector2(Mathf.Floor(pos.x), Mathf.Floor(pos.y));
         Vector3Int gridPos = new Vector3Int((int)pos.x, (int)pos.y, 0);
 
-        if(installData.usesTilemap && installData.itemTile != null) // 타일맵 사용하면 타일맵 설치
+        switch (installData.installationType)
         {
-            installationTilemap.SetTile(gridPos, installData.itemTile);
+            case InstallationType.Farm:
+                installationTilemap.SetTile(gridPos, installData.itemTile);
+                installationTilemap.RefreshTile(gridPos);
+
+                if (installData.itemPrefab != null) { 
+                    Vector3 worldPos = installationTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
+                    GameObject farmObj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
+
+                    Farm farm = farmObj.GetComponent<Farm>();
+                    if (farm != null) farm.Init(gridPos, installationTilemap);
+                }
+                break;
+            default:
+                break;
         }
-        else if(installData.itemPrefab != null) // 프리팹 설치
-        {
-            Vector3 worldPos = installationTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
-            GameObject obj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
-        }
+        
 
         placingBlock = false;
     }

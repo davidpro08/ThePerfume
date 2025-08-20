@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   itemName: "\uD654\uB2E8"
   description: Null Description
-  itemIcon: {fileID: -1542017975, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
+  itemIcon: {fileID: -499542977, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
   itemType: 7
   isStackable: 1
   maxStack: 24
@@ -25,6 +25,6 @@ MonoBehaviour:
   sellPrice: 0
   scaleUpUI: 0
   itemPrefab: {fileID: 551434483720038043, guid: 0ca2dd2d201a06e4f8af72529e6727ef, type: 3}
-  itemTile: {fileID: 0}
-  usesTilemap: 0
+  itemTile: {fileID: 11400000, guid: 7eb32f2f36ce519408429d89d315d6b6, type: 2}
+  usesTilemap: 1
   installationType: 0

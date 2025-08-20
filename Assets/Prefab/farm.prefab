@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -8336116053231146332, guid: e9a3743c43c2fcb45b87681ad8a40c65, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
-  currentCropInstance: {fileID: 0}
-  emptyFarmSprite: {fileID: -8336116053231146332, guid: e9a3743c43c2fcb45b87681ad8a40c65, type: 3}
-  wateredFarmSprite: {fileID: 1920714459243988279, guid: b11726f0bafa8ad41919573e237e7df1, type: 3}
   isWatered: 0
+  currentCropInstance: {fileID: 0}
+  emptyFarmTile: {fileID: 11400000, guid: 7eb32f2f36ce519408429d89d315d6b6, type: 2}
+  plantedFarmTile: {fileID: 0}
+  wateredFarmTile: {fileID: 11400000, guid: e30fbf1c849fbce498ce4ca5e7c30d0c, type: 2}
 --- !u!61 &8710338102519530094
 BoxCollider2D:
   m_ObjectHideFlags: 0

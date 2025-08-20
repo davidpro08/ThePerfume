@@ -4953,12 +4953,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1542017975, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
+  m_Sprite: {fileID: -499542977, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5018,7 +5018,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 0.5, y: 0.5}
+    newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -5238,34 +5238,34 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: -2.7355654e-14
+      e00: -4.7669307e+20
       e01: 0
-      e02: 6.581752e+20
-      e03: 2.439459e-19
-      e10: 4.5914e-41
+      e02: -4.7669983e+20
+      e03: -8.301049e+19
+      e10: 4.5e-44
       e11: 0
-      e12: 1.4e-43
-      e13: 6.75e-43
-      e20: -8.2966837e-14
+      e12: 4.5e-44
+      e13: 7.55e-43
+      e20: 1.1495455e+12
       e21: 0
-      e22: -1.5106806e+9
-      e23: -6.605819e-19
-      e30: 4.5914e-41
+      e22: 33525760
+      e23: 2.1321707e-19
+      e30: 4.591e-41
       e31: 0
-      e32: 6.75e-43
-      e33: 6.75e-43
+      e32: 7.57e-43
+      e33: 7.57e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: 2.35e-43, g: 2.35e-43, b: 2.35e-43, a: 2.35e-43}
   - m_RefCount: 0
-    m_Data: {r: 2.35e-43, g: 2.35e-43, b: 2.35e-43, a: 2.35e-43}
+    m_Data: {r: 6.8683e-41, g: 6.8683e-41, b: 6.8683e-41, a: 6.8683e-41}
   - m_RefCount: 0
-    m_Data: {r: 2.35e-43, g: 2.35e-43, b: 2.35e-43, a: 2.35e-43}
+    m_Data: {r: -8.301077e+19, g: -8.301077e+19, b: -8.301077e+19, a: -8.301077e+19}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -25, y: -7, z: 0}
-  m_Size: {x: 25, y: 10, z: 1}
+  m_Origin: {x: -32, y: -7, z: 0}
+  m_Size: {x: 32, y: 13, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -14818,10 +14818,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7734718530396451338, guid: 0ca2dd2d201a06e4f8af72529e6727ef, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15074,14 +15070,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39c8aa6bb0330f4cbc91806c8b2c7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmTile: {fileID: 11400000, guid: 7b2e7a8b04d54574e9f4116c8c0c23a5, type: 2}
-  installationTilemap: {fileID: 0}
+  installationTilemap: {fileID: 1241181266}
   castDistance: 1
   raycastPoint: {fileID: 949255437}
   layer:
     serializedVersion: 2
     m_Bits: 1024
-  farmData: {fileID: 0}
 --- !u!222 &8530706238609627946
 CanvasRenderer:
   m_ObjectHideFlags: 0
