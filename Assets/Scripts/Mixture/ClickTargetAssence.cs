@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D))]
-public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
+public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public enum TargetType { Base, Middle, Top, Perfume, Funnel }
-    [SerializeField] TargetType type;
+    public enum TargetEssenceType { Base, Middle, Top }
+    [SerializeField] TargetEssenceType essenceType;
+    [SerializeField] private Transform liquidTransform;
+    private Quaternion liquidInitialRotation;
     [Header("기울기 모션")]
     [SerializeField] float tiltAngle = -30f; // 기울일 각도
     [SerializeField] float tiltDuration = 0.25f; // 기울이기/되돌리기 시간
@@ -17,7 +17,7 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] int dragSortingOrder = 10;
     Mixture mixture;
 
-    float clickThreshold;
+    [SerializeField] float clickThreshold = 0.5f;
     float pointerDownTime;
 
     Camera cam;
@@ -29,8 +29,6 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
     float originZ;
     Vector3 offset;
 
-
-
     void Awake()
     {
         mixture = GetComponentInParent<Mixture>();
@@ -40,11 +38,12 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
 
-        clickThreshold = Time.time;
+        if (liquidTransform != null) liquidInitialRotation = liquidTransform.rotation;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("PointerDown");
         pointerDownTime = Time.time;
     }
 
@@ -52,6 +51,7 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (Time.time - pointerDownTime <= clickThreshold)
         {
+            Debug.Log("PointerUp");
             HandleClick();
         }
     }
@@ -60,58 +60,46 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
 
-        switch (type)
+        switch (essenceType)
         {
-            case TargetType.Base:
+            case TargetEssenceType.Base:
                 // 아이템 소환
-                EssenceData baseEssence = currentSelectedEssence();
-                if (baseEssence == null)
+                mixture.baseData = currentSelectedEssence();
+                if (mixture.baseData == null)
                 {
                     TillUIManager.Instance.ShowWarningCanvas("need Essence");
                     return;
                 }
-                mixture.PlaceEssence(baseEssence, mixture.baseL);
+                mixture.PlaceEssence(mixture.baseData, mixture.baseL);
                 break;
-            case TargetType.Middle:
+            case TargetEssenceType.Middle:
                 // 아이템 소환
-                EssenceData middleEssence = currentSelectedEssence();
-                if (middleEssence == null)
+                mixture.middleData = currentSelectedEssence();
+                if (mixture.middleData == null)
                 {
                     TillUIManager.Instance.ShowWarningCanvas("need Essence");
                     return;
                 }
-                mixture.PlaceEssence(middleEssence, mixture.middleL);
+                mixture.PlaceEssence(mixture.middleData, mixture.middleL);
                 break;
-            case TargetType.Top:
+            case TargetEssenceType.Top:
                 // 아이템 소환
-                EssenceData topEssence = currentSelectedEssence();
-                if (topEssence == null)
+                mixture.topData = currentSelectedEssence();
+                if (mixture.topData == null)
                 {
                     TillUIManager.Instance.ShowWarningCanvas("need Essence");
                     return;
                 }
-                mixture.PlaceEssence(topEssence, mixture.topL);
-                break;
-            case TargetType.Perfume:
-                // 향수가 완성됐는지 확인
-                // 아이템 획득
-                break;
-            case TargetType.Funnel:
-                // 베이스,미들,탑 다 들어갔는지 체크
-                if (mixture.CanMakePCompleteL())
-                {
-                    // 빠지는 애니메이션
-                    // Destroy();
-                }
+                mixture.PlaceEssence(mixture.topData, mixture.topL);
                 break;
         }
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (type != TargetType.Base && type != TargetType.Middle && type != TargetType.Top && type != TargetType.Perfume) return;
+        if (essenceType != TargetEssenceType.Base && essenceType != TargetEssenceType.Middle && essenceType != TargetEssenceType.Top) return;
 
-        originPos = transform.localPosition;
-        originRot = transform.localRotation;
+        originPos = transform.position;
+        originRot = transform.rotation;
         originZ = transform.position.z;
 
         Vector3 world = ScreenToWorldAtMyZ(eventData.position);
@@ -126,19 +114,16 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        switch (type)
+        switch (essenceType)
         {
-            case TargetType.Base:
-            case TargetType.Middle:
-            case TargetType.Top:
+            case TargetEssenceType.Base:
+            case TargetEssenceType.Middle:
+            case TargetEssenceType.Top:
                 // 마우스 따라가기
                 Vector3 world = ScreenToWorldAtMyZ(eventData.position);
                 Vector3 target = world + offset;
                 target.z = originZ;
                 transform.position = target;
-                break;
-            case TargetType.Perfume:
-                // 흔들 수 있는지 판단 후(깔떼기가 있는지 없는지)에 마우스 따라가기
                 break;
         }
     }
@@ -147,16 +132,16 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         // 위치가 'flowZone' 일 때
         // 따르는 애니메이션
-        if (type != TargetType.Base && type != TargetType.Middle && type != TargetType.Top) return;
+        if (essenceType != TargetEssenceType.Base && essenceType != TargetEssenceType.Middle && essenceType != TargetEssenceType.Top) return;
 
         if (sr != null) sr.sortingOrder = originOrder;
 
         bool inZone = isInFlowZone();
-        bool canPour = type switch
+        bool canPour = essenceType switch
         {
-            TargetType.Base => mixture != null,
-            TargetType.Middle => mixture != null,
-            TargetType.Top => mixture != null,
+            TargetEssenceType.Base => mixture != null,
+            TargetEssenceType.Middle => mixture != null,
+            TargetEssenceType.Top => mixture != null,
             _ => false
         };
 
@@ -167,8 +152,8 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
         else
         {
             // 일단은 스냅백...
-            transform.localPosition = originPos;
-            transform.localRotation = originRot;
+            transform.position = originPos;
+            transform.rotation = originRot;
         }
     }
 
@@ -205,6 +190,8 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             t += Time.deltaTime / tiltDuration;
             transform.rotation = Quaternion.Slerp(start, tilted, t);
+
+            if (liquidTransform != null) liquidTransform.rotation = liquidInitialRotation;
             yield return null;
         }
 
@@ -212,30 +199,30 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
 
         if (mixture != null)
         {
-            switch (type)
+            switch (essenceType)
             {
-                case TargetType.Base:
+                case TargetEssenceType.Base:
                     // 조건 판단 > 베이스가 없는지
                     if (mixture.CanBePBaseL())
                     {
                         //퍼퓸관에 베이스 넣기
-                        mixture.PutBaseInPerfume();
+                        mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0]);
                     }
                     break;
-                case TargetType.Middle:
+                case TargetEssenceType.Middle:
                     // 조건 판단 > 베이스가 이미 있고 미들이 없는지
                     if (mixture.CanBePMiddleL())
                     {
-                        //퍼퓸관에 베이스 넣기
-                        mixture.PutMiddleInPerfume();
+                        //퍼퓸관에 미들 넣기
+                        mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1]);
                     }
                     break;
-                case TargetType.Top:
+                case TargetEssenceType.Top:
                     // 조건 판단 > 베이스, 미들이 이미 있고 탑이 없는지
                     if (mixture.CanBePTopL())
                     {
-                        //퍼퓸관에 베이스 넣기
-                        mixture.PutTopInPerfume();
+                        //퍼퓸관에 탑 넣기
+                        mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2]);
                     }
                     break;
             }
@@ -246,6 +233,8 @@ public class ClickTarget : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             t += Time.deltaTime / tiltDuration;
             transform.rotation = Quaternion.Slerp(tilted, originRot, t);
+
+            if (liquidTransform != null) liquidTransform.rotation = Quaternion.Slerp(tilted, originRot, t);
             yield return null;
         }
 

@@ -29,10 +29,6 @@ public class EssenceData : ItemData
 
     // 에센스 관에서 스프라이트
     public EssenceStage essenceStage;
-    // 조합대 관에서의 스프라이트
-    public Sprite mixtureTubeSprite;
-    // 조합대 향수병에서의 스프라이트;
-    public List<Sprite> mixturePerfumeSprite;
     // 에센스 색상 코드
     public Color color;
 
@@ -42,7 +38,7 @@ public class EssenceData : ItemData
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
     bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage,
-    Color color, Sprite mixtureTubeSprite, List<Sprite> mixturePerfumeSprite)
+    Color color)
     : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
         this.essenceType = essenceType;
@@ -54,7 +50,5 @@ public class EssenceData : ItemData
         this.canTopNote = canTopNote;
         this.essenceStage = essenceStage;
         this.color = color;
-        this.mixtureTubeSprite = mixtureTubeSprite;
-        this.mixturePerfumeSprite = mixturePerfumeSprite;
     }
 }

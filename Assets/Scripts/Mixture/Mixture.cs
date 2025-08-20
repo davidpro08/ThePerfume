@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class Mixture : MonoBehaviour
@@ -9,13 +8,25 @@ public class Mixture : MonoBehaviour
     [SerializeField] public GameObject middleL;
     [SerializeField] public GameObject topL;
     [SerializeField] public List<GameObject> PerfumeL; // 0=Base, 1=middle, 2=top, 3=complete
-    [SerializeField] public GameObject funnel;
+    [SerializeField] public GameObject punnel;
     [SerializeField] public GameObject flowZone;
+
+    [Header("Perfume Itme")]
+    [SerializeField] public List<PerfumeData> perfumeDatas;
+
+    public EssenceData baseData = null;
+    public EssenceData middleData = null;
+    public EssenceData topData = null;
+    public PerfumeData perfumeData = null;
+
+    float perfumeWarm;
+    float perfumeCool;
+    float perfumeRelax;
 
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
     {
-        if (essenceData == null || !essenceData.mixtureTubeSprite)
+        if (essenceData == null)
         {
             TillUIManager.Instance.ShowWarningCanvas("need Essence item");
             return;
@@ -36,19 +47,26 @@ public class Mixture : MonoBehaviour
         EssenceSpawnToSlot(essenceData, target);
     }
 
-    public void PutBaseInPerfume()
+    public void PutEssenceInPerfume(EssenceData essenceData, GameObject target)
     {
-        //
+        if (essenceData == null || target == null) return;
+
+        var sr = target.GetComponent<SpriteRenderer>();
+        if (sr.sprite != null) return;
+        sr.enabled = true;
+        sr.color = essenceData.color;
+        sr.sortingOrder = 10;
     }
 
-    public void PutMiddleInPerfume()
+    public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
     {
-        //
-    }
+        PerfumeL[0].gameObject.SetActive(false);
+        PerfumeL[1].gameObject.SetActive(false);
+        PerfumeL[2].gameObject.SetActive(false);
 
-    public void PutTopInPerfume()
-    {
-        //
+        PerfumeL[3].gameObject.SetActive(true);
+
+        CalculateCapacityAndColor();
     }
 
     // =========== 판단 로직 =============
@@ -79,25 +97,64 @@ public class Mixture : MonoBehaviour
         return false;
     }
 
-    public bool CanMakePCompleteL()
+    public bool CanRemovePunnel()
     {
         var PBaseL = PerfumeL[0].GetComponent<SpriteRenderer>();
         var PMiddleL = PerfumeL[1].GetComponent<SpriteRenderer>();
         var PTopL = PerfumeL[2].GetComponent<SpriteRenderer>();
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PBaseL.sprite != null && PMiddleL != null && PTopL != null && PCompleteL == null) return true;
+        if (PBaseL.sprite != null && PMiddleL != null && PTopL != null && PCompleteL == null && punnel.gameObject.activeSelf) return true;
+        return false;
+    }
+
+    public bool CanMakePerfume()
+    {
+        if (!punnel.gameObject.activeSelf) return true;
+        return false;
+    }
+
+    public bool CanGainPerfume()
+    {
+        var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
+        if (PCompleteL.sprite != null) return true;
         return false;
     }
 
     // =========== 보조 함수 =============
     void EssenceSpawnToSlot(EssenceData data, GameObject target)
     {
-        if (data == null || data.mixtureTubeSprite == null || target == null) return;
+        if (data == null || data.color == null || target == null) return;
 
-        if (target.GetComponent<Sprite>() != null) return;
         var sr = target.GetComponent<SpriteRenderer>();
-        sr.sprite = data.mixtureTubeSprite;
+        if (sr.sprite != null) return;
+        sr.enabled = true;
         sr.color = data.color;
         sr.sortingOrder = 10;
+    }
+
+    public void CalculateCapacityAndColor()
+    {
+        perfumeWarm = (baseData.essenceWarm + middleData.essenceWarm + topData.essenceWarm) / 3;
+        perfumeCool = (baseData.essenceCool + middleData.essenceCool + topData.essenceCool) / 3;
+        perfumeRelax = (baseData.essenceRelax + middleData.essenceRelax + topData.essenceRelax) / 3;
+
+        if (perfumeRelax > perfumeWarm && perfumeRelax > perfumeCool) perfumeData = perfumeDatas[0];
+        else if (perfumeWarm > perfumeRelax && perfumeWarm > perfumeCool) perfumeData = perfumeDatas[1];
+        else if (perfumeCool > perfumeWarm && perfumeCool > perfumeRelax) perfumeData = perfumeDatas[2];
+        else if (perfumeRelax == perfumeWarm && perfumeRelax != perfumeCool) perfumeData = perfumeDatas[3];
+        else if (perfumeRelax == perfumeCool && perfumeRelax != perfumeWarm) perfumeData = perfumeDatas[4];
+        else if (perfumeWarm == perfumeCool && perfumeWarm != perfumeRelax) perfumeData = perfumeDatas[5];
+        else perfumeData = perfumeDatas[6];
+
+        perfumeData = Instantiate(perfumeData);
+
+        perfumeData.color.r = (baseData.color.r + middleData.color.r + topData.color.r) / 3;
+        perfumeData.color.g = (baseData.color.g + middleData.color.g + topData.color.g) / 3;
+        perfumeData.color.b = (baseData.color.b + middleData.color.b + topData.color.b) / 3;
+        perfumeData.color.a = 1f;
+
+        perfumeData.perfumeRelax = perfumeRelax;
+        perfumeData.perfumeWarm = perfumeWarm;
+        perfumeData.perfumeCool = perfumeCool;
     }
 }
