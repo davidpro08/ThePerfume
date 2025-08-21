@@ -69,9 +69,9 @@ public class Mixture : MonoBehaviour
         PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
         PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;
 
-        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
-
         CalculateCapacityAndColor();
+        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
+        PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
     }
 
     // =========== 판단 로직 =============
@@ -153,7 +153,7 @@ public class Mixture : MonoBehaviour
         else if (perfumeWarm == perfumeCool && perfumeWarm != perfumeRelax) perfumeData = perfumeDatas[5];
         else perfumeData = perfumeDatas[6];
 
-        perfumeData = Instantiate(perfumeData);
+        perfumeData = ScriptableObject.Instantiate(perfumeData);
 
         perfumeData.color.r = (baseData.color.r + middleData.color.r + topData.color.r) / 3;
         perfumeData.color.g = (baseData.color.g + middleData.color.g + topData.color.g) / 3;
