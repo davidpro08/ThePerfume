@@ -185,6 +185,52 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
         Quaternion start = transform.rotation;
         Quaternion tilted = Quaternion.Euler(0f, 0f, tiltAngle) * start;
 
+        if (mixture != null)
+        {
+            // 경고창 호출
+            switch (essenceType)
+            {
+                case TargetEssenceType.Base:
+                    if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == true && mixture.baseL.GetComponent<SpriteRenderer>().enabled == true)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Base Essence exist in perfume");
+                        yield return null;
+                    }
+                    break;
+                case TargetEssenceType.Middle:
+                    if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true && mixture.middleL.GetComponent<SpriteRenderer>().enabled == true)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Middle Essence exist in perfume");
+                        yield return null;
+                    }
+
+                    if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == false)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
+                        yield return null;
+                    }
+                    break;
+                case TargetEssenceType.Top:
+                    if (mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true && mixture.topL.GetComponent<SpriteRenderer>().enabled == true)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Top Essence exist in perfume");
+                        yield return null;
+                    }
+
+                    if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == false)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
+                        yield return null;
+                    }
+                    if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == false)
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("No Middle Essence");
+                        yield return null;
+                    }
+                    break;
+            }
+        }
+
         float t = 0f;
         while (t < 1f)
         {
@@ -206,7 +252,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     if (mixture.CanBePBaseL())
                     {
                         //퍼퓸관에 베이스 넣기
-                        mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0]);
+                        mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL);
                     }
                     break;
                 case TargetEssenceType.Middle:
@@ -214,7 +260,12 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     if (mixture.CanBePMiddleL())
                     {
                         //퍼퓸관에 미들 넣기
-                        mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1]);
+                        if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true)
+                        {
+                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                            yield return null;
+                        }
+                        mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL);
                     }
                     break;
                 case TargetEssenceType.Top:
@@ -222,7 +273,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     if (mixture.CanBePTopL())
                     {
                         //퍼퓸관에 탑 넣기
-                        mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2]);
+                        mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL);
                     }
                     break;
             }

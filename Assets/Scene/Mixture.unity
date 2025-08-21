@@ -309,7 +309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &276351802
 Transform:
   m_ObjectHideFlags: 0
@@ -332,7 +332,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276351801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -595,13 +595,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9cec94652749844b20dfdf453cdb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  essenceType: 0
+  essenceType: 1
   liquidTransform: {fileID: 1348736238}
   tiltAngle: -30
   tiltDuration: 0.25
   holdDuration: 0.35
   dragSortingOrder: 10
-  clickThreshold: 1
+  clickThreshold: 0.2
 --- !u!1 &514042102
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &608490599
 Transform:
   m_ObjectHideFlags: 0
@@ -762,7 +762,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608490598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1100,13 +1100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9cec94652749844b20dfdf453cdb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  essenceType: 0
+  essenceType: 2
   liquidTransform: {fileID: 2036924079}
   tiltAngle: -30
   tiltDuration: 0.25
   holdDuration: 0.35
   dragSortingOrder: 10
-  clickThreshold: 1
+  clickThreshold: 0.2
 --- !u!1 &690139368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perfumeType: 0
-  clickThreshold: 0.5
+  clickThreshold: 0.2
 --- !u!1 &1223480042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,7 +1662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1348736238
 Transform:
   m_ObjectHideFlags: 0
@@ -1685,7 +1685,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348736237}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1749,7 +1749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1370076964
 Transform:
   m_ObjectHideFlags: 0
@@ -1772,7 +1772,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370076963}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   - {fileID: 1370076963}
   - {fileID: 1733884594}
   - {fileID: 1874254737}
-  punnel: {fileID: 0}
+  punnel: {fileID: 1587859892}
   flowZone: {fileID: 2051370336}
   perfumeDatas:
   - {fileID: 11400000, guid: c7440d14169c82b4da73ec0777c79d17, type: 2}
@@ -2434,8 +2434,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4c8ed57977a994787cc7ae5c628854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfumeType: 0
-  clickThreshold: 0.5
+  perfumeType: 2
+  clickThreshold: 0.2
 --- !u!1 &1733884594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,7 +2452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1733884595
 Transform:
   m_ObjectHideFlags: 0
@@ -2475,7 +2475,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733884594}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2875,7 +2875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1874254738
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2883,7 +2883,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874254737}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2962,7 +2962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2036924079
 Transform:
   m_ObjectHideFlags: 0
@@ -2985,7 +2985,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036924078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3343,7 +3343,7 @@ MonoBehaviour:
   tiltDuration: 0.25
   holdDuration: 0.35
   dragSortingOrder: 10
-  clickThreshold: 1
+  clickThreshold: 0.2
 --- !u!1 &2066878562
 GameObject:
   m_ObjectHideFlags: 0

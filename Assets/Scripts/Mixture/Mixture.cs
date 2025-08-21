@@ -26,13 +26,13 @@ public class Mixture : MonoBehaviour
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
     {
-        if (essenceData == null)
-        {
-            TillUIManager.Instance.ShowWarningCanvas("need Essence item");
-            return;
-        }
+        // if (essenceData == null)
+        // {
+        //     TillUIManager.Instance.ShowWarningCanvas("need Essence item");
+        //     return;
+        // }
 
-        if (target.GetComponent<SpriteRenderer>().sprite != null)
+        if (target.GetComponent<SpriteRenderer>().enabled == true)
         {
             TillUIManager.Instance.ShowWarningCanvas("Already essence exist");
             return;
@@ -47,24 +47,29 @@ public class Mixture : MonoBehaviour
         EssenceSpawnToSlot(essenceData, target);
     }
 
-    public void PutEssenceInPerfume(EssenceData essenceData, GameObject target)
+    public void PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
     {
         if (essenceData == null || target == null) return;
 
         var sr = target.GetComponent<SpriteRenderer>();
-        if (sr.sprite != null) return;
+        if (sr.enabled == true) return;
+        var srF = from.GetComponent<SpriteRenderer>();
+        if (srF.enabled == false) return;
+
         sr.enabled = true;
         sr.color = essenceData.color;
         sr.sortingOrder = 10;
+
+        srF.enabled = false;
     }
 
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
     {
-        PerfumeL[0].gameObject.SetActive(false);
-        PerfumeL[1].gameObject.SetActive(false);
-        PerfumeL[2].gameObject.SetActive(false);
+        PerfumeL[0].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;
 
-        PerfumeL[3].gameObject.SetActive(true);
+        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
 
         CalculateCapacityAndColor();
     }
@@ -74,7 +79,7 @@ public class Mixture : MonoBehaviour
     {
         var PBaseL = PerfumeL[0].GetComponent<SpriteRenderer>();
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PBaseL.sprite == null && PCompleteL == null) return true;
+        if (PBaseL.enabled == false && PCompleteL.enabled == false) return true;
         return false;
     }
 
@@ -83,7 +88,8 @@ public class Mixture : MonoBehaviour
         var PBaseL = PerfumeL[0].GetComponent<SpriteRenderer>();
         var PMiddleL = PerfumeL[1].GetComponent<SpriteRenderer>();
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PBaseL.sprite != null && PMiddleL == null && PCompleteL == null) return true;
+        if (PBaseL.enabled == true && PMiddleL.enabled == false && PCompleteL.enabled == false) return true;
+
         return false;
     }
 
@@ -93,7 +99,8 @@ public class Mixture : MonoBehaviour
         var PMiddleL = PerfumeL[1].GetComponent<SpriteRenderer>();
         var PTopL = PerfumeL[2].GetComponent<SpriteRenderer>();
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PBaseL.sprite != null && PMiddleL != null && PTopL == null && PCompleteL == null) return true;
+        if (PBaseL.enabled == true && PMiddleL.enabled == true && PTopL.enabled == false && PCompleteL.enabled == false) return true;
+
         return false;
     }
 
@@ -103,20 +110,20 @@ public class Mixture : MonoBehaviour
         var PMiddleL = PerfumeL[1].GetComponent<SpriteRenderer>();
         var PTopL = PerfumeL[2].GetComponent<SpriteRenderer>();
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PBaseL.sprite != null && PMiddleL != null && PTopL != null && PCompleteL == null && punnel.gameObject.activeSelf) return true;
+        if (PBaseL.enabled == true && PMiddleL.enabled == true && PTopL.enabled == true && PCompleteL.enabled == false && punnel.GetComponent<SpriteRenderer>().enabled == true) return true;
         return false;
     }
 
     public bool CanMakePerfume()
     {
-        if (!punnel.gameObject.activeSelf) return true;
+        if (punnel.GetComponent<SpriteRenderer>().enabled == false) return true;
         return false;
     }
 
     public bool CanGainPerfume()
     {
         var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PCompleteL.sprite != null) return true;
+        if (PCompleteL.enabled == true) return true;
         return false;
     }
 
@@ -126,7 +133,7 @@ public class Mixture : MonoBehaviour
         if (data == null || data.color == null || target == null) return;
 
         var sr = target.GetComponent<SpriteRenderer>();
-        if (sr.sprite != null) return;
+        if (sr.enabled == true) return;
         sr.enabled = true;
         sr.color = data.color;
         sr.sortingOrder = 10;
