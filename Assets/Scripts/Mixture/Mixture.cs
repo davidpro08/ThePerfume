@@ -161,6 +161,15 @@ public class Mixture : MonoBehaviour
             data.relax = perfumeData.perfumeRelax;
         }
 
+        data.baseOn = baseL != null && baseL.GetComponent<SpriteRenderer>().enabled;
+        data.middleOn = middleL != null && middleL.GetComponent<SpriteRenderer>().enabled;
+        data.topOn = topL != null && topL.GetComponent<SpriteRenderer>().enabled;
+
+        data.pBaseOn = PerfumeL[0].GetComponent<SpriteRenderer>().enabled;
+        data.pMiddleOn = PerfumeL[1].GetComponent<SpriteRenderer>().enabled;
+        data.pTopOn = PerfumeL[2].GetComponent<SpriteRenderer>().enabled;
+        data.punnelOn = punnel != null && punnel.GetComponent<SpriteRenderer>().enabled;
+
         return data;
     }
 
@@ -172,15 +181,22 @@ public class Mixture : MonoBehaviour
 
     public void ApplySnapShot(MixtureSaveData data)
     {
+        if (data == null) return;
+
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;
         topData = (data.topEssenceID >= 0) ? itemDataBase.ResolveEssence(data.topEssenceID) : null;
 
-        if (baseData != null) EssenceSpawnToSlot(baseData, PerfumeL[0]);
-        if (middleData != null) EssenceSpawnToSlot(middleData, PerfumeL[1]);
-        if (topData != null) EssenceSpawnToSlot(topData, PerfumeL[2]);
+        SetSR(baseL, data.baseOn, baseData);
+        SetSR(middleL, data.middleOn, middleData);
+        SetSR(topL, data.topOn, topData);
 
-        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = data.perfumeComplete;
+        SetSR(PerfumeL[0], data.pBaseOn, baseData);
+        SetSR(PerfumeL[1], data.pMiddleOn, middleData);
+        SetSR(PerfumeL[2], data.pTopOn, topData);
+
+        var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
+        p3.enabled = data.perfumeComplete;
 
         if (data.perfumeID >= 0)
         {
@@ -196,6 +212,12 @@ public class Mixture : MonoBehaviour
                 PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
             }
         }
+
+        if (punnel != null)
+        {
+            var psr = punnel.GetComponent<SpriteRenderer>();
+            if (psr != null) psr.enabled = data.punnelOn;
+        }
     }
 
     // =========== 보조 함수 =============
@@ -204,7 +226,7 @@ public class Mixture : MonoBehaviour
         if (data == null || target == null) return;
 
         var sr = target.GetComponent<SpriteRenderer>();
-        if (sr.enabled == true) return;
+        if (sr.enabled || sr == null) return;
         sr.enabled = true;
         sr.color = data.color;
         sr.sortingOrder = 10;
@@ -234,5 +256,19 @@ public class Mixture : MonoBehaviour
         perfumeData.perfumeRelax = perfumeRelax;
         perfumeData.perfumeWarm = perfumeWarm;
         perfumeData.perfumeCool = perfumeCool;
+    }
+
+    void SetSR(GameObject slot, bool on, EssenceData essenceData)
+    {
+        if (slot == null) return;
+        var sr = slot.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+
+        sr.enabled = on;
+        if (on && essenceData != null)
+        {
+            sr.color = essenceData.color;
+            sr.sortingOrder = 10;
+        }
     }
 }

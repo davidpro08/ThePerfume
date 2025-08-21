@@ -6,20 +6,18 @@ using UnityEngine;
 [Serializable]
 public class MixtureSaveData
 {
-    public int baseEssenceID;
-    public int middleEssenceID;
-    public int topEssenceID;
+    public int baseEssenceID, middleEssenceID, topEssenceID;
 
     public bool perfumeComplete;
     public int perfumeID;
 
-    public float colorR;
-    public float colorG;
-    public float colorB;
+    public float colorR, colorG, colorB;
 
-    public float warm;
-    public float cool;
-    public float relax;
+    public float warm, cool, relax;
+
+    public bool baseOn, middleOn, topOn;
+    public bool pBaseOn, pMiddleOn, pTopOn;
+    public bool punnelOn;
 }
 
 public static class MIxtureServerSave
