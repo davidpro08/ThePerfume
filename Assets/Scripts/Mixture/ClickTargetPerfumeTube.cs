@@ -108,6 +108,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                     // 일단 깔떼기는 아이템 획득하는대로 다시 꽂아둠
                     // 꽂아두는 애니메이션
                     StartCoroutine(RestorePunnelMotion());
+                    mixture.SaveNow();
                     return;
                 }
                 break;
@@ -117,6 +118,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                 {
                     // 빠지는 애니메이션 ( Y축 기준 위로 어느 정도 올라감 )
                     StartCoroutine(RemovePunnelMotion());
+                    mixture.SaveNow();
                 }
                 else
                 {

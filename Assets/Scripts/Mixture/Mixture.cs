@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Mixture : MonoBehaviour
 {
+    [Header("Save")]
+    [SerializeField] public ItemDataBase itemDataBase;
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
     [SerializeField] public GameObject middleL;
@@ -22,6 +24,12 @@ public class Mixture : MonoBehaviour
     float perfumeWarm;
     float perfumeCool;
     float perfumeRelax;
+
+    void Start()
+    {
+        MixtureSaveData save = MIxtureServerSave.Load();
+        ApplySnapShot(save);
+    }
 
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
@@ -45,6 +53,7 @@ public class Mixture : MonoBehaviour
         }
 
         EssenceSpawnToSlot(essenceData, target);
+        SaveNow();
     }
 
     public void PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
@@ -61,6 +70,7 @@ public class Mixture : MonoBehaviour
         sr.sortingOrder = 10;
 
         srF.enabled = false;
+        SaveNow();
     }
 
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
@@ -72,6 +82,8 @@ public class Mixture : MonoBehaviour
         CalculateCapacityAndColor();
         PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
         PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
+
+        SaveNow();
     }
 
     // =========== 판단 로직 =============
@@ -127,10 +139,69 @@ public class Mixture : MonoBehaviour
         return false;
     }
 
+    // ========== 저장 관련 ==============
+    public MixtureSaveData CreatSnapShot()
+    {
+        MixtureSaveData data = new MixtureSaveData();
+        data.baseEssenceID = (baseData != null ? baseData.id : -1);
+        data.middleEssenceID = (middleData != null ? middleData.id : -1);
+        data.topEssenceID = (topData != null ? topData.id : -1);
+
+        data.perfumeComplete = PerfumeL[3].GetComponent<SpriteRenderer>().enabled;
+        data.perfumeID = perfumeData != null ? perfumeData.id : -1;
+
+        if (perfumeData != null)
+        {
+            data.colorR = perfumeData.color.r;
+            data.colorG = perfumeData.color.g;
+            data.colorB = perfumeData.color.b;
+
+            data.warm = perfumeData.perfumeWarm;
+            data.cool = perfumeData.perfumeCool;
+            data.relax = perfumeData.perfumeRelax;
+        }
+
+        return data;
+    }
+
+    public void SaveNow()
+    {
+        var snap = CreatSnapShot();
+        MIxtureServerSave.Save(snap);
+    }
+
+    public void ApplySnapShot(MixtureSaveData data)
+    {
+        baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
+        middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;
+        topData = (data.topEssenceID >= 0) ? itemDataBase.ResolveEssence(data.topEssenceID) : null;
+
+        if (baseData != null) EssenceSpawnToSlot(baseData, PerfumeL[0]);
+        if (middleData != null) EssenceSpawnToSlot(middleData, PerfumeL[1]);
+        if (topData != null) EssenceSpawnToSlot(topData, PerfumeL[2]);
+
+        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = data.perfumeComplete;
+
+        if (data.perfumeID >= 0)
+        {
+            perfumeData = perfumeDatas.Find(p => p.id == data.perfumeID);
+            if (perfumeData != null)
+            {
+                perfumeData = ScriptableObject.Instantiate(perfumeData);
+                perfumeData.color = new Color(data.colorR, data.colorG, data.colorB, 1);
+                perfumeData.perfumeWarm = data.warm;
+                perfumeData.perfumeCool = data.cool;
+                perfumeData.perfumeRelax = data.relax;
+
+                PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
+            }
+        }
+    }
+
     // =========== 보조 함수 =============
     void EssenceSpawnToSlot(EssenceData data, GameObject target)
     {
-        if (data == null || data.color == null || target == null) return;
+        if (data == null || target == null) return;
 
         var sr = target.GetComponent<SpriteRenderer>();
         if (sr.enabled == true) return;
