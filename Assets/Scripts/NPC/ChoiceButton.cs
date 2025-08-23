@@ -27,11 +27,6 @@ namespace NPC
             gameObject.SetActive(true);
         }
 
-        public void ThisSelected()
-        {
-            Debug.Log($"현재 선택된 선택지 : {name}");
-        }
-
         public void OtherSelected()
         {
             gameObject.SetActive(false);
