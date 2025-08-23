@@ -125,6 +125,8 @@ public class InventoryUIManager : MonoBehaviour
         }
 
         isFullInventoryOpen = fullInventoryPanel.activeSelf;
+        
+        SoundManager.Instance.PlaySFX(SFXType.Inventory);
     }
 
 }

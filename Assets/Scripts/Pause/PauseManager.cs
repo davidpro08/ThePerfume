@@ -28,6 +28,8 @@ public class PauseManager : MonoBehaviour
     {
         if (isPaused) Resume();
         else Pause(setUI);
+        
+        SoundManager.Instance.PlaySFX(SFXType.Pause);
     }
 
     private void Pause(bool setUI)
