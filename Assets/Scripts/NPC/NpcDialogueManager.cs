@@ -83,6 +83,8 @@ public class NpcDialogueManager : MonoBehaviour
         }
 
         ShowDialogue(currentDialogue);
+        
+        SoundManager.Instance.PlaySFX(SFXType.Talk);
     }
 
     /// <summary>

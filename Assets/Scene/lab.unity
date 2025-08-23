@@ -5837,9 +5837,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxList:
-  - type: 1
-    clip: {fileID: 8300000, guid: 59714508d2a3d8d41a72f6b9701dcbda, type: 3}
-  - type: 1
+  - type: 0
+    clip: {fileID: 8300000, guid: 6141a7eed0dc39e47bfe4860fe71afca, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: 262ac28a85f521c4c9b154b336ea1f62, type: 3}
+  - type: 7
     clip: {fileID: 8300000, guid: 59714508d2a3d8d41a72f6b9701dcbda, type: 3}
   bgmList:
   - type: 0
