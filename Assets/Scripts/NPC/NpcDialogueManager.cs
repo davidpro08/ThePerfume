@@ -22,7 +22,6 @@ public class NpcDialogueManager : MonoBehaviour
     public bool useTypewriterEffect = true;
 
     [Header("초상화 관리")]
-    [SerializeField] private NpcPortraitManager currentPortraitManager;
     [SerializeField] private Image dialoguePortraitImage; // 대화창의 초상화 이미지
 
     // 현재 대화 상태
@@ -87,38 +86,6 @@ public class NpcDialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// NPC와의 대화 시작 (기존 호환성을 위한 오버로드)
-    /// </summary>
-    public void StartDialogue(string npcId, string dialogueId = null)
-    {
-        if (CSVDialogueParser.Instance == null)
-        {
-            Debug.LogError("CSVDialogueParser가 없습니다!");
-            return;
-        }
-
-        currentNpcId = npcId;
-
-        if (string.IsNullOrEmpty(dialogueId))
-        {
-            var npcDialogues = CSVDialogueParser.Instance.GetDialoguesByNpcId(npcId);
-            currentDialogue = (npcDialogues.Count > 0) ? npcDialogues[0] : null;
-        }
-        else
-        {
-            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueId);
-        }
-
-        if (currentDialogue == null)
-        {
-            Debug.LogError($"대화 데이터를 찾을 수 없습니다! NPC ID: {npcId}, Dialogue ID: {dialogueId}");
-            return;
-        }
-
-        ShowDialogue(currentDialogue);
-    }
-
-    /// <summary>
     /// 대화창 표시
     /// </summary>
     public void ShowDialogue(DialogueEntry dialogue)
@@ -168,7 +135,7 @@ public class NpcDialogueManager : MonoBehaviour
         // 현재 대화 중인 NPC 객체가 있으면 대화창 초상화만 업데이트
         if (currentNpc != null && dialoguePortraitImage != null)
         {
-            Sprite portraitSprite = currentNpc.GetCurrentPortraitSprite();
+            Sprite portraitSprite = currentNpc.GetCurrentPortraitSprite(dialogue.condition);
             if (portraitSprite != null)
             {
                 dialoguePortraitImage.sprite = portraitSprite;
@@ -277,7 +244,7 @@ public class NpcDialogueManager : MonoBehaviour
             choiceButton.OtherSelected();
         }
 
-        StartDialogue(currentNpcId, nextDialogueId);
+        StartDialogue(currentNpc, nextDialogueId);
     }
 
     /// <summary>
@@ -327,7 +294,7 @@ public class NpcDialogueManager : MonoBehaviour
         }
         else
         {
-            StartDialogue(currentNpcId, currentDialogue.nextDialogueIds[0]);
+            StartDialogue(currentNpc, currentDialogue.nextDialogueIds[0]);
         }
     }
 

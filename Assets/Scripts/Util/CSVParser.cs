@@ -62,6 +62,23 @@ public static class CSVParser
             for (int i = 1; i < rows.Count; i++)
             {
                 var values = ParseCsvRow(rows[i]);
+                // 값의 개수가 헤더 수를 초과하면, 초과분을 마지막 컬럼으로 병합 (쉼표가 포함된 필드가 인용부호 없이 들어온 경우 대응)
+                if (values.Count > header.Count)
+                {
+                    var fixedValues = new List<string>(header.Count);
+                    for (int j = 0; j < header.Count - 1; j++)
+                    {
+                        fixedValues.Add(values[j]);
+                    }
+                    var tailBuilder = new StringBuilder();
+                    for (int j = header.Count - 1; j < values.Count; j++)
+                    {
+                        if (tailBuilder.Length > 0) tailBuilder.Append(",");
+                        tailBuilder.Append(values[j]);
+                    }
+                    fixedValues.Add(tailBuilder.ToString());
+                    values = fixedValues;
+                }
                 if (values.Count == 0) continue;
 
                 var entry = new Dictionary<string, string>();
@@ -158,6 +175,23 @@ public static class CSVParser
             for (int i = 1; i < rows.Count; i++)
             {
                 var values = ParseCsvRow(rows[i]);
+                // 값의 개수가 헤더 수를 초과하면, 초과분을 마지막 컬럼으로 병합 (쉼표가 포함된 필드가 인용부호 없이 들어온 경우 대응)
+                if (values.Count > header.Count)
+                {
+                    var fixedValues = new List<string>(header.Count);
+                    for (int j = 0; j < header.Count - 1; j++)
+                    {
+                        fixedValues.Add(values[j]);
+                    }
+                    var tailBuilder = new StringBuilder();
+                    for (int j = header.Count - 1; j < values.Count; j++)
+                    {
+                        if (tailBuilder.Length > 0) tailBuilder.Append(",");
+                        tailBuilder.Append(values[j]);
+                    }
+                    fixedValues.Add(tailBuilder.ToString());
+                    values = fixedValues;
+                }
                 if (values.Count == 0) continue;
 
                 var entry = new Dictionary<string, object>();

@@ -355,7 +355,6 @@ GameObject:
   - component: {fileID: 86026771}
   - component: {fileID: 86026770}
   - component: {fileID: 86026772}
-  - component: {fileID: 86026773}
   m_Layer: 0
   m_Name: NpcDialogueManager
   m_TagString: Untagged
@@ -383,7 +382,6 @@ MonoBehaviour:
   choiceButtonContainer: {fileID: 1445127100}
   textSpeed: 0.05
   useTypewriterEffect: 1
-  currentPortraitManager: {fileID: 86026773}
   dialoguePortraitImage: {fileID: 588722067}
   currentDialogue:
     id: 
@@ -425,31 +423,6 @@ MonoBehaviour:
   - ID
   - NPC_ID
   - DIALOGUE_TEXT
---- !u!114 &86026773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86026769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2ec9f7062f82c46a820ced5600e335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portraitImage: {fileID: 0}
-  npc: {fileID: 0}
-  defaultPortrait: {fileID: 0}
-  happyPortrait: {fileID: 0}
-  sadPortrait: {fileID: 0}
-  angryPortrait: {fileID: 0}
-  surprisedPortrait: {fileID: 0}
-  confusedPortrait: {fileID: 0}
-  excitedPortrait: {fileID: 0}
-  calmPortrait: {fileID: 0}
-  nervousPortrait: {fileID: 0}
-  friendlyPortrait: {fileID: 0}
-  hostilePortrait: {fileID: 0}
 --- !u!1 &88714708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de9fd09ad2e9a742b95b3fa21b86065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EntryMethodToTill>k__BackingField: 0
 --- !u!4 &404247261
 Transform:
   m_ObjectHideFlags: 0
@@ -14053,7 +14025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5109479242580681506
 RectTransform:
   m_ObjectHideFlags: 0

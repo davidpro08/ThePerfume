@@ -58,35 +58,4 @@ public class NpcPortraitData : ScriptableObject
                 return defaultPortrait;
         }
     }
-
-    /// <summary>
-    /// 특정 상태에 대한 초상화가 설정되어 있는지 확인합니다.
-    /// </summary>
-    /// <param name="state">NPC 상태</param>
-    /// <returns>초상화 설정 여부</returns>
-    public bool HasPortrait(NpcState state)
-    {
-        return GetPortrait(state) != null;
-    }
-
-    /// <summary>
-    /// 기본 초상화를 반환합니다.
-    /// </summary>
-    /// <returns>기본 초상화 스프라이트</returns>
-    public Sprite GetDefaultPortrait()
-    {
-        return defaultPortrait;
-    }
-
-    /// <summary>
-    /// 모든 상태에 대한 초상화가 설정되어 있는지 확인합니다.
-    /// </summary>
-    /// <returns>모든 초상화 설정 여부</returns>
-    public bool HasAllPortraits()
-    {
-        return defaultPortrait != null && happyPortrait != null && sadPortrait != null &&
-               angryPortrait != null && surprisedPortrait != null && confusedPortrait != null &&
-               excitedPortrait != null && calmPortrait != null && nervousPortrait != null &&
-               friendlyPortrait != null && hostilePortrait != null;
-    }
 }

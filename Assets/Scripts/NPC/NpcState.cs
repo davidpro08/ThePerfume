@@ -42,14 +42,5 @@ public static class NpcStateUtility
         Debug.LogWarning($"알 수 없는 NPC 상태: {stateString}. 기본 상태로 설정합니다.");
         return NpcState.Default;
     }
-
-    /// <summary>
-    /// NpcState를 문자열로 변환합니다.
-    /// </summary>
-    /// <param name="state">NpcState 열거형 값</param>
-    /// <returns>상태 문자열</returns>
-    public static string ToString(NpcState state)
-    {
-        return state.ToString();
-    }
+    
 }

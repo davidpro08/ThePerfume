@@ -39,12 +39,6 @@ public class Npc : MonoBehaviour, IInteract
         if (!CanInteract(player)) return;
 
         NpcDialogueManager.Instance.StartDialogue(this, startDialogueId);
-
-        // // 기존 호환성 유지
-        // if (dialogueObjects.Count > 0)
-        // {
-        //     NpcDialogueManager.Instance.SetDialogueText(dialogueObjects[0]);
-        // }
     }
 
     public bool CanInteract(Player player)
@@ -64,39 +58,6 @@ public class Npc : MonoBehaviour, IInteract
             return false;
         }
         return true;
-
-        // // 기존 호환성 유지
-        // if (dialogueObjects.Count == 0)
-        // {
-        //     Debug.Log("대사가 하나도 없음");
-        //     return false;
-        // }
-        // return true;
-    }
-
-    /// <summary>
-    /// NPC 상태 변경 시 초상화 업데이트 (나중에 NPC 스프라이트 변경용)
-    /// </summary>
-    /// <param name="newState">새로운 NPC 상태</param>
-    public void UpdatePortrait(NpcState newState)
-    {
-        if (portraitData == null)
-        {
-            Debug.LogWarning($"NPC {npcId}의 초상화 데이터가 설정되지 않았습니다.");
-            return;
-        }
-
-        currentState = newState;
-        // 나중에 NPC 스프라이트 변경 시 사용할 예정
-        Debug.Log($"NPC {npcId} 상태를 {newState}로 변경했습니다.");
-    }
-
-    /// <summary>
-    /// NPC ID 설정
-    /// </summary>
-    public void SetNpcId(string newNpcId)
-    {
-        npcId = newNpcId;
     }
 
     /// <summary>
@@ -115,47 +76,16 @@ public class Npc : MonoBehaviour, IInteract
     {
         return npcId;
     }
-
-    /// <summary>
-    /// 시작 대화 ID 반환
-    /// </summary>
-    /// <returns>시작 대화 ID</returns>
-    public string GetStartDialogueId()
-    {
-        return startDialogueId;
-    }
-
-    /// <summary>
-    /// 현재 NPC 상태 반환
-    /// </summary>
-    /// <returns>현재 NPC 상태</returns>
-    public NpcState GetCurrentState()
-    {
-        return currentState;
-    }
-
-    /// <summary>
-    /// 초상화 데이터 설정
-    /// </summary>
-    /// <param name="data">초상화 데이터</param>
-    public void SetPortraitData(NpcPortraitData data)
-    {
-        portraitData = data;
-        // 설정 후 현재 상태로 초상화 업데이트
-        UpdatePortrait(currentState);
-    }
-
-
-
+    
     /// <summary>
     /// 현재 초상화 스프라이트 반환
     /// </summary>
     /// <returns>현재 초상화 스프라이트</returns>
-    public Sprite GetCurrentPortraitSprite()
+    public Sprite GetCurrentPortraitSprite(NpcState npcState)
     {
         if (portraitData != null)
         {
-            return portraitData.GetPortrait(currentState);
+            return portraitData.GetPortrait(npcState);
         }
         return null;
     }
