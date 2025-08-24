@@ -60,6 +60,8 @@ public class BuildController : MonoBehaviour
                     if (farm != null) farm.Init(gridPos, installationTilemap);
 
                     placedObjects[gridPos] = farmObj;
+
+                    InventoryManager.Instance.RemoveItem(equipped, 1);
                 }
                 break;
             default:

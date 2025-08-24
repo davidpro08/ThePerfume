@@ -919,6 +919,10 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 0, y: 1, z: 0}
     m_RuleTransform: 0
+  defaultState: 0
+  drySprites: []
+  wateredSprites: []
+  plantedSprites: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -38,32 +38,27 @@ public class Farm : MonoBehaviour, IInteract
     {
         gridPosition = pos;
         tilemap = map;
-        UpdateTile();
+        //UpdateTile();
     }
 
-    private void UpdateTile()
-    {
-        if (tilemap == null) return;
-
-        if (isWatered && !isOccupied)
-        {
-            tilemap.SetTile(gridPosition, wateredFarmTile);
-        }
-        else if (isOccupied)
-        {
-            tilemap.SetTile(gridPosition, plantedFarmTile);
-        }
-        else
-            tilemap.SetTile(gridPosition, emptyFarmTile);
-    }
-    //private void UpdateSprite()
+    //private void UpdateTile()
     //{
-    //    if (farmSpriteRenderer != null)
+    //    if (tilemap == null) return;
+
+    //    if (isWatered && !isOccupied)
     //    {
-    //        farmSpriteRenderer.enabled = true;
-    //        farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
+    //        tilemap.SetTile(gridPosition, wateredFarmTile);
     //    }
+    //    else if (isOccupied)
+    //    {
+    //        tilemap.SetTile(gridPosition, plantedFarmTile);
+    //    }
+    //    else
+    //        tilemap.SetTile(gridPosition, emptyFarmTile);
+
+    //    RefreshNeighbors(gridPosition);
     //}
+
 
     public void Interact(Player player)
     {
@@ -97,12 +92,9 @@ public class Farm : MonoBehaviour, IInteract
                     toolData.nowDurability -= toolData.useDurability; // 내구도 감소
                     InventoryManager.Instance.InventoryChanged();
                     Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
-                    UpdateTile();
-                    //if (farmSpriteRenderer != null)
-                    //{
-                    //    farmSpriteRenderer.enabled = true;
-                    //    farmSpriteRenderer.sprite = isWatered ? wateredFarmSprite : emptyFarmSprite;
-                    //}
+                    //UpdateTile();
+                    FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Planted, tilemap);
+
                 }
                 else
                 {
@@ -121,7 +113,9 @@ public class Farm : MonoBehaviour, IInteract
     public void PlantSeed(SeedData seedData)
     {
         isOccupied = true;
-        UpdateTile();
+        //UpdateTile();
+        FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Watered, tilemap);
+
         // 작물 오브젝트 생성
         GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
         currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
@@ -236,11 +230,29 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
             Destroy(currentCropInstance.gameObject);
             currentCropInstance = null;
-            UpdateTile();
+            //UpdateTile();
+            FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Dry, tilemap);
+
             if (farmCollider != null)
             {
                 farmCollider.enabled = true; // 작물 수확하고 나서 콜라이더 활성화
             }
         }
     }
+
+    public void RefreshNeighbors(Vector3Int position)
+    {
+        tilemap.RefreshTile(position);
+
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) continue;
+                Vector3Int neighborPos = position + new Vector3Int(x, y, 0);
+                tilemap.RefreshTile(neighborPos);
+            }
+        }
+    }
+
 }
