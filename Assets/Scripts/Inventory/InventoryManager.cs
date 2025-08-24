@@ -269,7 +269,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (SelectedSlotIndex == -1)
         {
-            Debug.Log($"[{name}] : 선택된 슬롯 없음");
+            //Debug.Log($"[{name}] : 선택된 슬롯 없음");
             return null; // 선택된 슬롯이 없음
         }
 
@@ -285,7 +285,7 @@ public class InventoryManager : MonoBehaviour
 
         if (ReferenceEquals(selectedSlot.itemData, null))
         {
-            Debug.Log($"[{name}] : 아이템의 정보가 없음");
+            //Debug.Log($"[{name}] : 아이템의 정보가 없음");
             return null;
         }
 
