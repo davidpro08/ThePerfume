@@ -20,9 +20,9 @@ public class Farm : MonoBehaviour, IInteract
 
     // 타일은 BuildController에서 다루고 Interact는 여기서
     [Header("화분 타일")]
-    public TileBase emptyFarmTile;
-    public TileBase plantedFarmTile;
-    public TileBase wateredFarmTile;
+    public RuleTile emptyFarmTile;
+    public RuleOverrideTile plantedFarmTile;
+    public RuleOverrideTile wateredFarmTile;
 
     void Awake()
     {
@@ -38,26 +38,26 @@ public class Farm : MonoBehaviour, IInteract
     {
         gridPosition = pos;
         tilemap = map;
-        //UpdateTile();
+        UpdateTile();
     }
 
-    //private void UpdateTile()
-    //{
-    //    if (tilemap == null) return;
+    private void UpdateTile()
+    {
+        if (tilemap == null) return;
 
-    //    if (isWatered && !isOccupied)
-    //    {
-    //        tilemap.SetTile(gridPosition, wateredFarmTile);
-    //    }
-    //    else if (isOccupied)
-    //    {
-    //        tilemap.SetTile(gridPosition, plantedFarmTile);
-    //    }
-    //    else
-    //        tilemap.SetTile(gridPosition, emptyFarmTile);
+        if (isWatered && !isOccupied)
+        {
+            tilemap.SetTile(gridPosition, wateredFarmTile);
+        }
+        else if (isOccupied)
+        {
+            tilemap.SetTile(gridPosition, plantedFarmTile);
+        }
+        else
+            tilemap.SetTile(gridPosition, emptyFarmTile);
 
-    //    RefreshNeighbors(gridPosition);
-    //}
+        tilemap.RefreshTile(gridPosition);
+    }
 
 
     public void Interact(Player player)
@@ -92,8 +92,8 @@ public class Farm : MonoBehaviour, IInteract
                     toolData.nowDurability -= toolData.useDurability; // 내구도 감소
                     InventoryManager.Instance.InventoryChanged();
                     Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
-                    //UpdateTile();
-                    FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Planted, tilemap);
+                    UpdateTile();
+                    //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Planted, tilemap);
 
                 }
                 else
@@ -113,8 +113,8 @@ public class Farm : MonoBehaviour, IInteract
     public void PlantSeed(SeedData seedData)
     {
         isOccupied = true;
-        //UpdateTile();
-        FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Watered, tilemap);
+        UpdateTile();
+        //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Watered, tilemap);
 
         // 작물 오브젝트 생성
         GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
@@ -230,8 +230,8 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[farm] [ClearFarm] 현재 isOccupied:{isOccupied}");
             Destroy(currentCropInstance.gameObject);
             currentCropInstance = null;
-            //UpdateTile();
-            FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Dry, tilemap);
+            UpdateTile();
+            //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Dry, tilemap);
 
             if (farmCollider != null)
             {
