@@ -27,8 +27,12 @@ public enum EssenceType
 public enum PerfumeType
 {
     Relaxing,
-    Energizing,
-    Alluring
+    Warmth,
+    Chill,
+    RelaxingAndWarmth,
+    RelaxingAndChill,
+    WarmthAndChill,
+    RelaxingAndWarmthAndChill
 }
 
 public enum SeedType

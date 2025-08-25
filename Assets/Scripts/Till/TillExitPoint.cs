@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class TillExitPoint : MonoBehaviour
@@ -39,10 +38,6 @@ public class TillExitPoint : MonoBehaviour
                 return;
             }
             SceneManager.LoadScene(targetSceneName);
-        }
-        else
-        {
-            // 근데 이걸 닫을 때 이걸 확인해야하나..? 닫아도 계속 유지되도록 하는거 아닌가
         }
     }
 }
