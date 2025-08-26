@@ -26,7 +26,6 @@ public class Distiller : MonoBehaviour
     long craftStartUtcMs;
     int currentEssenceID;
     GameObject spawnedEssence;
-    readonly List<GameObject> spawndItems = new List<GameObject>();
 
     void Start()
     {
@@ -238,6 +237,7 @@ public class Distiller : MonoBehaviour
     {
         DistillerSaveData distillerSaveData = new DistillerSaveData
         {
+            tilePosition = distillerTilemap.WorldToCell(transform.position),
             id = distillerID,
             isMaking = isMaking,
             craftStartUtcMs = craftStartUtcMs,
@@ -285,8 +285,12 @@ public class Distiller : MonoBehaviour
             spawnedEssence = null;
         }
 
+        if (data == null) return;
+        transform.position = distillerTilemap.CellToWorld(data.tilePosition);
+
         if (!data.essenceReady)
         {
+
             // 연료 복원
             foreach (int index in data.occupiedFuelSlots)
             {

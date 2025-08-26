@@ -37,6 +37,7 @@ public class FarmSaveData
 [Serializable]
 public class MixtureSaveData
 {
+    public Vector3Int tilePosition;
     public int baseEssenceID, middleEssenceID, topEssenceID;
 
     public bool perfumeComplete;
@@ -54,7 +55,7 @@ public class MixtureSaveData
 [Serializable]
 public class DistillerSaveData
 {
-    Vector3Int tilePosition;
+    public Vector3Int tilePosition;
     public string id;
     public List<int> occupiedFuelSlots = new List<int>();
     public List<PetalSlotData> petalSlots = new List<PetalSlotData>();

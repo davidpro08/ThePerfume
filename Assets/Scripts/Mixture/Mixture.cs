@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Mixture : MonoBehaviour
 {
     [Header("Save")]
     [SerializeField] public ItemDataBase itemDataBase;
+    [SerializeField] private Tilemap mixtureTilemap;
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
     [SerializeField] public GameObject middleL;
@@ -160,6 +162,7 @@ public class Mixture : MonoBehaviour
     public MixtureSaveData CreateSnapshot()
     {
         MixtureSaveData data = new MixtureSaveData();
+        data.tilePosition = mixtureTilemap.WorldToCell(transform.position);
         data.baseEssenceID = (baseData != null ? baseData.id : -1);
         data.middleEssenceID = (middleData != null ? middleData.id : -1);
         data.topEssenceID = (topData != null ? topData.id : -1);
@@ -193,6 +196,8 @@ public class Mixture : MonoBehaviour
     public void ApplySnapshot(MixtureSaveData data)
     {
         if (data == null) return;
+
+        transform.position = mixtureTilemap.CellToWorld(data.tilePosition);
 
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;
