@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Tilemaps;
 
 public class Distiller : MonoBehaviour
 {
     [Header("Identity/DB")]
     [SerializeField] public string distillerID;
     [SerializeField] ItemDataBase dataBase;
+    [SerializeField] private Tilemap distillerTilemap;
 
     [Header("Slots")]
     [SerializeField] List<Transform> fuelSlotParent;

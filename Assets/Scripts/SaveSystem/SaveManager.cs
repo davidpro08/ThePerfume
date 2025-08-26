@@ -54,6 +54,7 @@ public class MixtureSaveData
 [Serializable]
 public class DistillerSaveData
 {
+    Vector3Int tilePosition;
     public string id;
     public List<int> occupiedFuelSlots = new List<int>();
     public List<PetalSlotData> petalSlots = new List<PetalSlotData>();
@@ -80,7 +81,7 @@ public static class SaveManager
     public static GameSave Load()
     {
         if (!File.Exists(FilePath))
-            return new GameSave { lastSavedUtc = NowUnixMs() };
+            return new GameSave();
 
         string json = File.ReadAllText(FilePath);
         return JsonUtility.FromJson<GameSave>(json) ?? new GameSave { lastSavedUtc = NowUnixMs() };
@@ -88,9 +89,16 @@ public static class SaveManager
 
     public static void Save(GameSave save)
     {
-        save.lastSavedUtc = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string json = JsonUtility.ToJson(save, true);
-        File.WriteAllText(FilePath, json);
+        try
+        {
+            save.lastSavedUtc = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            string json = JsonUtility.ToJson(save, true);
+            File.WriteAllText(FilePath, json);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveManager.Save] fail: {e.Message}");
+        }
     }
 
     public static void TouchDistiller(string distillerID, DistillerSaveData snapshot)
@@ -102,29 +110,10 @@ public static class SaveManager
         Save(save);
     }
 
-    // public static void SaveCurrent()
-    // {
-    //     GameSave save = BuildCurrentSave();
-    //     Save(save);
-    // }
-
-    // private static GameSave BuildCurrentSave()
-    // {
-    //     GameSave save = new GameSave();
-
-    //     // Mixture 저장
-    //     if (Mixture.Instance != null)
-    //         save.mixture = Mixture.Instance.CreateSnapshot();
-
-    //     // Inventory 저장
-    //     if (InventoryManager.Instance != null)
-    //         save.inventory = InventoryManager.Instance.CreateSnapshot();
-
-    //     // Distiller 저장
-    //     save.distillers = new List<DistillerSaveData>();
-    //     foreach (Distiller d in UnityEngine.Object.FindObjectsOfType<Distiller>())
-    //         save.distillers.Add(d.SaveSnapshot());
-
-    //     return save;
-    // }
+    public static void Touch()
+    {
+        GameSave save = Load();
+        save.lastSavedUtc = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Save(save);
+    }
 }

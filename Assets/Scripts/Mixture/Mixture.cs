@@ -146,14 +146,14 @@ public class Mixture : MonoBehaviour
     // ========== 저장 관련 ==============
     public void SaveMixture()
     {
-        GameSave save = SaveService.Load();
+        GameSave save = SaveManager.Load();
         save.mixture = CreateSnapshot();
-        SaveService.Save(save);
+        SaveManager.Save(save);
     }
 
     public void LoadMixture()
     {
-        GameSave save = SaveService.Load();
+        GameSave save = SaveManager.Load();
         ApplySnapshot(save.mixture);
     }
 

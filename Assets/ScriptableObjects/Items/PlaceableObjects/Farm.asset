@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b44ec13286a54d4493339f75e729f88, type: 3}
   m_Name: Farm
   m_EditorClassIdentifier: 
-  id: 0
+  id: 100
   itemName: "\uD654\uB2E8"
   description: Null Description
   itemIcon: {fileID: -499542977, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}

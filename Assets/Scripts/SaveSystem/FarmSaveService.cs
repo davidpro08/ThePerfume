@@ -15,10 +15,17 @@ public class FarmSaveService : MonoBehaviour
         RestoreFarms(save.farms);
     }
 
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
     public List<FarmSaveData> CreateFarmSnapshot()
     {
         var result = new List<FarmSaveData>();
-        foreach (Farm farm in FindObjectsOfType<Farm>())
+        // Object.FindObjectsOfType<Farm>() 대체로 FindObjectsByType 을 씀
+        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
             int cropID = (farm.currentCropInstance != null && farm.currentCropInstance.cropData != null) ? farm.currentCropInstance.cropData.id : 0;
 
@@ -37,14 +44,23 @@ public class FarmSaveService : MonoBehaviour
 
     public void RestoreFarms(List<FarmSaveData> farmDataList)
     {
+        if (farmDataList == null) return;
+
         foreach (var data in farmDataList)
         {
-            var farmObject = Instantiate(farmPrefab, farmTilemap.CellToWorld(data.tilePosition), Quaternion.identity);
-            var farm = farmObject.GetComponent<Farm>();
-            farm.Init(data.tilePosition, farmTilemap);
+            var existingFarm = FindFarmAt(data.tilePosition);
+            Farm farm = existingFarm;
+
+            if (farm == null)
+            {
+                var farmObject = Instantiate(farmPrefab, farmTilemap.CellToWorld(data.tilePosition), Quaternion.identity);
+                farm = farmObject.GetComponent<Farm>();
+                farm.Init(data.tilePosition, farmTilemap);
+            }
 
             farm.isOccupied = data.isOccpuied;
             farm.isWatered = data.isWatered;
+
             if (data.cropID != 0)
             {
                 SeedData cropData = ItemDataBase.Instance.ResolveItem(data.cropID) as SeedData;
@@ -54,5 +70,15 @@ public class FarmSaveService : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Farm FindFarmAt(Vector3Int tilePos)
+    {
+        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            if (farm.GetTilePosition() == tilePos)
+                return farm;
+        }
+        return null;
     }
 }

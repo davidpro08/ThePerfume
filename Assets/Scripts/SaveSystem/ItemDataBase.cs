@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditorInternal;
 
 [CreateAssetMenu(menuName = "DB/ItemDatabase")]
 public class ItemDataBase : ScriptableObject
@@ -7,7 +8,15 @@ public class ItemDataBase : ScriptableObject
     public List<ItemData> items;
     Dictionary<int, ItemData> map; // 아이디, 아이템 데이터
 
-    public static ItemDataBase Instance { get; private set; }
+    public static ItemDataBase Instance
+    {
+        get
+        {
+            if (_instance == null) _instance = Resources.Load<ItemDataBase>("ItemDatabase");
+            return _instance;
+        }
+    }
+    private static ItemDataBase _instance;
 
     void OnEnable()
     {

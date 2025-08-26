@@ -26,7 +26,7 @@ public class SceneChanger : MonoBehaviour
 
         if (InventoryManager.Instance != null) save.inventory = InventoryManager.Instance.CreateSnapshot();
 
-        foreach (Distiller d in FindObjectsOfType<Distiller>()) save.distillers.Add(d.SaveSnapshot());
+        foreach (Distiller d in FindObjectsByType<Distiller>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)) save.distillers.Add(d.SaveSnapshot());
 
         SaveManager.Save(save);
 

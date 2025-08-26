@@ -38,7 +38,8 @@ public class Farm : MonoBehaviour, IInteract
     void Start()
     {
         GameSave save = SaveManager.Load();
-        FarmSaveService.Instance.RestoreFarms(save.farms);
+        if (FarmSaveService.Instance != null)
+            FarmSaveService.Instance.RestoreFarms(save.farms);
     }
 
     public void Init(Vector3Int pos, Tilemap map)
@@ -177,7 +178,6 @@ public class Farm : MonoBehaviour, IInteract
                         Debug.Log("물뿌리개 물이 없음");
                         return false;
                     }
-                    break;
                 default:
                     break;
             }

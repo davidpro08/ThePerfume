@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // 싱글톤으로 구현하는 건 어떨까?
@@ -9,6 +10,8 @@ public class InventoryManager : MonoBehaviour
 {
     // 싱글톤 인스턴스
     public static InventoryManager Instance { get; private set; }
+
+    [SerializeField] private ItemDataBase itemDatabase;
 
     // 인벤토리 일단 리스트로 구현
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
@@ -67,7 +70,28 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        ApplySnapshot(SaveManager.Load().inventory);
+        GameSave save = SaveManager.Load();
+        if (save != null && save.inventory != null)
+            ApplySnapshot(save.inventory);
+        else Debug.Log("[InventoryManager] 세이브 데이터가 없음");
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        GameSave save = SaveManager.Load();
+        if (save != null && save.inventory != null)
+        {
+            ApplySnapshot(save.inventory);
+        }
     }
 
     void Update()
@@ -302,14 +326,14 @@ public class InventoryManager : MonoBehaviour
     // ================= SaveManager 보조 함수 =================
     public void SaveInventory()
     {
-        GameSave save = SaveService.Load();
+        GameSave save = SaveManager.Load();
         save.inventory = CreateSnapshot();
-        SaveService.Save(save);
+        SaveManager.Save(save);
     }
 
     public void LoadInventory()
     {
-        GameSave save = SaveService.Load();
+        GameSave save = SaveManager.Load();
         ApplySnapshot(save.inventory);
     }
 
@@ -332,10 +356,23 @@ public class InventoryManager : MonoBehaviour
 
     public void ApplySnapshot(List<InventoryItemSaveData> data)
     {
+        if (data == null || data.Count == 0)
+        {
+            Debug.Log("[InventoryManager] 저장된 인벤토리 데이터 없음");
+            return;
+        }
+
+        if (ItemDataBase.Instance == null)
+        {
+            Debug.Log("[InventoryManager] ItemDataBase.Instance == null");
+            return;
+        }
+
         foreach (var slotData in data)
         {
             var item = ItemDataBase.Instance.ResolveItem(slotData.itemID);
             if (item != null) AddItem(item, slotData.quantity);
+            else Debug.Log($"[InventoryManager] ItemID {slotData.itemID}를 찾을 수 없음");
         }
     }
 }
