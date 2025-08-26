@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.Interactions;
 public class Distiller : MonoBehaviour
 {
     [Header("Identity/DB")]
-    [SerializeField] string distillerID;
+    [SerializeField] public string distillerID;
     [SerializeField] ItemDataBase dataBase;
 
     [Header("Slots")]
@@ -32,8 +32,8 @@ public class Distiller : MonoBehaviour
         {
             distillerID = GameContext.Instance.SelectedDistillerID;
         }
-        GameSave save = TillSaveService.Load();
-        DistillerSaveData data = TillSaveService.GetOrCreate(save, distillerID);
+        GameSave save = SaveManager.Load();
+        DistillerSaveData data = save.distillers.Find(d => d.id == distillerID) ?? new DistillerSaveData { id = distillerID };
         RebuildFromSave(data);
 
         if (isMaking) StartCatchupOrFinish();
@@ -60,7 +60,7 @@ public class Distiller : MonoBehaviour
         if (slotIndex >= fuelData.itemPrefabs.Count) return;
 
         FuelSpawnToSlot(fuelData, slotIndex, slot);
-        TillSaveService.Touch(distillerID, SaveSnapshot());
+        SaveCurrentDistiller();
         TryStartCraft();
     }
 
@@ -102,7 +102,7 @@ public class Distiller : MonoBehaviour
 
 
         PetalSpawnToSlot(petalData, slot);
-        TillSaveService.Touch(distillerID, SaveSnapshot());
+        SaveCurrentDistiller();
         TryStartCraft();
     }
 
@@ -124,7 +124,7 @@ public class Distiller : MonoBehaviour
         currentEssenceID = 0;
         isMaking = false;
 
-        TillSaveService.Touch(distillerID, SaveSnapshot());
+        SaveCurrentDistiller();
     }
 
     // =========== 제작 로직 ==========
@@ -139,7 +139,7 @@ public class Distiller : MonoBehaviour
         if (!hasFuel || petal == null || petal.essenceData == null) return;
 
         isMaking = true;
-        craftStartUtcMs = TillSaveService.NowUnixMs();
+        craftStartUtcMs = SaveManager.NowUnixMs();
         currentEssenceID = petal.essenceData.id;
 
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
@@ -157,14 +157,14 @@ public class Distiller : MonoBehaviour
             sr.sortingOrder = 10;
         }
 
-        TillSaveService.Touch(distillerID, SaveSnapshot());
+        SaveCurrentDistiller();
         StartCatchupOrFinish();
     }
 
     void StartCatchupOrFinish()
     {
         int craftDurationMs = craftDurationSec * 1000;
-        long elapsed = TillSaveService.NowUnixMs() - craftStartUtcMs;
+        long elapsed = SaveManager.NowUnixMs() - craftStartUtcMs;
         if (elapsed < 0) elapsed = 0;
         if (elapsed >= craftDurationMs)
         {
@@ -227,12 +227,12 @@ public class Distiller : MonoBehaviour
             }
         }
         isMaking = false;
-        TillSaveService.Touch(distillerID, SaveSnapshot(essenceReady: true));
+        SaveCurrentDistiller();
     }
 
     // ============ 저장/복원 ============
 
-    DistillerSaveData SaveSnapshot(bool essenceReady = false)
+    public DistillerSaveData SaveSnapshot(bool essenceReady = false)
     {
         DistillerSaveData distillerSaveData = new DistillerSaveData
         {
@@ -344,6 +344,12 @@ public class Distiller : MonoBehaviour
             }
             isMaking = false;
         }
+    }
+
+    public void SaveCurrentDistiller()
+    {
+        DistillerSaveData snapshot = SaveSnapshot();
+        SaveManager.TouchDistiller(distillerID, snapshot);
     }
 
     // ============= 하위 함수 ===========

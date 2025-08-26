@@ -16,6 +16,8 @@ public class Mixture : MonoBehaviour
     [Header("Perfume Itme")]
     [SerializeField] public List<PerfumeData> perfumeDatas;
 
+    public static Mixture Instance { get; private set; }
+
     public EssenceData baseData = null;
     public EssenceData middleData = null;
     public EssenceData topData = null;
@@ -25,10 +27,12 @@ public class Mixture : MonoBehaviour
     float perfumeCool;
     float perfumeRelax;
 
+    private void Awake() => Instance = this;
+
     void Start()
     {
-        MixtureSaveData save = MIxtureServerSave.Load();
-        ApplySnapShot(save);
+        GameSave save = SaveManager.Load();
+        ApplySnapshot(SaveManager.Load().mixture);
     }
 
     // =========== 클릭 관련 / 생성 관련 =============
@@ -53,7 +57,7 @@ public class Mixture : MonoBehaviour
         }
 
         EssenceSpawnToSlot(essenceData, target);
-        SaveNow();
+        SaveMixture();
     }
 
     public void PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
@@ -70,7 +74,7 @@ public class Mixture : MonoBehaviour
         sr.sortingOrder = 10;
 
         srF.enabled = false;
-        SaveNow();
+        SaveMixture();
     }
 
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
@@ -83,7 +87,7 @@ public class Mixture : MonoBehaviour
         PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
         PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
 
-        SaveNow();
+        SaveMixture();
     }
 
     // =========== 판단 로직 =============
@@ -140,7 +144,20 @@ public class Mixture : MonoBehaviour
     }
 
     // ========== 저장 관련 ==============
-    public MixtureSaveData CreatSnapShot()
+    public void SaveMixture()
+    {
+        GameSave save = SaveService.Load();
+        save.mixture = CreateSnapshot();
+        SaveService.Save(save);
+    }
+
+    public void LoadMixture()
+    {
+        GameSave save = SaveService.Load();
+        ApplySnapshot(save.mixture);
+    }
+
+    public MixtureSaveData CreateSnapshot()
     {
         MixtureSaveData data = new MixtureSaveData();
         data.baseEssenceID = (baseData != null ? baseData.id : -1);
@@ -173,13 +190,7 @@ public class Mixture : MonoBehaviour
         return data;
     }
 
-    public void SaveNow()
-    {
-        var snap = CreatSnapShot();
-        MIxtureServerSave.Save(snap);
-    }
-
-    public void ApplySnapShot(MixtureSaveData data)
+    public void ApplySnapshot(MixtureSaveData data)
     {
         if (data == null) return;
 

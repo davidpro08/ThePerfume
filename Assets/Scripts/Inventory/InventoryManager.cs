@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -61,6 +63,11 @@ public class InventoryManager : MonoBehaviour
         {
             itemSlots.Add(new ItemSlot());
         }
+    }
+
+    private void Start()
+    {
+        ApplySnapshot(SaveManager.Load().inventory);
     }
 
     void Update()
@@ -292,4 +299,43 @@ public class InventoryManager : MonoBehaviour
         return selectedSlot.itemData;
     }
 
+    // ================= SaveManager 보조 함수 =================
+    public void SaveInventory()
+    {
+        GameSave save = SaveService.Load();
+        save.inventory = CreateSnapshot();
+        SaveService.Save(save);
+    }
+
+    public void LoadInventory()
+    {
+        GameSave save = SaveService.Load();
+        ApplySnapshot(save.inventory);
+    }
+
+    public List<InventoryItemSaveData> CreateSnapshot()
+    {
+        List<InventoryItemSaveData> snapshot = new List<InventoryItemSaveData>();
+        foreach (var slot in itemSlots)
+        {
+            if (slot.itemData == null || slot.quantity <= 0) continue;
+
+            snapshot.Add(new InventoryItemSaveData
+            {
+                itemID = slot.itemData.id,
+                quantity = slot.quantity
+            });
+
+        }
+        return snapshot;
+    }
+
+    public void ApplySnapshot(List<InventoryItemSaveData> data)
+    {
+        foreach (var slotData in data)
+        {
+            var item = ItemDataBase.Instance.ResolveItem(slotData.itemID);
+            if (item != null) AddItem(item, slotData.quantity);
+        }
+    }
 }

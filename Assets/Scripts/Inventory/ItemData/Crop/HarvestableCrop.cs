@@ -8,6 +8,7 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     public CropData cropData; // 수확 시 얻을 아이템 데이터
     public int Quantity = 1; // 수확 시 얻을 아이템 수량
     public GameObject collectableItemPrefab; // 바닥에 스폰될 프리팹
+    public long plantedUtc;
 
     [Header("수확 도구")]
     public ToolType requiredToolType;
@@ -132,7 +133,7 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     // ===============================================
     public void Interact(Player player)
     {
-        if(CanInteract(player))OnHarvested();
+        if (CanInteract(player)) OnHarvested();
     }
 
     public bool CanInteract(Player player)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,7 +8,7 @@ public class Farm : MonoBehaviour, IInteract
     public bool isOccupied = false; //이미 씨앗이 심어져 있는지
     public bool isWatered = false; // 마른 상태인지 젖은 상태인지 확인
     public HarvestableCrop currentCropInstance; // 현재 심어진 작물의 인스턴스
-    
+
 
     //private SpriteRenderer farmSpriteRenderer;
     //public Sprite emptyFarmSprite; // 마른 화분 스프라이트
@@ -32,6 +33,12 @@ public class Farm : MonoBehaviour, IInteract
         isOccupied = false;
         isWatered = false;
         //UpdateSprite();
+    }
+
+    void Start()
+    {
+        GameSave save = SaveManager.Load();
+        FarmSaveService.Instance.RestoreFarms(save.farms);
     }
 
     public void Init(Vector3Int pos, Tilemap map)
@@ -67,7 +74,7 @@ public class Farm : MonoBehaviour, IInteract
         ItemData itemData = InventoryManager.Instance.EquippedItem();
 
         SeedData seedData = Caster.CastTo<SeedData>(itemData);
-        
+
         // 씨앗 데이터이면 심을 수 있는 지 확인 
         if (seedData != null)
         {
@@ -77,13 +84,13 @@ public class Farm : MonoBehaviour, IInteract
             InventoryManager.Instance.RemoveItem(seedData, 1); // 아이템 제거
             return;
         }
-        
+
         ToolData toolData = Caster.CastTo<ToolData>(itemData);
-        
+
         switch (toolData.toolType)
         {
             case ToolType.WateringCan:
-                
+
                 if (!isWatered)
                 {
                     isWatered = true;
@@ -104,7 +111,7 @@ public class Farm : MonoBehaviour, IInteract
                 break;
         }
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -119,7 +126,7 @@ public class Farm : MonoBehaviour, IInteract
         // 작물 오브젝트 생성
         GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
         currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
-        
+
         // 작물의 초기 상태 = 심은 직후 상태
         currentCropInstance.parentFarm = this;
         currentCropInstance.currentStage = 0;
@@ -140,14 +147,14 @@ public class Farm : MonoBehaviour, IInteract
         ItemData itemData = InventoryManager.Instance.EquippedItem();
 
         SeedData seedData = Caster.CastTo<SeedData>(itemData);
-            
+
         // 씨앗 데이터이면 심을 수 있는 지 확인 
         if (seedData != null)
         {
             if (!TryPlantSeedExceptionHandling(seedData)) return false;
             return true;
         }
-        
+
         ToolData toolData = Caster.CastTo<ToolData>(itemData);
 
         if (toolData != null)
@@ -179,7 +186,7 @@ public class Farm : MonoBehaviour, IInteract
         Debug.Log($"오류 상황");
         return false;
     }
-    
+
     /// <summary>
     /// 작물을 심는 것이 가능한 지 확인하는 코드이다.
     /// </summary>
@@ -192,7 +199,7 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[farm]이미 씨앗이 심어져 있음. 현재 isOccupied:{isOccupied}");
             return false; // 이미 씨앗이 심어져 있음
         }
-        
+
         if (!isWatered)
         {
             Debug.Log($"[farm] 화분에 물을 줘야지 씨앗을 심을 수 있음");
@@ -204,7 +211,7 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[{name}] : 씨앗 아이템 미장착");
             return false; // 씨앗 아이템을 장착하고 있지 않음
         }
-        
+
         // 작물 오브젝트 생성
         HarvestableCrop crop = equippedSeed.cropPrefabToGrow.GetComponent<HarvestableCrop>();
 
@@ -213,7 +220,7 @@ public class Farm : MonoBehaviour, IInteract
             Debug.Log($"[{name}] : 작물 프리팹 없음");
             return false; // 씨앗 아이템을 장착하고 있지 않음
         }
-        
+
 
         Debug.Log($"[{name}] : 작물 심기 가능");
         return true;
@@ -255,4 +262,26 @@ public class Farm : MonoBehaviour, IInteract
         }
     }
 
+    // ============= FarmSaveServic 보조 함수 =============
+    public Vector3Int GetTilePosition()
+    {
+        return gridPosition;
+    }
+
+    public void RestoreCrop(SeedData seedData, int growthStage, long plantedUtc)
+    {
+        isOccupied = true;
+        UpdateTile();
+
+        GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
+        currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
+        currentCropInstance.parentFarm = this;
+        currentCropInstance.currentStage = growthStage;
+        currentCropInstance.plantedUtc = DateTime.UtcNow.Ticks;
+
+        if (farmCollider != null)
+        {
+            farmCollider.enabled = false;
+        }
+    }
 }

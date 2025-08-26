@@ -3,24 +3,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-[Serializable]
-public class MixtureSaveData
-{
-    public int baseEssenceID, middleEssenceID, topEssenceID;
-
-    public bool perfumeComplete;
-    public int perfumeID;
-
-    public float colorR, colorG, colorB;
-
-    public float warm, cool, relax;
-
-    public bool baseOn, middleOn, topOn;
-    public bool pBaseOn, pMiddleOn, pTopOn;
-    public bool punnelOn;
-}
-
-public static class MIxtureServerSave
+public static class MixtureSaveService
 {
     private const string FileName = "mixture.json";
     private static string FilePath => Path.Combine(Application.persistentDataPath, FileName);

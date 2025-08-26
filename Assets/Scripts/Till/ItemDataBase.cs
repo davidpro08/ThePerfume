@@ -7,6 +7,8 @@ public class ItemDataBase : ScriptableObject
     public List<ItemData> items;
     Dictionary<int, ItemData> map; // 아이디, 아이템 데이터
 
+    public static ItemDataBase Instance { get; private set; }
+
     void OnEnable()
     {
         map = new Dictionary<int, ItemData>();
