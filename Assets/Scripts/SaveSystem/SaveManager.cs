@@ -8,6 +8,7 @@ using UnityEngine;
 [Serializable]
 public class GameSave
 {
+    public List<FurnitureSaveData> furnitureList = new();
     public List<FarmSaveData> farms = new();
     public List<DistillerSaveData> distillers = new List<DistillerSaveData>();
     public MixtureSaveData mixture = new();
@@ -24,9 +25,17 @@ public class InventoryItemSaveData
 }
 
 [Serializable]
+public class FurnitureSaveData
+{
+    public int id;
+    public string prefabName;
+    public Vector3Int tilePosition;
+    public string sceneName;
+}
+
+[Serializable]
 public class FarmSaveData
 {
-    public Vector3Int tilePosition;
     public bool isOccpuied;
     public bool isWatered;
     public int cropID;
@@ -37,7 +46,6 @@ public class FarmSaveData
 [Serializable]
 public class MixtureSaveData
 {
-    public Vector3Int tilePosition;
     public int baseEssenceID, middleEssenceID, topEssenceID;
 
     public bool perfumeComplete;
@@ -55,7 +63,6 @@ public class MixtureSaveData
 [Serializable]
 public class DistillerSaveData
 {
-    public Vector3Int tilePosition;
     public string id;
     public List<int> occupiedFuelSlots = new List<int>();
     public List<PetalSlotData> petalSlots = new List<PetalSlotData>();
