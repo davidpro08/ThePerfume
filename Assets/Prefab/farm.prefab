@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5003673275335367497}
   - component: {fileID: 2930395664242765211}
   - component: {fileID: 8710338102519530094}
+  - component: {fileID: -1563645134491340243}
   m_Layer: 8
   m_Name: farm
   m_TagString: Untagged
@@ -97,3 +98,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-1563645134491340243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551434483720038043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcc7aea865f17e43b71d0456e984771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 4a8268659a9682e4c8504c021c0e190c, type: 2}

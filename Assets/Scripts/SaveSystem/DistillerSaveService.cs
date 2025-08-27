@@ -36,9 +36,9 @@ public class DistillerSaveService : MonoBehaviour
 
         foreach (var data in dataList)
         {
-            var distillerObject = Instantiate(distillerPrefab, distillerTilemap.CellToWorld(data.tilePosition), Quaternion.identity);
-            Distiller distiller = distillerObject.GetComponent<Distiller>();
-            distiller.RebuildFromSave(data);
+            Distiller distiller = Distiller.FindByID(data.id);
+            if (distiller != null)
+                distiller.RebuildFromSave(data);
         }
     }
 }

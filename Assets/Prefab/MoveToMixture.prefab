@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7302610697508588677}
   - component: {fileID: 7439433588524455592}
   - component: {fileID: 159369179714064748}
+  - component: {fileID: 8308108447198153779}
   m_Layer: 8
   m_Name: MoveToMixture
   m_TagString: Untagged
@@ -92,3 +93,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Mixture
+--- !u!114 &8308108447198153779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040486035801463680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcc7aea865f17e43b71d0456e984771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c9a46c6d0cba54245921eb772bab5a9b, type: 2}

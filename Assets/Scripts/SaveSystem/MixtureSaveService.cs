@@ -32,9 +32,8 @@ public class MixtureSaveService : MonoBehaviour
     {
         if (data == null) return;
 
-        var mixtureObject = Instantiate(mixturePrefab, mixtureTilemap.CellToWorld(data.tilePosition), Quaternion.identity);
-        Mixture mixture = mixtureObject.GetComponent<Mixture>();
-        if (mixture == null) return;
-        mixture.ApplySnapshot(data);
+        Mixture mixture = Mixture.Instance;
+        if (mixture != null)
+            mixture.ApplySnapshot(data);
     }
 }

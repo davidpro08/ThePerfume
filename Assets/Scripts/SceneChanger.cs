@@ -30,7 +30,7 @@ public class SceneChanger : MonoBehaviour
     public void SaveGameState()
     {
         // 씬 이동마다 농장 상태 저장
-        GameSave save = new GameSave();
+        GameSave save = SaveManager.Load();
 
         if (FarmSaveService.Instance != null)
         {
@@ -44,6 +44,11 @@ public class SceneChanger : MonoBehaviour
         if (InventoryManager.Instance != null) save.inventory = InventoryManager.Instance.CreateSnapshot();
 
         if (Distiller.Instance != null) save.distillers = DistillerSaveService.Instance.CreateDistillerSapshots();
+        if (InstallationSaveService.Instance != null)
+        {
+            InstallationSaveService.Instance.RestoreInstallations();
+            save.installationList = InstallationSaveService.Instance.savedInstallations;
+        }
 
         SaveManager.Save(save);
     }

@@ -12,8 +12,7 @@ public class FarmSaveService : MonoBehaviour
     void Start()
     {
         GameSave save = SaveManager.Load();
-        if (save.farms != null && save.farms.Count > 0)
-            RestoreFarms(save.farms);
+        RestoreFarms(save.farms);
     }
 
     void Awake()
@@ -26,7 +25,7 @@ public class FarmSaveService : MonoBehaviour
     {
         var result = new List<FarmSaveData>();
         // Object.FindObjectsOfType<Farm>() 대체로 FindObjectsByType 을 씀
-        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
             int cropID = (farm.currentCropInstance != null && farm.currentCropInstance.cropData != null) ? farm.currentCropInstance.cropData.id : 0;
 
@@ -75,7 +74,7 @@ public class FarmSaveService : MonoBehaviour
 
     private Farm FindFarmAt(Vector3Int tilePos)
     {
-        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (Farm farm in Object.FindObjectsByType<Farm>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
             if (farm.GetTilePosition() == tilePos)
                 return farm;

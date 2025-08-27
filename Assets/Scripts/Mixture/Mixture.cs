@@ -156,10 +156,6 @@ public class Mixture : MonoBehaviour
     public MixtureSaveData CreateSnapshot()
     {
         MixtureSaveData data = new MixtureSaveData();
-        data.tilePosition = new Vector3Int(
-                Mathf.RoundToInt(transform.position.x),
-                Mathf.RoundToInt(transform.position.y),
-                Mathf.RoundToInt(transform.position.z));
         data.baseEssenceID = (baseData != null ? baseData.id : -1);
         data.middleEssenceID = (middleData != null ? middleData.id : -1);
         data.topEssenceID = (topData != null ? topData.id : -1);
@@ -193,11 +189,6 @@ public class Mixture : MonoBehaviour
     public void ApplySnapshot(MixtureSaveData data)
     {
         if (data == null) return;
-
-        if (MixtureSaveService.Instance.mixtureTilemap != null)
-            transform.position = MixtureSaveService.Instance.mixtureTilemap.CellToWorld(data.tilePosition);
-        else
-            transform.position = data.tilePosition;
 
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;

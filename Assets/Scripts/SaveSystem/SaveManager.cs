@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public class GameSave
 {
-    public List<FurnitureSaveData> furnitureList = new();
+    public List<InstallationSaveData> installationList = new();
     public List<FarmSaveData> farms = new();
     public List<DistillerSaveData> distillers = new List<DistillerSaveData>();
     public MixtureSaveData mixture = new();
@@ -25,7 +25,7 @@ public class InventoryItemSaveData
 }
 
 [Serializable]
-public class FurnitureSaveData
+public class InstallationSaveData
 {
     public int id;
     public string prefabName;
@@ -36,6 +36,7 @@ public class FurnitureSaveData
 [Serializable]
 public class FarmSaveData
 {
+    public Vector3Int tilePosition;
     public bool isOccpuied;
     public bool isWatered;
     public int cropID;

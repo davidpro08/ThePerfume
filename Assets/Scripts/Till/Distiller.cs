@@ -238,11 +238,6 @@ public class Distiller : MonoBehaviour
     {
         DistillerSaveData distillerSaveData = new DistillerSaveData
         {
-            tilePosition = new Vector3Int(
-                Mathf.RoundToInt(transform.position.x),
-                Mathf.RoundToInt(transform.position.y),
-                Mathf.RoundToInt(transform.position.z)
-            ),
             id = distillerID,
             isMaking = isMaking,
             craftStartUtcMs = craftStartUtcMs,
@@ -283,11 +278,6 @@ public class Distiller : MonoBehaviour
     {
         if (data == null) return;
 
-        if (DistillerSaveService.Instance.distillerTilemap != null)
-            transform.position = DistillerSaveService.Instance.distillerTilemap.CellToWorld(data.tilePosition);
-        else
-            transform.position = data.tilePosition;
-
         // 슬롯 치우기
         ClearAllSlots(fuelSlotParent);
         ClearAllSlots(petalSlotParent);
@@ -296,9 +286,6 @@ public class Distiller : MonoBehaviour
             Destroy(spawnedEssence);
             spawnedEssence = null;
         }
-
-        if (data == null) return;
-        transform.position = DistillerSaveService.Instance.distillerTilemap.CellToWorld(data.tilePosition);
 
         if (!data.essenceReady)
         {
@@ -370,6 +357,12 @@ public class Distiller : MonoBehaviour
         SaveManager.TouchDistiller(distillerID, snapshot);
     }
 
+    public static Distiller FindByID(string id)
+    {
+        foreach (var d in Object.FindObjectsByType<Distiller>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (d.distillerID == id) return d;
+        return null;
+    }
     // ============= 하위 함수 ===========
 
     Transform FindFirstEmpty(List<Transform> parents)

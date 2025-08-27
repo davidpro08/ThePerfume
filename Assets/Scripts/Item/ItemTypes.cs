@@ -54,5 +54,6 @@ public enum InstallationType
 {
     Farm,
     Bench,
-    Distiller
+    Distiller,
+    Mixture
 }

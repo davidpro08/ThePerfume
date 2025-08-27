@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class BuildController : MonoBehaviour
@@ -15,6 +17,18 @@ public class BuildController : MonoBehaviour
     //public LayerMask layer;
 
     //public InstallationData farmData;
+    public static BuildController Instance { get; private set; }
+    public Dictionary<Vector3Int, GameObject> placedObjects = new Dictionary<Vector3Int, GameObject>();
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
+    {
+        InstallationSaveService.Instance.SetTilemap(installationTilemap);
+    }
 
     private void Update()
     {
@@ -26,8 +40,6 @@ public class BuildController : MonoBehaviour
         }
     }
 
-
-    private Dictionary<Vector3Int, GameObject> placedObjects = new Dictionary<Vector3Int, GameObject>();
     void TryPlaceInstallation()
     {
         ItemData equipped = InventoryManager.Instance.EquippedItem();
@@ -43,30 +55,55 @@ public class BuildController : MonoBehaviour
 
         Vector3Int gridPos = installationTilemap.WorldToCell(mouseWorldPos);
 
-        if (placedObjects.ContainsKey(gridPos)) return;
+        // if (placedObjects.ContainsKey(gridPos)) return;
 
-        switch(installData.installationType)
+        // 1. Tile 설치 후 Refresh
+        if (installData.itemTile != null)
         {
-            case InstallationType.Farm:
-                installationTilemap.SetTile(gridPos, installData.itemTile);
-                installationTilemap.RefreshTile(gridPos);
-
-                if (installData.itemPrefab != null)
-                {
-                    Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
-                    GameObject farmObj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
-
-                    Farm farm = farmObj.GetComponent<Farm>();
-                    if (farm != null) farm.Init(gridPos, installationTilemap);
-
-                    placedObjects[gridPos] = farmObj;
-
-                    InventoryManager.Instance.RemoveItem(equipped, 1);
-                }
-                break;
-            default:
-                break;
+            installationTilemap.SetTile(gridPos, installData.itemTile);
+            installationTilemap.RefreshTile(gridPos);
         }
+
+        // 2. Prefab 설치
+        if (installData.itemPrefab != null)
+        {
+            Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
+            GameObject obj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
+            obj.AddComponent<InstallationDataHolder>().data = installData;
+
+            placedObjects[gridPos] = obj;
+        }
+
+        // 3. 인벤토리 제거 & Snapshot
+        InventoryManager.Instance.RemoveItem(equipped, 1);
+        InstallationSaveService.Instance.CreateSnapshot(placedObjects);
+
+
+        // switch (installData.installationType)
+        // {
+        //     case InstallationType.Farm:
+        //         installationTilemap.SetTile(gridPos, installData.itemTile);
+        //         installationTilemap.RefreshTile(gridPos);
+
+        //         if (installData.itemPrefab != null)
+        //         {
+        //             Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
+        //             GameObject farmObj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
+
+        //             Farm farm = farmObj.GetComponent<Farm>();
+        //             if (farm != null) farm.Init(gridPos, installationTilemap);
+
+        //             placedObjects[gridPos] = farmObj;
+
+        //             InventoryManager.Instance.RemoveItem(equipped, 1);
+
+
+        //             InstallationSaveService.Instance.CreateSnapshot(placedObjects);
+        //         }
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
 
     void ShowInstallationPreview()
@@ -74,7 +111,7 @@ public class BuildController : MonoBehaviour
         ItemData equipped = InventoryManager.Instance.EquippedItem();
         if (equipped == null || !(equipped is InstallationData installData))
         {
-            if(currentPreview != null)
+            if (currentPreview != null)
             {
                 Destroy(currentPreview);
                 currentPreview = null;
