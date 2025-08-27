@@ -42,6 +42,25 @@ public class DistillerToTill : MonoBehaviour
             GameContext context = new GameObject("GameContext").AddComponent<GameContext>();
         }
         GameContext.Instance.SelectDistiller(distillerID);
+
+        // 씬 이동마다 농장 상태 저장
+        GameSave save = new GameSave();
+
+        if (FarmSaveService.Instance != null)
+        {
+            var snapshot = FarmSaveService.Instance.CreateFarmSnapshot();
+            Debug.Log($"Farm 저장 갯수 : {snapshot.Count}");
+            save.farms = snapshot;
+        }
+
+        if (Mixture.Instance != null) save.mixture = Mixture.Instance.CreateSnapshot();
+
+        if (InventoryManager.Instance != null) save.inventory = InventoryManager.Instance.CreateSnapshot();
+
+        foreach (Distiller d in FindObjectsByType<Distiller>(FindObjectsInactive.Include, FindObjectsSortMode.None)) save.distillers.Add(d.SaveSnapshot());
+
+        SaveManager.Save(save);
+
         SceneManager.LoadScene(tillSceneName);
     }
 }

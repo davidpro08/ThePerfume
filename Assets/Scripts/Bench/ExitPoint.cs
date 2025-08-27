@@ -25,7 +25,29 @@ public class ExitPoint : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero, Mathf.Infinity, clickableLayer);
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                HandleExit();
+                if (FlowerManager.Instance == null) Debug.Log("[HandleExit] TillUIManager.Instance == null");
+
+                if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && !BenchUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchUIManager.Instance.HasSpawnedItemOnTray())
+                {
+                    if (string.IsNullOrEmpty(targetSceneName))
+                    {
+                        return;
+                    }
+                    SceneChanger.Instance.MoveToScene();
+                }
+                else
+                {
+                    if (!FlowerManager.Instance.IsExitable())
+                    {
+                        BenchUIManager.Instance.ShowWarningCanvas("bowl에 꽃잎이 남아있습니다.");
+                        Debug.LogWarning($"IsExitable : Bowl에 꽃잎이 남아있음");
+                    }
+                    if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+                    {
+                        BenchUIManager.Instance.ShowWarningCanvas("Tray 위에 작물이 남아있습니다.");
+                        Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
+                    }
+                }
             }
         }
     }

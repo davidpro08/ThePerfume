@@ -10,7 +10,6 @@ public class Distiller : MonoBehaviour
     [Header("Identity/DB")]
     [SerializeField] public string distillerID;
     [SerializeField] ItemDataBase dataBase;
-    [SerializeField] private Tilemap distillerTilemap;
 
     [Header("Slots")]
     [SerializeField] List<Transform> fuelSlotParent;
@@ -26,6 +25,8 @@ public class Distiller : MonoBehaviour
     long craftStartUtcMs;
     int currentEssenceID;
     GameObject spawnedEssence;
+
+    public static Distiller Instance { get; private set; }
 
     void Start()
     {
@@ -237,7 +238,11 @@ public class Distiller : MonoBehaviour
     {
         DistillerSaveData distillerSaveData = new DistillerSaveData
         {
-            tilePosition = distillerTilemap.WorldToCell(transform.position),
+            tilePosition = new Vector3Int(
+                Mathf.RoundToInt(transform.position.x),
+                Mathf.RoundToInt(transform.position.y),
+                Mathf.RoundToInt(transform.position.z)
+            ),
             id = distillerID,
             isMaking = isMaking,
             craftStartUtcMs = craftStartUtcMs,
@@ -276,6 +281,13 @@ public class Distiller : MonoBehaviour
 
     public void RebuildFromSave(DistillerSaveData data)
     {
+        if (data == null) return;
+
+        if (DistillerSaveService.Instance.distillerTilemap != null)
+            transform.position = DistillerSaveService.Instance.distillerTilemap.CellToWorld(data.tilePosition);
+        else
+            transform.position = data.tilePosition;
+
         // 슬롯 치우기
         ClearAllSlots(fuelSlotParent);
         ClearAllSlots(petalSlotParent);
@@ -286,7 +298,7 @@ public class Distiller : MonoBehaviour
         }
 
         if (data == null) return;
-        transform.position = distillerTilemap.CellToWorld(data.tilePosition);
+        transform.position = DistillerSaveService.Instance.distillerTilemap.CellToWorld(data.tilePosition);
 
         if (!data.essenceReady)
         {

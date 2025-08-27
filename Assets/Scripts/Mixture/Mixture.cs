@@ -6,7 +6,7 @@ public class Mixture : MonoBehaviour
 {
     [Header("Save")]
     [SerializeField] public ItemDataBase itemDataBase;
-    [SerializeField] private Tilemap mixtureTilemap;
+
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
     [SerializeField] public GameObject middleL;
@@ -30,12 +30,6 @@ public class Mixture : MonoBehaviour
     float perfumeRelax;
 
     private void Awake() => Instance = this;
-
-    void Start()
-    {
-        GameSave save = SaveManager.Load();
-        ApplySnapshot(SaveManager.Load().mixture);
-    }
 
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
@@ -162,7 +156,10 @@ public class Mixture : MonoBehaviour
     public MixtureSaveData CreateSnapshot()
     {
         MixtureSaveData data = new MixtureSaveData();
-        data.tilePosition = mixtureTilemap.WorldToCell(transform.position);
+        data.tilePosition = new Vector3Int(
+                Mathf.RoundToInt(transform.position.x),
+                Mathf.RoundToInt(transform.position.y),
+                Mathf.RoundToInt(transform.position.z));
         data.baseEssenceID = (baseData != null ? baseData.id : -1);
         data.middleEssenceID = (middleData != null ? middleData.id : -1);
         data.topEssenceID = (topData != null ? topData.id : -1);
@@ -197,7 +194,10 @@ public class Mixture : MonoBehaviour
     {
         if (data == null) return;
 
-        transform.position = mixtureTilemap.CellToWorld(data.tilePosition);
+        if (MixtureSaveService.Instance.mixtureTilemap != null)
+            transform.position = MixtureSaveService.Instance.mixtureTilemap.CellToWorld(data.tilePosition);
+        else
+            transform.position = data.tilePosition;
 
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;

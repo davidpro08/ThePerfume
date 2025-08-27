@@ -24,20 +24,16 @@ public class TillExitPoint : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero, Mathf.Infinity, clickableLayer);
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                HandleExit();
-            }
-        }
-    }
+                if (!InventoryUIManager.isFullInventoryOpen && !TillUIManager.Instance.isWarningCanvasOpen)
+                {
+                    if (string.IsNullOrEmpty(targetSceneName))
+                    {
+                        return;
+                    }
 
-    public void HandleExit()
-    {
-        if (!InventoryUIManager.isFullInventoryOpen && !TillUIManager.Instance.isWarningCanvasOpen)
-        {
-            if (string.IsNullOrEmpty(targetSceneName))
-            {
-                return;
+                    SceneChanger.Instance.MoveToScene();
+                }
             }
-            SceneManager.LoadScene(targetSceneName);
         }
     }
 }
