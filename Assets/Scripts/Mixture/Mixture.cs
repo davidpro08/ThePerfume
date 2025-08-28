@@ -35,23 +35,21 @@ public class Mixture : MonoBehaviour
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
     {
-        // if (essenceData == null)
-        // {
-        //     TillUIManager.Instance.ShowWarningCanvas("need Essence item");
-        //     return;
-        // }
-
-        if (target.GetComponent<SpriteRenderer>().enabled == true)
+        if (essenceData == null)
         {
-            TillUIManager.Instance.ShowWarningCanvas("Already essence exist");
+            Debug.LogError("EssenceData == null");
             return;
         }
 
-        if (!InventoryManager.Instance.RemoveItem(essenceData, 1))
+        ItemSlot slotToRemove = InventoryManager.Instance.itemSlots.Find(slot => slot.itemData != null && slot.itemData.id == essenceData.id);
+
+        if (slotToRemove == null)
         {
             TillUIManager.Instance.ShowWarningCanvas("need essence item");
             return;
         }
+
+        InventoryManager.Instance.RemoveItem(essenceData, 1);
 
         EssenceSpawnToSlot(essenceData, target);
         SaveNow();
@@ -237,6 +235,9 @@ public class Mixture : MonoBehaviour
 
     public void CalculateCapacityAndColor()
     {
+        if (baseData == null || middleData == null || topData == null)
+            return;
+
         perfumeWarm = (baseData.essenceWarm + middleData.essenceWarm + topData.essenceWarm) / 3;
         perfumeCool = (baseData.essenceCool + middleData.essenceCool + topData.essenceCool) / 3;
         perfumeRelax = (baseData.essenceRelax + middleData.essenceRelax + topData.essenceRelax) / 3;
