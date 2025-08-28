@@ -29,3 +29,4 @@ MonoBehaviour:
   itemOnTray: {fileID: 5197423724709296559, guid: 6392344a29c57344aa7f8fb32050f97e, type: 3}
   itemPrefabOnUI: {fileID: 5494312074637828506, guid: 321a3e9dcb7424a41adf8d8dfef6e604, type: 3}
   petal: {fileID: 11400000, guid: c16baec5c34d4c14dbae7a5fb56a05c2, type: 2}
+  seed: {fileID: 11400000, guid: 135abb67ac8a4e545945de2de09b4016, type: 2}

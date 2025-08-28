@@ -10,6 +10,7 @@ public class CropData : ItemData
     public GameObject itemOnTray; // 손질할 때 필요한 프리팹 (트레이 위에 올라감)
     public GameObject itemPrefabOnUI; // 손질할 때 필요한 프리팹
     public ItemData petal; // 꽃잎 프리팹
+    public ItemData seed;
     
 
     public CropData() { }

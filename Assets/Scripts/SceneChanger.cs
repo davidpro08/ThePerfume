@@ -6,53 +6,6 @@ public class SceneChanger : MonoBehaviour
     [Header("이동한 씬")]
     [SerializeField] private string targetSceneName;
 
-    public static SceneChanger Instance { get; private set; }
-    void Awake()
-    {
-        Instance = this;
-    }
-
-    void OnEnable()
-    {
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
-    }
-
-    void OnSceneUnloaded(Scene scene)
-    {
-        SaveGameState();
-    }
-
-    public void SaveGameState()
-    {
-        // 씬 이동마다 농장 상태 저장
-        GameSave save = SaveManager.Load();
-
-        if (FarmSaveService.Instance != null)
-        {
-            var snapshot = FarmSaveService.Instance.CreateFarmSnapshot();
-            Debug.Log($"Farm 저장 갯수 : {snapshot.Count}");
-            save.farms = snapshot;
-        }
-
-        if (Mixture.Instance != null) save.mixture = MixtureSaveService.Instance.CreateMixtureSnapshot();
-
-        if (InventoryManager.Instance != null) save.inventory = InventoryManager.Instance.CreateSnapshot();
-
-        if (Distiller.Instance != null) save.distillers = DistillerSaveService.Instance.CreateDistillerSapshots();
-        if (InstallationSaveService.Instance != null)
-        {
-            InstallationSaveService.Instance.RestoreInstallations();
-            save.installationList = InstallationSaveService.Instance.savedInstallations;
-        }
-
-        SaveManager.Save(save);
-    }
-
     public void MoveToScene()
     {
         if (string.IsNullOrEmpty(targetSceneName))
@@ -61,7 +14,10 @@ public class SceneChanger : MonoBehaviour
             return;
         }
 
-        SaveGameState();
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentScene == "lab" && SaveManager.Instance != null) SaveManager.Instance.SaveGame();
+
+        Resources.UnloadUnusedAssets();
         SceneManager.LoadScene(targetSceneName);
     }
 }

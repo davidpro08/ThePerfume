@@ -223,7 +223,8 @@ public class ItemManager : MonoBehaviour
     {
         if (itemDatabase.TryGetValue(id, out ItemData data))
         {
-            return Instantiate(data);
+            // return Instantiate(data);
+            return data;
         }
         Debug.LogWarning($"Item with ID {id} not found in the database.");
         return null;

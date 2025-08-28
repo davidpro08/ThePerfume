@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b88acf3d9a40a690922d8b7575d8bf, type: 3}
   m_Name: WateringCan
   m_EditorClassIdentifier: 
-  id: 105
+  id: 7
   itemName: "\uBB3C\uBFCC\uB9AC\uAC1C"
   description: Null Description
   itemIcon: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}

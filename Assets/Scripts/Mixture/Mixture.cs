@@ -1,12 +1,11 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Mixture : MonoBehaviour
 {
     [Header("Save")]
     [SerializeField] public ItemDataBase itemDataBase;
-
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
     [SerializeField] public GameObject middleL;
@@ -18,8 +17,6 @@ public class Mixture : MonoBehaviour
     [Header("Perfume Itme")]
     [SerializeField] public List<PerfumeData> perfumeDatas;
 
-    public static Mixture Instance { get; private set; }
-
     public EssenceData baseData = null;
     public EssenceData middleData = null;
     public EssenceData topData = null;
@@ -29,7 +26,11 @@ public class Mixture : MonoBehaviour
     float perfumeCool;
     float perfumeRelax;
 
-    private void Awake() => Instance = this;
+    void Start()
+    {
+        GameSave save = SaveManager.Load();
+        ApplySnapShot(save.mixture);
+    }
 
     // =========== 클릭 관련 / 생성 관련 =============
     public void PlaceEssence(EssenceData essenceData, GameObject target)
@@ -53,7 +54,7 @@ public class Mixture : MonoBehaviour
         }
 
         EssenceSpawnToSlot(essenceData, target);
-        SaveMixture();
+        SaveNow();
     }
 
     public void PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
@@ -70,7 +71,7 @@ public class Mixture : MonoBehaviour
         sr.sortingOrder = 10;
 
         srF.enabled = false;
-        SaveMixture();
+        SaveNow();
     }
 
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
@@ -83,7 +84,7 @@ public class Mixture : MonoBehaviour
         PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
         PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
 
-        SaveMixture();
+        SaveNow();
     }
 
     // =========== 판단 로직 =============
@@ -140,20 +141,7 @@ public class Mixture : MonoBehaviour
     }
 
     // ========== 저장 관련 ==============
-    public void SaveMixture()
-    {
-        GameSave save = SaveManager.Load();
-        save.mixture = CreateSnapshot();
-        SaveManager.Save(save);
-    }
-
-    public void LoadMixture()
-    {
-        GameSave save = SaveManager.Load();
-        ApplySnapshot(save.mixture);
-    }
-
-    public MixtureSaveData CreateSnapshot()
+    public MixtureSaveData CreatSnapShot()
     {
         MixtureSaveData data = new MixtureSaveData();
         data.baseEssenceID = (baseData != null ? baseData.id : -1);
@@ -186,7 +174,15 @@ public class Mixture : MonoBehaviour
         return data;
     }
 
-    public void ApplySnapshot(MixtureSaveData data)
+    public void SaveNow()
+    {
+        var snap = CreatSnapShot();
+        GameSave save = SaveManager.Load();
+        MixtureSaveManager.SaveMixture(save, snap);
+        SaveManager.Save(save);
+    }
+
+    public void ApplySnapShot(MixtureSaveData data)
     {
         if (data == null) return;
 

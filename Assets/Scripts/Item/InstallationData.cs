@@ -23,3 +23,10 @@ public class InstallationData : ItemData
         this.usesTilemap = usesTilemap;
     }
 }
+
+public interface IInstallation
+{
+    int ItemID { get; }
+    Vector3Int GridPos { get; }
+    void Init(Vector3Int gridPos, Tilemap tilemap, int itemID);
+}

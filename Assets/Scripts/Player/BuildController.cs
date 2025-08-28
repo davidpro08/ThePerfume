@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class BuildController : MonoBehaviour
@@ -11,23 +9,37 @@ public class BuildController : MonoBehaviour
     private GameObject currentPreview;
 
     public Tilemap installationTilemap;
-
-    //public float castDistance = 1.0f;
-    //public Transform raycastPoint;
-    //public LayerMask layer;
-
-    //public InstallationData farmData;
-    public static BuildController Instance { get; private set; }
-    public Dictionary<Vector3Int, GameObject> placedObjects = new Dictionary<Vector3Int, GameObject>();
-
-    void Awake()
-    {
-        Instance = this;
-    }
+    public ItemDataBase itemDB;
 
     void Start()
     {
-        InstallationSaveService.Instance.SetTilemap(installationTilemap);
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SetBuildController(this);
+            SaveManager.Instance.LoadGame();
+        }
+    }
+
+    void Awake()
+    {
+        if (SaveManager.Instance != null)
+            SaveManager.Instance.SetBuildController(this);
+
+        if (installationTilemap == null)
+        {
+            Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
+            foreach (var tm in tilemaps)
+            {
+                if (tm.gameObject.name == "Farm_Tilemap" && tm.transform.parent.name == "Grid")
+                {
+                    installationTilemap = tm;
+                    break;
+                }
+            }
+
+            if (installationTilemap == null)
+                Debug.LogWarning("BuildController: Farm_Tilemap 못 찾음");
+        }
     }
 
     private void Update()
@@ -40,70 +52,51 @@ public class BuildController : MonoBehaviour
         }
     }
 
+
+    public Dictionary<Vector3Int, GameObject> placedObjects = new Dictionary<Vector3Int, GameObject>();
     void TryPlaceInstallation()
     {
         ItemData equipped = InventoryManager.Instance.EquippedItem();
 
-        if (equipped == null || !(equipped is InstallationData installData))
-        {
-            return;
-        }
+        if (equipped == null) return;
 
+        InstallationData installData = itemDB.ResolveItem(equipped.id) as InstallationData;
+        if (installData == null) return;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
 
         Vector3Int gridPos = installationTilemap.WorldToCell(mouseWorldPos);
 
-        // if (placedObjects.ContainsKey(gridPos)) return;
+        if (placedObjects.ContainsKey(gridPos)) return;
 
-        // 1. Tile 설치 후 Refresh
-        if (installData.itemTile != null)
+        switch (installData.installationType)
         {
-            installationTilemap.SetTile(gridPos, installData.itemTile);
-            installationTilemap.RefreshTile(gridPos);
+            case InstallationType.Farm:
+            case InstallationType.Distiller:
+            case InstallationType.Mixture:
+            case InstallationType.Bench:
+                installationTilemap.SetTile(gridPos, installData.itemTile);
+                installationTilemap.RefreshTile(gridPos);
+
+                if (installData.itemPrefab != null)
+                {
+                    Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
+                    GameObject farmObj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
+
+                    var installation = farmObj.GetComponent<IInstallation>();
+                    if (installation != null) installation.Init(gridPos, installationTilemap, installData.id);
+
+                    placedObjects[gridPos] = farmObj;
+
+                    InventoryManager.Instance.RemoveItem(equipped, 1);
+
+                    SaveManager.Instance.SaveGame();
+                }
+                break;
+            default:
+                break;
         }
-
-        // 2. Prefab 설치
-        if (installData.itemPrefab != null)
-        {
-            Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
-            GameObject obj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
-            obj.AddComponent<InstallationDataHolder>().data = installData;
-
-            placedObjects[gridPos] = obj;
-        }
-
-        // 3. 인벤토리 제거 & Snapshot
-        InventoryManager.Instance.RemoveItem(equipped, 1);
-        InstallationSaveService.Instance.CreateSnapshot(placedObjects);
-
-
-        // switch (installData.installationType)
-        // {
-        //     case InstallationType.Farm:
-        //         installationTilemap.SetTile(gridPos, installData.itemTile);
-        //         installationTilemap.RefreshTile(gridPos);
-
-        //         if (installData.itemPrefab != null)
-        //         {
-        //             Vector3 worldPos = installationTilemap.GetCellCenterWorld(gridPos);
-        //             GameObject farmObj = Instantiate(installData.itemPrefab, worldPos, Quaternion.identity);
-
-        //             Farm farm = farmObj.GetComponent<Farm>();
-        //             if (farm != null) farm.Init(gridPos, installationTilemap);
-
-        //             placedObjects[gridPos] = farmObj;
-
-        //             InventoryManager.Instance.RemoveItem(equipped, 1);
-
-
-        //             InstallationSaveService.Instance.CreateSnapshot(placedObjects);
-        //         }
-        //         break;
-        //     default:
-        //         break;
-        // }
     }
 
     void ShowInstallationPreview()
@@ -142,4 +135,11 @@ public class BuildController : MonoBehaviour
         }
     }
 
+    // 설치물 등록 메서드
+    public void RegisterPlacedObject(Vector3Int gridPos, GameObject obj)
+    {
+        placedObjects[gridPos] = obj;
+    }
+
+    public Dictionary<Vector3Int, GameObject> PlacedObjects => placedObjects;
 }

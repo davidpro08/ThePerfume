@@ -8,7 +8,6 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     public CropData cropData; // 수확 시 얻을 아이템 데이터
     public int Quantity = 1; // 수확 시 얻을 아이템 수량
     public GameObject collectableItemPrefab; // 바닥에 스폰될 프리팹
-    public long plantedUtc;
 
     [Header("수확 도구")]
     public ToolType requiredToolType;
@@ -16,7 +15,7 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     [Header("성장 시스템")]
     public CropStage cropStage; // 성장 단계 데이터
     private SpriteRenderer spriteRenderer; // 작물 스프라이트 변경
-    private float timer = 0f; // 현재 단계에서 경과한 시간
+    public float timer = 0f; // 현재 단계에서 경과한 시간
     public int currentStage = 0; // 현재 성장 단계
 
     public bool isFullGrowth => currentStage == cropStage.fullGrowthIndex; // 완전히 자랐는지 여부
@@ -42,14 +41,14 @@ public class HarvestableCrop : MonoBehaviour, IInteract
                 timer -= cropStage.growDuration; // 남은 시간 처리
                 currentStage++;
 
-                Debug.Log($"1단계 더 자라남");
-
                 if (currentStage >= cropStage.totalStage)
                 {
                     currentStage = cropStage.fullGrowthIndex; // 마지막 단계 고정
                     Debug.Log($"{cropType}이 모두 자라났음");
                 }
                 UpdateSprite();
+
+                if (parentFarm != null) SaveManager.Instance.SaveGame();
             }
         }
     }
@@ -70,7 +69,7 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     }
 
     // 성장 단계에 맞게 스프라이트 업데이트
-    private void UpdateSprite()
+    public void UpdateSprite()
     {
         if (spriteRenderer != null && cropStage != null && currentStage < cropStage.growthStage.Count)
         {

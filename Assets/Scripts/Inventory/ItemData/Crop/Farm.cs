@@ -1,9 +1,12 @@
-using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Farm : MonoBehaviour, IInteract
+public class Farm : MonoBehaviour, IInteract, IInstallation
 {
+    public int ItemID { get; private set; }
+    public Vector3Int GridPos { get; private set; }
+
     [Header("화분 상태")]
     public bool isOccupied = false; //이미 씨앗이 심어져 있는지
     public bool isWatered = false; // 마른 상태인지 젖은 상태인지 확인
@@ -35,21 +38,16 @@ public class Farm : MonoBehaviour, IInteract
         //UpdateSprite();
     }
 
-    void Start()
+    public void Init(Vector3Int gridPos, Tilemap tilemap, int itemID)
     {
-        GameSave save = SaveManager.Load();
-        if (FarmSaveService.Instance != null)
-            FarmSaveService.Instance.RestoreFarms(save.farms);
-    }
-
-    public void Init(Vector3Int pos, Tilemap map)
-    {
-        gridPosition = pos;
-        tilemap = map;
+        GridPos = gridPos;
+        gridPosition = gridPos;
+        this.tilemap = tilemap;
+        ItemID = itemID;
         UpdateTile();
     }
 
-    private void UpdateTile()
+    public void UpdateTile()
     {
         if (tilemap == null) return;
 
@@ -103,6 +101,7 @@ public class Farm : MonoBehaviour, IInteract
                     UpdateTile();
                     //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Planted, tilemap);
 
+                    SaveManager.Instance.SaveGame();
                 }
                 else
                 {
@@ -118,24 +117,34 @@ public class Farm : MonoBehaviour, IInteract
     /// </summary>
     /// <param name="seedData"></param>
     /// <returns></returns>
-    public void PlantSeed(SeedData seedData)
+    public void PlantSeed(SeedData seedData, int stage = 0, float timer = 0f)
     {
         isOccupied = true;
         UpdateTile();
         //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Watered, tilemap);
 
         // 작물 오브젝트 생성
-        GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
-        currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
+        if (seedData.cropPrefabToGrow! != null)
+        {
+            GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
+            currentCropInstance = cropGO.GetComponent<HarvestableCrop>() ?? cropGO.GetComponentInChildren<HarvestableCrop>();
 
-        // 작물의 초기 상태 = 심은 직후 상태
-        currentCropInstance.parentFarm = this;
-        currentCropInstance.currentStage = 0;
+            // 작물의 초기 상태 = 심은 직후 상태
+            if (currentCropInstance != null)
+            {
+                currentCropInstance.parentFarm = this;
+                currentCropInstance.currentStage = stage;
+                currentCropInstance.timer = timer;
+                currentCropInstance.UpdateSprite();
+            }
+        }
 
         if (farmCollider != null)
         {
             farmCollider.enabled = false; // 씨앗 심으면 farm 콜라이더 종료
         }
+
+        SaveManager.Instance.SaveGame();
     }
 
     /// <summary>
@@ -244,6 +253,8 @@ public class Farm : MonoBehaviour, IInteract
             {
                 farmCollider.enabled = true; // 작물 수확하고 나서 콜라이더 활성화
             }
+
+            SaveManager.Instance.SaveGame();
         }
     }
 
@@ -262,26 +273,4 @@ public class Farm : MonoBehaviour, IInteract
         }
     }
 
-    // ============= FarmSaveServic 보조 함수 =============
-    public Vector3Int GetTilePosition()
-    {
-        return gridPosition;
-    }
-
-    public void RestoreCrop(SeedData seedData, int growthStage, long plantedUtc)
-    {
-        isOccupied = true;
-        UpdateTile();
-
-        GameObject cropGO = Instantiate(seedData.cropPrefabToGrow, transform.position, Quaternion.identity, transform);
-        currentCropInstance = cropGO.GetComponent<HarvestableCrop>();
-        currentCropInstance.parentFarm = this;
-        currentCropInstance.currentStage = growthStage;
-        currentCropInstance.plantedUtc = DateTime.UtcNow.Ticks;
-
-        if (farmCollider != null)
-        {
-            farmCollider.enabled = false;
-        }
-    }
 }

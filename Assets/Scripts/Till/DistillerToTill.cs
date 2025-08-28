@@ -42,10 +42,6 @@ public class DistillerToTill : MonoBehaviour
             GameContext context = new GameObject("GameContext").AddComponent<GameContext>();
         }
         GameContext.Instance.SelectDistiller(distillerID);
-
-        // 씬 이동마다 농장 상태 저장
-        SceneChanger.Instance.MoveToScene();
-
         SceneManager.LoadScene(tillSceneName);
     }
 }

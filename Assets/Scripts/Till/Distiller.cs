@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.Interactions;
-using UnityEngine.Tilemaps;
 
 public class Distiller : MonoBehaviour
 {
     [Header("Identity/DB")]
-    [SerializeField] public string distillerID;
+    [SerializeField] string distillerID;
     [SerializeField] ItemDataBase dataBase;
 
     [Header("Slots")]
@@ -25,8 +24,7 @@ public class Distiller : MonoBehaviour
     long craftStartUtcMs;
     int currentEssenceID;
     GameObject spawnedEssence;
-
-    public static Distiller Instance { get; private set; }
+    readonly List<GameObject> spawndItems = new List<GameObject>();
 
     void Start()
     {
@@ -35,7 +33,7 @@ public class Distiller : MonoBehaviour
             distillerID = GameContext.Instance.SelectedDistillerID;
         }
         GameSave save = SaveManager.Load();
-        DistillerSaveData data = save.distillers.Find(d => d.id == distillerID) ?? new DistillerSaveData { id = distillerID };
+        DistillerSaveData data = DistillerSaveManager.GetOrCreate(save, distillerID);
         RebuildFromSave(data);
 
         if (isMaking) StartCatchupOrFinish();
@@ -62,7 +60,11 @@ public class Distiller : MonoBehaviour
         if (slotIndex >= fuelData.itemPrefabs.Count) return;
 
         FuelSpawnToSlot(fuelData, slotIndex, slot);
-        SaveCurrentDistiller();
+
+        GameSave save = SaveManager.Load();
+        DistillerSaveManager.Touch(save, distillerID, SaveSnapshot());
+        SaveManager.Save(save);
+
         TryStartCraft();
     }
 
@@ -102,9 +104,12 @@ public class Distiller : MonoBehaviour
             return;
         }
 
-
         PetalSpawnToSlot(petalData, slot);
-        SaveCurrentDistiller();
+
+        GameSave save = SaveManager.Load();
+        DistillerSaveManager.Touch(save, distillerID, SaveSnapshot());
+        SaveManager.Save(save);
+
         TryStartCraft();
     }
 
@@ -126,7 +131,9 @@ public class Distiller : MonoBehaviour
         currentEssenceID = 0;
         isMaking = false;
 
-        SaveCurrentDistiller();
+        GameSave save = SaveManager.Load();
+        DistillerSaveManager.Touch(save, distillerID, SaveSnapshot());
+        SaveManager.Save(save);
     }
 
     // =========== 제작 로직 ==========
@@ -141,7 +148,7 @@ public class Distiller : MonoBehaviour
         if (!hasFuel || petal == null || petal.essenceData == null) return;
 
         isMaking = true;
-        craftStartUtcMs = SaveManager.NowUnixMs();
+        craftStartUtcMs = DistillerSaveManager.NowUnixMs();
         currentEssenceID = petal.essenceData.id;
 
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
@@ -159,14 +166,17 @@ public class Distiller : MonoBehaviour
             sr.sortingOrder = 10;
         }
 
-        SaveCurrentDistiller();
+        GameSave save = SaveManager.Load();
+        DistillerSaveManager.Touch(save, distillerID, SaveSnapshot());
+        SaveManager.Save(save);
+
         StartCatchupOrFinish();
     }
 
     void StartCatchupOrFinish()
     {
         int craftDurationMs = craftDurationSec * 1000;
-        long elapsed = SaveManager.NowUnixMs() - craftStartUtcMs;
+        long elapsed = DistillerSaveManager.NowUnixMs() - craftStartUtcMs;
         if (elapsed < 0) elapsed = 0;
         if (elapsed >= craftDurationMs)
         {
@@ -229,12 +239,15 @@ public class Distiller : MonoBehaviour
             }
         }
         isMaking = false;
-        SaveCurrentDistiller();
+
+        GameSave save = SaveManager.Load();
+        DistillerSaveManager.Touch(save, distillerID, SaveSnapshot(essenceReady: true));
+        SaveManager.Save(save);
     }
 
     // ============ 저장/복원 ============
 
-    public DistillerSaveData SaveSnapshot(bool essenceReady = false)
+    DistillerSaveData SaveSnapshot(bool essenceReady = false)
     {
         DistillerSaveData distillerSaveData = new DistillerSaveData
         {
@@ -276,8 +289,6 @@ public class Distiller : MonoBehaviour
 
     public void RebuildFromSave(DistillerSaveData data)
     {
-        if (data == null) return;
-
         // 슬롯 치우기
         ClearAllSlots(fuelSlotParent);
         ClearAllSlots(petalSlotParent);
@@ -289,7 +300,6 @@ public class Distiller : MonoBehaviour
 
         if (!data.essenceReady)
         {
-
             // 연료 복원
             foreach (int index in data.occupiedFuelSlots)
             {
@@ -351,18 +361,6 @@ public class Distiller : MonoBehaviour
         }
     }
 
-    public void SaveCurrentDistiller()
-    {
-        DistillerSaveData snapshot = SaveSnapshot();
-        SaveManager.TouchDistiller(distillerID, snapshot);
-    }
-
-    public static Distiller FindByID(string id)
-    {
-        foreach (var d in Object.FindObjectsByType<Distiller>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            if (d.distillerID == id) return d;
-        return null;
-    }
     // ============= 하위 함수 ===========
 
     Transform FindFirstEmpty(List<Transform> parents)

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.LowLevelPhysics;
 
 
 // 싱글톤으로 구현하는 건 어떨까?
@@ -10,8 +8,6 @@ public class InventoryManager : MonoBehaviour
 {
     // 싱글톤 인스턴스
     public static InventoryManager Instance { get; private set; }
-
-    [SerializeField] private ItemDataBase itemDatabase;
 
     // 인벤토리 일단 리스트로 구현
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
@@ -67,31 +63,9 @@ public class InventoryManager : MonoBehaviour
             itemSlots.Add(new ItemSlot());
         }
     }
-
-    private void Start()
+    void Start()
     {
-        GameSave save = SaveManager.Load();
-        if (save != null && save.inventory != null)
-            ApplySnapshot(save.inventory);
-        else Debug.Log("[InventoryManager] 세이브 데이터가 없음");
-    }
-
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        GameSave save = SaveManager.Load();
-        if (save != null && save.inventory != null)
-        {
-            ApplySnapshot(save.inventory);
-        }
+        InventorySaveManager.LoadInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance);
     }
 
     void Update()
@@ -107,6 +81,12 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        if (SaveManager.Instance != null)
+            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this, immediate: true);
     }
 
     public void SelectSlot(int index) // 슬롯 선택 이벤트만 추가해놓음. 업데이트 필요
@@ -156,6 +136,8 @@ public class InventoryManager : MonoBehaviour
                     if (amountOfItems <= 0)
                     {
                         InventoryChanged();
+
+                        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
                         return true; // 모든 아이템 추가 완료
                     }
                 }
@@ -186,6 +168,7 @@ public class InventoryManager : MonoBehaviour
 
         // UI 변경을 위해 이벤트 부르기
         InventoryChanged();
+        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
         return true;
     }
 
@@ -208,6 +191,7 @@ public class InventoryManager : MonoBehaviour
                         slot.itemData = null; // 슬롯 비우기
                     }
                     InventoryChanged();
+                    InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
                     return true; // 모든 아이템 제거 완료
                 }
                 else
@@ -278,6 +262,7 @@ public class InventoryManager : MonoBehaviour
             temp.CopyTo(targetSlot);
         }
         InventoryChanged();
+        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
         return true;
     }
 
@@ -323,56 +308,4 @@ public class InventoryManager : MonoBehaviour
         return selectedSlot.itemData;
     }
 
-    // ================= SaveManager 보조 함수 =================
-    public void SaveInventory()
-    {
-        GameSave save = SaveManager.Load();
-        save.inventory = CreateSnapshot();
-        SaveManager.Save(save);
-    }
-
-    public void LoadInventory()
-    {
-        GameSave save = SaveManager.Load();
-        ApplySnapshot(save.inventory);
-    }
-
-    public List<InventoryItemSaveData> CreateSnapshot()
-    {
-        List<InventoryItemSaveData> snapshot = new List<InventoryItemSaveData>();
-        foreach (var slot in itemSlots)
-        {
-            if (slot.itemData == null || slot.quantity <= 0) continue;
-
-            snapshot.Add(new InventoryItemSaveData
-            {
-                itemID = slot.itemData.id,
-                quantity = slot.quantity
-            });
-
-        }
-        return snapshot;
-    }
-
-    public void ApplySnapshot(List<InventoryItemSaveData> data)
-    {
-        if (data == null || data.Count == 0)
-        {
-            Debug.Log("[InventoryManager] 저장된 인벤토리 데이터 없음");
-            return;
-        }
-
-        if (ItemDataBase.Instance == null)
-        {
-            Debug.Log("[InventoryManager] ItemDataBase.Instance == null");
-            return;
-        }
-
-        foreach (var slotData in data)
-        {
-            var item = ItemDataBase.Instance.ResolveItem(slotData.itemID);
-            if (item != null) AddItem(item, slotData.quantity);
-            else Debug.Log($"[InventoryManager] ItemID {slotData.itemID}를 찾을 수 없음");
-        }
-    }
 }
