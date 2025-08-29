@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e20451f9926c34c8f1a32aab170445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueCSV: {fileID: 4900000, guid: fa715317473a89344aa3410e982fc94d, type: 3}
+  dialogueCSV: {fileID: 4900000, guid: a53b1690e3c9f2f488ad86dad9512278, type: 3}
   requiredColumns:
   - ID
   - NPC_ID
@@ -5773,7 +5773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: 700}
+  m_AnchoredPosition: {x: 0, y: 700}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1445127101
