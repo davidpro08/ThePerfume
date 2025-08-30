@@ -204,7 +204,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                         yield return null;
                     }
 
-                    if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == false && mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true)
+                    if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
                         yield return null;
@@ -217,12 +217,12 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                         yield return null;
                     }
 
-                    if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == false && mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true)
+                    if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
                         yield return null;
                     }
-                    if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == false && mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true)
+                    if (!mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Middle Essence");
                         yield return null;

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2011bea5f629419d82712c09564012e9, type: 3}
-  m_Name: Fuel
+  m_Script: {fileID: 11500000, guid: f89217e4d0fd947438cba698f2baaae2, type: 3}
+  m_Name: Fuel1
   m_EditorClassIdentifier: 
   id: 99
   itemName: Fuel
@@ -24,3 +24,7 @@ MonoBehaviour:
   buyPrice: 0
   sellPrice: 0
   scaleUpUI: 0
+  itemPrefabs:
+  - {fileID: 8828659807489044836, guid: 3fbad496b0530854092e5833a37ec81c, type: 3}
+  - {fileID: 8828659807489044836, guid: c79db00d69eb23848bce86d3eec16386, type: 3}
+  - {fileID: 8828659807489044836, guid: eb2615d5389b5fa40a93baccc99d75b8, type: 3}
