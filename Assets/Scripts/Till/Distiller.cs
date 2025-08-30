@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.Interactions;
+using TMPro;
 
 public class Distiller : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class Distiller : MonoBehaviour
     [SerializeField] ItemDataBase dataBase;
 
     [Header("Slots")]
-    [SerializeField] List<Transform> fuelSlotParent;
+    [SerializeField] List<GameObject> fuelSlotParent;
     [SerializeField] List<Transform> petalSlotParent;
     [SerializeField] Transform essenceTransform;
+
+    [Header("Sprite")]
+    [SerializeField] GameObject Water;
 
     [Header("Craft")]
     [SerializeField] int craftDurationSec = 1;
@@ -43,23 +47,25 @@ public class Distiller : MonoBehaviour
 
     public void PlaceFuel()
     {
-        var slot = FindFirstEmpty(fuelSlotParent);
-        if (slot == null)
+        if (fuelCount >= fuelSlotParent.Count)
         {
-            TillUIManager.Instance.ShowWarningCanvas("no empty fuel slot");
+            TillUIManager.Instance.ShowWarningCanvas("No empty fuel slot");
             return;
         }
 
-        if (!TryConsumeInventoryFuel(out FuelData fuelData))
+        if (!TryConsumeInventoryFuel(out ItemData fuelData))
         {
             TillUIManager.Instance.ShowWarningCanvas("need fuel item");
             return;
         }
 
-        int slotIndex = slot.GetSiblingIndex();
-        if (slotIndex >= fuelData.itemPrefabs.Count) return;
+        if (fuelData.itemType != ItemType.Material && fuelData.id != fuelID)
+        {
+            TillUIManager.Instance.ShowWarningCanvas("this is not fuel");
+            return;
+        }
 
-        FuelSpawnToSlot(fuelData, slotIndex, slot);
+        FuelSpawnToSlot(fuelData);
 
         GameSave save = SaveManager.Load();
         DistillerSaveManager.Touch(save, distillerID, SaveSnapshot());
@@ -221,7 +227,11 @@ public class Distiller : MonoBehaviour
         ConsumeOneFuel();
         ConsumeOnePetal();
 
-        if (spawnedEssence != null) Destroy(spawnedEssence);
+        if (spawnedEssence != null)
+        {
+            Destroy(spawnedEssence);
+            Water.GetComponent<SpriteRenderer>().enabled = false;
+        }
 
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
         if (essence != null)
@@ -262,11 +272,13 @@ public class Distiller : MonoBehaviour
         // Fuel 기록
         for (int i = 0; i < fuelSlotParent.Count; i++)
         {
-            Transform t = fuelSlotParent[i];
-            if (t != null && t.childCount > 0)
+            var slot = fuelSlotParent[i];
+            if (slot == null) continue;
+
+            var display = slot.GetComponent<TubeItemDisplay>();
+            if (display != null && display.myItemData != null && display.myItemData.itemType == ItemType.Material && display.myItemData.id == fuelID)
             {
-                TubeItemDisplay display = t.GetChild(0).GetComponent<TubeItemDisplay>();
-                if (display != null && display.myItemData != null && display.myItemData.itemName == "Fuel") distillerSaveData.occupiedFuelSlots.Add(i);
+                distillerSaveData.occupiedFuelSlots.Add(i);
             }
         }
 
@@ -290,7 +302,7 @@ public class Distiller : MonoBehaviour
     public void RebuildFromSave(DistillerSaveData data)
     {
         // 슬롯 치우기
-        ClearAllSlots(fuelSlotParent);
+        ClearAllFuel();
         ClearAllSlots(petalSlotParent);
         if (spawnedEssence != null)
         {
@@ -301,11 +313,13 @@ public class Distiller : MonoBehaviour
         if (!data.essenceReady)
         {
             // 연료 복원
-            foreach (int index in data.occupiedFuelSlots)
+            for (int i = 0; i < data.occupiedFuelSlots.Count; i++)
             {
-                if (index < 0 || index >= fuelSlotParent.Count) continue;
-                var fuel = dataBase?.ResolveFuel(fuelID); // fuel의 id
-                if (fuel is FuelData fuelMat) FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
+                int slotIndex = data.occupiedFuelSlots[i];
+                if (slotIndex < 0 || slotIndex >= fuelSlotParent.Count) continue;
+
+                var fuelData = dataBase?.ResolveFuel(fuelID);
+                FuelSpawnToSlotAtIndex(fuelData, slotIndex);
             }
 
             // 꽃잎 복원
@@ -330,7 +344,7 @@ public class Distiller : MonoBehaviour
                         ConsumeOneFuel = true;
                         continue;
                     }
-                    FuelSpawnToSlot(fuel, index, fuelSlotParent[index]);
+                    FuelSpawnToSlot();
                 }
             }
         }
@@ -372,19 +386,22 @@ public class Distiller : MonoBehaviour
         return null;
     }
 
-    void FuelSpawnToSlot(FuelData data, int slotIndex, Transform slot)
+    int fuelCount = 0;
+    void FuelSpawnToSlot(ItemData fuelData = null)
     {
-        if (data == null || slot == null) return;
-        if (slotIndex < 0 || slotIndex >= data.itemPrefabs.Count) return;
+        if (fuelCount < fuelSlotParent.Count)
+        {
+            GameObject slotGO = fuelSlotParent[fuelCount];
+            TubeItemDisplay display = slotGO.GetComponent<TubeItemDisplay>();
+            if (display == null) display = slotGO.AddComponent<TubeItemDisplay>();
 
-        GameObject prefab = data.itemPrefabs[slotIndex];
-        if (prefab == null) return;
+            display.myItemData = fuelData;
 
-        GameObject go = Instantiate(prefab, slot);
-        go.transform.localPosition = Vector3.zero;
+            var sr = slotGO.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = true;
 
-        TubeItemDisplay display = go.GetComponent<TubeItemDisplay>();
-        if (display != null) display.myItemData = data;
+            fuelCount++;
+        }
     }
 
     void PetalSpawnToSlot(MaterialData data, Transform slot)
@@ -394,6 +411,7 @@ public class Distiller : MonoBehaviour
         go.transform.localPosition = Vector3.zero;
         TubeItemDisplay display = go.GetComponent<TubeItemDisplay>();
         if (display != null) display.myItemData = data;
+        Water.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     void ClearAllSlots(List<Transform> parents)
@@ -401,20 +419,30 @@ public class Distiller : MonoBehaviour
         foreach (Transform p in parents)
         {
             if (p == null) continue;
-            for (int i = p.childCount - 1; i >= 0; i--)
-            {
-                Destroy(p.GetChild(i).gameObject);
-            }
+
+            var sr = p.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = false;
         }
     }
+
+    void ClearAllFuel()
+    {
+        foreach (var slot in fuelSlotParent)
+        {
+            var sr = slot.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = false;
+        }
+        fuelCount = 0;
+    }
+
     bool HasAtLeastOneFuel()
     {
-        foreach (Transform t in fuelSlotParent)
+        foreach (GameObject t in fuelSlotParent)
         {
-            if (t != null && t.childCount > 0)
+            if (t != null)
             {
-                TubeItemDisplay display = t.GetChild(0).GetComponent<TubeItemDisplay>();
-                if (display != null && display.myItemData != null && display.myItemData.itemName == "Fuel") return true;
+                TubeItemDisplay display = t.GetComponent<TubeItemDisplay>();
+                if (display != null && display.myItemData != null && display.myItemData.id == fuelID) return true;
             }
         }
         return false;
@@ -439,18 +467,11 @@ public class Distiller : MonoBehaviour
 
     void ConsumeOneFuel()
     {
-        for (int i = 0; i < fuelSlotParent.Count; i++)
+        if (fuelCount > 0)
         {
-            Transform t = fuelSlotParent[i];
-            if (t != null && t.childCount > 0)
-            {
-                TubeItemDisplay display = t.GetChild(0).GetComponent<TubeItemDisplay>();
-                if (display != null && display.myItemData != null && display.myItemData.itemName == "Fuel")
-                {
-                    Destroy(t.GetChild(0).gameObject);
-                    break;
-                }
-            }
+            fuelCount--;
+            var sr = fuelSlotParent[fuelCount].GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = false;
         }
     }
     void ConsumeOnePetal()
@@ -466,7 +487,7 @@ public class Distiller : MonoBehaviour
         }
     }
 
-    bool TryConsumeInventoryFuel(out FuelData fuelData)
+    bool TryConsumeInventoryFuel(out ItemData fuelData)
     {
         fuelData = null;
         if (InventoryManager.Instance == null) return false;
@@ -476,11 +497,24 @@ public class Distiller : MonoBehaviour
 
         ItemSlot slot = InventoryManager.Instance.itemSlots[index];
         if (slot == null || slot.itemData == null) return false;
-        if (slot.itemData.itemName != "Fuel") return false;
 
-        fuelData = slot.itemData as FuelData;
-        if (fuelData == null) return false;
+        if (slot.itemData.id != fuelID && slot.itemData.itemType != ItemType.Material) return false;
+
+        fuelData = slot.itemData;
 
         return InventoryManager.Instance.RemoveItem(fuelData, 1);
+    }
+
+    void FuelSpawnToSlotAtIndex(ItemData fuelData, int index)
+    {
+        if (index < 0 || index >= fuelSlotParent.Count) return;
+        GameObject slotGO = fuelSlotParent[index];
+        TubeItemDisplay display = slotGO.GetComponent<TubeItemDisplay>();
+        if (display == null) display = slotGO.AddComponent<TubeItemDisplay>();
+
+        display.myItemData = fuelData;
+
+        var sr = slotGO.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.enabled = true;
     }
 }
