@@ -49,6 +49,12 @@ public class Mixture : MonoBehaviour
             return;
         }
 
+        if (target.GetComponent<SpriteRenderer>().enabled)
+        {
+            TillUIManager.Instance.ShowWarningCanvas("Already Exist essence");
+            return;
+        }
+
         InventoryManager.Instance.RemoveItem(essenceData, 1);
 
         EssenceSpawnToSlot(essenceData, target);
