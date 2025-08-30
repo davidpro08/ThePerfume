@@ -34,6 +34,9 @@ public class NpcDialogueManager : MonoBehaviour
     // 싱글톤 인스턴스
     public static NpcDialogueManager Instance { get; private set; }
 
+    // 튜토리얼 매니저와 연결하기 위한 이벤트
+    public static event Action<string> OnDialogueEnd;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -305,6 +308,11 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void EndDialogue()
     {
+        if (currentDialogue != null)
+        {
+            OnDialogueEnd?.Invoke(currentDialogue.id);
+        }
+
         isActive = false;
         currentDialogue = null;
         currentNpcId = null;
