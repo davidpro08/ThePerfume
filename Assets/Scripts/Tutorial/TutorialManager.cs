@@ -1,25 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// 튜토리얼의 각 단계를 정의하는 구조체
-public struct TutorialStep
-{
-    public string triggerId; // 이 단계를 활성화시키는 대화 ID
-    public Func<bool> check; // 완료 조건을 검사하는 델리게이트
-    public string nextDialogueId; // 완료 후 보여줄 다음 대화 ID
-    public bool isCompleted; // 완료 여부
-}
-
 public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance;
-    public Npc guide; // 가이드 NPC (인스펙터에서 할당)
 
-    private List<TutorialStep> tutorialSteps;
-    private TutorialStep? currentStep;
+    [Header("튜토리얼 단계 설정")]
+    [Tooltip("이 튜토리얼에서 진행할 모든 단계를 ScriptableObject 애셋으로 여기에 등록하세요.")]
+    public List<TutorialStepSO> tutorialSteps;
+    
+    [Header("필수 연결")]
+    public Npc guide; // 가이드 NPC (인스펙터에서 할당)
+    public ItemData farmItemData; // 튜토리얼에서 지급할 '흙' 아이템 데이터
+
+    private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
+    private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
 
     void Awake()
     {
@@ -31,10 +27,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
-
-        InitializeTutorialSteps();
     }
 
     private void OnEnable()
@@ -59,60 +52,49 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        if (currentStep.HasValue && !currentStep.Value.isCompleted)
+        if (currentStep != null)
         {
             // 현재 단계의 완료 조건을 확인
-            if (currentStep.Value.check())
+            if (CheckCondition(currentStep.conditionType))
             {
-                CompleteStep(currentStep.Value);
+                CompleteStep(currentStep);
             }
         }
     }
 
     // 튜토리얼 시작
-    private IEnumerator StartTutorialSequence()
+    private System.Collections.IEnumerator StartTutorialSequence()
     {
         yield return new WaitForSeconds(1f); // 게임 시작 후 잠시 대기
         NpcDialogueManager.Instance.StartDialogue(guide, "narration_001_001");
     }
 
-    // 튜토리얼 단계들을 초기화
-    private void InitializeTutorialSteps()
-    {
-        tutorialSteps = new List<TutorialStep>
-        {
-            new TutorialStep { triggerId = "narration_001_003", check = CheckForTilledSoil, nextDialogueId = "narration_001_004" },
-            new TutorialStep { triggerId = "narration_001_004", check = CheckForWateredSoil, nextDialogueId = "narration_001_005" },
-            new TutorialStep { triggerId = "narration_001_005", check = CheckForSeededSoil, nextDialogueId = "narration_001_006" },
-            new TutorialStep { triggerId = "narration_001_009", check = CheckBenchInteraction, nextDialogueId = "narration_001_010" },
-            // ... 여기에 다른 튜토리얼 단계들을 추가 ...
-        };
-    }
-
     // NpcDialogueManager에서 대화가 끝났을 때 호출될 핸들러
     private void HandleDialogueEnd(string dialogueId)
     {
-        // 끝난 대화 ID에 해당하는 튜토리얼 단계를 찾음
-        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !step.isCompleted);
+        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
 
-        if (!string.IsNullOrEmpty(stepToStart.triggerId))
+        if (stepToStart != null)
         {
-            Debug.Log($"튜토리얼 단계 시작: {dialogueId}에 의해 트리거됨.");
+            Debug.Log($"튜토리얼 단계 시작: {stepToStart.name} (트리거 ID: {dialogueId})");
+
+            // 현재 단계로 설정
             currentStep = stepToStart;
+
+            // 만약 조건이 'None'이라면 바로 완료 처리
+            if (currentStep.conditionType == TutorialConditionType.None)
+            {
+                CompleteStep(currentStep);
+            }
         }
     }
 
     // 현재 단계를 완료 처리
-    private void CompleteStep(TutorialStep step)
+    private void CompleteStep(TutorialStepSO step)
     {
-        Debug.Log($"튜토리얼 단계 완료: {step.triggerId}");
+        Debug.Log($"튜토리얼 단계 완료: {step.name}");
 
-        // 단계 완료로 표시
-        int stepIndex = tutorialSteps.FindIndex(s => s.triggerId == step.triggerId);
-        var completedStep = tutorialSteps[stepIndex];
-        completedStep.isCompleted = true;
-        tutorialSteps[stepIndex] = completedStep;
-
+        completedSteps.Add(step);
         currentStep = null;
 
         // 다음 대화 시작
@@ -122,12 +104,30 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // 완료 조건 타입에 따라 적절한 확인 메소드를 호출
+    private bool CheckCondition(TutorialConditionType conditionType)
+    {
+        switch (conditionType)
+        {
+            case TutorialConditionType.CheckForTilledSoil:
+                return CheckForTilledSoil();
+            case TutorialConditionType.CheckForWateredSoil:
+                return CheckForWateredSoil();
+            case TutorialConditionType.CheckForSeededSoil:
+                return CheckForSeededSoil();
+            case TutorialConditionType.CheckBenchInteraction:
+                return CheckBenchInteraction();
+            case TutorialConditionType.None:
+                return true; // 'None' 조건은 항상 참
+            default:
+                return false;
+        }
+    }
+
     #region === 조건 확인 메소드들 ===
-    // 이 메소드들은 실제 프로젝트의 구조에 맞게 수정해야 합니다.
 
     private bool CheckForTilledSoil()
     {
-        // Farm 스크립트가 흙 설치 시 생성된다고 가정합니다.
         var farmTile = FindObjectOfType<Farm>(); 
         if (farmTile != null)
         {
@@ -139,7 +139,6 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForWateredSoil()
     {
-        // Farm 스크립트의 isWatered 상태를 확인합니다.
         var farmTile = FindObjectOfType<Farm>();
         if (farmTile != null && farmTile.isWatered) 
         {
@@ -151,7 +150,6 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForSeededSoil()
     {
-        // Farm 스크립트의 isOccupied 상태(씨앗이 심겨진 상태)를 확인합니다.
         var farmTile = FindObjectOfType<Farm>();
         if (farmTile != null && farmTile.isOccupied)
         {
@@ -163,7 +161,6 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckBenchInteraction()
     {
-        // 현재 활성화된 씬의 이름이 작업대 씬(예: "bench")인지 확인합니다.
         if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bench")
         {
             Debug.Log("작업대 씬 이동 확인!");
