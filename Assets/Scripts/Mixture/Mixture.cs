@@ -17,10 +17,10 @@ public class Mixture : MonoBehaviour
     [Header("Perfume Itme")]
     [SerializeField] public List<PerfumeData> perfumeDatas;
 
-    public EssenceData baseData = null;
-    public EssenceData middleData = null;
-    public EssenceData topData = null;
-    public PerfumeData perfumeData = null;
+    [System.NonSerialized] public EssenceData baseData = null;
+    [System.NonSerialized] public EssenceData middleData = null;
+    [System.NonSerialized] public EssenceData topData = null;
+    [System.NonSerialized] public PerfumeData perfumeData = null;
 
     float perfumeWarm;
     float perfumeCool;
@@ -181,7 +181,7 @@ public class Mixture : MonoBehaviour
     public void SaveNow()
     {
         var snap = CreatSnapShot();
-        GameSave save = SaveManager.Load();
+        GameSave save = SaveManager.Instance.CurrentSave;
         MixtureSaveManager.SaveMixture(save, snap);
         SaveManager.Save(save);
     }

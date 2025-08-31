@@ -155,6 +155,7 @@ public class SaveManager : MonoBehaviour
         GameSave save = CurrentSave;
         InstallatioinSaveManager.SaveInstallations(save, buildController);
         FarmSaveManager.SaveFarms(save, buildController);
+        
         save.lastSavedUtc = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         SaveManager.Save(save);
     }
