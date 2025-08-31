@@ -105,7 +105,10 @@ public class SaveManager : MonoBehaviour
             return;
         }
         Instance = this;
-        CurrentSave = Load();
+
+        if (CurrentSave == null)
+            CurrentSave = Load();
+
         DontDestroyOnLoad(gameObject);
 
         itemDict = new Dictionary<int, ItemData>();
@@ -114,6 +117,7 @@ public class SaveManager : MonoBehaviour
             itemDict[item.id] = item;
         }
     }
+
     public static GameSave Load()
     {
         try

@@ -57,15 +57,15 @@ public class InventoryManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(this.gameObject); // gameManager로 관리하는게 나은가?
+
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
-        for (int i = 0; i < capacity; i++)
-        {
-            itemSlots.Add(new ItemSlot());
-        }
-    }
-    void Start()
-    {
-        InventorySaveManager.LoadInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance);
+        if (itemSlots.Count == 0)
+            for (int i = 0; i < capacity; i++)
+            {
+                itemSlots.Add(new ItemSlot());
+            }
+
+        InventorySaveManager.LoadInventory(SaveManager.Instance.CurrentSave, this);
     }
 
     void Update()
