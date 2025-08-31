@@ -61,7 +61,7 @@ public class MixtureSaveData
 
     public bool baseOn, middleOn, topOn;
     public bool pBaseOn, pMiddleOn, pTopOn;
-    public bool punnelOn;
+    public bool punnelOn = true;
 }
 
 [Serializable]

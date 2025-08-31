@@ -191,7 +191,10 @@ public class Mixture : MonoBehaviour
 
     public void ApplySnapShot(MixtureSaveData data)
     {
-        if (data == null) return;
+        if (data == null)
+        {
+            return;
+        }
 
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;

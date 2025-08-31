@@ -237,7 +237,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
             t += Time.deltaTime / tiltDuration;
             transform.rotation = Quaternion.Slerp(start, tilted, t);
 
-            if (liquidTransform != null) liquidTransform.rotation = liquidInitialRotation;
+            // if (liquidTransform != null) liquidTransform.rotation = liquidInitialRotation;
             yield return null;
         }
 

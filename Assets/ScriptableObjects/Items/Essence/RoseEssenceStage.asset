@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RoseEssenceStage
   m_EditorClassIdentifier: 
   progressStage:
-  - {fileID: -5029883670407346051, guid: 952e5870cf82c6e4cb7526ab055a00bd, type: 3}
-  - {fileID: 4567785638174819435, guid: 952e5870cf82c6e4cb7526ab055a00bd, type: 3}
-  - {fileID: 1979947067034389560, guid: 952e5870cf82c6e4cb7526ab055a00bd, type: 3}
+  - {fileID: -6533811055491118110, guid: 22a540b7f16da854790da06de3b3c601, type: 3}
+  - {fileID: 7990359684776923481, guid: 22a540b7f16da854790da06de3b3c601, type: 3}
+  - {fileID: 7717247558884358212, guid: 22a540b7f16da854790da06de3b3c601, type: 3}
   progressration: 2
