@@ -56,7 +56,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject); // gameManager로 관리하는게 나은가?
+        DontDestroyOnLoad(this.gameObject); // gameManager로 관리하는게 나은가?
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
         for (int i = 0; i < capacity; i++)
         {

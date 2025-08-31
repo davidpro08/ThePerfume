@@ -28,8 +28,11 @@ public class Mixture : MonoBehaviour
 
     void Start()
     {
-        GameSave save = SaveManager.Load();
-        ApplySnapShot(save.mixture);
+        GameSave save = SaveManager.Instance.CurrentSave ?? SaveManager.Load();
+        if (save.mixture != null)
+            ApplySnapShot(save.mixture);
+        else
+            punnel.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     // =========== 클릭 관련 / 생성 관련 =============
