@@ -52,7 +52,7 @@ public class InventoryManager : MonoBehaviour
         //이미 인스턴스 있으면 자신 파괴
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
             return;
         }
         Instance = this;
@@ -64,7 +64,10 @@ public class InventoryManager : MonoBehaviour
             {
                 itemSlots.Add(new ItemSlot());
             }
+    }
 
+    void Start()
+    {
         InventorySaveManager.LoadInventory(SaveManager.Instance.CurrentSave, this);
     }
 
@@ -81,12 +84,6 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    void OnDestroy()
-    {
-        if (SaveManager.Instance != null)
-            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this, immediate: true);
     }
 
     public void SelectSlot(int index) // 슬롯 선택 이벤트만 추가해놓음. 업데이트 필요
