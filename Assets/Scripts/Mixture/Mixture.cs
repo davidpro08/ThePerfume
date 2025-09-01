@@ -17,10 +17,10 @@ public class Mixture : MonoBehaviour
     [Header("Perfume Itme")]
     [SerializeField] public List<PerfumeData> perfumeDatas;
 
-    public EssenceData baseData = null;
-    public EssenceData middleData = null;
-    public EssenceData topData = null;
-    public PerfumeData perfumeData = null;
+    [System.NonSerialized] public EssenceData baseData = null;
+    [System.NonSerialized] public EssenceData middleData = null;
+    [System.NonSerialized] public EssenceData topData = null;
+    [System.NonSerialized] public PerfumeData perfumeData = null;
 
     float perfumeWarm;
     float perfumeCool;
@@ -28,8 +28,11 @@ public class Mixture : MonoBehaviour
 
     void Start()
     {
-        GameSave save = SaveManager.Load();
-        ApplySnapShot(save.mixture);
+        GameSave save = SaveManager.Instance.CurrentSave ?? SaveManager.Load();
+        if (save.mixture != null)
+            ApplySnapShot(save.mixture);
+        else
+            punnel.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     // =========== 클릭 관련 / 생성 관련 =============
@@ -181,14 +184,17 @@ public class Mixture : MonoBehaviour
     public void SaveNow()
     {
         var snap = CreatSnapShot();
-        GameSave save = SaveManager.Load();
+        GameSave save = SaveManager.Instance.CurrentSave;
         MixtureSaveManager.SaveMixture(save, snap);
         SaveManager.Save(save);
     }
 
     public void ApplySnapShot(MixtureSaveData data)
     {
-        if (data == null) return;
+        if (data == null)
+        {
+            return;
+        }
 
         baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
         middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;

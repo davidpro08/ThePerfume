@@ -40,6 +40,9 @@ public class ExitPoint : MonoBehaviour
             {
                 return;
             }
+
+            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance, this, immediate: true);
+
             SceneManager.LoadScene(targetSceneName);
         }
         else

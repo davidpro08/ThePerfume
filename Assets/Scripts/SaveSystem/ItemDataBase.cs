@@ -21,7 +21,6 @@ public class ItemDataBase : ScriptableObject
     }
 
     public ItemData ResolveItem(int key) => (key != 0 && map != null && map.TryGetValue(key, out ItemData v)) ? v : null;
-    public FuelData ResolveFuel(int key) => ResolveItem(key) as FuelData;
     public MaterialData ResolveMaterial(int key) => ResolveItem(key) as MaterialData;
     public EssenceData ResolveEssence(int key) => ResolveItem(key) as EssenceData;
 }

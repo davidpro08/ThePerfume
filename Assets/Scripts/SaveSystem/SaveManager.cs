@@ -61,14 +61,14 @@ public class MixtureSaveData
 
     public bool baseOn, middleOn, topOn;
     public bool pBaseOn, pMiddleOn, pTopOn;
-    public bool punnelOn;
+    public bool punnelOn = true;
 }
 
 [Serializable]
 public class DistillerSaveData
 {
     public string id; // Distiller 고유 ID, 아이템 ID 아님
-    public List<int> occupiedFuelSlots = new List<int>();
+    public List<bool> occupiedFuelSlots = new List<bool>() { false, false, false };
     public List<PetalSlotData> petalSlots = new List<PetalSlotData>();
     public bool isMaking;
     public long craftStartUtcMs;
@@ -99,20 +99,25 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            CurrentSave = Load();
-            DontDestroyOnLoad(gameObject);
-
-            itemDict = new Dictionary<int, ItemData>();
-            foreach (var item in itemDataBase.items)
-            {
-                itemDict[item.id] = item;
-            }
+            Destroy(this.gameObject);
+            return;
         }
-        else Destroy(gameObject);
+        Instance = this;
+
+        if (CurrentSave == null)
+            CurrentSave = Load();
+
+        DontDestroyOnLoad(gameObject);
+
+        itemDict = new Dictionary<int, ItemData>();
+        foreach (var item in itemDataBase.items)
+        {
+            itemDict[item.id] = item;
+        }
     }
+
     public static GameSave Load()
     {
         try
@@ -155,6 +160,7 @@ public class SaveManager : MonoBehaviour
         GameSave save = CurrentSave;
         InstallatioinSaveManager.SaveInstallations(save, buildController);
         FarmSaveManager.SaveFarms(save, buildController);
+
         save.lastSavedUtc = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         SaveManager.Save(save);
     }
