@@ -30,7 +30,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         if (item != null)
         {
-            image.sprite = item.itemIcon;
+            image.sprite = item.GetIcon(inInventory: true);
+
             image.preserveAspect = true;
             image.enabled = true;
             RefreshCount();
