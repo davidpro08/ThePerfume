@@ -253,6 +253,8 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     {
                         //퍼퓸관에 베이스 넣기
                         mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL);
+
+                        // 가연픽 애니메이션 들어갈 자리 추정
                     }
                     break;
                 case TargetEssenceType.Middle:
@@ -266,6 +268,8 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                             yield return null;
                         }
                         mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL);
+
+                        // 가연픽 애니메이션 들어갈 자리 추정
                     }
                     break;
                 case TargetEssenceType.Top:
@@ -274,6 +278,8 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     {
                         //퍼퓸관에 탑 넣기
                         mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL);
+
+                        // 가연픽 애니메이션 들어갈 자리 추정
                     }
                     break;
             }

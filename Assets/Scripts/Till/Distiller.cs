@@ -222,6 +222,7 @@ public class Distiller : MonoBehaviour
 
             if (sr != null)
             {
+                // 여기가 단계 바뀌는 부분!!
                 sr.sprite = essence.essenceStage.progressStage[stageIndex];
                 sr.color = essence.color;
             }
