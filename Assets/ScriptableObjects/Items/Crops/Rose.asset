@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 10
   itemName: New Item
   description: Null Description
-  itemIcon: {fileID: -93750458980389090, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  itemIcon: {fileID: 1644465312645540473, guid: 82fc92b4d4b804a4e9ee39d1badb6048, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 3
   isStackable: 1
   maxStack: 99
@@ -23,7 +24,7 @@ MonoBehaviour:
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
-  scaleUpUI: 0
+  scaleUpUI: 1
   cropType: 0
   growPrefab: {fileID: 0}
   itemOnTray: {fileID: 5197423724709296559, guid: 6392344a29c57344aa7f8fb32050f97e, type: 3}

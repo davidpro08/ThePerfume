@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: 22a540b7f16da854790da06de3b3c601
+guid: 756343ac651d615428bb133bd22897b5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8982738648974531850
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_0"
+      213: 8823616920887252414
+    second: EssenceBottle_SpriteSheet(48x48)_0
   - first:
-      213: 6211962646915387987
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_1"
+      213: -1156669055396708263
+    second: EssenceBottle_SpriteSheet(48x48)_1
   - first:
-      213: -6533811055491118110
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_2"
+      213: -8478307686263277953
+    second: EssenceBottle_SpriteSheet(48x48)_2
   - first:
-      213: 6552287040274791810
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_3"
+      213: -8576117358848104024
+    second: EssenceBottle_SpriteSheet(48x48)_3
   - first:
-      213: 5000954070479174935
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_4"
+      213: 124355492391676500
+    second: EssenceBottle_SpriteSheet(48x48)_4
   - first:
-      213: 7990359684776923481
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_5"
+      213: -7323062970652096541
+    second: EssenceBottle_SpriteSheet(48x48)_5
   - first:
-      213: 8481485490498498380
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_6"
-  - first:
-      213: 7717247558884358212
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_7"
+      213: -8158394547272378515
+    second: EssenceBottle_SpriteSheet(48x48)_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,177 +118,155 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_0"
+      name: EssenceBottle_SpriteSheet(48x48)_0
       rect:
         serializedVersion: 2
-        x: 340
-        y: 72
-        width: 29
-        height: 25
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f263b59ac6e65380800000000000000
-      internalID: -8982738648974531850
+      spriteID: eb55c9b07d8c37a70800000000000000
+      internalID: 8823616920887252414
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_1"
+      name: EssenceBottle_SpriteSheet(48x48)_1
       rect:
         serializedVersion: 2
-        x: 540
-        y: 72
-        width: 29
-        height: 25
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 352136f6d13553650800000000000000
-      internalID: 6211962646915387987
+      spriteID: 95084665f9fa2ffe0800000000000000
+      internalID: -1156669055396708263
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_2"
+      name: EssenceBottle_SpriteSheet(48x48)_2
       rect:
         serializedVersion: 2
-        x: 740
-        y: 72
-        width: 29
-        height: 25
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2eb8eef667d3355a0800000000000000
-      internalID: -6533811055491118110
+      spriteID: f7630df4410075a80800000000000000
+      internalID: -8478307686263277953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_3"
+      name: EssenceBottle_SpriteSheet(48x48)_3
       rect:
         serializedVersion: 2
-        x: 940
-        y: 72
-        width: 29
-        height: 25
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 28d79fdf8566eea50800000000000000
-      internalID: 6552287040274791810
+      spriteID: 8a92cc943b28bf880800000000000000
+      internalID: -8576117358848104024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_4"
+      name: EssenceBottle_SpriteSheet(48x48)_4
       rect:
         serializedVersion: 2
-        x: 1140
-        y: 72
-        width: 29
-        height: 25
+        x: 192
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 71d74fc1b35f66540800000000000000
-      internalID: 5000954070479174935
+      spriteID: 45aefd559acc9b100800000000000000
+      internalID: 124355492391676500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_5"
+      name: EssenceBottle_SpriteSheet(48x48)_5
       rect:
         serializedVersion: 2
-        x: 1340
-        y: 72
-        width: 29
-        height: 25
+        x: 240
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9511bbe6cc573ee60800000000000000
-      internalID: 7990359684776923481
+      spriteID: 3e7077607014f5a90800000000000000
+      internalID: -7323062970652096541
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_6"
+      name: EssenceBottle_SpriteSheet(48x48)_6
       rect:
         serializedVersion: 2
-        x: 1540
-        y: 72
-        width: 29
-        height: 25
+        x: 288
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4feac4ed1a44b570800000000000000
-      internalID: 8481485490498498380
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_7"
-      rect:
-        serializedVersion: 2
-        x: 1740
-        y: 72
-        width: 29
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4487d0f54cb291b60800000000000000
-      internalID: 7717247558884358212
+      spriteID: d679850626f87ce80800000000000000
+      internalID: -8158394547272378515
       vertices: []
       indices: 
       edges: []
@@ -300,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9645369015cba0f40a055c791f3e5c23
+    spriteID: 61de35b5dfcb4c54eb15a7ec186187da
     internalID: 0
     vertices: []
     indices: 
@@ -308,16 +283,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_0": -8982738648974531850
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_1": 6211962646915387987
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_2": -6533811055491118110
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_3": 6552287040274791810
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_4": 5000954070479174935
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_5": 7990359684776923481
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_6": 8481485490498498380
-      "\uC5D0\uC13C\uC2A4 \uBCD1 \uC561\uCCB4 1_7": 7717247558884358212
+      EssenceBottle_SpriteSheet(48x48)_0: 8823616920887252414
+      EssenceBottle_SpriteSheet(48x48)_1: -1156669055396708263
+      EssenceBottle_SpriteSheet(48x48)_2: -8478307686263277953
+      EssenceBottle_SpriteSheet(48x48)_3: -8576117358848104024
+      EssenceBottle_SpriteSheet(48x48)_4: 124355492391676500
+      EssenceBottle_SpriteSheet(48x48)_5: -7323062970652096541
+      EssenceBottle_SpriteSheet(48x48)_6: -8158394547272378515
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

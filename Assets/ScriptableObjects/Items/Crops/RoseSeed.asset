@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 11
   itemName: roseSeed
   description: "\uC7A5\uBBF8 \uC528\uC557"
-  itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
+  itemIcon: {fileID: 7080048011328901178, guid: 98ac9e6ec83bdcb408e8d5fbda44639e, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 2
   isStackable: 1
   maxStack: 20

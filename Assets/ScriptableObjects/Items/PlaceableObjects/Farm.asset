@@ -16,6 +16,7 @@ MonoBehaviour:
   itemName: "\uD654\uB2E8"
   description: Null Description
   itemIcon: {fileID: -499542977, guid: 3ebaf7a1dc84df14e92329af81bd064e, type: 3}
+  overrideIcon: {fileID: -922044261704302409, guid: bf72d96dedbf2ea479cacd8193cd4ffe, type: 3}
   itemType: 7
   isStackable: 1
   maxStack: 24
