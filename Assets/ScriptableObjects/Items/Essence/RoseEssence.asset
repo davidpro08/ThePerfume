@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 13
   itemName: RoseEssence
   description: Null Description
-  itemIcon: {fileID: 3831350427314131726, guid: a3cf840b1eba4784b956551c6ffb8ed3, type: 3}
+  itemIcon: {fileID: 1128240561295897967, guid: bf72d96dedbf2ea479cacd8193cd4ffe, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 4
   isStackable: 1
   maxStack: 99
@@ -23,7 +24,7 @@ MonoBehaviour:
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
-  scaleUpUI: 1
+  scaleUpUI: 0
   essenceType: 0
   essenceWarm: 0
   essenceCool: 0
@@ -32,6 +33,4 @@ MonoBehaviour:
   canMiddleNote: 0
   canTopNote: 0
   essenceStage: {fileID: 11400000, guid: 6914d0a6864488a479acd7279df981b4, type: 2}
-  mixtureTubeSprite: {fileID: -8568077161798745367, guid: a3cf840b1eba4784b956551c6ffb8ed3, type: 3}
-  mixturePerfumeSprite: []
   color: {r: 1, g: 0.26819396, b: 0.26819396, a: 1}

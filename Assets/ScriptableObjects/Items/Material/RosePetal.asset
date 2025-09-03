@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 12
   itemName: RosePetal
   description: Null Description
-  itemIcon: {fileID: -781294158744790408, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
+  itemIcon: {fileID: 2883982355720329262, guid: 82fc92b4d4b804a4e9ee39d1badb6048, type: 3}
+  overrideIcon: {fileID: -2257116060808997857, guid: bf72d96dedbf2ea479cacd8193cd4ffe, type: 3}
   itemType: 6
   isStackable: 1
   maxStack: 99

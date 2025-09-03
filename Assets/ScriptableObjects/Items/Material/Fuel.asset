@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 99
   itemName: Fuel
   description: Null Description
-  itemIcon: {fileID: 6361883398351979161, guid: 99695def4c32a8f4ab1c88e9dff5cf60, type: 3}
+  itemIcon: {fileID: -4472934510114748352, guid: bf72d96dedbf2ea479cacd8193cd4ffe, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 6
   isStackable: 1
   maxStack: 99

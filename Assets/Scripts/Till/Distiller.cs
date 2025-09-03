@@ -20,6 +20,11 @@ public class Distiller : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] GameObject Water;
 
+    [Header("Animation")]
+    [SerializeField] private GameObject waterDrop;
+    [SerializeField] private SpriteRenderer tubeFillRenderer;
+    [SerializeField] private Animator tubeFillAnimator;
+
     [Header("Craft")]
     [SerializeField] int craftDurationSec = 1;
     //임시 아이템 아이디 정해지면 정리해야함
@@ -132,6 +137,7 @@ public class Distiller : MonoBehaviour
     {
         if (isMaking || spawnedEssence == null || currentEssenceID == 0) return; //  || !currentEssenceID.HasValue
 
+        tubeFillAnimator.Play("EssenceBottle_empty", 0, 0f);
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
         if (essence == null)
         {
@@ -178,6 +184,12 @@ public class Distiller : MonoBehaviour
             var sr = spawnedEssence.AddComponent<SpriteRenderer>();
             sr.sprite = essence.essenceStage.progressStage[0];
             sr.color = essence.color;
+
+            // 색깔 지정
+            tubeFillRenderer.color = essence.color;
+            var DropRenderer = waterDrop.GetComponent<SpriteRenderer>();
+            if (DropRenderer != null) DropRenderer.color = essence.color;
+
             sr.sortingOrder = 10;
         }
 
@@ -211,22 +223,33 @@ public class Distiller : MonoBehaviour
 
         float totalTime = craftDurationSec;
         float elapsed = 0f;
-        int stageIndex = 0;
+        //int stageIndex = 0;
 
-        var sr = spawnedEssence?.GetComponent<SpriteRenderer>();
+        // 물방울 애니메이션 오브젝트 활성화
+        waterDrop.SetActive(true);
+
+        // 튜브 차는 애니메이션
+        tubeFillAnimator.SetTrigger("StartFill");
+
+
+        //var sr = spawnedEssence?.GetComponent<SpriteRenderer>();
 
         while (elapsed < totalTime)
         {
             elapsed += Time.deltaTime;
-            stageIndex = Mathf.Min(Mathf.FloorToInt((elapsed / totalTime) * essence.essenceStage.progressStage.Count), essence.essenceStage.progressStage.Count - 1);
+            //stageIndex = Mathf.Min(Mathf.FloorToInt((elapsed / totalTime) * essence.essenceStage.progressStage.Count), essence.essenceStage.progressStage.Count - 1);
 
-            if (sr != null)
-            {
-                sr.sprite = essence.essenceStage.progressStage[stageIndex];
-                sr.color = essence.color;
-            }
+            //if (sr != null)
+            //{
+            //    // 여기가 단계 바뀌는 부분!!
+            //    sr.sprite = essence.essenceStage.progressStage[stageIndex];
+            //    sr.color = essence.color;
+            //}
             yield return null;
         }
+
+        waterDrop.SetActive(false);
+
         FinalizeCraft();
     }
 

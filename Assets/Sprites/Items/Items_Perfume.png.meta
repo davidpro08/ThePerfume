@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 227888b8f0a37374285689f501b999cc
+guid: bf72d96dedbf2ea479cacd8193cd4ffe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3257196382259441200
-    second: "\uC5D0\uC13C\uC2A4 \uBCD1_0"
+      213: -922044261704302409
+    second: Items_Perfume_0
+  - first:
+      213: -4472934510114748352
+    second: Items_Perfume_1
+  - first:
+      213: -2257116060808997857
+    second: Items_Perfume_2
+  - first:
+      213: 1128240561295897967
+    second: Items_Perfume_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC5D0\uC13C\uC2A4 \uBCD1_0"
+      name: Items_Perfume_0
       rect:
         serializedVersion: 2
-        x: 141
-        y: 72
-        width: 29
-        height: 44
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d11dbfc52d1cc2d0800000000000000
-      internalID: -3257196382259441200
+      spriteID: 7b08de111ad3433f0800000000000000
+      internalID: -922044261704302409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_Perfume_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 048460df2c1fce1c0800000000000000
+      internalID: -4472934510114748352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_Perfume_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1496a2c6ec1da0e0800000000000000
+      internalID: -2257116060808997857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_Perfume_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f65ba3510d058af00800000000000000
+      internalID: 1128240561295897967
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8eb8c17b1a691f341b2a20f6ab4d9c78
     internalID: 0
     vertices: []
     indices: 
@@ -133,9 +208,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      "\uC5D0\uC13C\uC2A4 \uBCD1_0": -3257196382259441200
+      Items_Perfume_0: -922044261704302409
+      Items_Perfume_1: -4472934510114748352
+      Items_Perfume_2: -2257116060808997857
+      Items_Perfume_3: 1128240561295897967
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

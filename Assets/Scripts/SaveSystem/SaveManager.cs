@@ -101,15 +101,15 @@ public class SaveManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this.gameObject);
+            DestroyImmediate(this.gameObject);
             return;
         }
         Instance = this;
 
+        DontDestroyOnLoad(gameObject);
+
         if (CurrentSave == null)
             CurrentSave = Load();
-
-        DontDestroyOnLoad(gameObject);
 
         itemDict = new Dictionary<int, ItemData>();
         foreach (var item in itemDataBase.items)

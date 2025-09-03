@@ -19,6 +19,8 @@ public class ItemData : ScriptableObject
     // 아이템에 아이콘 할당
     public Sprite itemIcon = null;
 
+    public Sprite overrideIcon; // 선택사항: 인벤에 아이템이 다르게 보이는용
+
     // 아이템 종류
     public ItemType itemType = ItemType.Crop; // 아이템 타입
 
@@ -64,5 +66,11 @@ public class ItemData : ScriptableObject
         this.isTradable = isTradable;
         this.buyPrice = buyPrice;
         this.sellPrice = sellPrice;
+    }
+
+    public virtual Sprite GetIcon(bool inInventory = false)
+    {
+        if (inInventory && overrideIcon != null) return overrideIcon;
+        return itemIcon;
     }
 }
