@@ -71,8 +71,7 @@ public class NpcDialogueManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(dialogueId))
         {
-            var npcDialogues = CSVDialogueParser.Instance.GetDialoguesByNpcId(currentNpcId);
-            currentDialogue = (npcDialogues.Count > 0) ? npcDialogues[0] : null;
+            currentDialogue = GetRandomDialogue(currentNpcId);
         }
         else
         {
@@ -88,6 +87,17 @@ public class NpcDialogueManager : MonoBehaviour
         ShowDialogue(currentDialogue);
         
         SoundManager.Instance.PlaySFX(SFXType.Talk);
+    }
+
+    private DialogueEntry GetRandomDialogue(string npcId)
+    {
+        var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(npcId);
+        if (dialogues != null && dialogues.Count > 0)
+        {
+            int index = UnityEngine.Random.Range(0, dialogues.Count);
+            return dialogues[index];
+        }
+        return null;
     }
 
     /// <summary>
@@ -283,16 +293,12 @@ public class NpcDialogueManager : MonoBehaviour
             // 대화 종료 시 다음 시작 대화 ID 설정
             if (currentDialogue.isEndDialogue && !string.IsNullOrEmpty(currentNpcId))
             {
-                string nextStartId = currentDialogue.GetNextStartDialogueId();
-                if (!string.IsNullOrEmpty(nextStartId))
-                {
                     // NPC의 다음 시작 대화 ID 업데이트
                     var npc = FindObjectOfType<Npc>();
                     if (npc != null && npc.GetNpcId() == currentNpcId)
                     {
-                        npc.SetStartDialogueId(nextStartId);
+                        npc.SetStartDialogueId(GetRandomDialogue(currentNpcId).id);
                     }
-                }
             }
 
             EndDialogue();

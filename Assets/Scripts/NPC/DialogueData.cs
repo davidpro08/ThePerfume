@@ -43,19 +43,6 @@ public class DialogueEntry
         return nextDialogueIds != null && nextDialogueIds.Length > 0 && 
                !string.IsNullOrEmpty(nextDialogueIds[0]);
     }
-
-    /// <summary>
-    /// 대화 종료 시 다음 시작 대화 ID를 반환합니다.
-    /// </summary>
-    /// <returns>다음 시작 대화 ID</returns>
-    public string GetNextStartDialogueId()
-    {
-        if (nextDialogueIds != null && nextDialogueIds.Length > 0)
-        {
-            return nextDialogueIds[0];
-        }
-        return "";
-    }
 }
 
 [System.Serializable]
@@ -71,6 +58,11 @@ public class DialogueData
     public List<DialogueEntry> GetDialoguesByNpcId(string npcId)
     {
         return dialogues.FindAll(d => d.npcId == npcId);
+    }
+
+    public List<DialogueEntry> GetNonConditionalDialoguesByNpcId(string npcId)
+    {
+        return dialogues.FindAll(d => d.npcId == npcId && d.condition == NpcState.Default);
     }
 
     /// <summary>

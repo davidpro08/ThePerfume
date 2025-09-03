@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e20451f9926c34c8f1a32aab170445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueCSV: {fileID: 4900000, guid: a53b1690e3c9f2f488ad86dad9512278, type: 3}
+  dialogueCSV: {fileID: 4900000, guid: 7c35c6f0a0fde294dbb50da31fb4d48c, type: 3}
   requiredColumns:
   - ID
   - NPC_ID
@@ -3761,75 +3761,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925288065}
   m_CullTransparentMesh: 1
---- !u!1 &944772335
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 944772337}
-  - component: {fileID: 944772336}
-  - component: {fileID: 944772338}
-  m_Layer: 0
-  m_Name: TutorialManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &944772336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944772335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b218c13b370b4c98a59a463e543a70f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialSteps:
-  - {fileID: 11400000, guid: 7bdac08f53f355b46ae6053fd6031f7c, type: 2}
-  - {fileID: 11400000, guid: 4717a8bb40a9ef748b9b339d1777d110, type: 2}
-  - {fileID: 11400000, guid: 4de736c080f2e6c47a2efe3d771ad8b9, type: 2}
-  - {fileID: 11400000, guid: 506176531bfbf90419400e7de6d75056, type: 2}
-  - {fileID: 11400000, guid: 938d3bfd1d1721440ae2af91d3ca0203, type: 2}
-  guide: {fileID: 944772338}
-  farmItemData: {fileID: 0}
---- !u!4 &944772337
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944772335}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.05591, y: 1.67106, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &944772338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944772335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428e83726959497f91896121a93a1a08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcId: Guide
-  startDialogueId: 
-  portraitData: {fileID: 0}
-  dialogueObjects: []
 --- !u!1 &946015218
 GameObject:
   m_ObjectHideFlags: 0
@@ -21885,7 +21816,6 @@ SceneRoots:
   - {fileID: 883179396}
   - {fileID: 1349125770}
   - {fileID: 1214307085}
-  - {fileID: 944772337}
   - {fileID: 2730497970852263581}
   - {fileID: 988003427038816349}
   - {fileID: 946015220}

@@ -33,7 +33,6 @@ public class Npc : MonoBehaviour, IInteract
     }
 
 
-
     public void Interact(Player player)
     {
         if (!CanInteract(player)) return;

@@ -1,0 +1,16 @@
+ID,NPC_ID,DIALOGUE_TEXT,CHOICES,NEXT_DIALOGUE_IDS,CONDITION,IS_END_DIALOGUE
+npc_002_001,Ansel,... ...,,npc_002_001,,TRUE
+npc_002_002,Ansel,... 사람은 말이 많으면 안돼.,,npc_002_001,,TRUE
+npc_002_003,Ansel,... 침묵은 금이네.,,npc_002_001,,TRUE
+npc_002_004,Ansel,조언이 필요한가?,꽃에 관해서 묻는다.|장비에 관해서 묻는다.|이졸데에 관해서 묻는다.|날이 좋네요.|아무것도 아닙니다.,npc_002_005|npc_002_006|npc_002_007|npc_002_008|npc_002_009,,FALSE
+npc_002_005,Ansel,때가 되면 자라네. 기다리게나.,,npc_002_001,,TRUE
+npc_002_006,Ansel,잘 모르네. 그것도 기다리면 때가 있겠지.,,npc_002_001,,TRUE
+npc_002_007,Ansel,... 착한 아이지.,,npc_002_001,,TRUE
+npc_002_008,Ansel,... 필요한 말만 하게.,,npc_002_001,,TRUE
+npc_002_009,Ansel,... ... (하던 일에 다시 집중한다.),,npc_002_001,,TRUE
+npc_001_001,Isolde,... 드래곤의 가호가 깃들기를.,,npc_001_001,,TRUE
+npc_001_002,Isolde,오염을 조심하세요.,,npc_001_001,,TRUE
+npc_001_003,Isolde,신성한 드래곤의 분노를 사서는 안돼요.,,npc_001_001,,TRUE
+npc_001_004,Isolde,드래곤께서 언제나 우릴 지켜보고 계십니다.,,npc_001_001,,TRUE
+npc_001_005,Isolde,... (손 모아 기도를 올린다.),,npc_001_001,,TRUE
+npc_001_006,Isolde,... (기도에 집중하고 있다.),,npc_001_001,,TRUE

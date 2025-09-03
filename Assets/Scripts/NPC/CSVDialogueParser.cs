@@ -184,6 +184,11 @@ public class CSVDialogueParser : MonoBehaviour
         return dialogueData?.GetDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
     }
 
+    public List<DialogueEntry> GetNonConditionalDialoguesByNpcId(string npcId)
+    {
+        return dialogueData?.GetNonConditionalDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
+    }
+
     #region Helper Methods
 
     private string GetString(Dictionary<string, object> dict, string key)
