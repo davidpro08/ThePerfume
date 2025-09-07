@@ -152,6 +152,15 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    public void ResetGame()
+    {
+        CurrentSave = new GameSave();
+        Save(CurrentSave);
+
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.ResetInventory();
+    }
+
     // ========== 모든 SaveManager 통합 =========
     [SerializeField] private BuildController buildController;
 
