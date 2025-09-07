@@ -9,6 +9,7 @@ TagManager:
   - Exit
   - CropOnTray
   - petal
+  - MapRoot
   layers:
   - Default
   - TransparentFX
