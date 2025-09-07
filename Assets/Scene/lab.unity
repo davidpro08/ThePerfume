@@ -21507,11 +21507,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followSmoothTime: 0.15
-  followZoom: 5
+  followZoom: 6
   followOffset: {x: 0, y: 0}
-  overviewBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  mapRoot: {fileID: 0}
   overviewPadding: 0.8
   player: {fileID: 2730497970852263581}
   followScenes:
