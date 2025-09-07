@@ -27,8 +27,6 @@ public class EssenceData : ItemData
     // 탑 노트 가능 유무
     public bool canTopNote = false;
 
-    // 에센스 관에서 스프라이트
-    public EssenceStage essenceStage;
     // 에센스 색상 코드
     public Color color;
 
@@ -37,7 +35,7 @@ public class EssenceData : ItemData
     Sprite itemIcon, ItemType itemType, bool isStackable, int maxStack,
     int nowStack, bool isTradable, int buyPrice, int sellPrice,
     EssenceType essenceType, int essenceWarm, int essenceCool, int essenceRelax,
-    bool canBaseNote, bool canMiddleNote, bool canTopNote, EssenceStage essenceStage,
+    bool canBaseNote, bool canMiddleNote, bool canTopNote,
     Color color)
     : base(id, itemName, description, itemIcon, itemType, isStackable, maxStack, nowStack, isTradable, buyPrice, sellPrice)
     {
@@ -48,7 +46,6 @@ public class EssenceData : ItemData
         this.canBaseNote = canBaseNote;
         this.canMiddleNote = canMiddleNote;
         this.canTopNote = canTopNote;
-        this.essenceStage = essenceStage;
         this.color = color;
     }
 }

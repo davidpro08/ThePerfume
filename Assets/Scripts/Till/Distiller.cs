@@ -15,7 +15,8 @@ public class Distiller : MonoBehaviour
     [SerializeField] List<GameObject> fuelSlotParent;
     private List<bool> occupiedFuelSlots = new List<bool> { false, false, false };
     [SerializeField] List<Transform> petalSlotParent;
-    [SerializeField] Transform essenceTransform;
+    [SerializeField] GameObject essenceGO;
+    private SpriteRenderer essenceSR;
 
     [Header("Sprite")]
     [SerializeField] GameObject Water;
@@ -33,7 +34,6 @@ public class Distiller : MonoBehaviour
     bool isMaking;
     long craftStartUtcMs;
     int currentEssenceID;
-    GameObject spawnedEssence;
     readonly List<GameObject> spawndItems = new List<GameObject>();
 
     void Start()
@@ -47,6 +47,11 @@ public class Distiller : MonoBehaviour
         RebuildFromSave(data);
 
         if (isMaking) StartCatchupOrFinish();
+    }
+
+    void Awake()
+    {
+        if (essenceGO != null) essenceSR = essenceGO.GetComponent<SpriteRenderer>();
     }
 
     // ================ 클릭 관련 ================
@@ -84,15 +89,13 @@ public class Distiller : MonoBehaviour
 
     public void PlacePetal(MaterialData petalData)
     {
-        if (spawnedEssence != null)
+        if (essenceGO != null)
         {
             EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
             if (essence != null)
             {
-                SpriteRenderer sr = spawnedEssence.GetComponent<SpriteRenderer>();
-                if (sr != null && sr.sprite == essence.essenceStage.progressStage[^1])
+                if (essenceSR != null && essenceSR.enabled)
                 {
-
                     TillUIManager.Instance.ShowWarningCanvas("Essence is already");
                     return;
                 }
@@ -135,7 +138,7 @@ public class Distiller : MonoBehaviour
 
     public void OnEssenceClicked()
     {
-        if (isMaking || spawnedEssence == null || currentEssenceID == 0) return; //  || !currentEssenceID.HasValue
+        if (isMaking || essenceGO == null || currentEssenceID == 0) return; //  || !currentEssenceID.HasValue
 
         tubeFillAnimator.Play("EssenceBottle_empty", 0, 0f);
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
@@ -147,8 +150,7 @@ public class Distiller : MonoBehaviour
 
         InventoryManager.Instance.AddItem(essence, 1);
 
-        Destroy(spawnedEssence);
-        spawnedEssence = null;
+        essenceSR.enabled = false;
         currentEssenceID = 0;
         isMaking = false;
 
@@ -173,24 +175,18 @@ public class Distiller : MonoBehaviour
         currentEssenceID = petal.essenceData.id;
 
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
-        if (essence != null && essence.essenceStage != null)
+
+        if (essence != null)
         {
-            if (spawnedEssence != null) Destroy(spawnedEssence);
-
-            spawnedEssence = new GameObject("EssenceProgress");
-            spawnedEssence.transform.SetParent(essenceTransform, false);
-            spawnedEssence.transform.localPosition = Vector3.zero;
-
-            var sr = spawnedEssence.AddComponent<SpriteRenderer>();
-            sr.sprite = essence.essenceStage.progressStage[0];
-            sr.color = essence.color;
+            if (essenceSR != null) essenceSR.enabled = false;
+            essenceSR.color = essence.color;
 
             // 색깔 지정
             tubeFillRenderer.color = essence.color;
             var DropRenderer = waterDrop.GetComponent<SpriteRenderer>();
             if (DropRenderer != null) DropRenderer.color = essence.color;
 
-            sr.sortingOrder = 10;
+            essenceSR.sortingOrder = 10;
         }
 
         GameSave save = SaveManager.Instance.CurrentSave;
@@ -219,7 +215,7 @@ public class Distiller : MonoBehaviour
     IEnumerator CraftCoroutine(long remainMs)
     {
         var essence = dataBase?.ResolveEssence(currentEssenceID);
-        if (essence == null || essence.essenceStage == null) yield break;
+        if (essence == null) yield break;
 
         float totalTime = craftDurationSec;
         float elapsed = 0f;
@@ -260,27 +256,18 @@ public class Distiller : MonoBehaviour
         ConsumeOneFuel();
         ConsumeOnePetal();
 
-        if (spawnedEssence != null)
-        {
-            Destroy(spawnedEssence);
-            Water.GetComponent<SpriteRenderer>().enabled = false;
-        }
-
         EssenceData essence = dataBase?.ResolveEssence(currentEssenceID);
-        if (essence != null)
+        if (essenceSR != null && essence != null)
         {
-            if (essence.essenceStage != null && essence.essenceStage.progressStage.Count > 0)
-            {
-                spawnedEssence = new GameObject("EssenceFinal");
-                spawnedEssence.transform.SetParent(essenceTransform, false);
-                spawnedEssence.transform.localPosition = Vector3.zero;
+            essenceSR.color = essence.color;
+            essenceSR.sortingOrder = 10;
+            essenceSR.enabled = true;
 
-                var sr = spawnedEssence.AddComponent<SpriteRenderer>();
-                sr.sprite = essence.essenceStage.progressStage[^1];
-                sr.color = essence.color;
-                sr.sortingOrder = 10;
-            }
         }
+
+        var waterSR = Water?.GetComponent<SpriteRenderer>();
+        if (waterSR != null) waterSR.enabled = false;
+
         isMaking = false;
 
         GameSave save = SaveManager.Instance.CurrentSave;
@@ -298,7 +285,7 @@ public class Distiller : MonoBehaviour
             isMaking = isMaking,
             craftStartUtcMs = craftStartUtcMs,
             craftDurationMs = craftDurationSec * 1000,
-            essenceid = currentEssenceID,
+            essenceid = (currentEssenceID >= 0) ? currentEssenceID : -1,
             essenceReady = essenceReady,
             // Fuel 기록
             occupiedFuelSlots = new List<bool>(occupiedFuelSlots),
@@ -329,11 +316,7 @@ public class Distiller : MonoBehaviour
 
         ClearAllFuel();
 
-        if (spawnedEssence != null)
-        {
-            Destroy(spawnedEssence);
-            spawnedEssence = null;
-        }
+        if (essenceSR != null) essenceSR.enabled = false;
 
         fuelCount = 0;
 
@@ -342,11 +325,6 @@ public class Distiller : MonoBehaviour
             occupiedFuelSlots[i] = data.occupiedFuelSlots[i];
             var sr = fuelSlotParent[i].GetComponent<SpriteRenderer>();
             if (sr != null) sr.enabled = occupiedFuelSlots[i];
-        }
-
-        fuelCount = 0;
-        for (int i = 0; i < occupiedFuelSlots.Count; i++)
-        {
             if (occupiedFuelSlots[i]) fuelCount++;
         }
 
@@ -361,29 +339,52 @@ public class Distiller : MonoBehaviour
             }
         }
 
-
         // 제작 진행/씬 밖 보정
         isMaking = data.isMaking;
         craftStartUtcMs = data.craftStartUtcMs;
         currentEssenceID = data.essenceid;
 
-        if (data.essenceReady && data.essenceid != 0) //  && data.essenceid.HasValue
+        if (essenceSR != null)
         {
-            var essence = dataBase?.ResolveEssence(data.essenceid);
-
-
-            if (essence.essenceStage != null && essence.essenceStage.progressStage.Count > 0)
+            if (data.essenceReady && data.essenceid >= 0) //  && data.essenceid.HasValue
             {
-                spawnedEssence = new GameObject("EssenceFinal");
-                spawnedEssence.transform.SetParent(essenceTransform, false);
-                spawnedEssence.transform.localPosition = Vector3.zero;
+                var essence = dataBase?.ResolveEssence(data.essenceid);
 
-                var sr = spawnedEssence.AddComponent<SpriteRenderer>();
-                sr.sprite = essence.essenceStage.progressStage[^1];
-                sr.color = essence.color;
-                sr.sortingOrder = 10;
+                if (essence != null)
+                {
+                    essenceSR.color = essence.color;
+                    essenceSR.sortingOrder = 10;
+                    essenceSR.enabled = true;
+
+                    var waterSR = Water?.GetComponent<SpriteRenderer>();
+                    if (waterSR != null) waterSR.enabled = false;
+                }
+                isMaking = false;
             }
-            isMaking = !data.essenceReady && data.isMaking;
+            else essenceSR.enabled = false;
+        }
+
+        bool CanResume = !data.essenceReady && HasAtLeastOneFuel() && (FindFirstPetalMaterial() != null);
+
+        if (CanResume)
+        {
+            if (!isMaking) isMaking = true;
+
+            if (craftStartUtcMs <= 0) craftStartUtcMs = DistillerSaveManager.NowUnixMs();
+
+            if (currentEssenceID < 0 || currentEssenceID == 0)
+            {
+                var petal = FindFirstPetalMaterial();
+                if (petal != null && petal.essenceData != null)
+                    currentEssenceID = petal.essenceData.id;
+            }
+        }
+        else
+        {
+            isMaking = false;
+
+            var waterSR = Water?.GetComponent<SpriteRenderer>();
+            if (waterSR != null) waterSR.enabled = (FindFirstPetalMaterial() != null);
         }
     }
 
