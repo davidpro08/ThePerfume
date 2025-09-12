@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class NpcDialogueManager : MonoBehaviour
 {
     [Header("대화창 관련 요소")] public GameObject dialogueObject;
+    public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     public GameObject nextButton; // 다음 버튼
     public bool isActive = false;
@@ -68,6 +69,7 @@ public class NpcDialogueManager : MonoBehaviour
 
         currentNpcId = npc.GetNpcId();
         currentNpc = npc; // NPC 객체 저장
+        
 
         if (string.IsNullOrEmpty(dialogueId))
         {
@@ -110,11 +112,19 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("대화창 UI 요소가 설정되지 않았습니다!");
             return;
         }
-
+        
         currentDialogue = dialogue;
         isActive = true;
         dialogueObject.SetActive(true);
 
+        if (nameText == null || dialogue.npcId == null)
+        {
+            Debug.LogError("이름 요소가 설정되지 않았습니다!");
+            return;
+        }
+        
+        nameText.text = dialogue.npcId;
+        
         // NPC 상태에 따른 초상화 업데이트
         UpdatePortraitForDialogue(dialogue);
 
