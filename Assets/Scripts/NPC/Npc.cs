@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Npc : MonoBehaviour, IInteract
 {
@@ -16,6 +18,10 @@ public class Npc : MonoBehaviour, IInteract
     [Header("기존 호환성")]
     [SerializeField] List<String> dialogueObjects = new();
 
+    [Header("움직임 세팅")]
+    [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float nextMoveTime = 2f;
+    
     private NpcState currentState = NpcState.Default;
 
     void Start()
@@ -30,8 +36,9 @@ public class Npc : MonoBehaviour, IInteract
                 Debug.LogWarning($"NPC {npcId}의 초상화 데이터를 찾을 수 없습니다. Resources/NPC/PortraitData/{npcId} 경로를 확인해주세요.");
             }
         }
-    }
 
+        StartCoroutine(RandomMove());
+    }
 
     public void Interact(Player player)
     {
@@ -57,6 +64,20 @@ public class Npc : MonoBehaviour, IInteract
             return false;
         }
         return true;
+    }
+
+    IEnumerator RandomMove()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(nextMoveTime);
+
+            int x = Random.Range(-1, 2);
+            int y = Random.Range(-1, 2);
+
+            Vector3 direction = new Vector3(x, y, 0).normalized;
+            transform.position += direction * moveSpeed;
+        }
     }
 
     /// <summary>
