@@ -52,7 +52,7 @@ public class InventoryManager : MonoBehaviour
         //이미 인스턴스 있으면 자신 파괴
         if (Instance != null && Instance != this)
         {
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
             return;
         }
         Instance = this;
@@ -305,4 +305,22 @@ public class InventoryManager : MonoBehaviour
         return selectedSlot.itemData;
     }
 
+    public void ResetInventory(int newCapacity = -1)
+    {
+        SelectedSlotIndex = -1;
+
+        if (itemSlots == null) itemSlots = new List<ItemSlot>();
+        if (itemSlots.Count < capacity)
+        {
+            for (int i = itemSlots.Count; i < capacity; i++)
+                itemSlots.Add(new ItemSlot());
+        }
+        for (int i = 0; i < itemSlots.Count; i++)
+            itemSlots[i].Clear();
+
+        if (SaveManager.Instance != null)
+            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
+
+        InventoryChanged();
+    }
 }

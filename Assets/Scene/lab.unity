@@ -4447,7 +4447,7 @@ GameObject:
   - component: {fileID: 1043665113}
   - component: {fileID: 1043665116}
   m_Layer: 8
-  m_Name: RoseSeed
+  m_Name: RoseSeedItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4531,7 +4531,7 @@ Transform:
   m_GameObject: {fileID: 1043665112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.81, y: 2.28, z: 0}
+  m_LocalPosition: {x: 0.99, y: 2.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4813,7 +4813,7 @@ GameObject:
   - component: {fileID: 1214223822}
   - component: {fileID: 1214223825}
   m_Layer: 8
-  m_Name: Farm
+  m_Name: FarmItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6464,7 +6464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1723696344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7755,6 +7755,7 @@ GameObject:
   - component: {fileID: 30199997319637385}
   - component: {fileID: 6588498740976258033}
   - component: {fileID: 2990448008853968623}
+  - component: {fileID: 8655344592789768167}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -21493,6 +21494,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8655344592789768167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417083539434167306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5710d2f7d188354dbab28e5e485df97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followSmoothTime: 0.15
+  followZoom: 6
+  followOffset: {x: 0, y: 0}
+  mapRoot: {fileID: 0}
+  overviewPadding: 0.8
+  player: {fileID: 2730497970852263581}
+  followScenes:
+  - lab
+  - NPC_house
+  - Village
+  overviewScenes:
+  - bench
+  - distiller
+  - Mixture
 --- !u!1 &8726283600772571550
 GameObject:
   m_ObjectHideFlags: 0
@@ -21675,8 +21702,8 @@ SceneRoots:
   - {fileID: 86026771}
   - {fileID: 1336521735}
   - {fileID: 1723696345}
-  - {fileID: 1068351679}
   - {fileID: 8655344592789768166}
+  - {fileID: 1068351679}
   - {fileID: 9104453168520916587}
   - {fileID: 4968550428432087313}
   - {fileID: 2051033302}

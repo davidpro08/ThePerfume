@@ -32,5 +32,5 @@ MonoBehaviour:
   canBaseNote: 0
   canMiddleNote: 0
   canTopNote: 0
-  essenceStage: {fileID: 11400000, guid: 6914d0a6864488a479acd7279df981b4, type: 2}
+  sprite: {fileID: -8158394547272378515, guid: 756343ac651d615428bb133bd22897b5, type: 3}
   color: {r: 1, g: 0.26819396, b: 0.26819396, a: 1}

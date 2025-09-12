@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -17,17 +19,46 @@ public class Player : MonoBehaviour
     private readonly float _runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
     private Rigidbody2D _rb;
     private Animator _animator;
+    private SpriteRenderer _sr;
+    private Collider2D _col;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
+        _col = GetComponent<Collider2D>();
     }
 
-    private void Start()
+    void OnEnable()
     {
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool disable = scene.name == "bench" || scene.name == "distiller" || scene.name == "Mixture";
+
+        SetPlayerDisenabled(disable);
+    }
+
+    void SetPlayerDisenabled(bool disabled)
+    {
+        if (_rb)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.simulated = !disabled;
+        }
+        if (_animator) _animator.enabled = !disabled;
+        if (_sr) _sr.enabled = !disabled;
+        if (_col) _col.enabled = !disabled;
+    }
+
     private void Update()
     {
         if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory)
@@ -159,7 +190,7 @@ public class Player : MonoBehaviour
             }
 
             IInteract interact = detection.collider.GetComponent<IInteract>();
-            if(interact != null) interact.Interact(this);
+            if (interact != null) interact.Interact(this);
         }
 
         Debug.Log($"상호작용 없음");

@@ -15,6 +15,18 @@ public class SceneChanger : MonoBehaviour
         }
 
         string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentScene == "Main")
+        {
+            if (this.name == "Play")
+            {
+                SaveManager.Instance.ResetGame();
+            }
+            else if (this.name == "Load")
+            {
+                SaveManager.Instance.LoadGame();
+            }
+        }
+
         if (currentScene == "lab" && SaveManager.Instance != null) SaveManager.Instance.SaveGame();
 
         Resources.UnloadUnusedAssets();

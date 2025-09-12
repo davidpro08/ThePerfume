@@ -19,10 +19,13 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     private UnityEngine.Vector3 originParentPos;
     private UnityEngine.Quaternion originParentRot;
 
+    private UnityEngine.Vector3 punnelBasePos;
+
     void Awake()
     {
         mixture = GetComponentInParent<Mixture>();
         if (mixture == null) Debug.LogError("[ClickTargetPerfumeTube] 부모에 Mixture 컴포넌트가 없음");
+        punnelBasePos = mixture.punnel.transform.localPosition;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -108,7 +111,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                     // 일단 깔떼기는 아이템 획득하는대로 다시 꽂아둠
                     // 꽂아두는 애니메이션
                     StartCoroutine(RestorePunnelMotion());
-                    mixture.SaveNow();
+                    // mixture.SaveNow();
                     return;
                 }
                 break;
@@ -118,7 +121,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                 {
                     // 빠지는 애니메이션 ( Y축 기준 위로 어느 정도 올라감 )
                     StartCoroutine(RemovePunnelMotion());
-                    mixture.SaveNow();
+                    // mixture.SaveNow();
                 }
                 else
                 {
@@ -132,17 +135,25 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     {
         float duration = 0.5f;
         float elapsed = 0f;
-        UnityEngine.Vector3 startPos = mixture.punnel.transform.localPosition;
+        UnityEngine.Vector3 startPos = punnelBasePos;// mixture.punnel.transform.localPosition;
         UnityEngine.Vector3 targetPos = startPos + UnityEngine.Vector3.up * 2f;
+
+        mixture.punnel.transform.localPosition = startPos;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            mixture.punnel.transform.localPosition = UnityEngine.Vector3.Lerp(startPos, targetPos, elapsed);
+            float t = Mathf.Clamp01(elapsed / duration);
+            mixture.punnel.transform.localPosition = UnityEngine.Vector3.Lerp(startPos, targetPos, t);
             yield return null;
         }
+
+        mixture.punnel.transform.localPosition = targetPos;
+
         mixture.punnel.GetComponent<SpriteRenderer>().enabled = false;
         shakeAmount = 0f;
+
+        mixture.SaveNow();
     }
 
     public IEnumerator RestorePunnelMotion()
@@ -150,16 +161,23 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
         mixture.punnel.GetComponent<SpriteRenderer>().enabled = true;
         float duration = 0.5f;
         float elapsed = 0f;
-        UnityEngine.Vector3 StartPos = mixture.punnel.transform.localPosition;
-        UnityEngine.Vector3 targetPos = mixture.punnel.transform.localPosition - UnityEngine.Vector3.up * 2f;
+        UnityEngine.Vector3 startPos = punnelBasePos + UnityEngine.Vector3.up * 2f; // mixture.punnel.transform.localPosition;
+        UnityEngine.Vector3 targetPos = punnelBasePos; // mixture.punnel.transform.localPosition - UnityEngine.Vector3.up * 2f;
+
+        mixture.punnel.transform.localPosition = startPos;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            mixture.punnel.transform.localPosition = UnityEngine.Vector3.Lerp(StartPos, targetPos, elapsed);
+            float t = Mathf.Clamp01(elapsed / duration);
+            mixture.punnel.transform.localPosition = UnityEngine.Vector3.Lerp(startPos, targetPos, t);
             yield return null;
         }
 
+        mixture.punnel.transform.localPosition = targetPos;
+
         shakeAmount = 0f;
+
+        mixture.SaveNow();
     }
 }
