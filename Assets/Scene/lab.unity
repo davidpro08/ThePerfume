@@ -3926,6 +3926,7 @@ GameObject:
   - component: {fileID: 991086488}
   - component: {fileID: 991086487}
   - component: {fileID: 991086486}
+  - component: {fileID: 991086490}
   m_Layer: 8
   m_Name: Isolde
   m_TagString: Untagged
@@ -3950,6 +3951,9 @@ MonoBehaviour:
   portraitData: {fileID: 11400000, guid: 51e51a0868e69254293d12af3b0b5751, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
+  moveSpeed: 1
+  nextMoveTime: 2
+  _animator: {fileID: 991086490}
 --- !u!61 &991086487
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4066,6 +4070,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &991086490
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991086485}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 85361cd4d19db8b4d90099b2c3917049, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1001212993
 GameObject:
   m_ObjectHideFlags: 0
@@ -6369,6 +6395,7 @@ GameObject:
   - component: {fileID: 1620257970}
   - component: {fileID: 1620257969}
   - component: {fileID: 1620257968}
+  - component: {fileID: 1620257972}
   m_Layer: 8
   m_Name: Ansel
   m_TagString: Untagged
@@ -6393,6 +6420,9 @@ MonoBehaviour:
   portraitData: {fileID: 11400000, guid: 54159f4c45cc27049a0a67f717a1ab80, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
+  moveSpeed: 1
+  nextMoveTime: 2
+  _animator: {fileID: 1620257972}
 --- !u!61 &1620257969
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6509,6 +6539,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1620257972
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620257967}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 85361cd4d19db8b4d90099b2c3917049, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1665320981
 GameObject:
   m_ObjectHideFlags: 0

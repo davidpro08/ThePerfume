@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -21,6 +23,9 @@ public class Npc : MonoBehaviour, IInteract
     [Header("움직임 세팅")]
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float nextMoveTime = 2f;
+    
+    [Header("애니메이션 세팅")]
+    [SerializeField] private Animator _animator;
     
     private NpcState currentState = NpcState.Default;
 
@@ -75,9 +80,33 @@ public class Npc : MonoBehaviour, IInteract
             int x = Random.Range(-1, 2);
             int y = Random.Range(-1, 2);
 
-            Vector3 direction = new Vector3(x, y, 0).normalized;
-            transform.position += direction * moveSpeed;
+            Vector2 moveVector = new Vector2(x, y).normalized;
+            
+            UpdateAnimator(moveVector);
+            
+            transform.DOMove((Vector2)transform.position + moveVector * moveSpeed, nextMoveTime);
         }
+    }
+    
+    private void UpdateAnimator(Vector2 input)
+    {
+        float magnitude = input.magnitude;
+
+        if (magnitude <= 0.01f)
+        {
+            // Idle 상태에서는 isWalking만 false, 방향 값은 그대로 유지
+            _animator.SetBool("isWalking", false);
+            return;
+        }
+
+        // 움직이는 경우에만 파라미터 갱신
+        _animator.SetBool("isWalking", true);
+        
+        _animator.SetFloat("InputX", input.x);
+        _animator.SetFloat("InputY", input.y);
+        
+        _animator.SetFloat("LastInputX", input.x);
+        _animator.SetFloat("LastInputY", input.y);
     }
 
     /// <summary>
