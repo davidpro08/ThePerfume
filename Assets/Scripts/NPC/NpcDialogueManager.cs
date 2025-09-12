@@ -300,17 +300,6 @@ public class NpcDialogueManager : MonoBehaviour
         // 대화 종료 또는 다음 대화가 없는 경우
         if (currentDialogue.isEndDialogue || !currentDialogue.HasValidNextDialogue())
         {
-            // 대화 종료 시 다음 시작 대화 ID 설정
-            if (currentDialogue.isEndDialogue && !string.IsNullOrEmpty(currentNpcId))
-            {
-                    // NPC의 다음 시작 대화 ID 업데이트
-                    var npc = FindObjectOfType<Npc>();
-                    if (npc != null && npc.GetNpcId() == currentNpcId)
-                    {
-                        npc.SetStartDialogueId(GetRandomDialogue(currentNpcId).id);
-                    }
-            }
-
             EndDialogue();
         }
         else
