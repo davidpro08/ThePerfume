@@ -5699,6 +5699,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966035904bb34ca2ad259c34cdd5a5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgmMixerGroup: {fileID: 513531789022766492, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
+  sfxMixerGroup: {fileID: 2473508087095233513, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
   sfxList:
   - type: 0
     clip: {fileID: 8300000, guid: 6141a7eed0dc39e47bfe4860fe71afca, type: 3}

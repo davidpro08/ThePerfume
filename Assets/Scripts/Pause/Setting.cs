@@ -75,10 +75,24 @@ namespace PausePanel
             resolutionDropdown.onValueChanged.AddListener(SetResolution);
         }
 
-        // Audio Control
-        public void SetMasterVolume(float vol) => masterMixer.SetFloat("Master", Mathf.Log10(vol) * 20);
-        public void SetBgmVolume(float vol) => masterMixer.SetFloat("BGM", Mathf.Log10(vol) * 20);
-        public void SetSfxVolume(float vol) => masterMixer.SetFloat("SFX", Mathf.Log10(vol) * 20);
+        // Audio Control Methods
+        // The slider value is a linear scale from 0 to 1.
+        // This is converted to a logarithmic scale (decibels) for the audio mixer.
+        public void SetMasterVolume(float vol)
+        {
+            // Mathf.Log10(0) is -infinity. To prevent this, clamp the minimum volume.
+            masterMixer.SetFloat("Master", vol > 0 ? Mathf.Log10(vol) * 20 : -80f);
+        }
+
+        public void SetBgmVolume(float vol)
+        {
+            masterMixer.SetFloat("BGM", vol > 0 ? Mathf.Log10(vol) * 20 : -80f);
+        }
+
+        public void SetSfxVolume(float vol)
+        {
+            masterMixer.SetFloat("SFX", vol > 0 ? Mathf.Log10(vol) * 20 : -80f);
+        }
 
         // Graphics Control
         private void InitializeResolutions()
