@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
         SetLastInputDirection(input);  // 마지막 방향 갱신
     }
 
+    //
     private void SetLastInputDirection(Vector2 input)
     {
         _animator.SetFloat("LastInputX", input.x);
