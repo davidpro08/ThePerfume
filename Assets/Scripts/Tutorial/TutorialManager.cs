@@ -66,7 +66,7 @@ public class TutorialManager : MonoBehaviour
     private System.Collections.IEnumerator StartTutorialSequence()
     {
         yield return new WaitForSeconds(1f); // 게임 시작 후 잠시 대기
-        NpcDialogueManager.Instance.StartDialogue(guide, "narration_001_001");
+        NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", "narration_001_001");
     }
 
     // NpcDialogueManager에서 대화가 끝났을 때 호출될 핸들러
@@ -100,7 +100,7 @@ public class TutorialManager : MonoBehaviour
         // 다음 대화 시작
         if (!string.IsNullOrEmpty(step.nextDialogueId))
         {
-            NpcDialogueManager.Instance.StartDialogue(guide, step.nextDialogueId);
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", step.nextDialogueId);
         }
     }
 

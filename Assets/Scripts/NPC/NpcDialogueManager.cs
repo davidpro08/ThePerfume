@@ -29,6 +29,7 @@ public class NpcDialogueManager : MonoBehaviour
     [SerializeField] private DialogueEntry currentDialogue;
     private string currentNpcId;
     private Npc currentNpc; // 현재 대화 중인 NPC 객체
+    private string currentDialogueName; // 현재 대화 종류 (예: Tutorial, Daily)
     private bool isTyping = false;
     private Coroutine typewriterCoroutine;
 
@@ -59,7 +60,7 @@ public class NpcDialogueManager : MonoBehaviour
     /// <summary>
     /// NPC와의 대화 시작
     /// </summary>
-    public void StartDialogue(Npc npc, string dialogueId = null)
+    public void StartDialogue(Npc npc, string dialogueName, string dialogueId = null)
     {
         if (CSVDialogueParser.Instance == null)
         {
@@ -69,20 +70,20 @@ public class NpcDialogueManager : MonoBehaviour
 
         currentNpcId = npc.GetNpcId();
         currentNpc = npc; // NPC 객체 저장
-        
+        currentDialogueName = dialogueName; // 대화 종류 저장
 
         if (string.IsNullOrEmpty(dialogueId))
         {
-            currentDialogue = GetRandomDialogue(currentNpcId);
+            currentDialogue = GetRandomDialogue(dialogueName, currentNpcId);
         }
         else
         {
-            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueId);
+            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueName, dialogueId);
         }
 
         if (currentDialogue == null)
         {
-            Debug.LogError($"대화 데이터를 찾을 수 없습니다! NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
+            Debug.LogError($"대화 데이터를 찾을 수 없습니다! Dialogue Name: {dialogueName}, NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
             return;
         }
 
@@ -91,9 +92,9 @@ public class NpcDialogueManager : MonoBehaviour
         SoundManager.Instance.PlaySFX(SFXType.Talk);
     }
 
-    private DialogueEntry GetRandomDialogue(string npcId)
+    private DialogueEntry GetRandomDialogue(string dialogueName, string npcId)
     {
-        var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(npcId);
+        var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(dialogueName, npcId);
         if (dialogues != null && dialogues.Count > 0)
         {
             int index = UnityEngine.Random.Range(0, dialogues.Count);
@@ -269,7 +270,7 @@ public class NpcDialogueManager : MonoBehaviour
             choiceButton.OtherSelected();
         }
 
-        StartDialogue(currentNpc, nextDialogueId);
+        StartDialogue(currentNpc, currentDialogueName, nextDialogueId);
     }
 
     /// <summary>
@@ -304,7 +305,7 @@ public class NpcDialogueManager : MonoBehaviour
         }
         else
         {
-            StartDialogue(currentNpc, currentDialogue.nextDialogueIds[0]);
+            StartDialogue(currentNpc, currentDialogueName, currentDialogue.nextDialogueIds[0]);
         }
     }
 
@@ -321,6 +322,7 @@ public class NpcDialogueManager : MonoBehaviour
         isActive = false;
         currentDialogue = null;
         currentNpcId = null;
+        currentDialogueName = null;
 
         if (dialogueObject != null)
             dialogueObject.SetActive(false);
