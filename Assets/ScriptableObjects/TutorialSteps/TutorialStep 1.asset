@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: TutorialStep 1
   m_EditorClassIdentifier: 
   triggerId: narration_001_003
+  giveItems:
+  - itemData: {fileID: 11400000, guid: 4a8268659a9682e4c8504c021c0e190c, type: 2}
+    amount: 1
   conditionType: 1
   nextDialogueId: narration_001_004

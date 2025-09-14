@@ -12,7 +12,6 @@ public class TutorialManager : MonoBehaviour
     
     [Header("필수 연결")]
     public Npc guide; // 가이드 NPC (인스펙터에서 할당)
-    public ItemData farmItemData; // 튜토리얼에서 지급할 '흙' 아이템 데이터
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
@@ -80,13 +79,25 @@ public class TutorialManager : MonoBehaviour
 
             // 현재 단계로 설정
             currentStep = stepToStart;
-
+            
+            // 조건 시작 전 플레이어에게 아이템 제공
+            foreach (GiveItem giveItem in currentStep.giveItems)
+            {
+                InventoryManager.Instance.AddItem(giveItem.itemData, giveItem.amount);
+            }
+            
             // 만약 조건이 'None'이라면 바로 완료 처리
             if (currentStep.conditionType == TutorialConditionType.None)
             {
                 CompleteStep(currentStep);
             }
         }
+    }
+
+    // 조건 시작 전 플레이어에게 아이템 제공
+    public void GiveItem(ItemData itemData, int amountOfItems)
+    {
+        InventoryManager.Instance.AddItem(itemData, 1);
     }
 
     // 현재 단계를 완료 처리
