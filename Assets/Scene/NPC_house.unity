@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 521899525}
   - component: {fileID: 521899524}
   m_Layer: 0
-  m_Name: MoveSceneToNPCHouse
+  m_Name: MoveSceneToVillage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a998d682910d2924291f8da1988ddc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: lab
+  targetSceneName: Village
 --- !u!114 &521899525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 521899524}
+  newPlayerPos: {x: 13, y: 7.6}
 --- !u!61 &521899526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5073,6 +5074,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1797085885
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_ChunkCullingBounds.x
       value: 0.25
       objectReference: {fileID: 0}
@@ -7582,7 +7591,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1280813225
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -5029883670407346051, guid: 952e5870cf82c6e4cb7526ab055a00bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

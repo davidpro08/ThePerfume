@@ -2883,6 +2883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 783923613}
+  newPlayerPos: {x: 0, y: 0}
 --- !u!61 &783923610
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2971,7 +2972,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 886909895
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7694443814393248326, guid: 305d188b9e0a5c04b838e7fe07f88b14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4252,7 +4253,7 @@ GameObject:
   - component: {fileID: 1022896025}
   - component: {fileID: 1022896024}
   m_Layer: 0
-  m_Name: MoveSceneToNPCHouse
+  m_Name: MoveSceneToVillage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4292,7 +4293,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 8.936932, y: -0.5007405}
+  m_Offset: {x: 9.45112, y: -0.5007405}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4302,7 +4303,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.2814245, y: 4.9289875}
+  m_Size: {x: 1.253047, y: 4.9289875}
   m_EdgeRadius: 0
 --- !u!4 &1022896023
 Transform:
@@ -4331,7 +4332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a998d682910d2924291f8da1988ddc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: NPC_house
+  targetSceneName: Village
 --- !u!114 &1022896025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4345,6 +4346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 1022896024}
+  newPlayerPos: {x: -1.8, y: 2.5}
 --- !u!1 &1022931145
 GameObject:
   m_ObjectHideFlags: 0
@@ -7788,6 +7790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 2038711223}
+  newPlayerPos: {x: 0, y: 0}
 --- !u!58 &2038711227
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13153,11 +13156,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_SortingLayerID
-      value: 0
+      value: -1797085885
       objectReference: {fileID: 0}
     - target: {fileID: 3871660389281119247, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_ChunkCullingBounds.x

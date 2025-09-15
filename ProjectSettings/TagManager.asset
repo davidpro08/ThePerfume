@@ -44,11 +44,11 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 2497881411
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: overUI
     uniqueID: 2327287963
