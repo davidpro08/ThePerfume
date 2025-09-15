@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TutorialStep
   m_EditorClassIdentifier: 
   triggerId: narration_001_002
-  entryAction: 1
+  giveItems: []
   conditionType: 0
   nextDialogueId: narration_001_003

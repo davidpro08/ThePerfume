@@ -1,5 +1,14 @@
-
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class GiveItem
+{
+    public ItemData itemData;
+    public int amount;
+}
+
 
 [CreateAssetMenu(fileName = "TutorialStep", menuName = "Tutorial/Tutorial Step", order = 0)]
 public class TutorialStepSO : ScriptableObject
@@ -7,6 +16,10 @@ public class TutorialStepSO : ScriptableObject
     [Header("트리거 설정")]
     [Tooltip("이 튜토리얼 단계를 활성화시키는 대화 ID입니다. 이 대화가 끝나면 조건 확인을 시작합니다.")]
     public string triggerId;
+
+    [Header("제공 아이템")] 
+    [Tooltip("트리거 설정 후 제공할 아이템입니다.")]
+    public GiveItem[] giveItems;
 
     [Header("완료 조건")]
     [Tooltip("이 단계가 완료되기 위해 만족해야 하는 조건입니다.")]

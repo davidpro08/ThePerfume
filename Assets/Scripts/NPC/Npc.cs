@@ -12,7 +12,7 @@ public class Npc : MonoBehaviour, IInteract
 {
     [Header("NPC 설정")]
     [SerializeField] string npcId = "npc_001";
-    [SerializeField] string startDialogueId = ""; // 비어있으면 첫 번째 대화 사용
+    [SerializeField] string startDialogueId = "";
 
     [Header("초상화 설정")]
     [SerializeField] private NpcPortraitData portraitData;
@@ -49,7 +49,7 @@ public class Npc : MonoBehaviour, IInteract
     {
         if (!CanInteract(player)) return;
 
-        NpcDialogueManager.Instance.StartDialogue(this, startDialogueId);
+        NpcDialogueManager.Instance.StartDialogue(this, "Daily", startDialogueId);
     }
 
     public bool CanInteract(Player player)
@@ -61,7 +61,7 @@ public class Npc : MonoBehaviour, IInteract
             return false;
         }
 
-        var npcDialogues = CSVDialogueParser.Instance.GetDialoguesByNpcId(npcId);
+        var npcDialogues = CSVDialogueParser.Instance.GetDialoguesByNpcId("Daily", npcId);
 
         if (npcDialogues.Count == 0)
         {
