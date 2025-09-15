@@ -22,6 +22,14 @@ public class Mixture : MonoBehaviour
     [System.NonSerialized] public EssenceData topData = null;
     [System.NonSerialized] public PerfumeData perfumeData = null;
 
+    [Header("Animation")]
+    [SerializeField] private SpriteRenderer funnelFillRenderer; // 색깔 지정 위한
+    [SerializeField] private Animator funnelFillAnimation; // 애니메이션 활성화
+
+    [SerializeField] private GameObject vialSide;
+    [SerializeField] private SpriteRenderer vialContentRenderer;
+    [SerializeField] private Animator vialContentAnimation;
+
     float perfumeWarm;
     float perfumeCool;
     float perfumeRelax;
@@ -68,6 +76,30 @@ public class Mixture : MonoBehaviour
     {
         if (essenceData == null || target == null) return;
 
+        // 사이드 병 표시(색이 변경되면 안됨)
+        if (vialSide != null) vialSide.SetActive(true);
+
+        vialContentRenderer.color = essenceData.color;
+        // 깔때기 색깔 지정
+        funnelFillRenderer.color = essenceData.color;
+
+
+        if (from == baseL) {
+            vialContentAnimation.SetTrigger("FillBase");
+            funnelFillAnimation.SetTrigger("FillBottom");
+        }
+        else if (from == middleL) {
+            vialContentAnimation.SetTrigger("FillMiddle");
+            funnelFillAnimation.SetTrigger("FillMiddle");
+        }
+        else if (from == topL)
+        {
+            vialContentAnimation.SetTrigger("FillTop");
+            funnelFillAnimation.SetTrigger("FillTop");
+        }
+            
+
+
         var sr = target.GetComponent<SpriteRenderer>();
         if (sr.enabled == true) return;
         var srF = from.GetComponent<SpriteRenderer>();
@@ -78,11 +110,20 @@ public class Mixture : MonoBehaviour
         sr.sortingOrder = 10;
 
         srF.enabled = false;
+
+        
         SaveNow();
     }
 
+    //public void OnFillAnimationEnd() // 애니메이션 끝날때 실행되는 이벤트
+    //{
+    //    if (vialSide != null) vialSide.SetActive(false);
+    //    if (vialContentRenderer != null) vialContentRenderer.enabled = false;
+    //}
+
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
     {
+
         PerfumeL[0].GetComponent<SpriteRenderer>().enabled = false;
         PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
         PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;

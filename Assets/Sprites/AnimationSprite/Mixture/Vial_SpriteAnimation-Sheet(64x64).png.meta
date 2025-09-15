@@ -1,0 +1,1144 @@
+fileFormatVersion: 2
+guid: fa0c535fd5b6c5741ad3c66f40c59d03
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 969048701269045524
+    second: Vial_SpriteAnimation-Sheet(64x64)_0
+  - first:
+      213: -2324536229826757205
+    second: Vial_SpriteAnimation-Sheet(64x64)_1
+  - first:
+      213: -6275484086227427857
+    second: Vial_SpriteAnimation-Sheet(64x64)_2
+  - first:
+      213: 6620527314954394897
+    second: Vial_SpriteAnimation-Sheet(64x64)_3
+  - first:
+      213: -475259755922611142
+    second: Vial_SpriteAnimation-Sheet(64x64)_4
+  - first:
+      213: 35085801884041730
+    second: Vial_SpriteAnimation-Sheet(64x64)_5
+  - first:
+      213: -1489578744023863721
+    second: Vial_SpriteAnimation-Sheet(64x64)_6
+  - first:
+      213: 2846677420295758498
+    second: Vial_SpriteAnimation-Sheet(64x64)_7
+  - first:
+      213: 7823657977398916124
+    second: Vial_SpriteAnimation-Sheet(64x64)_8
+  - first:
+      213: 4928540378745016058
+    second: Vial_SpriteAnimation-Sheet(64x64)_9
+  - first:
+      213: -2537127041511635426
+    second: Vial_SpriteAnimation-Sheet(64x64)_10
+  - first:
+      213: -7478247706741581636
+    second: Vial_SpriteAnimation-Sheet(64x64)_11
+  - first:
+      213: -1759932864190373364
+    second: Vial_SpriteAnimation-Sheet(64x64)_12
+  - first:
+      213: -1860021603646725379
+    second: Vial_SpriteAnimation-Sheet(64x64)_13
+  - first:
+      213: -4335125259261150523
+    second: Vial_SpriteAnimation-Sheet(64x64)_14
+  - first:
+      213: 7937012222551891357
+    second: Vial_SpriteAnimation-Sheet(64x64)_15
+  - first:
+      213: -829436121710472512
+    second: Vial_SpriteAnimation-Sheet(64x64)_16
+  - first:
+      213: 1862610720147017270
+    second: Vial_SpriteAnimation-Sheet(64x64)_17
+  - first:
+      213: -7738961115073405006
+    second: Vial_SpriteAnimation-Sheet(64x64)_18
+  - first:
+      213: -4765822439826001122
+    second: Vial_SpriteAnimation-Sheet(64x64)_19
+  - first:
+      213: -1794622367213318736
+    second: Vial_SpriteAnimation-Sheet(64x64)_20
+  - first:
+      213: 2295353365205072756
+    second: Vial_SpriteAnimation-Sheet(64x64)_21
+  - first:
+      213: 6567652753574766610
+    second: Vial_SpriteAnimation-Sheet(64x64)_22
+  - first:
+      213: -723791840575724301
+    second: Vial_SpriteAnimation-Sheet(64x64)_23
+  - first:
+      213: -6741451914271174624
+    second: Vial_SpriteAnimation-Sheet(64x64)_24
+  - first:
+      213: -2229030107269317271
+    second: Vial_SpriteAnimation-Sheet(64x64)_25
+  - first:
+      213: 6727387314622910398
+    second: Vial_SpriteAnimation-Sheet(64x64)_26
+  - first:
+      213: -6623048238728939195
+    second: Vial_SpriteAnimation-Sheet(64x64)_27
+  - first:
+      213: 2985623282115633392
+    second: Vial_SpriteAnimation-Sheet(64x64)_28
+  - first:
+      213: 5372555987711965807
+    second: Vial_SpriteAnimation-Sheet(64x64)_29
+  - first:
+      213: -6444970193827198839
+    second: Vial_SpriteAnimation-Sheet(64x64)_30
+  - first:
+      213: -2123910333266011915
+    second: Vial_SpriteAnimation-Sheet(64x64)_31
+  - first:
+      213: -8360823480806035749
+    second: Vial_SpriteAnimation-Sheet(64x64)_32
+  - first:
+      213: -8677757401424148870
+    second: Vial_SpriteAnimation-Sheet(64x64)_33
+  - first:
+      213: 6045594207200914661
+    second: Vial_SpriteAnimation-Sheet(64x64)_34
+  - first:
+      213: 7024461656799557637
+    second: Vial_SpriteAnimation-Sheet(64x64)_35
+  - first:
+      213: 5984589094019470366
+    second: Vial_SpriteAnimation-Sheet(64x64)_36
+  - first:
+      213: -4227699323651193027
+    second: Vial_SpriteAnimation-Sheet(64x64)_37
+  - first:
+      213: -381917581916940501
+    second: Vial_SpriteAnimation-Sheet(64x64)_38
+  - first:
+      213: -1899980693295325540
+    second: Vial_SpriteAnimation-Sheet(64x64)_39
+  - first:
+      213: 5396981836164533240
+    second: Vial_SpriteAnimation-Sheet(64x64)_40
+  - first:
+      213: 3684391219760718849
+    second: Vial_SpriteAnimation-Sheet(64x64)_41
+  - first:
+      213: -3685717901590795404
+    second: Vial_SpriteAnimation-Sheet(64x64)_42
+  - first:
+      213: -4489946391586828606
+    second: Vial_SpriteAnimation-Sheet(64x64)_43
+  - first:
+      213: 9192008281032713728
+    second: Vial_SpriteAnimation-Sheet(64x64)_44
+  - first:
+      213: -2292114334303140251
+    second: Vial_SpriteAnimation-Sheet(64x64)_45
+  - first:
+      213: -2609753976305901085
+    second: Vial_SpriteAnimation-Sheet(64x64)_46
+  - first:
+      213: -6203818333479846561
+    second: Vial_SpriteAnimation-Sheet(64x64)_47
+  - first:
+      213: -6225346686419934636
+    second: Vial_SpriteAnimation-Sheet(64x64)_48
+  - first:
+      213: 6784081414821717506
+    second: Vial_SpriteAnimation-Sheet(64x64)_49
+  - first:
+      213: 603005834261763687
+    second: Vial_SpriteAnimation-Sheet(64x64)_50
+  - first:
+      213: 13360144250537119
+    second: Vial_SpriteAnimation-Sheet(64x64)_51
+  - first:
+      213: 3018437383249936713
+    second: Vial_SpriteAnimation-Sheet(64x64)_52
+  - first:
+      213: 2807446130947294625
+    second: Vial_SpriteAnimation-Sheet(64x64)_53
+  - first:
+      213: 5727783713626330015
+    second: Vial_SpriteAnimation-Sheet(64x64)_54
+  - first:
+      213: 1991798976533369686
+    second: Vial_SpriteAnimation-Sheet(64x64)_55
+  - first:
+      213: 4397906272729234702
+    second: Vial_SpriteAnimation-Sheet(64x64)_56
+  - first:
+      213: -8069148986842888535
+    second: Vial_SpriteAnimation-Sheet(64x64)_57
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 95
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 411f139d8a0c27d00800000000000000
+      internalID: 969048701269045524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bad76a96d969dbfd0800000000000000
+      internalID: -2324536229826757205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fed1cc6f87009e8a0800000000000000
+      internalID: -6275484086227427857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d90a11486d0eb50800000000000000
+      internalID: 6620527314954394897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a34a13025c98769f0800000000000000
+      internalID: -475259755922611142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20245f5d956ac7000800000000000000
+      internalID: 35085801884041730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75e2c714604f35be0800000000000000
+      internalID: -1489578744023863721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2aada080e618720800000000000000
+      internalID: 2846677420295758498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c14730b9a77339c60800000000000000
+      internalID: 7823657977398916124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afe0448ac51b56440800000000000000
+      internalID: 4928540378745016058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1649a4e5605accd0800000000000000
+      internalID: -2537127041511635426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb8d949055de73890800000000000000
+      internalID: -7478247706741581636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c02a56172667397e0800000000000000
+      internalID: -1759932864190373364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df2a510d430ef26e0800000000000000
+      internalID: -1860021603646725379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca7ae09b8a86d3c0800000000000000
+      internalID: -4335125259261150523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_15
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9d9327709ee52e60800000000000000
+      internalID: 7937012222551891357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_16
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c2d199ed304d74f0800000000000000
+      internalID: -829436121710472512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_17
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63e8239d49259d910800000000000000
+      internalID: 1862610720147017270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_18
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bf1d7d5edfa99490800000000000000
+      internalID: -7738961115073405006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_19
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e13f59bcdb56cddb0800000000000000
+      internalID: -4765822439826001122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_20
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bd874027783817e0800000000000000
+      internalID: -1794622367213318736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_21
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47bbb0f69bbbadf10800000000000000
+      internalID: 2295353365205072756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_22
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 218a0f8e16df42b50800000000000000
+      internalID: 6567652753574766610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_23
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f46823e72394f5f0800000000000000
+      internalID: -723791840575724301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0205d73a33d8172a0800000000000000
+      internalID: -6741451914271174624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_25
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96dbf866de4e011e0800000000000000
+      internalID: -2229030107269317271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebf41929e1b7c5d50800000000000000
+      internalID: 6727387314622910398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 549f840a7b43614a0800000000000000
+      internalID: -6623048238728939195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_28
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f063ab7e801f6920800000000000000
+      internalID: 2985623282115633392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_29
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6a387fa4372f8a40800000000000000
+      internalID: 5372555987711965807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_30
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98803f071cdde86a0800000000000000
+      internalID: -6444970193827198839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_31
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f8d5ea0eca5682e0800000000000000
+      internalID: -2123910333266011915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_32
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdeafcc775368fb80800000000000000
+      internalID: -8360823480806035749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_33
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a76c811ce99629780800000000000000
+      internalID: -8677757401424148870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_34
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ecae5886e346e350800000000000000
+      internalID: 6045594207200914661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_35
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 508b3efd8a6eb7160800000000000000
+      internalID: 7024461656799557637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vial_SpriteAnimation-Sheet(64x64)_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1415b3c2188d0350800000000000000
+      internalID: 5984589094019470366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 60faf8879dbcd2046b124c069d8eef5e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Vial_SpriteAnimation-Sheet(64x64)_0: 969048701269045524
+      Vial_SpriteAnimation-Sheet(64x64)_1: -2324536229826757205
+      Vial_SpriteAnimation-Sheet(64x64)_10: -2537127041511635426
+      Vial_SpriteAnimation-Sheet(64x64)_11: -7478247706741581636
+      Vial_SpriteAnimation-Sheet(64x64)_12: -1759932864190373364
+      Vial_SpriteAnimation-Sheet(64x64)_13: -1860021603646725379
+      Vial_SpriteAnimation-Sheet(64x64)_14: -4335125259261150523
+      Vial_SpriteAnimation-Sheet(64x64)_15: 7937012222551891357
+      Vial_SpriteAnimation-Sheet(64x64)_16: -829436121710472512
+      Vial_SpriteAnimation-Sheet(64x64)_17: 1862610720147017270
+      Vial_SpriteAnimation-Sheet(64x64)_18: -7738961115073405006
+      Vial_SpriteAnimation-Sheet(64x64)_19: -4765822439826001122
+      Vial_SpriteAnimation-Sheet(64x64)_2: -6275484086227427857
+      Vial_SpriteAnimation-Sheet(64x64)_20: -1794622367213318736
+      Vial_SpriteAnimation-Sheet(64x64)_21: 2295353365205072756
+      Vial_SpriteAnimation-Sheet(64x64)_22: 6567652753574766610
+      Vial_SpriteAnimation-Sheet(64x64)_23: -723791840575724301
+      Vial_SpriteAnimation-Sheet(64x64)_24: -6741451914271174624
+      Vial_SpriteAnimation-Sheet(64x64)_25: -2229030107269317271
+      Vial_SpriteAnimation-Sheet(64x64)_26: 6727387314622910398
+      Vial_SpriteAnimation-Sheet(64x64)_27: -6623048238728939195
+      Vial_SpriteAnimation-Sheet(64x64)_28: 2985623282115633392
+      Vial_SpriteAnimation-Sheet(64x64)_29: 5372555987711965807
+      Vial_SpriteAnimation-Sheet(64x64)_3: 6620527314954394897
+      Vial_SpriteAnimation-Sheet(64x64)_30: -6444970193827198839
+      Vial_SpriteAnimation-Sheet(64x64)_31: -2123910333266011915
+      Vial_SpriteAnimation-Sheet(64x64)_32: -8360823480806035749
+      Vial_SpriteAnimation-Sheet(64x64)_33: -8677757401424148870
+      Vial_SpriteAnimation-Sheet(64x64)_34: 6045594207200914661
+      Vial_SpriteAnimation-Sheet(64x64)_35: 7024461656799557637
+      Vial_SpriteAnimation-Sheet(64x64)_36: 5984589094019470366
+      Vial_SpriteAnimation-Sheet(64x64)_4: -475259755922611142
+      Vial_SpriteAnimation-Sheet(64x64)_5: 35085801884041730
+      Vial_SpriteAnimation-Sheet(64x64)_6: -1489578744023863721
+      Vial_SpriteAnimation-Sheet(64x64)_7: 2846677420295758498
+      Vial_SpriteAnimation-Sheet(64x64)_8: 7823657977398916124
+      Vial_SpriteAnimation-Sheet(64x64)_9: 4928540378745016058
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

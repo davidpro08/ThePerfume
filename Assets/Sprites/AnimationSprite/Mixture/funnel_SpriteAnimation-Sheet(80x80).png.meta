@@ -1,0 +1,983 @@
+fileFormatVersion: 2
+guid: 751838aae4e534d4591677aea5dd549a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -147867450847333827
+    second: funnel_SpriteAnimation-Sheet(80x80)_0
+  - first:
+      213: 5798937689460522839
+    second: funnel_SpriteAnimation-Sheet(80x80)_1
+  - first:
+      213: 7961398563841112143
+    second: funnel_SpriteAnimation-Sheet(80x80)_2
+  - first:
+      213: 2584687353649866367
+    second: funnel_SpriteAnimation-Sheet(80x80)_3
+  - first:
+      213: 2673962703107281869
+    second: funnel_SpriteAnimation-Sheet(80x80)_4
+  - first:
+      213: 4044055792693960039
+    second: funnel_SpriteAnimation-Sheet(80x80)_5
+  - first:
+      213: 2970124930282836792
+    second: funnel_SpriteAnimation-Sheet(80x80)_6
+  - first:
+      213: -3776458996589983402
+    second: funnel_SpriteAnimation-Sheet(80x80)_7
+  - first:
+      213: -8980091749712592750
+    second: funnel_SpriteAnimation-Sheet(80x80)_8
+  - first:
+      213: -2548439896365143674
+    second: funnel_SpriteAnimation-Sheet(80x80)_9
+  - first:
+      213: -8679961533324368777
+    second: funnel_SpriteAnimation-Sheet(80x80)_10
+  - first:
+      213: 7826533296646558769
+    second: funnel_SpriteAnimation-Sheet(80x80)_11
+  - first:
+      213: -9199689086618782005
+    second: funnel_SpriteAnimation-Sheet(80x80)_12
+  - first:
+      213: 8705624544121353078
+    second: funnel_SpriteAnimation-Sheet(80x80)_13
+  - first:
+      213: 4516760347215694225
+    second: funnel_SpriteAnimation-Sheet(80x80)_14
+  - first:
+      213: -2679914959480034544
+    second: funnel_SpriteAnimation-Sheet(80x80)_15
+  - first:
+      213: -4012648735129165285
+    second: funnel_SpriteAnimation-Sheet(80x80)_16
+  - first:
+      213: -6289958283536851347
+    second: funnel_SpriteAnimation-Sheet(80x80)_17
+  - first:
+      213: 3574189025092190677
+    second: funnel_SpriteAnimation-Sheet(80x80)_18
+  - first:
+      213: 9066650504041845751
+    second: funnel_SpriteAnimation-Sheet(80x80)_19
+  - first:
+      213: 8728375699458280556
+    second: funnel_SpriteAnimation-Sheet(80x80)_20
+  - first:
+      213: -2205877965776887735
+    second: funnel_SpriteAnimation-Sheet(80x80)_21
+  - first:
+      213: 2945075185891406400
+    second: funnel_SpriteAnimation-Sheet(80x80)_22
+  - first:
+      213: 6709202106974959895
+    second: funnel_SpriteAnimation-Sheet(80x80)_23
+  - first:
+      213: 872884763638636969
+    second: funnel_SpriteAnimation-Sheet(80x80)_24
+  - first:
+      213: 1114127492734541164
+    second: funnel_SpriteAnimation-Sheet(80x80)_25
+  - first:
+      213: 9172075203817568307
+    second: funnel_SpriteAnimation-Sheet(80x80)_26
+  - first:
+      213: -6447526246128723240
+    second: funnel_SpriteAnimation-Sheet(80x80)_27
+  - first:
+      213: -8455923646450411426
+    second: funnel_SpriteAnimation-Sheet(80x80)_28
+  - first:
+      213: -5812724863423801045
+    second: funnel_SpriteAnimation-Sheet(80x80)_29
+  - first:
+      213: 6627943409444967089
+    second: funnel_SpriteAnimation-Sheet(80x80)_30
+  - first:
+      213: 2972755748527381510
+    second: funnel_SpriteAnimation-Sheet(80x80)_31
+  - first:
+      213: 4597922371013222824
+    second: funnel_SpriteAnimation-Sheet(80x80)_32
+  - first:
+      213: -8404804075023114864
+    second: funnel_SpriteAnimation-Sheet(80x80)_33
+  - first:
+      213: 4594198862458348733
+    second: funnel_SpriteAnimation-Sheet(80x80)_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 80
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d32f66e365ba2fdf0800000000000000
+      internalID: -147867450847333827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f3beeba17f97050800000000000000
+      internalID: 5798937689460522839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_2
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f48fd0100d19c7e60800000000000000
+      internalID: 7961398563841112143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_3
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f76aeb13477aed320800000000000000
+      internalID: 2584687353649866367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc35a5549e2db1520800000000000000
+      internalID: 2673962703107281869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_5
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76d526f215f5f1830800000000000000
+      internalID: 4044055792693960039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_6
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8335a0043e0083920800000000000000
+      internalID: 2970124930282836792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_7
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6590d671d82579bc0800000000000000
+      internalID: -3776458996589983402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_8
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29007f7d12e406380800000000000000
+      internalID: -8980091749712592750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_9
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 689e8bd9a6f12acd0800000000000000
+      internalID: -2548439896365143674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_10
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 160
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 774652e49f49a8780800000000000000
+      internalID: -8679961533324368777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1349269019e6d9c60800000000000000
+      internalID: 7826533296646558769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc6bc0c8483245080800000000000000
+      internalID: -9199689086618782005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_13
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6737644066790d870800000000000000
+      internalID: 8705624544121353078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_14
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1998c5fda91ceae30800000000000000
+      internalID: 4516760347215694225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_15
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01befeb0b870fcad0800000000000000
+      internalID: -2679914959480034544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_16
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b12a43e3c353058c0800000000000000
+      internalID: -4012648735129165285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_17
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6e92c9444495b8a0800000000000000
+      internalID: -6289958283536851347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_18
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d148b04bf11a9130800000000000000
+      internalID: 3574189025092190677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_19
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f3d704a89633dd70800000000000000
+      internalID: 9066650504041845751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_20
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6ccc58247b612970800000000000000
+      internalID: 8728375699458280556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_21
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 80
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 940e1086da52361e0800000000000000
+      internalID: -2205877965776887735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 042ffd327420fd820800000000000000
+      internalID: 2945075185891406400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_23
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7197b88f4cfdb1d50800000000000000
+      internalID: 6709202106974959895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_24
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a1288a511c1d1c00800000000000000
+      internalID: 872884763638636969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_25
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6d50fe3d0d267f00800000000000000
+      internalID: 1114127492734541164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_26
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 338f6b85dc1c94f70800000000000000
+      internalID: 9172075203817568307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_27
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8da5d732a09c586a0800000000000000
+      internalID: -6447526246128723240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_28
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e585f75be3686aa80800000000000000
+      internalID: -8455923646450411426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_29
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b291b8aa88d055fa0800000000000000
+      internalID: -5812724863423801045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_30
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b2db5f1a6f2bfb50800000000000000
+      internalID: 6627943409444967089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_31
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60c99fa5a99514920800000000000000
+      internalID: 2972755748527381510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: funnel_SpriteAnimation-Sheet(80x80)_32
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a1a01d190a1fcf30800000000000000
+      internalID: 4597922371013222824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: eed584d2f6161d34c960ccb88bd4edb5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":80.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      funnel_SpriteAnimation-Sheet(80x80)_0: -147867450847333827
+      funnel_SpriteAnimation-Sheet(80x80)_1: 5798937689460522839
+      funnel_SpriteAnimation-Sheet(80x80)_10: -8679961533324368777
+      funnel_SpriteAnimation-Sheet(80x80)_11: 7826533296646558769
+      funnel_SpriteAnimation-Sheet(80x80)_12: -9199689086618782005
+      funnel_SpriteAnimation-Sheet(80x80)_13: 8705624544121353078
+      funnel_SpriteAnimation-Sheet(80x80)_14: 4516760347215694225
+      funnel_SpriteAnimation-Sheet(80x80)_15: -2679914959480034544
+      funnel_SpriteAnimation-Sheet(80x80)_16: -4012648735129165285
+      funnel_SpriteAnimation-Sheet(80x80)_17: -6289958283536851347
+      funnel_SpriteAnimation-Sheet(80x80)_18: 3574189025092190677
+      funnel_SpriteAnimation-Sheet(80x80)_19: 9066650504041845751
+      funnel_SpriteAnimation-Sheet(80x80)_2: 7961398563841112143
+      funnel_SpriteAnimation-Sheet(80x80)_20: 8728375699458280556
+      funnel_SpriteAnimation-Sheet(80x80)_21: -2205877965776887735
+      funnel_SpriteAnimation-Sheet(80x80)_22: 2945075185891406400
+      funnel_SpriteAnimation-Sheet(80x80)_23: 6709202106974959895
+      funnel_SpriteAnimation-Sheet(80x80)_24: 872884763638636969
+      funnel_SpriteAnimation-Sheet(80x80)_25: 1114127492734541164
+      funnel_SpriteAnimation-Sheet(80x80)_26: 9172075203817568307
+      funnel_SpriteAnimation-Sheet(80x80)_27: -6447526246128723240
+      funnel_SpriteAnimation-Sheet(80x80)_28: -8455923646450411426
+      funnel_SpriteAnimation-Sheet(80x80)_29: -5812724863423801045
+      funnel_SpriteAnimation-Sheet(80x80)_3: 2584687353649866367
+      funnel_SpriteAnimation-Sheet(80x80)_30: 6627943409444967089
+      funnel_SpriteAnimation-Sheet(80x80)_31: 2972755748527381510
+      funnel_SpriteAnimation-Sheet(80x80)_32: 4597922371013222824
+      funnel_SpriteAnimation-Sheet(80x80)_4: 2673962703107281869
+      funnel_SpriteAnimation-Sheet(80x80)_5: 4044055792693960039
+      funnel_SpriteAnimation-Sheet(80x80)_6: 2970124930282836792
+      funnel_SpriteAnimation-Sheet(80x80)_7: -3776458996589983402
+      funnel_SpriteAnimation-Sheet(80x80)_8: -8980091749712592750
+      funnel_SpriteAnimation-Sheet(80x80)_9: -2548439896365143674
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
