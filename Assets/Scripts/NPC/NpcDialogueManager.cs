@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class NpcDialogueManager : MonoBehaviour
 {
     [Header("대화창 관련 요소")] public GameObject dialogueObject;
+    public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     public GameObject nextButton; // 다음 버튼
     public bool isActive = false;
@@ -28,6 +29,7 @@ public class NpcDialogueManager : MonoBehaviour
     [SerializeField] private DialogueEntry currentDialogue;
     private string currentNpcId;
     private Npc currentNpc; // 현재 대화 중인 NPC 객체
+    private string currentDialogueName; // 현재 대화 종류 (예: Tutorial, Daily)
     private bool isTyping = false;
     private Coroutine typewriterCoroutine;
 
@@ -58,7 +60,7 @@ public class NpcDialogueManager : MonoBehaviour
     /// <summary>
     /// NPC와의 대화 시작
     /// </summary>
-    public void StartDialogue(Npc npc, string dialogueId = null)
+    public void StartDialogue(Npc npc, string dialogueName, string dialogueId = null)
     {
         if (CSVDialogueParser.Instance == null)
         {
@@ -68,19 +70,20 @@ public class NpcDialogueManager : MonoBehaviour
 
         currentNpcId = npc.GetNpcId();
         currentNpc = npc; // NPC 객체 저장
+        currentDialogueName = dialogueName; // 대화 종류 저장
 
         if (string.IsNullOrEmpty(dialogueId))
         {
-            currentDialogue = GetRandomDialogue(currentNpcId);
+            currentDialogue = GetRandomDialogue(dialogueName, currentNpcId);
         }
         else
         {
-            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueId);
+            currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueName, dialogueId);
         }
 
         if (currentDialogue == null)
         {
-            Debug.LogError($"대화 데이터를 찾을 수 없습니다! NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
+            Debug.LogError($"대화 데이터를 찾을 수 없습니다! Dialogue Name: {dialogueName}, NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
             return;
         }
 
@@ -89,9 +92,9 @@ public class NpcDialogueManager : MonoBehaviour
         SoundManager.Instance.PlaySFX(SFXType.Talk);
     }
 
-    private DialogueEntry GetRandomDialogue(string npcId)
+    private DialogueEntry GetRandomDialogue(string dialogueName, string npcId)
     {
-        var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(npcId);
+        var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(dialogueName, npcId);
         if (dialogues != null && dialogues.Count > 0)
         {
             int index = UnityEngine.Random.Range(0, dialogues.Count);
@@ -110,11 +113,19 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("대화창 UI 요소가 설정되지 않았습니다!");
             return;
         }
-
+        
         currentDialogue = dialogue;
         isActive = true;
         dialogueObject.SetActive(true);
 
+        if (nameText == null || dialogue.npcId == null)
+        {
+            Debug.LogError("이름 요소가 설정되지 않았습니다!");
+            return;
+        }
+        
+        nameText.text = dialogue.npcId;
+        
         // NPC 상태에 따른 초상화 업데이트
         UpdatePortraitForDialogue(dialogue);
 
@@ -259,7 +270,7 @@ public class NpcDialogueManager : MonoBehaviour
             choiceButton.OtherSelected();
         }
 
-        StartDialogue(currentNpc, nextDialogueId);
+        StartDialogue(currentNpc, currentDialogueName, nextDialogueId);
     }
 
     /// <summary>
@@ -290,22 +301,11 @@ public class NpcDialogueManager : MonoBehaviour
         // 대화 종료 또는 다음 대화가 없는 경우
         if (currentDialogue.isEndDialogue || !currentDialogue.HasValidNextDialogue())
         {
-            // 대화 종료 시 다음 시작 대화 ID 설정
-            if (currentDialogue.isEndDialogue && !string.IsNullOrEmpty(currentNpcId))
-            {
-                    // NPC의 다음 시작 대화 ID 업데이트
-                    var npc = FindObjectOfType<Npc>();
-                    if (npc != null && npc.GetNpcId() == currentNpcId)
-                    {
-                        npc.SetStartDialogueId(GetRandomDialogue(currentNpcId).id);
-                    }
-            }
-
             EndDialogue();
         }
         else
         {
-            StartDialogue(currentNpc, currentDialogue.nextDialogueIds[0]);
+            StartDialogue(currentNpc, currentDialogueName, currentDialogue.nextDialogueIds[0]);
         }
     }
 
@@ -322,6 +322,7 @@ public class NpcDialogueManager : MonoBehaviour
         isActive = false;
         currentDialogue = null;
         currentNpcId = null;
+        currentDialogueName = null;
 
         if (dialogueObject != null)
             dialogueObject.SetActive(false);

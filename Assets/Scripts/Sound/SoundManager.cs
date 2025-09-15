@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
+
+    [Header("Audio Mixer Groups")]
+    public AudioMixerGroup bgmMixerGroup;
+    public AudioMixerGroup sfxMixerGroup;
 
     [System.Serializable]
     public class SFXData
@@ -30,14 +35,24 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-        DontDestroyOnLoad(gameObject);
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        bgmSource = (audioSources.Length > 0) ? audioSources[0] : gameObject.AddComponent<AudioSource>();
+        sfxSource = (audioSources.Length > 1) ? audioSources[1] : gameObject.AddComponent<AudioSource>();
 
-        sfxSource = gameObject.AddComponent<AudioSource>();
+        bgmSource.outputAudioMixerGroup = bgmMixerGroup;
+        sfxSource.outputAudioMixerGroup = sfxMixerGroup;
 
-        // Dictionary 초기화
         sfxDict = new Dictionary<SFXType, AudioClip>();
         foreach (var data in sfxList) sfxDict[data.type] = data.clip;
 
@@ -45,14 +60,12 @@ public class SoundManager : MonoBehaviour
         foreach (var data in bgmList) bgmDict[data.type] = data.clip;
     }
 
-    // --- SFX ---
     public void PlaySFX(SFXType type)
     {
         if (sfxDict.ContainsKey(type))
             sfxSource.PlayOneShot(sfxDict[type]);
     }
 
-    // --- BGM ---
     public void PlayBGM(BGMType type, bool loop = true)
     {
         if (bgmDict.ContainsKey(type))
