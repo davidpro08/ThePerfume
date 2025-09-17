@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -17,7 +18,8 @@ public class TutorialManager : MonoBehaviour
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
 
-    private const int FINAL_ID = 39;
+    private const string FINAL_ID = "narration_001_039";
+    private const string START_ID = "narration_001_001";
 
     void Awake()
     {
@@ -150,15 +152,15 @@ public class TutorialManager : MonoBehaviour
 
     private static void SaveTutorial(GameSave save, TutorialSaveData saveData)
     {
-        int currentID = TutorialManager.Instance.ExtractIntID();
+        string currentID = TutorialManager.Instance.currentStep.triggerId;
+
+        if (string.IsNullOrEmpty(currentID))
+            currentID = saveData.currentStep ?? START_ID;
 
         if (currentID == FINAL_ID)
             saveData.isTutorialEnd = true;
 
-        if (!saveData.isTutorialEnd)
-            saveData.currentStep = currentID;
-        else
-            saveData.currentStep = 0;
+        saveData.currentStep = saveData.isTutorialEnd ? null : currentID;
 
         save.tutorial = saveData;
     }
@@ -168,33 +170,11 @@ public class TutorialManager : MonoBehaviour
         TutorialSaveData data = save.tutorial ?? new TutorialSaveData();
 
         if (data.isTutorialEnd)
-            TutorialManager.Instance.currentStep.triggerId = CompleteStringID(000);
-        else
-        {
-            int id = data.currentStep;
+            TutorialManager.Instance.currentStep.triggerId = null;
 
-            if (id < 0) id = 0;
-            if (id > FINAL_ID) id = FINAL_ID;
-
-            TutorialManager.Instance.currentStep.triggerId = CompleteStringID(id);
-        }
+        TutorialManager.Instance.currentStep.triggerId = save.tutorial.currentStep;
 
         return data;
-    }
-
-    public int ExtractIntID()
-    {
-        string input = currentStep.triggerId; // narration_001_039
-        if (string.IsNullOrEmpty(input)) return 0;
-
-        string[] parts = input.Split('_');
-        string lastPart = parts[parts.Length - 1];
-        return int.Parse(lastPart);
-    }
-
-    public string CompleteStringID(int ID)
-    {
-        return $"narration_001_{ID:D3}";
     }
     #endregion
 

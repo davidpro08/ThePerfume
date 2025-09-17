@@ -90,7 +90,7 @@ public class PetalSlotData
 public class TutorialSaveData
 {
     public bool isTutorialEnd = false; // true가 끝
-    public int currentStep; // narration_001_nnn 에서 맨 뒷 자리 저장
+    public string currentStep; // narration_nnn_nnn
 }
 
 public class SaveManager : MonoBehaviour
