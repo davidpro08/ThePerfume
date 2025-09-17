@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,12 +10,14 @@ public class TutorialManager : MonoBehaviour
     [Header("튜토리얼 단계 설정")]
     [Tooltip("이 튜토리얼에서 진행할 모든 단계를 ScriptableObject 애셋으로 여기에 등록하세요.")]
     public List<TutorialStepSO> tutorialSteps;
-    
+
     [Header("필수 연결")]
     public Npc guide; // 가이드 NPC (인스펙터에서 할당)
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+
+    private const int FINAL_ID = 39;
 
     void Awake()
     {
@@ -42,7 +45,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         // TODO: 실제 저장된 데이터에서 튜토리얼 완료 여부 확인
-        bool hasCompletedTutorial = false; 
+        bool hasCompletedTutorial = false;
         if (!hasCompletedTutorial)
         {
             StartCoroutine(StartTutorialSequence());
@@ -79,13 +82,13 @@ public class TutorialManager : MonoBehaviour
 
             // 현재 단계로 설정
             currentStep = stepToStart;
-            
+
             // 조건 시작 전 플레이어에게 아이템 제공
             foreach (GiveItem giveItem in currentStep.giveItems)
             {
                 InventoryManager.Instance.AddItem(giveItem.itemData, giveItem.amount);
             }
-            
+
             // 만약 조건이 'None'이라면 바로 완료 처리
             if (currentStep.conditionType == TutorialConditionType.None)
             {
@@ -135,11 +138,71 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    #region === 세이브 / 로드 관련 메소드 ===
+    private void SaveTutorialCheckpoint() // 일단 C# 이벤트 구독/해제를 생각하고 만든 메소드
+    {
+        var save = SaveManager.Instance.CurrentSave;
+        SaveTutorial(save, save.tutorial);
+
+        save.lastSavedUtc = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        SaveManager.Save(save);
+    }
+
+    private static void SaveTutorial(GameSave save, TutorialSaveData saveData)
+    {
+        int currentID = TutorialManager.Instance.ExtractIntID();
+
+        if (currentID == FINAL_ID)
+            saveData.isTutorialEnd = true;
+
+        if (!saveData.isTutorialEnd)
+            saveData.currentStep = currentID;
+        else
+            saveData.currentStep = 0;
+
+        save.tutorial = saveData;
+    }
+
+    public TutorialSaveData LoadTutorial(GameSave save)
+    {
+        TutorialSaveData data = save.tutorial ?? new TutorialSaveData();
+
+        if (data.isTutorialEnd)
+            TutorialManager.Instance.currentStep.triggerId = CompleteStringID(000);
+        else
+        {
+            int id = data.currentStep;
+
+            if (id < 0) id = 0;
+            if (id > FINAL_ID) id = FINAL_ID;
+
+            TutorialManager.Instance.currentStep.triggerId = CompleteStringID(id);
+        }
+
+        return data;
+    }
+
+    public int ExtractIntID()
+    {
+        string input = currentStep.triggerId; // narration_001_039
+        if (string.IsNullOrEmpty(input)) return 0;
+
+        string[] parts = input.Split('_');
+        string lastPart = parts[parts.Length - 1];
+        return int.Parse(lastPart);
+    }
+
+    public string CompleteStringID(int ID)
+    {
+        return $"narration_001_{ID:D3}";
+    }
+    #endregion
+
     #region === 조건 확인 메소드들 ===
 
     private bool CheckForTilledSoil()
     {
-        var farmTile = FindObjectOfType<Farm>(); 
+        var farmTile = FindObjectOfType<Farm>();
         if (farmTile != null)
         {
             Debug.Log("흙 설치 확인!");
@@ -151,7 +214,7 @@ public class TutorialManager : MonoBehaviour
     private bool CheckForWateredSoil()
     {
         var farmTile = FindObjectOfType<Farm>();
-        if (farmTile != null && farmTile.isWatered) 
+        if (farmTile != null && farmTile.isWatered)
         {
             Debug.Log("물 주기 확인!");
             return true;
@@ -172,7 +235,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckBenchInteraction()
     {
-        if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bench")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bench")
         {
             Debug.Log("작업대 씬 이동 확인!");
             return true;

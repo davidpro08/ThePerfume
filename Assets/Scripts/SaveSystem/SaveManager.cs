@@ -5,6 +5,7 @@ using System.Text;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class GameSave
@@ -14,6 +15,7 @@ public class GameSave
     public List<DistillerSaveData> distillers = new List<DistillerSaveData>(); // ID 기반 다중 소환
     public MixtureSaveData mixture = new(); // 단일 소환
     public List<InventoryItemSaveData> inventory = new();
+    public TutorialSaveData tutorial = new();
     public long lastSavedUtc;
 }
 
@@ -82,6 +84,13 @@ public class PetalSlotData
 {
     public int index;
     public int itemID;
+}
+
+[Serializable]
+public class TutorialSaveData
+{
+    public bool isTutorialEnd = false; // true가 끝
+    public int currentStep; // narration_001_nnn 에서 맨 뒷 자리 저장
 }
 
 public class SaveManager : MonoBehaviour
