@@ -131,8 +131,8 @@ public class TutorialManager : MonoBehaviour
                 return CheckForWateredSoil();
             case TutorialConditionType.CheckForSeededSoil:
                 return CheckForSeededSoil();
-            case TutorialConditionType.CheckBenchInteraction:
-                return CheckBenchInteraction();
+            case TutorialConditionType.CheckCurrentSceneVillage:
+                return CheckCurrentSceneVillage();
             case TutorialConditionType.None:
                 return true; // 'None' 조건은 항상 참
             default:
@@ -213,11 +213,11 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckBenchInteraction()
+    private bool CheckCurrentSceneVillage()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bench")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Village")
         {
-            Debug.Log("작업대 씬 이동 확인!");
+            Debug.Log("마을 씬 이동 확인!");
             return true;
         }
         return false;

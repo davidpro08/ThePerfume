@@ -2861,7 +2861,6 @@ GameObject:
   - component: {fileID: 783923612}
   - component: {fileID: 783923611}
   - component: {fileID: 783923610}
-  - component: {fileID: 783923609}
   - component: {fileID: 783923613}
   m_Layer: 8
   m_Name: MoveToBench
@@ -2870,20 +2869,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &783923609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783923607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781f9e5c6b6a20544b42edd08d033501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneChanger: {fileID: 783923613}
-  newPlayerPos: {x: 0, y: 0}
 --- !u!61 &783923610
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3013,6 +2998,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: bench
+  targetPosition: {x: -7, y: 2.5}
+  isTrigger: 0
 --- !u!1 &795042579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4250,7 +4237,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1022896023}
   - component: {fileID: 1022896022}
-  - component: {fileID: 1022896025}
   - component: {fileID: 1022896024}
   m_Layer: 0
   m_Name: MoveSceneToVillage
@@ -4293,7 +4279,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 9.45112, y: -0.5007405}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4303,7 +4289,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.253047, y: 4.9289875}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
 --- !u!4 &1022896023
 Transform:
@@ -4314,7 +4300,7 @@ Transform:
   m_GameObject: {fileID: 1022896021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.69032, y: -1.82651, z: 0}
+  m_LocalPosition: {x: 10.5, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4333,20 +4319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Village
---- !u!114 &1022896025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1022896021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781f9e5c6b6a20544b42edd08d033501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneChanger: {fileID: 1022896024}
-  newPlayerPos: {x: -1.8, y: 2.5}
+  targetPosition: {x: -1.8, y: 2.5}
+  isTrigger: 1
 --- !u!1 &1022931145
 GameObject:
   m_ObjectHideFlags: 0
@@ -7685,7 +7659,6 @@ GameObject:
   - component: {fileID: 2038711225}
   - component: {fileID: 2038711224}
   - component: {fileID: 2038711223}
-  - component: {fileID: 2038711226}
   - component: {fileID: 2038711227}
   m_Layer: 8
   m_Name: MoveToMixture
@@ -7707,6 +7680,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Mixture
+  targetPosition: {x: 0, y: 0}
+  isTrigger: 0
 --- !u!212 &2038711224
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7777,20 +7752,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2038711226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038711222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781f9e5c6b6a20544b42edd08d033501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneChanger: {fileID: 2038711223}
-  newPlayerPos: {x: 0, y: 0}
 --- !u!58 &2038711227
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -22010,6 +21971,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Main
+  targetPosition: {x: 0, y: 0}
+  isTrigger: 0
 --- !u!224 &8800547821471034788
 RectTransform:
   m_ObjectHideFlags: 0
