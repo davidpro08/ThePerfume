@@ -11,6 +11,12 @@ public class BuildController : MonoBehaviour
     public Tilemap installationTilemap;
     public ItemDataBase itemDB;
 
+    [Header("설치 가능 영역")]
+    public BoundsInt playableBounds;
+
+    [Header("타일/장애물 체크")]
+    [SerializeField] private LayerMask blockedMask;
+
     void Start()
     {
         if (SaveManager.Instance != null)
@@ -68,7 +74,23 @@ public class BuildController : MonoBehaviour
 
         Vector3Int gridPos = installationTilemap.WorldToCell(mouseWorldPos);
 
-        if (placedObjects.ContainsKey(gridPos)) return;
+        if (!playableBounds.Contains(gridPos))
+        {
+            Debug.Log($"[BuildController] 설치 불가 : 범위 밖 {gridPos}");
+            return;
+        }
+
+        if (placedObjects.ContainsKey(gridPos))
+        {
+            Debug.Log($"[BuildController] 설치 불가 : 이미 다른 오브젝트 존재");
+            return;
+        }
+
+        if (IsCellBlocked(gridPos))
+        {
+            Debug.Log($"[BuildController] 설치 불가 : 장애물에 막힘");
+            return;
+        }
 
         switch (installData.installationType)
         {
@@ -127,7 +149,7 @@ public class BuildController : MonoBehaviour
         {
             currentPreview.transform.position = worldPos;
 
-            if (placedObjects.ContainsKey(gridPos))
+            if (IsCellBlocked(gridPos) || !playableBounds.Contains(gridPos) || placedObjects.ContainsKey(gridPos))
                 currentPreview.GetComponent<SpriteRenderer>().color = Color.red * 0.6f;
             else
                 currentPreview.GetComponent<SpriteRenderer>().color = Color.white * 0.6f;
@@ -142,4 +164,13 @@ public class BuildController : MonoBehaviour
     }
 
     public Dictionary<Vector3Int, GameObject> PlacedObjects => placedObjects;
+
+    private bool IsCellBlocked(Vector3Int cell)
+    {
+        Vector3 center = installationTilemap.GetCellCenterWorld(cell);
+        Vector2 size = (Vector2)installationTilemap.cellSize * 0.9f;
+        float angle = 0f;
+        var hit = Physics2D.OverlapBox(center, size, angle, blockedMask);
+        return hit != null;
+    }
 }
