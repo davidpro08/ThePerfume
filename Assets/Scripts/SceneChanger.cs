@@ -1,27 +1,25 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class SceneChanger : MonoBehaviour, IInteract
 {
     [Header("이동한 씬")]
     [SerializeField] private string targetSceneName;
-
-    public void MoveToScene()
+    [Header("이동할 위치")]
+    [SerializeField] public Vector2 targetPosition;
+    [Header("이동 방식")]
+    [SerializeField] public bool isTrigger;
+    
+    public void MoveToScene(Player player)
     {
-        if (string.IsNullOrEmpty(targetSceneName))
-        {
-            Debug.Log("씬 이름이 설정 안됨", this);
-            return;
-        }
-
-        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "Main")
         {
-            if (this.name == "Play")
+            if (name == "Play")
             {
                 SaveManager.Instance.ResetGame();
             }
-            else if (this.name == "Load")
+            else if (name == "Load")
             {
                 SaveManager.Instance.LoadGame();
             }
@@ -31,5 +29,40 @@ public class SceneChanger : MonoBehaviour
 
         Resources.UnloadUnusedAssets();
         SceneManager.LoadScene(targetSceneName);
+        
+        player.transform.position = targetPosition;
+    }
+
+    public void Interact(Player player)
+    {
+        if(CanInteract(player)) MoveToScene(player);
+    }
+
+    public bool CanInteract(Player player)
+    {
+        if (string.IsNullOrEmpty(targetSceneName))
+        {
+            Debug.Log("씬 이름이 설정 안됨", this);
+            return false;
+        }
+
+        return true;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!isTrigger)
+        {
+            Debug.Log("트리거 이동 방식이 아님");
+            return;
+        }
+
+        if (!other.CompareTag("Player"))
+        {
+            Debug.Log("충돌한 객체가 플레이어가 아님");
+            return;
+        }
+        Player player = other.GetComponent<Player>();
+        Interact(player);
     }
 }
