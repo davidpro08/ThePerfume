@@ -51,6 +51,13 @@ MonoBehaviour:
   emptyFarmTile: {fileID: 11400000, guid: 9a285a97e72fd9044b169d713aba1337, type: 2}
   plantedFarmTile: {fileID: 11400000, guid: ffd883c8fa740894bac6417af452a27b, type: 2}
   wateredFarmTile: {fileID: 11400000, guid: e30fbf1c849fbce498ce4ca5e7c30d0c, type: 2}
+  grid: {fileID: 0}
+  playableBounds:
+    m_Position: {x: -6, y: -4, z: 0}
+    m_Size: {x: 12, y: 7, z: 1}
+  blockedMask:
+    serializedVersion: 2
+    m_Bits: 1408
 --- !u!61 &8710338102519530094
 BoxCollider2D:
   m_ObjectHideFlags: 0

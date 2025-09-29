@@ -7820,6 +7820,12 @@ MonoBehaviour:
   tilePreviewPrefab: {fileID: 2996755076523611956, guid: 77bed4daf43d32443873720dd8f120e0, type: 3}
   installationTilemap: {fileID: 8297963829654359089}
   itemDB: {fileID: 11400000, guid: 617f6453171eb224fbaa9eaf95962778, type: 2}
+  playableBounds:
+    m_Position: {x: -6, y: -4, z: 0}
+    m_Size: {x: 12, y: 7, z: 1}
+  blockedMask:
+    serializedVersion: 2
+    m_Bits: 1408
 --- !u!4 &2051033302
 Transform:
   m_ObjectHideFlags: 0
@@ -8573,7 +8579,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 6.9333334
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
