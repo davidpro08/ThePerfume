@@ -98,13 +98,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-
-    // 조건 시작 전 플레이어에게 아이템 제공
-    public void GiveItem(ItemData itemData, int amountOfItems)
-    {
-        InventoryManager.Instance.AddItem(itemData, 1);
-    }
-
+    
     // 현재 단계를 완료 처리
     private void CompleteStep(TutorialStepSO step)
     {
@@ -152,7 +146,7 @@ public class TutorialManager : MonoBehaviour
 
     private static void SaveTutorial(GameSave save, TutorialSaveData saveData)
     {
-        string currentID = TutorialManager.Instance.currentStep.triggerId;
+        string currentID = Instance.currentStep.triggerId;
 
         if (string.IsNullOrEmpty(currentID))
             currentID = saveData.currentStep ?? START_ID;
@@ -170,9 +164,9 @@ public class TutorialManager : MonoBehaviour
         TutorialSaveData data = save.tutorial ?? new TutorialSaveData();
 
         if (data.isTutorialEnd)
-            TutorialManager.Instance.currentStep.triggerId = null;
+            Instance.currentStep.triggerId = null;
 
-        TutorialManager.Instance.currentStep.triggerId = save.tutorial.currentStep;
+        Instance.currentStep.triggerId = save.tutorial.currentStep;
 
         return data;
     }
