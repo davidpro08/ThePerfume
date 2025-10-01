@@ -25,7 +25,7 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
     // 타일은 BuildController에서 다루고 Interact는 여기서
     [Header("화분 타일")]
     public RuleTile emptyFarmTile;
-    // public RuleOverrideTile plantedFarmTile;
+    public RuleOverrideTile plantedFarmTile;
     public RuleOverrideTile wateredFarmTile;
 
     void Awake()
@@ -57,7 +57,7 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
         }
         else if (isOccupied)
         {
-            tilemap.SetTile(gridPosition, emptyFarmTile);
+            tilemap.SetTile(gridPosition, plantedFarmTile);
         }
         else
             tilemap.SetTile(gridPosition, emptyFarmTile);
