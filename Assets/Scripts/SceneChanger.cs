@@ -10,6 +10,27 @@ public class SceneChanger : MonoBehaviour, IInteract
     [Header("이동 방식")]
     [SerializeField] public bool isTrigger;
     
+    public void MoveToScene()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "Main")
+        {
+            if (name == "Play")
+            {
+                SaveManager.Instance.ResetGame();
+            }
+            else if (name == "Load")
+            {
+                SaveManager.Instance.LoadGame();
+            }
+        }
+
+        if (currentScene == "lab" && SaveManager.Instance != null) SaveManager.Instance.SaveGame();
+
+        Resources.UnloadUnusedAssets();
+        SceneManager.LoadScene(targetSceneName);
+    }
+    
     public void MoveToScene(Player player)
     {
         string currentScene = SceneManager.GetActiveScene().name;
