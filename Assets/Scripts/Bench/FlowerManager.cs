@@ -212,7 +212,7 @@ public class FlowerManager : MonoBehaviour
             Vector3 spawnPos = new Vector3(bowlCneter.x + randomOffset.x, bowlCneter.y + randomOffset.y, bowlCneter.z + (collectedPetalCount * petalStackZOffsest));
             newSmallPetal.transform.position = spawnPos;
             newSmallPetal.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-            newSmallPetal.transform.localScale = Vector3.one * Random.Range(5.9f, 6.1f);
+            newSmallPetal.transform.localScale = Vector3.one * Random.Range(0.9f, 1.1f);
             newSmallPetal.transform.SetParent(bowlTransform);
         }
         else
