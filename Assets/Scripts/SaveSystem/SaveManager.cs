@@ -90,7 +90,8 @@ public class PetalSlotData
 public class TutorialSaveData
 {
     public bool isTutorialEnd = false; // true가 끝
-    public string currentStep = "narration_001_001"; // narration_nnn_nnn
+    public string currentStep = ""; // narration_nnn_nnn, 마지막으로 완료된 대화 ID
+    public HashSet<string> completedStepNames = new(); // 완료된 튜토리얼 단계의 이름들
 }
 
 public class SaveManager : MonoBehaviour
@@ -178,6 +179,7 @@ public class SaveManager : MonoBehaviour
         GameSave save = CurrentSave;
         InstallatioinSaveManager.SaveInstallations(save, buildController);
         FarmSaveManager.SaveFarms(save, buildController);
+        TutorialManager.Instance?.PrepareSaveData(save);
 
         save.lastSavedUtc = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         SaveManager.Save(save);

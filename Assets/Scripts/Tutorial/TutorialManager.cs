@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -17,6 +18,8 @@ public class TutorialManager : MonoBehaviour
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private string _lastEndedDialogueId = "narration_001_001"; // 마지막으로 종료된 대화 ID를 캐시
+    private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
 
     private const string FINAL_ID = "narration_001_039";
     private const string START_ID = "narration_001_001";
@@ -46,11 +49,48 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        // TODO: 실제 저장된 데이터에서 튜토리얼 완료 여부 확인
-        bool hasCompletedTutorial = false;
-        if (!hasCompletedTutorial)
+        StartCoroutine(InitializeTutorial());
+    }
+
+    private IEnumerator InitializeTutorial()
+    {
+        yield return new WaitForSeconds(1f); // Wait for other managers to be ready
+
+        var tutorialData = SaveManager.Instance.CurrentSave?.tutorial;
+
+        // Case 1: Tutorial is already completed.
+        if (tutorialData != null && tutorialData.isTutorialEnd)
         {
-            StartCoroutine(StartTutorialSequence());
+            Debug.Log("튜토리얼이 이미 완료되었습니다.");
+            gameObject.SetActive(false);
+            yield break; // Stop the coroutine
+        }
+
+        // Restore the set of completed steps from save data
+        completedSteps.Clear();
+        if (tutorialData?.completedStepNames != null)
+        {
+            foreach (var stepName in tutorialData.completedStepNames)
+            {
+                var step = tutorialSteps.FirstOrDefault(s => s.name == stepName);
+                if (step != null) completedSteps.Add(step);
+            }
+        }
+        
+        // 마지막으로 끝난 대화 ID를 복원
+        _lastEndedDialogueId = tutorialData?.currentStep ?? "";
+
+        // Case 2: Resume tutorial from a saved point.
+        if (!string.IsNullOrEmpty(_lastEndedDialogueId))
+        {
+            Debug.Log($"저장된 데이터로부터 튜토리얼을 재개합니다. 마지막 대화 ID: {_lastEndedDialogueId}");
+            HandleDialogueEnd(null, _lastEndedDialogueId);
+        }
+        // Case 3: Start tutorial from the very beginning.
+        else
+        {
+            Debug.Log("저장된 튜토리얼 데이터가 없거나, 시작 지점 정보가 없어 새로 시작합니다.");
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", START_ID);
         }
     }
 
@@ -66,16 +106,16 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    // 튜토리얼 시작
-    private System.Collections.IEnumerator StartTutorialSequence()
-    {
-        yield return new WaitForSeconds(1f); // 게임 시작 후 잠시 대기
-        NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", "narration_001_001");
-    }
-
     // NpcDialogueManager에서 대화가 끝났을 때 호출될 핸들러
-    private void HandleDialogueEnd(string dialogueId)
+    private void HandleDialogueEnd(Npc npc, string dialogueId)
     {
+        if (npc != null && npc.GetNpcId() == "Isolde")
+        {
+            hasInteractedWithIsolde = true;
+        }
+
+        _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
+        
         var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
 
         if (stepToStart != null)
@@ -98,13 +138,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-
-    // 조건 시작 전 플레이어에게 아이템 제공
-    public void GiveItem(ItemData itemData, int amountOfItems)
-    {
-        InventoryManager.Instance.AddItem(itemData, 1);
-    }
-
+    
     // 현재 단계를 완료 처리
     private void CompleteStep(TutorialStepSO step)
     {
@@ -131,8 +165,8 @@ public class TutorialManager : MonoBehaviour
                 return CheckForWateredSoil();
             case TutorialConditionType.CheckForSeededSoil:
                 return CheckForSeededSoil();
-            case TutorialConditionType.CheckCurrentSceneVillage:
-                return CheckCurrentSceneVillage();
+            case TutorialConditionType.InteractedWithIsolde:
+                return CheckInteractedWithIsolde();
             case TutorialConditionType.None:
                 return true; // 'None' 조건은 항상 참
             default:
@@ -141,41 +175,30 @@ public class TutorialManager : MonoBehaviour
     }
 
     #region === 세이브 / 로드 관련 메소드 ===
-    private void SaveTutorialCheckpoint() // 일단 C# 이벤트 구독/해제를 생각하고 만든 메소드
+
+    /// <summary>
+    /// SaveManager가 호출할 메서드. 전달받은 GameSave 객체에 현재 튜토리얼 진행 상황을 기록합니다.
+    /// </summary>
+    public void PrepareSaveData(GameSave save)
     {
-        var save = SaveManager.Instance.CurrentSave;
-        SaveTutorial(save, save.tutorial);
+        if (save.tutorial == null)
+        {
+            save.tutorial = new TutorialSaveData();
+        }
 
-        save.lastSavedUtc = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        SaveManager.Save(save);
+        // 마지막으로 끝난 대화 ID를 저장하여, 언제나 정확한 재개 지점을 확보.
+        save.tutorial.currentStep = _lastEndedDialogueId;
+        
+        // 완료된 스텝들의 이름을 저장.
+        save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
+        
+        // 모든 튜토리얼 단계가 완료되었는지 확인
+        if (tutorialSteps.All(step => completedSteps.Contains(step)))
+        {
+            save.tutorial.isTutorialEnd = true;
+        }
     }
-
-    private static void SaveTutorial(GameSave save, TutorialSaveData saveData)
-    {
-        string currentID = TutorialManager.Instance.currentStep.triggerId;
-
-        if (string.IsNullOrEmpty(currentID))
-            currentID = saveData.currentStep ?? START_ID;
-
-        if (currentID == FINAL_ID)
-            saveData.isTutorialEnd = true;
-
-        saveData.currentStep = saveData.isTutorialEnd ? null : currentID;
-
-        save.tutorial = saveData;
-    }
-
-    public TutorialSaveData LoadTutorial(GameSave save)
-    {
-        TutorialSaveData data = save.tutorial ?? new TutorialSaveData();
-
-        if (data.isTutorialEnd)
-            TutorialManager.Instance.currentStep.triggerId = null;
-
-        TutorialManager.Instance.currentStep.triggerId = save.tutorial.currentStep;
-
-        return data;
-    }
+    
     #endregion
 
     #region === 조건 확인 메소드들 ===
@@ -213,11 +236,11 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckCurrentSceneVillage()
+    private bool CheckInteractedWithIsolde()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Village")
+        if (hasInteractedWithIsolde)
         {
-            Debug.Log("마을 씬 이동 확인!");
+            Debug.Log("이졸데와 상호작용 확인!");
             return true;
         }
         return false;

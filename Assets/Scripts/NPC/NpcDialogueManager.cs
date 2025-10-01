@@ -37,7 +37,7 @@ public class NpcDialogueManager : MonoBehaviour
     public static NpcDialogueManager Instance { get; private set; }
 
     // 튜토리얼 매니저와 연결하기 위한 이벤트
-    public static event Action<string> OnDialogueEnd;
+    public static event Action<Npc, string> OnDialogueEnd;
 
     void Awake()
     {
@@ -97,7 +97,16 @@ public class NpcDialogueManager : MonoBehaviour
         var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(dialogueName, npcId);
         if (dialogues != null && dialogues.Count > 0)
         {
-            int index = UnityEngine.Random.Range(0, dialogues.Count);
+            int index = 0;
+            // 하드 코딩
+            if (npcId == "Ansel")
+            {
+                index = UnityEngine.Random.Range(0, 4);
+            }
+            else
+            {
+                index = UnityEngine.Random.Range(0, dialogues.Count);
+            }
             return dialogues[index];
         }
         return null;
@@ -316,7 +325,7 @@ public class NpcDialogueManager : MonoBehaviour
     {
         if (currentDialogue != null)
         {
-            OnDialogueEnd?.Invoke(currentDialogue.id);
+            OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
         }
 
         isActive = false;

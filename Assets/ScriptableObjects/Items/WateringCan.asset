@@ -16,6 +16,7 @@ MonoBehaviour:
   itemName: "\uBB3C\uBFCC\uB9AC\uAC1C"
   description: Null Description
   itemIcon: {fileID: -5468773108562608643, guid: 1b8b98262f596b745ba3b450eda1d2e5, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 0
   isStackable: 0
   maxStack: 1
@@ -25,6 +26,6 @@ MonoBehaviour:
   sellPrice: 0
   scaleUpUI: 1
   toolType: 0
-  maxDurability: 5
-  nowDurability: 3
+  maxDurability: 10
+  nowDurability: 10
   useDurability: 1
