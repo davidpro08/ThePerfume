@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a0617ca80ab4244b684c15eaf2562b, type: 3}
   m_Name: TutorialStep 6
   m_EditorClassIdentifier: 
-  triggerId: narration_001_009
-  conditionType: 4
-  nextDialogueId: narration_001_010
+  triggerId: npc_001_007
+  giveItems:
+  - itemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
+    amount: 10
+  conditionType: 0
+  nextDialogueId: npc_001_010

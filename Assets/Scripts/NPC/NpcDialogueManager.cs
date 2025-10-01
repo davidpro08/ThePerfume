@@ -37,7 +37,7 @@ public class NpcDialogueManager : MonoBehaviour
     public static NpcDialogueManager Instance { get; private set; }
 
     // 튜토리얼 매니저와 연결하기 위한 이벤트
-    public static event Action<string> OnDialogueEnd;
+    public static event Action<Npc, string> OnDialogueEnd;
 
     void Awake()
     {
@@ -325,7 +325,7 @@ public class NpcDialogueManager : MonoBehaviour
     {
         if (currentDialogue != null)
         {
-            OnDialogueEnd?.Invoke(currentDialogue.id);
+            OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
         }
 
         isActive = false;

@@ -19,6 +19,7 @@ public class TutorialManager : MonoBehaviour
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
     private string _lastEndedDialogueId = "narration_001_001"; // 마지막으로 종료된 대화 ID를 캐시
+    private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
 
     private const string FINAL_ID = "narration_001_039";
     private const string START_ID = "narration_001_001";
@@ -83,7 +84,7 @@ public class TutorialManager : MonoBehaviour
         if (!string.IsNullOrEmpty(_lastEndedDialogueId))
         {
             Debug.Log($"저장된 데이터로부터 튜토리얼을 재개합니다. 마지막 대화 ID: {_lastEndedDialogueId}");
-            HandleDialogueEnd(_lastEndedDialogueId);
+            HandleDialogueEnd(null, _lastEndedDialogueId);
         }
         // Case 3: Start tutorial from the very beginning.
         else
@@ -106,8 +107,13 @@ public class TutorialManager : MonoBehaviour
     }
 
     // NpcDialogueManager에서 대화가 끝났을 때 호출될 핸들러
-    private void HandleDialogueEnd(string dialogueId)
+    private void HandleDialogueEnd(Npc npc, string dialogueId)
     {
+        if (npc != null && npc.GetNpcId() == "Isolde")
+        {
+            hasInteractedWithIsolde = true;
+        }
+
         _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
         
         var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
@@ -159,8 +165,8 @@ public class TutorialManager : MonoBehaviour
                 return CheckForWateredSoil();
             case TutorialConditionType.CheckForSeededSoil:
                 return CheckForSeededSoil();
-            case TutorialConditionType.CheckCurrentSceneVillage:
-                return CheckCurrentSceneVillage();
+            case TutorialConditionType.InteractedWithIsolde:
+                return CheckInteractedWithIsolde();
             case TutorialConditionType.None:
                 return true; // 'None' 조건은 항상 참
             default:
@@ -230,11 +236,11 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckCurrentSceneVillage()
+    private bool CheckInteractedWithIsolde()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Village")
+        if (hasInteractedWithIsolde)
         {
-            Debug.Log("마을 씬 이동 확인!");
+            Debug.Log("이졸데와 상호작용 확인!");
             return true;
         }
         return false;
