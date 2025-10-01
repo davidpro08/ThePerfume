@@ -97,7 +97,16 @@ public class NpcDialogueManager : MonoBehaviour
         var dialogues = CSVDialogueParser.Instance.GetNonConditionalDialoguesByNpcId(dialogueName, npcId);
         if (dialogues != null && dialogues.Count > 0)
         {
-            int index = UnityEngine.Random.Range(0, dialogues.Count);
+            int index = 0;
+            // 하드 코딩
+            if (npcId == "Ansel")
+            {
+                index = UnityEngine.Random.Range(0, 4);
+            }
+            else
+            {
+                index = UnityEngine.Random.Range(0, dialogues.Count);
+            }
             return dialogues[index];
         }
         return null;
