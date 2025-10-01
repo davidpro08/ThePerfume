@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a0617ca80ab4244b684c15eaf2562b, type: 3}
   m_Name: TutorialStep 4
   m_EditorClassIdentifier: 
-  triggerId: narration_001_009
-  conditionType: 4
-  nextDialogueId: narration_001_010
+  triggerId: narration_001_006
+  giveItems: []
+  conditionType: 0
+  nextDialogueId: narration_001_007

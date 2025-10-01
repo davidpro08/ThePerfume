@@ -180,16 +180,6 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            if (detection.collider.CompareTag("bench"))
-            {
-                SceneChanger sceneChanger = detection.collider.GetComponent<SceneChanger>();
-                if (sceneChanger != null)
-                {
-                    sceneChanger.MoveToScene();
-                    return;
-                }
-            }
-
             IInteract interact = detection.collider.GetComponent<IInteract>();
             if (interact != null) interact.Interact(this);
         }
@@ -216,16 +206,6 @@ public class Player : MonoBehaviour
             // 우선순위 별로 상호작용 오브젝트 상호작용 (작물 > 농지 > 바닥에 있는 아이템)
 
             // 올바른 도구를 장착했는지 확인 >> 도구가 무슨 종류인지 확인 필요
-            // 작업대
-            SceneChanger sceneChanger = hitCollider.GetComponent<SceneChanger>();
-            if (sceneChanger != null)
-            {
-                if (hitCollider.CompareTag("bench"))
-                {
-                    sceneChanger.MoveToScene();
-                    return;
-                }
-            }
 
             IInteract interact = hitCollider.GetComponent<IInteract>();
             interact.Interact(this);

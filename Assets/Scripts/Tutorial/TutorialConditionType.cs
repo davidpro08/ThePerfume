@@ -6,5 +6,5 @@ public enum TutorialConditionType
     CheckForTilledSoil,   // 흙이 설치되었는지 확인
     CheckForWateredSoil,  // 흙에 물을 주었는지 확인
     CheckForSeededSoil,   // 흙에 씨앗을 심었는지 확인
-    CheckBenchInteraction // 작업대 씬으로 이동했는지 확인
+    InteractedWithIsolde // 이졸데와 상호작용했는지 확인
 }

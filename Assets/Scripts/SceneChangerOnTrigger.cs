@@ -1,20 +1,23 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneChangerOnTrigger : MonoBehaviour
 {
     [SerializeField] private SceneChanger sceneChanger;
-
-    public Vector2 newPlayerPos;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player")) return;
-
-        if (sceneChanger != null)
+        if (sceneChanger == null)
         {
-            sceneChanger.MoveToScene();
-            other.transform.position = newPlayerPos; // ÇÃ·¹ÀÌ¾î À§Ä¡ Á¶Á¤
+            Debug.Log("ì”¬ ì²´ì¸ì € ì—†ìŒ");
+            return;
         }
-        else Debug.LogWarning("SceneChanger ¿¬°á¾ÈµÊ", this);
+
+        if (!other.CompareTag("Player"))
+        {
+            Debug.Log("ì¶©ëŒí•œ ê°ì²´ê°€ í”Œë ˆì´ì–´ê°€ ì•„ë‹˜");
+            return;
+        }
+        Player player = other.GetComponent<Player>();
+        sceneChanger.MoveToScene(player);
     }
 }
