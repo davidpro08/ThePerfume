@@ -7993,11 +7993,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.029113412, y: -0.14557433}
+  m_Offset: {x: -0.029113412, y: 0.29826117}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -8007,7 +8007,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.9564312, y: 1.1488514}
+  m_Size: {x: 1.9564312, y: 0.8733697}
   m_EdgeRadius: 0
 --- !u!1 &2051033300
 GameObject:
@@ -8888,7 +8888,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.9333334
+  orthographic size: 7.35
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -22175,7 +22175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followSmoothTime: 0.15
-  followZoom: 6
+  followZoom: 10
   followOffset: {x: 0, y: 0}
   mapRoot: {fileID: 0}
   overviewPadding: 0.8
