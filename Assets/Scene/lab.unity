@@ -6830,7 +6830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1734265761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8153,6 +8153,7 @@ GameObject:
   - component: {fileID: 6588498740976258033}
   - component: {fileID: 2990448008853968623}
   - component: {fileID: 8655344592789768167}
+  - component: {fileID: 8655344592789768168}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8618,7 +8619,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.9333334
+  orthographic size: 13.733334
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -21918,6 +21919,22 @@ MonoBehaviour:
   - bench
   - distiller
   - Mixture
+--- !u!114 &8655344592789768168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417083539434167306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &8726283600772571550
 GameObject:
   m_ObjectHideFlags: 0
