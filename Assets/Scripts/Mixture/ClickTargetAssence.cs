@@ -14,7 +14,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
     [SerializeField] float tiltAngle = -30f; // 기울일 각도
     [SerializeField] float tiltDuration = 0.25f; // 기울이기/되돌리기 시간
     [SerializeField] float holdDuration = 0.35f; // 기울인 상태 유지 시간
-    [SerializeField] int dragSortingOrder = 10;
+    [SerializeField] int dragSortingOrder = 15;
     Mixture mixture;
 
     [SerializeField] float clickThreshold = 0.5f;
@@ -28,6 +28,8 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
     int originOrder;
     float originZ;
     Vector3 offset;
+    private SpriteRenderer essenceSr;
+    private int essenceOriginOrder;
 
     void Awake()
     {
@@ -38,7 +40,15 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
 
-        if (liquidTransform != null) liquidInitialRotation = liquidTransform.rotation;
+        if (liquidTransform != null)
+        {
+            liquidInitialRotation = liquidTransform.rotation;
+            essenceSr = liquidTransform.GetComponent<SpriteRenderer>();
+            if (essenceSr != null)
+            {
+                essenceOriginOrder = essenceSr.sortingOrder;
+            }
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -108,7 +118,12 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
         if (sr != null)
         {
             originOrder = sr.sortingOrder;
-            sr.sortingOrder = dragSortingOrder;
+            sr.sortingOrder = dragSortingOrder + 1;
+        }
+        if (essenceSr != null)
+        {
+            essenceOriginOrder = essenceSr.sortingOrder;
+            essenceSr.sortingOrder = dragSortingOrder;
         }
     }
 
@@ -135,6 +150,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
         if (essenceType != TargetEssenceType.Base && essenceType != TargetEssenceType.Middle && essenceType != TargetEssenceType.Top) return;
 
         if (sr != null) sr.sortingOrder = originOrder;
+        if (essenceSr != null) essenceSr.sortingOrder = essenceOriginOrder;
 
         bool inZone = isInFlowZone();
         bool canPour = essenceType switch
@@ -194,38 +210,50 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == true && mixture.baseL.GetComponent<SpriteRenderer>().enabled == true)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("Already Base Essence exist in perfume");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
                     break;
                 case TargetEssenceType.Middle:
                     if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true && mixture.middleL.GetComponent<SpriteRenderer>().enabled == true)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("Already Middle Essence exist in perfume");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
 
                     if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
                     break;
                 case TargetEssenceType.Top:
                     if (mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true && mixture.topL.GetComponent<SpriteRenderer>().enabled == true)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("Already Top Essence exist in perfume");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
 
                     if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
                     if (!mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled)
                     {
                         TillUIManager.Instance.ShowWarningCanvas("No Middle Essence");
-                        yield return null;
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
                     break;
             }

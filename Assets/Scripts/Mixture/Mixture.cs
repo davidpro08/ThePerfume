@@ -78,10 +78,10 @@ public class Mixture : MonoBehaviour
 
         sr.enabled = true;
         sr.color = essenceData.color;
-        sr.sortingOrder = 10;
+        sr.sortingOrder = 1;
 
         srF.enabled = false;
-        
+
 
         return true;
     }
@@ -255,7 +255,7 @@ public class Mixture : MonoBehaviour
         if (sr.enabled || sr == null) return;
         sr.enabled = true;
         sr.color = data.color;
-        sr.sortingOrder = 10;
+        sr.sortingOrder = 1;
     }
 
     public void CalculateCapacityAndColor()
@@ -297,7 +297,7 @@ public class Mixture : MonoBehaviour
         if (on && essenceData != null)
         {
             sr.color = essenceData.color;
-            sr.sortingOrder = 10;
+            sr.sortingOrder = 1;
         }
     }
 }
