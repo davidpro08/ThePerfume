@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class DistillerToTill : MonoBehaviour
+public class DistillerToTill : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] string distillerID;
     [SerializeField] string tillSceneName = "distiller";
@@ -10,6 +11,14 @@ public class DistillerToTill : MonoBehaviour
     void Update()
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.Space))
+        {
+            EnterTill();
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (isPlayerInTrigger && eventData.button == PointerEventData.InputButton.Left)
         {
             EnterTill();
         }
