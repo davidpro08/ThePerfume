@@ -252,9 +252,18 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     if (mixture.CanBePBaseL())
                     {
                         //퍼퓸관에 베이스 넣기
-                        mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL);
-
-                        // 가연픽 애니메이션 들어갈 자리 추정
+                        if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true)
+                        {
+                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                            yield return null;
+                        }
+                        else if (mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL))
+                        {
+                            Debug.Log("Put Base in Perfume");
+                            mixture.pBaseData = mixture.baseData;
+                            mixture.baseData = null;
+                            mixture.SaveNow();
+                        }
                     }
                     break;
                 case TargetEssenceType.Middle:
@@ -267,19 +276,32 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                             TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
                             yield return null;
                         }
-                        mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL);
-
-                        // 가연픽 애니메이션 들어갈 자리 추정
+                        else if (mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL))
+                        {
+                            mixture.pMiddleData = mixture.middleData;
+                            mixture.middleData = null;
+                            Debug.Log($"[{mixture.pMiddleData}, {mixture.middleData}]");
+                            mixture.SaveNow();
+                        }
                     }
                     break;
                 case TargetEssenceType.Top:
                     // 조건 판단 > 베이스, 미들이 이미 있고 탑이 없는지
                     if (mixture.CanBePTopL())
                     {
+                        if (mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true)
+                        {
+                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                            yield return null;
+                        }
                         //퍼퓸관에 탑 넣기
-                        mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL);
-
-                        // 가연픽 애니메이션 들어갈 자리 추정
+                        else if (mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL))
+                        {
+                            mixture.pTopData = mixture.topData;
+                            mixture.topData = null;
+                            Debug.Log($"[{mixture.pTopData}, {mixture.topData}]");
+                            mixture.SaveNow();
+                        }
                     }
                     break;
             }

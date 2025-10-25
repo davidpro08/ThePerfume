@@ -52,7 +52,8 @@ public class FarmSaveData
 [Serializable]
 public class MixtureSaveData
 {
-    public int baseEssenceID, middleEssenceID, topEssenceID;
+    public int baseID, middleID, topID;
+    public int pBaseID, pMiddleID, pTopID;
 
     public bool perfumeComplete;
     public int perfumeID;
