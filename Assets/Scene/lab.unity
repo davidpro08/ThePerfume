@@ -5885,8 +5885,11 @@ MonoBehaviour:
   portraitData: {fileID: 11400000, guid: 54159f4c45cc27049a0a67f717a1ab80, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
-  moveSpeed: 1
+  moveSpeed: 0.8
+  moveDuration: 1
   nextMoveTime: 2
+  minArea: {x: -8.5, y: -5}
+  maxArea: {x: 8.5, y: 5}
   _animator: {fileID: 1620257972}
 --- !u!61 &1620257969
 BoxCollider2D:
@@ -6437,7 +6440,10 @@ MonoBehaviour:
   portraitData: {fileID: 0}
   dialogueObjects: []
   moveSpeed: 1
+  moveDuration: 0.8
   nextMoveTime: 2
+  minArea: {x: 0, y: 0}
+  maxArea: {x: 5, y: 5}
   _animator: {fileID: 0}
 --- !u!114 &1734265762
 MonoBehaviour:

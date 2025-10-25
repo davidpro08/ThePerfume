@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
 
 public class Npc : MonoBehaviour, IInteract
 {
@@ -22,11 +24,14 @@ public class Npc : MonoBehaviour, IInteract
 
     [Header("움직임 세팅")]
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float moveDuration = 0.8f;
     [SerializeField] private float nextMoveTime = 2f;
-    
+    [SerializeField] private Vector2 minArea = new Vector2(0f, 0f);
+    [SerializeField] private Vector2 maxArea = new Vector2(5f, 5f);
+
     [Header("애니메이션 세팅")]
     [SerializeField] private Animator _animator;
-    
+
     private NpcState currentState = NpcState.Default;
 
     void Start()
@@ -42,7 +47,7 @@ public class Npc : MonoBehaviour, IInteract
             }
         }
 
-        StartCoroutine(RandomMove());
+        StartCoroutine(RandomMove(minArea, maxArea));
     }
 
     public void Interact(Player player)
@@ -71,23 +76,81 @@ public class Npc : MonoBehaviour, IInteract
         return true;
     }
 
-    IEnumerator RandomMove()
+    IEnumerator RandomMove(Vector2 minBounds, Vector2 maxBounds)
     {
+        //초기 움직임
+        Vector2 startMoveVector = Vector2.zero;
+        Vector2 targetPos = (Vector2)transform.position;
+        float initialMoving = 0f;
+
+        int x = Random.Range(-1, 2);
+        int y = Random.Range(-1, 2);
+
+        if (x != 0 || y != 0)
+        {
+            startMoveVector = new Vector2(x, y).normalized;
+            targetPos = (Vector2)transform.position + startMoveVector * moveSpeed;
+
+            targetPos.x = Mathf.Clamp(targetPos.x, minBounds.x, maxBounds.x);
+            targetPos.y = Mathf.Clamp(targetPos.y, minBounds.y, maxBounds.y);
+
+            Vector2 actualMoveVector = targetPos - (Vector2)transform.position;
+            if (actualMoveVector.magnitude > 0.01f)
+            {
+                UpdateAnimator(startMoveVector);
+                transform.DOMove(targetPos, moveDuration);
+                initialMoving = moveDuration;
+            }
+        }
+
+        if (initialMoving > 0f)
+        {
+            yield return new WaitForSeconds(initialMoving);
+            UpdateAnimator(Vector2.zero);
+        }
+
+        // 반복 움직임
         while (true)
         {
+            if (NpcDialogueManager.Instance.isActive)
+            {
+                UpdateAnimator(Vector2.zero);
+                transform.DOKill();
+                yield return null;
+                continue;
+            }
+
             yield return new WaitForSeconds(nextMoveTime);
 
-            int x = Random.Range(-1, 2);
-            int y = Random.Range(-1, 2);
+            x = Random.Range(-1, 2);
+            y = Random.Range(-1, 2);
 
-            Vector2 moveVector = new Vector2(x, y).normalized;
-            
-            UpdateAnimator(moveVector);
-            
-            transform.DOMove((Vector2)transform.position + moveVector * moveSpeed, nextMoveTime);
+            Vector2 moveVector = new Vector2(x, y);//.normalized;
+
+            if (moveVector.sqrMagnitude < 0.01f)
+            {
+                UpdateAnimator(Vector2.zero);
+                continue;
+            }
+
+            moveVector = moveVector.normalized;
+            targetPos = (Vector2)transform.position + moveVector * moveSpeed;
+
+            targetPos.x = Mathf.Clamp(targetPos.x, minBounds.x, maxBounds.x);
+            targetPos.y = Mathf.Clamp(targetPos.y, minBounds.y, maxBounds.y);
+
+            Vector2 actualMoveVector = targetPos - (Vector2)transform.position;
+            if (actualMoveVector.magnitude > 0.01f)
+            {
+                UpdateAnimator(moveVector);
+                transform.DOMove(targetPos, moveDuration);
+            }
+            //UpdateAnimator(moveVector);
+
+            //transform.DOMove((Vector2)transform.position + moveVector * moveSpeed, nextMoveTime);
         }
     }
-    
+
     private void UpdateAnimator(Vector2 input)
     {
         float magnitude = input.magnitude;
@@ -101,10 +164,10 @@ public class Npc : MonoBehaviour, IInteract
 
         // 움직이는 경우에만 파라미터 갱신
         _animator.SetBool("isWalking", true);
-        
+
         _animator.SetFloat("InputX", input.x);
         _animator.SetFloat("InputY", input.y);
-        
+
         _animator.SetFloat("LastInputX", input.x);
         _animator.SetFloat("LastInputY", input.y);
     }
@@ -125,7 +188,7 @@ public class Npc : MonoBehaviour, IInteract
     {
         return npcId;
     }
-    
+
     /// <summary>
     /// 현재 초상화 스프라이트 반환
     /// </summary>
