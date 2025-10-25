@@ -186,7 +186,7 @@ public class Distiller : MonoBehaviour
             var DropRenderer = waterDrop.GetComponent<SpriteRenderer>();
             if (DropRenderer != null) DropRenderer.color = essence.color;
 
-            essenceSR.sortingOrder = 10;
+            essenceSR.sortingOrder = 0;
         }
 
         GameSave save = SaveManager.Instance.CurrentSave;
@@ -260,7 +260,7 @@ public class Distiller : MonoBehaviour
         if (essenceSR != null && essence != null)
         {
             essenceSR.color = essence.color;
-            essenceSR.sortingOrder = 10;
+            essenceSR.sortingOrder = 0;
             essenceSR.enabled = true;
 
         }
@@ -353,7 +353,7 @@ public class Distiller : MonoBehaviour
                 if (essence != null)
                 {
                     essenceSR.color = essence.color;
-                    essenceSR.sortingOrder = 10;
+                    essenceSR.sortingOrder = 0;
                     essenceSR.enabled = true;
 
                     var waterSR = Water?.GetComponent<SpriteRenderer>();
