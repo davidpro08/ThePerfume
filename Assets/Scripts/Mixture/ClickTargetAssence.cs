@@ -13,7 +13,8 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
     [Header("기울기 모션")]
     [SerializeField] float tiltAngle = -30f; // 기울일 각도
     [SerializeField] float tiltDuration = 0.25f; // 기울이기/되돌리기 시간
-    [SerializeField] float holdDuration = 0.35f; // 기울인 상태 유지 시간
+
+    [SerializeField] float animationDuration = 0.4f;
     [SerializeField] int dragSortingOrder = 15;
     Mixture mixture;
 
@@ -49,6 +50,10 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 essenceOriginOrder = essenceSr.sortingOrder;
             }
         }
+
+        mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled = false;
+        mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
+        mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -269,69 +274,137 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
             yield return null;
         }
 
-        yield return new WaitForSeconds(holdDuration);
-
         if (mixture != null)
         {
+            bool essencePutSuccess = false;
+
             switch (essenceType)
             {
                 case TargetEssenceType.Base:
-                    // 조건 판단 > 베이스가 없는지
+                    //Debug.Log("first");
                     if (mixture.CanBePBaseL())
                     {
-                        //퍼퓸관에 베이스 넣기
-                        if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true)
-                        {
-                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
-                            yield return null;
-                        }
-                        else if (mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL))
-                        {
-                            Debug.Log("Put Base in Perfume");
-                            mixture.pBaseData = mixture.baseData;
-                            mixture.baseData = null;
-                            mixture.SaveNow();
-                        }
+                        mixture.baseLChild.GetComponent<SpriteRenderer>().color = mixture.baseData.color;
+                        mixture.punnelChild.GetComponent<SpriteRenderer>().color = mixture.baseData.color;
+                        mixture.baseWaterDropAni.SetTrigger("StartFour");
+                        mixture.pBaseLAni.SetTrigger("StartFill");
+                        // mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled = true;
+                        mixture.punnelAni.SetTrigger("base");
+                    }
+                    else
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
                     }
                     break;
                 case TargetEssenceType.Middle:
-                    // 조건 판단 > 베이스가 이미 있고 미들이 없는지
                     if (mixture.CanBePMiddleL())
                     {
-                        //퍼퓸관에 미들 넣기
-                        if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true)
-                        {
-                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
-                            yield return null;
-                        }
-                        else if (mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL))
-                        {
-                            mixture.pMiddleData = mixture.middleData;
-                            mixture.middleData = null;
-                            Debug.Log($"[{mixture.pMiddleData}, {mixture.middleData}]");
-                            mixture.SaveNow();
-                        }
+                        mixture.middleLChild.GetComponent<SpriteRenderer>().color = mixture.middleData.color;
+                        mixture.punnelChild.GetComponent<SpriteRenderer>().color = mixture.middleData.color;
+                        mixture.middleWaterDropAni.SetTrigger("StartFour");
+                        mixture.pMiddleLAni.SetTrigger("StartFill");
+                        // mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled = true;
+                        mixture.punnelAni.SetTrigger("middle");
+                    }
+                    else
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
+                    }
+                    break;
+                case TargetEssenceType.Top:
+                    if (mixture.CanBePTopL())
+                    {
+                        mixture.topLChild.GetComponent<SpriteRenderer>().color = mixture.topData.color;
+                        mixture.punnelChild.GetComponent<SpriteRenderer>().color = mixture.topData.color;
+                        mixture.topWaterDropAni.SetTrigger("StartFour");
+                        mixture.pTopLAni.SetTrigger("StartFill");
+                        // mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled = true;
+                        mixture.punnelAni.SetTrigger("top");
+                    }
+                    else
+                    {
+                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        transform.position = originPos;
+                        transform.rotation = originRot;
+                        yield break;
+                    }
+                    break;
+            }
+
+            switch (essenceType)
+            {
+                case TargetEssenceType.Base:
+                    //Debug.Log("second");
+                    // 조건 판단 > 베이스가 없는지
+                    if (mixture.PutEssenceInPerfume(mixture.baseData, mixture.PerfumeL[0], mixture.baseL))
+                    {
+                        //Debug.Log("third");
+                        essencePutSuccess = true;
+                        mixture.pBaseData = mixture.baseData;
+                        mixture.baseData = null;
+                        mixture.SaveNow();
+                    }
+
+                    break;
+                case TargetEssenceType.Middle:
+                    // 조건 판단 > 베이스가 이미 있고 미들이 없는지
+                    if (mixture.PutEssenceInPerfume(mixture.middleData, mixture.PerfumeL[1], mixture.middleL))
+                    {
+                        essencePutSuccess = true;
+                        mixture.pMiddleData = mixture.middleData;
+                        mixture.middleData = null;
+                        mixture.SaveNow();
                     }
                     break;
                 case TargetEssenceType.Top:
                     // 조건 판단 > 베이스, 미들이 이미 있고 탑이 없는지
-                    if (mixture.CanBePTopL())
+                    if (mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL))
                     {
-                        if (mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true)
-                        {
-                            TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
-                            yield return null;
-                        }
-                        //퍼퓸관에 탑 넣기
-                        else if (mixture.PutEssenceInPerfume(mixture.topData, mixture.PerfumeL[2], mixture.topL))
-                        {
-                            mixture.pTopData = mixture.topData;
-                            mixture.topData = null;
-                            Debug.Log($"[{mixture.pTopData}, {mixture.topData}]");
-                            mixture.SaveNow();
-                        }
+                        essencePutSuccess = true;
+                        mixture.pTopData = mixture.topData;
+                        mixture.topData = null;
+                        mixture.SaveNow();
                     }
+
                     break;
+            }
+
+            if (essencePutSuccess)
+            {
+                //Debug.Log("forth");
+                yield return new WaitForSeconds(animationDuration);
+
+                mixture.punnelAni.SetTrigger("end");
+                mixture.punnelChild.GetComponent<SpriteRenderer>().sprite = null;
+                switch (essenceType)
+                {
+                    case TargetEssenceType.Base:
+                        Debug.Log("fifth");
+                        mixture.baseWaterDropAni.SetTrigger("end");
+                        mixture.baseLChild.GetComponent<SpriteRenderer>().sprite = null;
+                        mixture.baseL.GetComponent<SpriteRenderer>().enabled = false;
+                        mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled = true;
+                        break;
+                    case TargetEssenceType.Middle:
+                        mixture.middleWaterDropAni.SetTrigger("end");
+                        mixture.middleLChild.GetComponent<SpriteRenderer>().sprite = null;
+                        mixture.middleL.GetComponent<SpriteRenderer>().enabled = false;
+                        mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled = true;
+                        break;
+                    case TargetEssenceType.Top:
+                        mixture.topWaterDropAni.SetTrigger("end");
+                        mixture.topLChild.GetComponent<SpriteRenderer>().sprite = null;
+                        mixture.topL.GetComponent<SpriteRenderer>().enabled = false;
+                        mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled = true;
+                        break;
+                }
+
             }
         }
 
@@ -346,6 +419,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
         }
 
         transform.position = originPos;
+        mixture.SaveNow();
     }
 
     private EssenceData currentSelectedEssence()

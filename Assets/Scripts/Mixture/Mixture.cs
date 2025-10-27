@@ -8,10 +8,14 @@ public class Mixture : MonoBehaviour
     [SerializeField] public ItemDataBase itemDataBase;
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
+    [SerializeField] public GameObject baseLChild;
     [SerializeField] public GameObject middleL;
+    [SerializeField] public GameObject middleLChild;
     [SerializeField] public GameObject topL;
+    [SerializeField] public GameObject topLChild;
     [SerializeField] public List<GameObject> PerfumeL; // 0=Base, 1=middle, 2=top, 3=complete
     [SerializeField] public GameObject punnel;
+    [SerializeField] public GameObject punnelChild;
     [SerializeField] public GameObject flowZone;
 
     [Header("Perfume Itme")]
@@ -24,6 +28,14 @@ public class Mixture : MonoBehaviour
     [System.NonSerialized] public EssenceData pMiddleData = null;
     [System.NonSerialized] public EssenceData pTopData = null;
     [System.NonSerialized] public PerfumeData perfumeData = null;
+    [Header("Animation")]
+    [SerializeField] public Animator baseWaterDropAni;
+    [SerializeField] public Animator middleWaterDropAni;
+    [SerializeField] public Animator topWaterDropAni;
+    [SerializeField] public Animator punnelAni;
+    [SerializeField] public Animator pBaseLAni;
+    [SerializeField] public Animator pMiddleLAni;
+    [SerializeField] public Animator pTopLAni;
 
     float perfumeWarm;
     float perfumeCool;
@@ -72,15 +84,17 @@ public class Mixture : MonoBehaviour
         if (essenceData == null || target == null) return false;
 
         var sr = target.GetComponent<SpriteRenderer>();
-        if (sr.enabled == true) return false;
+        //if (sr.enabled == true) return false;
         var srF = from.GetComponent<SpriteRenderer>();
         if (srF.enabled == false) return false;
+        //var srC = target.GetComponentInChildren<SpriteRenderer>();
 
-        sr.enabled = true;
+        // sr.enabled = true;
         sr.color = essenceData.color;
         sr.sortingOrder = 1;
+        //srC.color = essenceData.color;
 
-        srF.enabled = false;
+        //srF.enabled = false;
 
 
         return true;
