@@ -4057,7 +4057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Village
-  targetPosition: {x: -1.8, y: 2.5}
+  targetPosition: {x: -1.8, y: 0}
   isTrigger: 1
 --- !u!1 &1022931145
 GameObject:
@@ -8223,7 +8223,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 7.35
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
