@@ -186,7 +186,7 @@ public class Distiller : MonoBehaviour
             var DropRenderer = waterDrop.GetComponent<SpriteRenderer>();
             if (DropRenderer != null) DropRenderer.color = essence.color;
 
-            essenceSR.sortingOrder = 10;
+            essenceSR.sortingOrder = 0;
         }
 
         GameSave save = SaveManager.Instance.CurrentSave;
@@ -219,7 +219,6 @@ public class Distiller : MonoBehaviour
 
         float totalTime = craftDurationSec;
         float elapsed = 0f;
-        //int stageIndex = 0;
 
         // 물방울 애니메이션 오브젝트 활성화
         waterDrop.SetActive(true);
@@ -228,19 +227,9 @@ public class Distiller : MonoBehaviour
         tubeFillAnimator.SetTrigger("StartFill");
 
 
-        //var sr = spawnedEssence?.GetComponent<SpriteRenderer>();
-
         while (elapsed < totalTime)
         {
             elapsed += Time.deltaTime;
-            //stageIndex = Mathf.Min(Mathf.FloorToInt((elapsed / totalTime) * essence.essenceStage.progressStage.Count), essence.essenceStage.progressStage.Count - 1);
-
-            //if (sr != null)
-            //{
-            //    // 여기가 단계 바뀌는 부분!!
-            //    sr.sprite = essence.essenceStage.progressStage[stageIndex];
-            //    sr.color = essence.color;
-            //}
             yield return null;
         }
 
@@ -260,7 +249,7 @@ public class Distiller : MonoBehaviour
         if (essenceSR != null && essence != null)
         {
             essenceSR.color = essence.color;
-            essenceSR.sortingOrder = 10;
+            essenceSR.sortingOrder = 0;
             essenceSR.enabled = true;
 
         }
@@ -353,7 +342,7 @@ public class Distiller : MonoBehaviour
                 if (essence != null)
                 {
                     essenceSR.color = essence.color;
-                    essenceSR.sortingOrder = 10;
+                    essenceSR.sortingOrder = 0;
                     essenceSR.enabled = true;
 
                     var waterSR = Water?.GetComponent<SpriteRenderer>();

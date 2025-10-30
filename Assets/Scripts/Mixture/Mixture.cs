@@ -8,10 +8,14 @@ public class Mixture : MonoBehaviour
     [SerializeField] public ItemDataBase itemDataBase;
     [Header("Slots")]
     [SerializeField] public GameObject baseL;
+    [SerializeField] public GameObject baseLChild;
     [SerializeField] public GameObject middleL;
+    [SerializeField] public GameObject middleLChild;
     [SerializeField] public GameObject topL;
+    [SerializeField] public GameObject topLChild;
     [SerializeField] public List<GameObject> PerfumeL; // 0=Base, 1=middle, 2=top, 3=complete
     [SerializeField] public GameObject punnel;
+    [SerializeField] public GameObject punnelChild;
     [SerializeField] public GameObject flowZone;
 
     [Header("Perfume Itme")]
@@ -20,7 +24,18 @@ public class Mixture : MonoBehaviour
     [System.NonSerialized] public EssenceData baseData = null;
     [System.NonSerialized] public EssenceData middleData = null;
     [System.NonSerialized] public EssenceData topData = null;
+    [System.NonSerialized] public EssenceData pBaseData = null;
+    [System.NonSerialized] public EssenceData pMiddleData = null;
+    [System.NonSerialized] public EssenceData pTopData = null;
     [System.NonSerialized] public PerfumeData perfumeData = null;
+    [Header("Animation")]
+    [SerializeField] public Animator baseWaterDropAni;
+    [SerializeField] public Animator middleWaterDropAni;
+    [SerializeField] public Animator topWaterDropAni;
+    [SerializeField] public Animator punnelAni;
+    [SerializeField] public Animator pBaseLAni;
+    [SerializeField] public Animator pMiddleLAni;
+    [SerializeField] public Animator pTopLAni;
 
     float perfumeWarm;
     float perfumeCool;
@@ -64,21 +79,25 @@ public class Mixture : MonoBehaviour
         SaveNow();
     }
 
-    public void PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
+    public bool PutEssenceInPerfume(EssenceData essenceData, GameObject target, GameObject from)
     {
-        if (essenceData == null || target == null) return;
+        if (essenceData == null || target == null) return false;
 
         var sr = target.GetComponent<SpriteRenderer>();
-        if (sr.enabled == true) return;
+        //if (sr.enabled == true) return false;
         var srF = from.GetComponent<SpriteRenderer>();
-        if (srF.enabled == false) return;
+        if (srF.enabled == false) return false;
+        //var srC = target.GetComponentInChildren<SpriteRenderer>();
 
-        sr.enabled = true;
+        // sr.enabled = true;
         sr.color = essenceData.color;
-        sr.sortingOrder = 10;
+        sr.sortingOrder = 1;
+        //srC.color = essenceData.color;
 
-        srF.enabled = false;
-        SaveNow();
+        //srF.enabled = false;
+
+
+        return true;
     }
 
     public void MakingPerfume(EssenceData baseEssence, EssenceData middleEssence, EssenceData topEssence)
@@ -151,9 +170,13 @@ public class Mixture : MonoBehaviour
     public MixtureSaveData CreatSnapShot()
     {
         MixtureSaveData data = new MixtureSaveData();
-        data.baseEssenceID = (baseData != null ? baseData.id : -1);
-        data.middleEssenceID = (middleData != null ? middleData.id : -1);
-        data.topEssenceID = (topData != null ? topData.id : -1);
+        data.baseID = (baseData != null ? baseData.id : -1);
+        data.middleID = (middleData != null ? middleData.id : -1);
+        data.topID = (topData != null ? topData.id : -1);
+
+        data.pBaseID = (pBaseData != null ? pBaseData.id : -1);
+        data.pMiddleID = (pMiddleData != null ? pMiddleData.id : -1);
+        data.pTopID = (pTopData != null ? pTopData.id : -1);
 
         data.perfumeComplete = PerfumeL[3].GetComponent<SpriteRenderer>().enabled;
         data.perfumeID = perfumeData != null ? perfumeData.id : -1;
@@ -196,17 +219,21 @@ public class Mixture : MonoBehaviour
             return;
         }
 
-        baseData = (data.baseEssenceID >= 0) ? itemDataBase.ResolveEssence(data.baseEssenceID) : null;
-        middleData = (data.middleEssenceID >= 0) ? itemDataBase.ResolveEssence(data.middleEssenceID) : null;
-        topData = (data.topEssenceID >= 0) ? itemDataBase.ResolveEssence(data.topEssenceID) : null;
+        baseData = (data.baseID >= 0) ? itemDataBase.ResolveEssence(data.baseID) : null;
+        middleData = (data.middleID >= 0) ? itemDataBase.ResolveEssence(data.middleID) : null;
+        topData = (data.topID >= 0) ? itemDataBase.ResolveEssence(data.topID) : null;
+
+        pBaseData = (data.pBaseID >= 0) ? itemDataBase.ResolveEssence(data.pBaseID) : null;
+        pMiddleData = (data.pMiddleID >= 0) ? itemDataBase.ResolveEssence(data.pMiddleID) : null;
+        pTopData = (data.pTopID >= 0) ? itemDataBase.ResolveEssence(data.pTopID) : null;
 
         SetSR(baseL, data.baseOn, baseData);
         SetSR(middleL, data.middleOn, middleData);
         SetSR(topL, data.topOn, topData);
 
-        SetSR(PerfumeL[0], data.pBaseOn, baseData);
-        SetSR(PerfumeL[1], data.pMiddleOn, middleData);
-        SetSR(PerfumeL[2], data.pTopOn, topData);
+        SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
+        SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
+        SetSR(PerfumeL[2], data.pTopOn, pTopData);
 
         var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
         p3.enabled = data.perfumeComplete;
@@ -242,17 +269,17 @@ public class Mixture : MonoBehaviour
         if (sr.enabled || sr == null) return;
         sr.enabled = true;
         sr.color = data.color;
-        sr.sortingOrder = 10;
+        sr.sortingOrder = 1;
     }
 
     public void CalculateCapacityAndColor()
     {
-        if (baseData == null || middleData == null || topData == null)
+        if (pBaseData == null || pMiddleData == null || pTopData == null)
             return;
 
-        perfumeWarm = (baseData.essenceWarm + middleData.essenceWarm + topData.essenceWarm) / 3;
-        perfumeCool = (baseData.essenceCool + middleData.essenceCool + topData.essenceCool) / 3;
-        perfumeRelax = (baseData.essenceRelax + middleData.essenceRelax + topData.essenceRelax) / 3;
+        perfumeWarm = (pBaseData.essenceWarm + pMiddleData.essenceWarm + pTopData.essenceWarm) / 3;
+        perfumeCool = (pBaseData.essenceCool + pMiddleData.essenceCool + pTopData.essenceCool) / 3;
+        perfumeRelax = (pBaseData.essenceRelax + pMiddleData.essenceRelax + pTopData.essenceRelax) / 3;
 
         if (perfumeRelax > perfumeWarm && perfumeRelax > perfumeCool) perfumeData = perfumeDatas[0];
         else if (perfumeWarm > perfumeRelax && perfumeWarm > perfumeCool) perfumeData = perfumeDatas[1];
@@ -264,9 +291,9 @@ public class Mixture : MonoBehaviour
 
         perfumeData = ScriptableObject.Instantiate(perfumeData);
 
-        perfumeData.color.r = (baseData.color.r + middleData.color.r + topData.color.r) / 3;
-        perfumeData.color.g = (baseData.color.g + middleData.color.g + topData.color.g) / 3;
-        perfumeData.color.b = (baseData.color.b + middleData.color.b + topData.color.b) / 3;
+        perfumeData.color.r = (pBaseData.color.r + pMiddleData.color.r + pTopData.color.r) / 3;
+        perfumeData.color.g = (pBaseData.color.g + pMiddleData.color.g + pTopData.color.g) / 3;
+        perfumeData.color.b = (pBaseData.color.b + pMiddleData.color.b + pTopData.color.b) / 3;
         perfumeData.color.a = 1f;
 
         perfumeData.perfumeRelax = perfumeRelax;
@@ -284,7 +311,7 @@ public class Mixture : MonoBehaviour
         if (on && essenceData != null)
         {
             sr.color = essenceData.color;
-            sr.sortingOrder = 10;
+            sr.sortingOrder = 1;
         }
     }
 }

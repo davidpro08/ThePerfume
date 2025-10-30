@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SmallCrowthStage
   m_EditorClassIdentifier: 
   growthStage:
-  - {fileID: 7080048011328901178, guid: 80367b15278a9c245b8645ae36c94c01, type: 3}
+  - {fileID: 8904126544692381792, guid: 3a3df9cd2189e434eb214353c1724f02, type: 3}
   - {fileID: -3969577199574109760, guid: 80367b15278a9c245b8645ae36c94c01, type: 3}
   - {fileID: 520967794637754722, guid: 80367b15278a9c245b8645ae36c94c01, type: 3}
   - {fileID: 3302082475221923370, guid: 80367b15278a9c245b8645ae36c94c01, type: 3}
-  growDuration: 10
+  growDuration: 5
