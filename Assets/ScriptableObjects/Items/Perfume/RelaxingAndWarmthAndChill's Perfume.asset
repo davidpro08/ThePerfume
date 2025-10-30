@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 56
   itemName: RelaxingAndWarmthAndChill's Perfume
   description: Null Description
-  itemIcon: {fileID: -3842505580646124363, guid: a522ca920309fb040b59e4d1dd18486e, type: 3}
+  itemIcon: {fileID: -1420083937776793145, guid: 5d27c3798726f69439748b310f868deb, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 5
   isStackable: 0
   maxStack: 99

@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 52
   itemName: Chill's Perfume
   description: Null Description
-  itemIcon: {fileID: -2273693254053524908, guid: 44e9e8af953b2a64fa52232b17ff63e3, type: 3}
+  itemIcon: {fileID: -1420083937776793145, guid: 5d27c3798726f69439748b310f868deb, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 5
   isStackable: 0
   maxStack: 99

@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 51
   itemName: Warmth's Perfume
   description: Null Description
-  itemIcon: {fileID: -6408957607851367769, guid: 2a1206c93f1b261479c4f27c491a34c2, type: 3}
+  itemIcon: {fileID: -1420083937776793145, guid: 5d27c3798726f69439748b310f868deb, type: 3}
+  overrideIcon: {fileID: 0}
   itemType: 5
   isStackable: 0
   maxStack: 99
