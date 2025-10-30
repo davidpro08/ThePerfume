@@ -377,7 +377,6 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
 
             if (essencePutSuccess)
             {
-                //Debug.Log("forth");
                 yield return new WaitForSeconds(animationDuration);
 
                 mixture.punnelAni.SetTrigger("end");
@@ -385,7 +384,6 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 switch (essenceType)
                 {
                     case TargetEssenceType.Base:
-                        Debug.Log("fifth");
                         mixture.baseWaterDropAni.SetTrigger("end");
                         mixture.baseLChild.GetComponent<SpriteRenderer>().sprite = null;
                         mixture.baseL.GetComponent<SpriteRenderer>().enabled = false;
