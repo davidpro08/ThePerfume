@@ -4057,7 +4057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Village
-  targetPosition: {x: -1.8, y: 2.5}
+  targetPosition: {x: -1.8, y: 2}
   isTrigger: 1
 --- !u!1 &1022931145
 GameObject:
