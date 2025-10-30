@@ -80,7 +80,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
         if (shakeAmount >= shakeThreshold)
         {
-            mixture.MakingPerfume(mixture.baseData, mixture.middleData, mixture.topData);
+            mixture.MakingPerfume(mixture.pBaseData, mixture.pMiddleData, mixture.pTopData);
             shakeAmount = 0f;
             Debug.Log("End making Perfume");
         }
@@ -103,9 +103,9 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                     var PCompleteL = mixture.PerfumeL[3].GetComponent<SpriteRenderer>();
                     PCompleteL.enabled = false;
 
-                    mixture.baseData = null;
-                    mixture.middleData = null;
-                    mixture.topData = null;
+                    mixture.pBaseData = null;
+                    mixture.pMiddleData = null;
+                    mixture.pTopData = null;
                     mixture.perfumeData = null;
 
                     // 일단 깔떼기는 아이템 획득하는대로 다시 꽂아둠

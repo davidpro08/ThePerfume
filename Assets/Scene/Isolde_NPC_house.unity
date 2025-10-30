@@ -8338,7 +8338,10 @@ MonoBehaviour:
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
   moveSpeed: 1
+  moveDuration: 0.8
   nextMoveTime: 2
+  minArea: {x: -8.2, y: -3.7}
+  maxArea: {x: 8.2, y: 4.7}
   _animator: {fileID: 1963174579}
 --- !u!61 &1963174581
 BoxCollider2D:
