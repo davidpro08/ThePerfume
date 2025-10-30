@@ -28,10 +28,15 @@ public class PauseManager : MonoBehaviour
     {
         if (isPaused) Resume();
         else Pause(setUI);
+
+        SoundManager.Instance.PlaySFX(SFXType.Pause);
     }
 
     private void Pause(bool setUI)
     {
+        // 대화시 일시정지 불가
+        if (NpcDialogueManager.Instance != null && NpcDialogueManager.Instance.isActive) return;
+
         Time.timeScale = 0f;
         isPaused = true;
         if (setUI) pauseMenuUI.SetActive(true);

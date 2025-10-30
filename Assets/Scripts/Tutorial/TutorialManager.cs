@@ -1,0 +1,250 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class TutorialManager : MonoBehaviour
+{
+    public static TutorialManager Instance;
+
+    [Header("튜토리얼 단계 설정")]
+    [Tooltip("이 튜토리얼에서 진행할 모든 단계를 ScriptableObject 애셋으로 여기에 등록하세요.")]
+    public List<TutorialStepSO> tutorialSteps;
+
+    [Header("필수 연결")]
+    public Npc guide; // 가이드 NPC (인스펙터에서 할당)
+
+    private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
+    private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private string _lastEndedDialogueId = "narration_001_001"; // 마지막으로 종료된 대화 ID를 캐시
+    private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
+
+    private const string FINAL_ID = "narration_001_039";
+    private const string START_ID = "narration_001_001";
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnEnable()
+    {
+        NpcDialogueManager.OnDialogueEnd += HandleDialogueEnd;
+    }
+
+    private void OnDisable()
+    {
+        NpcDialogueManager.OnDialogueEnd -= HandleDialogueEnd;
+    }
+
+    void Start()
+    {
+        StartCoroutine(InitializeTutorial());
+    }
+
+    private IEnumerator InitializeTutorial()
+    {
+        yield return new WaitForSeconds(1f); // Wait for other managers to be ready
+
+        var tutorialData = SaveManager.Instance.CurrentSave?.tutorial;
+
+        // Case 1: Tutorial is already completed.
+        if (tutorialData != null && tutorialData.isTutorialEnd)
+        {
+            Debug.Log("튜토리얼이 이미 완료되었습니다.");
+            gameObject.SetActive(false);
+            yield break; // Stop the coroutine
+        }
+
+        // Restore the set of completed steps from save data
+        completedSteps.Clear();
+        if (tutorialData?.completedStepNames != null)
+        {
+            foreach (var stepName in tutorialData.completedStepNames)
+            {
+                var step = tutorialSteps.FirstOrDefault(s => s.name == stepName);
+                if (step != null) completedSteps.Add(step);
+            }
+        }
+        
+        // 마지막으로 끝난 대화 ID를 복원
+        _lastEndedDialogueId = tutorialData?.currentStep ?? "";
+
+        // Case 2: Resume tutorial from a saved point.
+        if (!string.IsNullOrEmpty(_lastEndedDialogueId))
+        {
+            Debug.Log($"저장된 데이터로부터 튜토리얼을 재개합니다. 마지막 대화 ID: {_lastEndedDialogueId}");
+            HandleDialogueEnd(null, _lastEndedDialogueId);
+        }
+        // Case 3: Start tutorial from the very beginning.
+        else
+        {
+            Debug.Log("저장된 튜토리얼 데이터가 없거나, 시작 지점 정보가 없어 새로 시작합니다.");
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", START_ID);
+        }
+    }
+
+    void Update()
+    {
+        if (currentStep != null)
+        {
+            // 현재 단계의 완료 조건을 확인
+            if (CheckCondition(currentStep.conditionType))
+            {
+                CompleteStep(currentStep);
+            }
+        }
+    }
+
+    // NpcDialogueManager에서 대화가 끝났을 때 호출될 핸들러
+    private void HandleDialogueEnd(Npc npc, string dialogueId)
+    {
+        if (npc != null && npc.GetNpcId() == "Isolde")
+        {
+            hasInteractedWithIsolde = true;
+        }
+
+        _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
+        
+        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
+
+        if (stepToStart != null)
+        {
+            Debug.Log($"튜토리얼 단계 시작: {stepToStart.name} (트리거 ID: {dialogueId})");
+
+            // 현재 단계로 설정
+            currentStep = stepToStart;
+
+            // 조건 시작 전 플레이어에게 아이템 제공
+            foreach (GiveItem giveItem in currentStep.giveItems)
+            {
+                InventoryManager.Instance.AddItem(giveItem.itemData, giveItem.amount);
+            }
+
+            // 만약 조건이 'None'이라면 바로 완료 처리
+            if (currentStep.conditionType == TutorialConditionType.None)
+            {
+                CompleteStep(currentStep);
+            }
+        }
+    }
+    
+    // 현재 단계를 완료 처리
+    private void CompleteStep(TutorialStepSO step)
+    {
+        Debug.Log($"튜토리얼 단계 완료: {step.name}");
+
+        completedSteps.Add(step);
+        currentStep = null;
+
+        // 다음 대화 시작
+        if (!string.IsNullOrEmpty(step.nextDialogueId))
+        {
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", step.nextDialogueId);
+        }
+    }
+
+    // 완료 조건 타입에 따라 적절한 확인 메소드를 호출
+    private bool CheckCondition(TutorialConditionType conditionType)
+    {
+        switch (conditionType)
+        {
+            case TutorialConditionType.CheckForTilledSoil:
+                return CheckForTilledSoil();
+            case TutorialConditionType.CheckForWateredSoil:
+                return CheckForWateredSoil();
+            case TutorialConditionType.CheckForSeededSoil:
+                return CheckForSeededSoil();
+            case TutorialConditionType.InteractedWithIsolde:
+                return CheckInteractedWithIsolde();
+            case TutorialConditionType.None:
+                return true; // 'None' 조건은 항상 참
+            default:
+                return false;
+        }
+    }
+
+    #region === 세이브 / 로드 관련 메소드 ===
+
+    /// <summary>
+    /// SaveManager가 호출할 메서드. 전달받은 GameSave 객체에 현재 튜토리얼 진행 상황을 기록합니다.
+    /// </summary>
+    public void PrepareSaveData(GameSave save)
+    {
+        if (save.tutorial == null)
+        {
+            save.tutorial = new TutorialSaveData();
+        }
+
+        // 마지막으로 끝난 대화 ID를 저장하여, 언제나 정확한 재개 지점을 확보.
+        save.tutorial.currentStep = _lastEndedDialogueId;
+        
+        // 완료된 스텝들의 이름을 저장.
+        save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
+        
+        // 모든 튜토리얼 단계가 완료되었는지 확인
+        if (tutorialSteps.All(step => completedSteps.Contains(step)))
+        {
+            save.tutorial.isTutorialEnd = true;
+        }
+    }
+    
+    #endregion
+
+    #region === 조건 확인 메소드들 ===
+
+    private bool CheckForTilledSoil()
+    {
+        var farmTile = FindObjectOfType<Farm>();
+        if (farmTile != null)
+        {
+            Debug.Log("흙 설치 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForWateredSoil()
+    {
+        var farmTile = FindObjectOfType<Farm>();
+        if (farmTile != null && farmTile.isWatered)
+        {
+            Debug.Log("물 주기 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForSeededSoil()
+    {
+        var farmTile = FindObjectOfType<Farm>();
+        if (farmTile != null && farmTile.isOccupied)
+        {
+            Debug.Log("씨앗 심기 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckInteractedWithIsolde()
+    {
+        if (hasInteractedWithIsolde)
+        {
+            Debug.Log("이졸데와 상호작용 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    #endregion
+}

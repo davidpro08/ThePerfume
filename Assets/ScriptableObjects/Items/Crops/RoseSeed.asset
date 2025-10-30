@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36b3be4e87f21e49a910162455668ee, type: 3}
   m_Name: RoseSeed
   m_EditorClassIdentifier: 
-  id: 1
+  id: 11
   itemName: roseSeed
-  itemDescription: "\uC7A5\uBBF8 \uC528\uC557"
-  itemIcon: {fileID: 1753205982242350755, guid: 8d14652bb09645043ad0e10b6f0e0a3b, type: 3}
-  itemType: 1
+  description: "\uC7A5\uBBF8 \uC528\uC557"
+  itemIcon: {fileID: 7080048011328901178, guid: 98ac9e6ec83bdcb408e8d5fbda44639e, type: 3}
+  overrideIcon: {fileID: 0}
+  itemType: 2
   isStackable: 1
   maxStack: 20
   nowStack: 1
   isTradable: 0
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 0
   growIntoCropType: 0
   cropPrefabToGrow: {fileID: 7879290774041444335, guid: 04bba30e7dfdf0347bf34dc220bd1fe6, type: 3}
+  seedType: 0

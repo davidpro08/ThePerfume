@@ -2,12 +2,24 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class DialogueFile
+{
+    public string dialogueName;
+    public TextAsset dialogueCSV;
+}
+
 public class CSVDialogueParser : MonoBehaviour
 {
     [Header("CSV 설정")]
-    public TextAsset dialogueCSV;
+    [Tooltip("인스펙터에서 대화 CSV 파일들을 여기에 할당하세요.")]
+    public DialogueFile[] dialogueFiles;
 
-    private DialogueData dialogueData;
+    [Header("데이터 검증")]
+    [Tooltip("CSV에 반드시 있어야 하는 컬럼들입니다.")]
+    public string[] requiredColumns = { "ID", "NPC_ID", "DIALOGUE_TEXT" };
+
+    private Dictionary<string, DialogueData> dialogueDataCollection = new Dictionary<string, DialogueData>();
 
     public static CSVDialogueParser Instance { get; private set; }
 
@@ -24,108 +36,193 @@ public class CSVDialogueParser : MonoBehaviour
 
     void Start()
     {
-        LoadDialogueData();
+        LoadAllDialogueData();
     }
 
-    void LoadDialogueData()
+    void LoadAllDialogueData()
     {
-        if (dialogueCSV == null)
+        if (dialogueFiles == null || dialogueFiles.Length == 0)
         {
-            Debug.LogError("Dialogue CSV 파일이 설정되지 않았습니다!");
+            Debug.LogError("Dialogue CSV 파일들이 할당되지 않았습니다!");
             return;
         }
 
-        dialogueData = ParseCSV(dialogueCSV.text);
-        Debug.Log($"총 {dialogueData.dialogues.Count}개의 대화 데이터를 로드했습니다.");
+        foreach (var dialogueFile in dialogueFiles)
+        {
+            if (dialogueFile.dialogueCSV == null)
+            {
+                Debug.LogError($"Dialogue CSV 파일이 할당되지 않았습니다: {dialogueFile.dialogueName}");
+                continue;
+            }
+
+            try
+            {
+                var parsedData = CSVParser.ParseFromTextAsObject(dialogueFile.dialogueCSV.text, true);
+
+                if (!ValidateDialogueData(parsedData))
+                {
+                    Debug.LogError($"대화 CSV 데이터 검증에 실패했습니다: {dialogueFile.dialogueName}");
+                    continue;
+                }
+
+                DialogueData dialogueData = InterpretDialogueData(parsedData);
+                dialogueDataCollection[dialogueFile.dialogueName] = dialogueData;
+                Debug.Log($"총 {dialogueData.dialogues.Count}개의 대화 데이터를 로드했습니다: {dialogueFile.dialogueName}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"대화 데이터 로드 중 오류 발생 ({dialogueFile.dialogueName}): {e.Message}");
+            }
+        }
     }
 
-    DialogueData ParseCSV(string csvText)
+    private bool ValidateDialogueData(List<Dictionary<string, object>> parsedData)
     {
-        DialogueData data = new DialogueData();
-        string[] lines = csvText.Split('\n');
-
-        // 첫 번째 줄은 헤더이므로 건너뛰기
-        for (int i = 1; i < lines.Length; i++)
+        if (parsedData == null || parsedData.Count == 0)
         {
-            string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
+            Debug.LogWarning("파싱된 대화 데이터가 없습니다.");
+            return false;
+        }
 
-            string[] values = ParseCSVLine(line);
-            if (values.Length >= 3)
+        var firstRow = parsedData[0];
+        foreach (var column in requiredColumns)
+        {
+            if (!CSVParser.ContainsKeyCaseInsensitive(firstRow, column))
             {
-                string id = values[0];
-                string npcId = values[1];
-                string dialogueText = values[2];
-
-                // 선택지 처리 (4번째 컬럼)
-                string[] choices = new string[0];
-                if (values.Length > 3 && !string.IsNullOrEmpty(values[3]))
-                {
-                    choices = values[3].Split('|');
-                }
-
-                // 다음 대화 ID 처리 (5번째 컬럼)
-                string[] nextDialogueIds = new string[0];
-                if (values.Length > 4 && !string.IsNullOrEmpty(values[4]))
-                {
-                    nextDialogueIds = values[4].Split('|');
-                }
-
-                // 조건 처리 (6번째 컬럼)
-                string condition = values.Length > 5 ? values[5] : "";
-
-                // 종료 대화 여부 (7번째 컬럼)
-                bool isEndDialogue = values.Length > 6 && values[6].ToLower() == "true";
-
-                DialogueEntry entry = new DialogueEntry(id, npcId, dialogueText, choices, nextDialogueIds, condition, isEndDialogue);
-                data.dialogues.Add(entry);
+                Debug.LogError($"필수 컬럼 '{column}'이(가) 대화 CSV에 없습니다.");
+                return false;
             }
+        }
+
+        int validRows = 0;
+        for (int i = 0; i < parsedData.Count; i++)
+        {
+            var row = parsedData[i];
+            if (CSVParser.ContainsKeyCaseInsensitive(row, "ID") && !string.IsNullOrEmpty(GetString(row, "ID")))
+            {
+                validRows++;
+            }
+            else
+            {
+                Debug.LogWarning($"행 {i + 1}: 유효하지 않은 ID 또는 빈 ID");
+            }
+        }
+
+        if (validRows == 0)
+        {
+            Debug.LogError("유효한 대화 데이터가 없습니다.");
+            return false;
+        }
+
+        Debug.Log($"대화 데이터 검증 완료: {validRows}개 유효한 행");
+        return true;
+    }
+
+    private DialogueData InterpretDialogueData(List<Dictionary<string, object>> parsedData)
+    {
+        var data = new DialogueData();
+
+        foreach (var row in parsedData)
+        {
+            string id = GetString(row, "ID");
+            if (string.IsNullOrEmpty(id)) continue;
+
+            string nextDialogueIdsStr = GetString(row, "NEXT_DIALOGUE_IDS");
+            if (string.IsNullOrEmpty(nextDialogueIdsStr))
+            {
+                Debug.LogWarning($"대화 ID {id}: NEXT_DIALOGUE_IDS가 비어있습니다. 건너뜁니다.");
+                continue;
+            }
+
+            bool isEndDialogue = GetBool(row, "IS_END_DIALOGUE");
+            string[] nextDialogueIds;
+
+            if (isEndDialogue)
+            {
+                string npcId = GetString(row, "NPC_ID");
+                var npcDialogues = data.GetDialoguesByNpcId(npcId);
+                if (npcDialogues.Count > 0)
+                {
+                    nextDialogueIds = new string[] { npcDialogues[0].id };
+                }
+                else
+                {
+                    nextDialogueIds = new string[0];
+                }
+            }
+            else
+            {
+                nextDialogueIds = nextDialogueIdsStr.Split('|');
+            }
+
+            NpcState condition = NpcStateUtility.ParseState(GetString(row, "CONDITION"));
+
+            var entry = new DialogueEntry(
+                id,
+                GetString(row, "NPC_ID"),
+                GetString(row, "DIALOGUE_TEXT").Replace("\\n", "\n"),
+                GetString(row, "CHOICES").Split('|'),
+                nextDialogueIds,
+                condition,
+                isEndDialogue
+            );
+            data.dialogues.Add(entry);
         }
 
         return data;
     }
 
-    string[] ParseCSVLine(string line)
+    public DialogueData GetDialogueData(string dialogueName)
     {
-        List<string> result = new List<string>();
-        bool inQuotes = false;
-        string currentValue = "";
-
-        for (int i = 0; i < line.Length; i++)
-        {
-            char c = line[i];
-
-            if (c == '"')
-            {
-                inQuotes = !inQuotes;
-            }
-            else if (c == ',' && !inQuotes)
-            {
-                result.Add(currentValue);
-                currentValue = "";
-            }
-            else
-            {
-                currentValue += c;
-            }
-        }
-
-        result.Add(currentValue);
-        return result.ToArray();
-    }
-
-    public DialogueData GetDialogueData()
-    {
+        dialogueDataCollection.TryGetValue(dialogueName, out var dialogueData);
         return dialogueData;
     }
 
-    public DialogueEntry GetDialogueById(string id)
+    public DialogueEntry GetDialogueById(string dialogueName, string id)
     {
-        return dialogueData?.GetDialogueById(id);
+        if (dialogueDataCollection.TryGetValue(dialogueName, out var dialogueData))
+        {
+            return dialogueData.GetDialogueById(id);
+        }
+        return null;
     }
 
-    public List<DialogueEntry> GetDialoguesByNpcId(string npcId)
+    public List<DialogueEntry> GetDialoguesByNpcId(string dialogueName, string npcId)
     {
-        return dialogueData?.GetDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
+        if (dialogueDataCollection.TryGetValue(dialogueName, out var dialogueData))
+        {
+            return dialogueData.GetDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
+        }
+        return new List<DialogueEntry>();
     }
+
+    public List<DialogueEntry> GetNonConditionalDialoguesByNpcId(string dialogueName, string npcId)
+    {
+        if (dialogueDataCollection.TryGetValue(dialogueName, out var dialogueData))
+        {
+            return dialogueData.GetNonConditionalDialoguesByNpcId(npcId) ?? new List<DialogueEntry>();
+        }
+        return new List<DialogueEntry>();
+    }
+
+    #region Helper Methods
+
+    private string GetString(Dictionary<string, object> dict, string key)
+    {
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        return value?.ToString() ?? "";
+    }
+
+    private bool GetBool(Dictionary<string, object> dict, string key)
+    {
+        var value = CSVParser.GetValueCaseInsensitive(dict, key);
+        if (value != null)
+        {
+            string val = value.ToString();
+            return val == "1" || val.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+        return false;
+    }
+
+    #endregion
 }

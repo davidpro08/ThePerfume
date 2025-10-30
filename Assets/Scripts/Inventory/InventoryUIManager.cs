@@ -21,6 +21,9 @@ public class InventoryUIManager : MonoBehaviour
     // 전체 인벤토리 리스트
     private List<InventorySlotUI> fullInventorySlotUIs = new List<InventorySlotUI>();
 
+    // UI open 판단
+    public static bool isFullInventoryOpen { get; private set; }
+
     void Start()
     {
         // 인벤토리 데이터 변경 이벤트에 구독
@@ -120,6 +123,10 @@ public class InventoryUIManager : MonoBehaviour
         {
             UpdateAllUIs();
         }
+
+        isFullInventoryOpen = fullInventoryPanel.activeSelf;
+        
+        SoundManager.Instance.PlaySFX(SFXType.Inventory);
     }
 
 }

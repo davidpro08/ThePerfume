@@ -8,6 +8,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI")]
     public Image image;
     public TextMeshProUGUI countText;
+    public Image durabilityBar;
 
     // 드롭 실패하면 돌아갈 위치 (드래그전 위치)
     [HideInInspector] public Transform parentAfterDrag;
@@ -26,18 +27,31 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         currentQuantity = quantity;
         boundSlot = boundSlotUI;
         
+        
         if (item != null)
         {
-            image.sprite = item.itemIcon;
+            image.sprite = item.GetIcon(inInventory: true);
+
             image.preserveAspect = true;
             image.enabled = true;
             RefreshCount();
+            RefreshDurability();
 
             image.rectTransform.localScale = Vector3.one;
 
             if (item.scaleUpUI)
             {
                 image.rectTransform.localScale = new Vector3(1.4f, 1.4f, 1f);
+            }
+
+            if(item is ToolData tool)
+            {
+                durabilityBar.gameObject.SetActive(true);
+                durabilityBar.fillAmount = (float)tool.nowDurability / tool.maxDurability;
+            }
+            else
+            {
+                durabilityBar.gameObject.SetActive(false);
             }
         }
         else
@@ -46,6 +60,13 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+    public void RefreshDurability()
+    {
+        if(currentItemData is ToolData tool)
+        {
+            durabilityBar.fillAmount = (float)tool.nowDurability / tool.maxDurability;
+        }
+    }
     public void RefreshCount()
     {
         if (currentItemData != null && currentItemData.isStackable)
@@ -65,6 +86,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         image.enabled = false;
         countText.gameObject.SetActive(false);
+        durabilityBar.gameObject.SetActive(false);
         currentItemData = null;
         currentQuantity = 0;
     }

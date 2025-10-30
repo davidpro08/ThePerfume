@@ -1,17 +1,23 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneChangerOnTrigger : MonoBehaviour
 {
     [SerializeField] private SceneChanger sceneChanger;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player")) return;
-
-        if (sceneChanger != null)
+        if (sceneChanger == null)
         {
-            sceneChanger.MoveToScene();
+            Debug.Log("씬 체인저 없음");
+            return;
         }
-        else Debug.LogWarning("SceneChanger ����ȵ�", this);
+
+        if (!other.CompareTag("Player"))
+        {
+            Debug.Log("충돌한 객체가 플레이어가 아님");
+            return;
+        }
+        Player player = other.GetComponent<Player>();
+        sceneChanger.MoveToScene(player);
     }
 }

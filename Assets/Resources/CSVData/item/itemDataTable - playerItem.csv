@@ -1,0 +1,13 @@
+id,itemName,description,itemType,isStackable,maxStack,nowStack,isTradeable,buyPrice,sellPrice,toolType,maxDurability,nowDurability,seedType,cropType,essenceType,essenceWarm,essenceCool,essenceRelax,perfumeType,perfumeWarm,perfumeCool,perfumeRelax
+1,흙,작물을 심을 수 있다.,Etc,1,24,0,1,100,20,,,,,,,,,,,,,
+2,나무판자,흙을 설치할 수 있다.,Etc,1,24,0,1,100,20,,,,,,,,,,,,,
+3,공병,에센스나 향수를 넣을 수 있다.,Etc,1,24,0,1,100,20,,,,,,,,,,,,,
+4,연료,증류기를 가동시킬 수 있다.,Etc,1,24,0,1,100,20,,,,,,,,,,,,,
+5,물뿌리개,흙에 물을 뿌릴 수 있다.,Tool,0,1,0,0,,,WateringCan,5,0,,,,,,,,,,
+6,장미 씨앗,흙에 심어 꽃잎을 재배할 수 있다.,Seed,1,24,0,1,100,20,,,,Rose,,,,,,,,,
+7,라벤더 씨앗,흙에 심어 꽃잎을 재배할 수 있다.,Seed,1,24,0,1,100,20,,,,Ravender,,,,,,,,,
+8,장미 꽃잎,증류기에 넣어 에센스를 만들 수 있다.,Crop,1,24,0,1,100,20,,,,,Rose,,,,,,,,
+9,라벤더 꽃잎,증류기에 넣어 에센스를 만들 수 있다.,Crop,1,24,0,1,100,20,,,,,Ravender,,,,,,,,
+10,장미 에센스,향수를 만들 수 있다.,Essence,1,24,0,1,100,20,,,,,,Rose,3,2,5,,,,
+11,라벤더 에센스,향수를 만들 수 있다.,Essence,1,24,0,1,100,20,,,,,,Ravender,,,,,,,
+12,옅은 진정의 향수 I,미약한 진정효과가 있다.,Perfume,1,24,0,1,100,20,,,,,,,,,,Relaxing,3,2,5

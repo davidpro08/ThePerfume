@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class FlowerManager : MonoBehaviour
 {
@@ -32,46 +33,41 @@ public class FlowerManager : MonoBehaviour
     private CropData currentCropItemData;
     public bool isHandling = false;
     public GameObject _TrayClick;
+    public bool blockingCanvasOpen = false;
 
     void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
         else Instance = this;
+        isHandling = false;
     }
 
     // 손질 시작 함수 (tray에서 작물 클릭 시 TrayClick에서 호출)
-    public void StartHandling(ItemData cropItemData, GameObject clickedTrayItem = null)
+    public void StartHandling(ItemData cropItemData, ItemOnTrayClick clickedTrayItem = null)
     {
+        Debug.Log("start StartHandling()");
         // ========================================================
         // Blocking Canvas 위에 손질 가능 작물 중복 방지
         // 캔버스 위에서 작물 프리팹이 계속 소환되는 오류 수정..? 됐나?
-        if (isHandling) return;
+        if (isHandling && clickedTrayItem == null) return;
         isHandling = true;
         // ========================================================
+        Debug.Log("doing StartHandling()");
 
-        _TrayClick = clickedTrayItem;
 
-        // tray 위의 clone 파괴
-        if (_TrayClick != null)
+        ItemOnTrayClick itemOnTrayClick = clickedTrayItem;
+        if (itemOnTrayClick != null)
         {
-            Debug.Log("_TrayClick != null");
-            if (BenchInventoryUIManager.Instance != null)
-            {
-                BenchInventoryUIManager.Instance.RemoveSpawnedItemd(_TrayClick);
-            }
-            else
-            {
-                Debug.LogWarning("BenchInventoryUIManager.Instance == null");
-                Destroy(_TrayClick);
-            }
-            _TrayClick = null;
-        }
-        else
-        {
-            Debug.Log("_TrayClick == null");
+            Debug.Log($"콜라이더 비활성화:{itemOnTrayClick.gameObject.name}");
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
         }
 
-        if (blockingCanvas != null) blockingCanvas.SetActive(true);
+        if (blockingCanvas != null)
+        {
+            blockingCanvas.SetActive(true);
+            blockingCanvasOpen = true;
+        }
 
         this.currentCropItemData = cropItemData as CropData;
 
@@ -113,7 +109,11 @@ public class FlowerManager : MonoBehaviour
         if (collectedPetalCount >= allPetalFlower.Count)
         {
             Debug.Log($"모든 꽃잎 뜯기 완");
-            if (blockingCanvas != null) blockingCanvas.SetActive(false);
+            if (blockingCanvas != null)
+            {
+                blockingCanvas.SetActive(false);
+                blockingCanvasOpen = false;
+            }
             if (currentMainFlower != null)
             {
                 Destroy(currentMainFlower);
@@ -212,7 +212,7 @@ public class FlowerManager : MonoBehaviour
             Vector3 spawnPos = new Vector3(bowlCneter.x + randomOffset.x, bowlCneter.y + randomOffset.y, bowlCneter.z + (collectedPetalCount * petalStackZOffsest));
             newSmallPetal.transform.position = spawnPos;
             newSmallPetal.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-            newSmallPetal.transform.localScale = Vector3.one * Random.Range(0.9f, 1.1f);
+            newSmallPetal.transform.localScale = Vector3.one * Random.Range(5.9f, 6.1f);
             newSmallPetal.transform.SetParent(bowlTransform);
         }
         else
@@ -223,6 +223,6 @@ public class FlowerManager : MonoBehaviour
 
     public bool IsExitable()
     {
-        return (totalPetalInBowl == 0);
+        return totalPetalInBowl <= 0;
     }
 }

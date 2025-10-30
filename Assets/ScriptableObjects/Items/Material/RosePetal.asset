@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90910606cfd308e48855c639e173d470, type: 3}
   m_Name: RosePetal
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: New Item
-  itemDescription: Null Description
-  itemIcon: {fileID: -781294158744790408, guid: 99c54d100c713bd458ad90921fc5634b, type: 3}
-  itemType: 3
+  id: 12
+  itemName: RosePetal
+  description: Null Description
+  itemIcon: {fileID: 2883982355720329262, guid: 82fc92b4d4b804a4e9ee39d1badb6048, type: 3}
+  overrideIcon: {fileID: -2257116060808997857, guid: bf72d96dedbf2ea479cacd8193cd4ffe, type: 3}
+  itemType: 6
   isStackable: 1
   maxStack: 99
   nowStack: 1
   isTradable: 1
   buyPrice: 0
   sellPrice: 0
+  scaleUpUI: 0
   itemPrefab: {fileID: 5336726138471145724, guid: 83f3f6344bd68b84eb978b1c098295a5, type: 3}
   essenceData: {fileID: 11400000, guid: 089a29450ebb1144dac884b3a9f23203, type: 2}

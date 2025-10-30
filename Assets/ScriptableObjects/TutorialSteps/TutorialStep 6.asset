@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a0617ca80ab4244b684c15eaf2562b, type: 3}
+  m_Name: TutorialStep 6
+  m_EditorClassIdentifier: 
+  triggerId: npc_001_007
+  giveItems:
+  - itemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
+    amount: 10
+  conditionType: 0
+  nextDialogueId: npc_001_010

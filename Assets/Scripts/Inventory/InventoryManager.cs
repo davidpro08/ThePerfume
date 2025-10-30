@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LowLevelPhysics;
 
 
 // 싱글톤으로 구현하는 건 어떨까?
@@ -55,12 +56,19 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject); // gameManager로 관리하는게 나은가?
+        DontDestroyOnLoad(this.gameObject); // gameManager로 관리하는게 나은가?
+
         // 인벤토리 슬롯을 초기 용량만큼 미리 생성
-        for (int i = 0; i < capacity; i++)
-        {
-            itemSlots.Add(new ItemSlot());
-        }
+        if (itemSlots.Count == 0)
+            for (int i = 0; i < capacity; i++)
+            {
+                itemSlots.Add(new ItemSlot());
+            }
+    }
+
+    void Start()
+    {
+        InventorySaveManager.LoadInventory(SaveManager.Instance.CurrentSave, this);
     }
 
     void Update()
@@ -125,6 +133,8 @@ public class InventoryManager : MonoBehaviour
                     if (amountOfItems <= 0)
                     {
                         InventoryChanged();
+
+                        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
                         return true; // 모든 아이템 추가 완료
                     }
                 }
@@ -155,6 +165,7 @@ public class InventoryManager : MonoBehaviour
 
         // UI 변경을 위해 이벤트 부르기
         InventoryChanged();
+        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
         return true;
     }
 
@@ -177,6 +188,7 @@ public class InventoryManager : MonoBehaviour
                         slot.itemData = null; // 슬롯 비우기
                     }
                     InventoryChanged();
+                    InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
                     return true; // 모든 아이템 제거 완료
                 }
                 else
@@ -247,6 +259,7 @@ public class InventoryManager : MonoBehaviour
             temp.CopyTo(targetSlot);
         }
         InventoryChanged();
+        InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
         return true;
     }
 
@@ -269,7 +282,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (SelectedSlotIndex == -1)
         {
-            Debug.Log($"[{name}] : 선택된 슬롯 없음");
+            //Debug.Log($"[{name}] : 선택된 슬롯 없음");
             return null; // 선택된 슬롯이 없음
         }
 
@@ -285,11 +298,29 @@ public class InventoryManager : MonoBehaviour
 
         if (ReferenceEquals(selectedSlot.itemData, null))
         {
-            Debug.Log($"[{name}] : 아이템의 정보가 없음");
+            //Debug.Log($"[{name}] : 아이템의 정보가 없음");
             return null;
         }
 
         return selectedSlot.itemData;
     }
 
+    public void ResetInventory(int newCapacity = -1)
+    {
+        SelectedSlotIndex = -1;
+
+        if (itemSlots == null) itemSlots = new List<ItemSlot>();
+        if (itemSlots.Count < capacity)
+        {
+            for (int i = itemSlots.Count; i < capacity; i++)
+                itemSlots.Add(new ItemSlot());
+        }
+        for (int i = 0; i < itemSlots.Count; i++)
+            itemSlots[i].Clear();
+
+        if (SaveManager.Instance != null)
+            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, this, this);
+
+        InventoryChanged();
+    }
 }

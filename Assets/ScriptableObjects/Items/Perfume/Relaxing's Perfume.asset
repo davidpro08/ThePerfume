@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b783b166a58e3b640aa2a0cd73a5c6df, type: 3}
+  m_Name: Relaxing's Perfume
+  m_EditorClassIdentifier: 
+  id: 50
+  itemName: Relaxing's Perfume
+  description: Null Description
+  itemIcon: {fileID: -1161180659399744951, guid: e83c01cc40dccbf49a7791ec25302a6a, type: 3}
+  itemType: 5
+  isStackable: 0
+  maxStack: 99
+  nowStack: 1
+  isTradable: 0
+  buyPrice: 0
+  sellPrice: 0
+  scaleUpUI: 0
+  perfumeType: 0
+  perfumeWarm: 0
+  perfumeCool: 0
+  perfumeRelax: 0
+  color: {r: 0, g: 0, b: 0, a: 0}

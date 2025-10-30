@@ -32,24 +32,31 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (FlowerManager.Instance.IsExitable() && !BenchInventoryUIManager.Instance.HasSpawnedItemOnTray())
-        {
-            if (BenchInventoryUIManager.Instance != null)
-            {
-                // ==================================================
-                //BenchInventoryUIManager.Instance.CloseAllUI(true);
-                // ==================================================
-            }
+        if (FlowerManager.Instance == null) Debug.Log("[HandleExit] TillUIManager.Instance == null");
 
+        if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && !BenchUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchUIManager.Instance.HasSpawnedItemOnTray())
+        {
             if (string.IsNullOrEmpty(targetSceneName))
             {
                 return;
             }
+
+            InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance, this, immediate: true);
+
             SceneManager.LoadScene(targetSceneName);
         }
         else
         {
-            Debug.LogWarning("못닫느다");
+            if (!FlowerManager.Instance.IsExitable())
+            {
+                BenchUIManager.Instance.ShowWarningCanvas("bowl에 꽃잎이 남아있습니다.");
+                Debug.LogWarning($"IsExitable : Bowl에 꽃잎이 남아있음");
+            }
+            if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+            {
+                BenchUIManager.Instance.ShowWarningCanvas("Tray 위에 작물이 남아있습니다.");
+                Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
+            }
         }
     }
 }

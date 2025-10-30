@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 // 각 작물의 성장 단계 정보를 담고 있음
 
-[CreateAssetMenu(fileName = "CropStages", menuName = "Crop/Crop Stage")]
+[CreateAssetMenu(fileName = "CropStages", menuName = "Stage/Crop Stage")]
 public class CropStage : ScriptableObject
 {
     [Header("성장 단계 설정")]
@@ -12,7 +12,7 @@ public class CropStage : ScriptableObject
     public int totalStage => growthStage.Count; // 총 단계 개수
     public int fullGrowthIndex => growthStage.Count - 1; // 다 자란 단계 (마지막 단계)
 
-    void OValidate()
+    void OnValidate()
     {
         if (growthStage.Count == 0)
         {

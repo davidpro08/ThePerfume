@@ -7,6 +7,7 @@ public class ItemOnTrayClick : MonoBehaviour
 {
     public ItemData ItemData;
 
+
     // ===============================================
     // bench 씬에서만 작동하도록 제한해놓음 >> 필요 없어짐
     // private string targetSceneName = "bench";
@@ -44,21 +45,17 @@ public class ItemOnTrayClick : MonoBehaviour
     // }
     // ===============================================
 
-    void OnMouseDown()
+    public void OnCropClicked()
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("UI 위 클릭 무시");
-            return;
-        }
-
         Debug.Log($"{gameObject.name} 클릭");
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
+        TrayClick.cropClicked = false;
+
+        Debug.Log($"FlowerManager.Instance == {FlowerManager.Instance}");
 
         if (FlowerManager.Instance != null)
         {
-            FlowerManager.Instance.StartHandling(ItemData, this.gameObject);
+            FlowerManager.Instance.StartHandling(ItemData, this);
+            BenchUIManager.Instance.RemoveSpawnedItemd(this.gameObject);
             Debug.Log($"[ItemOnTrayClick] {this.gameObject.name}, {this.gameObject != null}");
         }
         else

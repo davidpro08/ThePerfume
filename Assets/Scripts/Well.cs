@@ -12,7 +12,6 @@ public class Well : MonoBehaviour, IInteract
             return false;
         }
         ToolData toolData = Caster.CastTo<ToolData>(itemData);
-
         if (toolData.toolType == ToolType.WateringCan)
         {
             if (toolData.nowDurability != toolData.maxDurability)
@@ -45,6 +44,7 @@ public class Well : MonoBehaviour, IInteract
             case ToolType.WateringCan:
                 // 물 채우는 애니메이션 넣을거면 여기
                 toolData.nowDurability = toolData.maxDurability; // 내구도 리셋
+                InventoryManager.Instance.InventoryChanged();
                 break;
         }
     }
