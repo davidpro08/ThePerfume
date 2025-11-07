@@ -76,7 +76,7 @@ public class TutorialManager : MonoBehaviour
                 if (step != null) completedSteps.Add(step);
             }
         }
-        
+
         // 마지막으로 끝난 대화 ID를 복원
         _lastEndedDialogueId = tutorialData?.currentStep ?? "";
 
@@ -115,7 +115,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
-        
+
         var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
 
         if (stepToStart != null)
@@ -138,7 +138,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-    
+
     // 현재 단계를 완료 처리
     private void CompleteStep(TutorialStepSO step)
     {
@@ -188,17 +188,30 @@ public class TutorialManager : MonoBehaviour
 
         // 마지막으로 끝난 대화 ID를 저장하여, 언제나 정확한 재개 지점을 확보.
         save.tutorial.currentStep = _lastEndedDialogueId;
-        
+
         // 완료된 스텝들의 이름을 저장.
         save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
-        
+
         // 모든 튜토리얼 단계가 완료되었는지 확인
         if (tutorialSteps.All(step => completedSteps.Contains(step)))
         {
             save.tutorial.isTutorialEnd = true;
         }
     }
-    
+
+    public void ResetTutorial()
+    {
+        completedSteps.Clear();
+        currentStep = null;
+        _lastEndedDialogueId = START_ID;
+        hasInteractedWithIsolde = false;
+
+        gameObject.SetActive(true);
+
+        StopAllCoroutines();
+        StartCoroutine(InitializeTutorial());
+    }
+
     #endregion
 
     #region === 조건 확인 메소드들 ===

@@ -170,6 +170,9 @@ public class SaveManager : MonoBehaviour
 
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.ResetInventory();
+
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.ResetTutorial();
     }
 
     // ========== 모든 SaveManager 통합 =========
