@@ -19723,7 +19723,7 @@ PrefabInstance:
     - target: {fileID: 8823044472987955090, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_Collider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 683555314}
     - target: {fileID: 8823044472987955090, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
       value: 4
@@ -25619,19 +25619,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 390868739417866995, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
-    - {fileID: 8192159203269382076, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5135053709914037868, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
-      insertIndex: -1
+      insertIndex: 0
       addedObject: {fileID: 772853091}
     - targetCorrespondingSourceObject: {fileID: 5135053709914037868, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 66588310}
     - targetCorrespondingSourceObject: {fileID: 5135053709914037868, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 1224799897}
     - targetCorrespondingSourceObject: {fileID: 5135053709914037868, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 1863355638}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
@@ -27358,6 +27357,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!19719996 &683555314 stripped
+TilemapCollider2D:
+  m_CorrespondingSourceObject: {fileID: 563425915821838798, guid: 68a822fe89269154492bc7fec15f4145, type: 3}
+  m_PrefabInstance: {fileID: 328524105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &727339136
 GameObject:
   m_ObjectHideFlags: 0
@@ -32708,7 +32712,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 6.9333334
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

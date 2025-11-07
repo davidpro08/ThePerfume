@@ -16,7 +16,5 @@ MonoBehaviour:
   giveItems:
   - itemData: {fileID: 11400000, guid: 537b5586833b3644b9863c290e3a3e41, type: 2}
     amount: 10
-  - itemData: {fileID: 11400000, guid: be8b9e7ec6824d444afcb4c8435c8d3d, type: 2}
-    amount: 10
   conditionType: 0
   nextDialogueId: narration_001_010
