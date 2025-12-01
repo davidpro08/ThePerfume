@@ -30,6 +30,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         Debug.Log("PointerDown");
         pointerDownTime = Time.time;
 
@@ -42,6 +44,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (Time.time - pointerDownTime <= clickThreshold)
         {
             Debug.Log("PointerUp");
@@ -51,6 +55,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
 
@@ -69,6 +75,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (transform.parent != null)
         {
@@ -88,6 +96,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     private void HandleClick()
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
 
         switch (perfumeType)
