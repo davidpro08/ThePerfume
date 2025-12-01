@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -41,6 +43,7 @@ public class Mixture : MonoBehaviour
     float perfumeWarm;
     float perfumeCool;
     float perfumeRelax;
+    [NonSerialized] public bool perfumeIsComplete = false;
 
     void Start()
     {
@@ -110,7 +113,7 @@ public class Mixture : MonoBehaviour
         CalculateCapacityAndColor();
         PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
         PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
-
+        perfumeIsComplete = true;
         SaveNow();
     }
 
@@ -162,8 +165,9 @@ public class Mixture : MonoBehaviour
 
     public bool CanGainPerfume()
     {
-        var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PCompleteL.enabled == true) return true;
+        // var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
+        // if (PCompleteL.enabled == true) return true;
+        if(perfumeIsComplete) return true;
         return false;
     }
 
@@ -179,7 +183,7 @@ public class Mixture : MonoBehaviour
         data.pMiddleID = (pMiddleData != null ? pMiddleData.id : -1);
         data.pTopID = (pTopData != null ? pTopData.id : -1);
 
-        data.perfumeComplete = PerfumeL[3].GetComponent<SpriteRenderer>().enabled;
+        data.perfumeComplete = perfumeIsComplete;
         data.perfumeID = perfumeData != null ? perfumeData.id : -1;
 
         if (perfumeData != null)
@@ -235,9 +239,10 @@ public class Mixture : MonoBehaviour
         SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
         SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
         SetSR(PerfumeL[2], data.pTopOn, pTopData);
-
+        
+        perfumeIsComplete = data.perfumeComplete;
         var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
-        p3.enabled = data.perfumeComplete;
+        p3.enabled = perfumeIsComplete;
 
         if (data.perfumeID >= 0)
         {

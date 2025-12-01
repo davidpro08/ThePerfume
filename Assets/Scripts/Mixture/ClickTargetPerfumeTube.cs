@@ -60,7 +60,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
-        //if (!mixture.CanGainPerfume()) return;
+        if (mixture.CanGainPerfume()) return;
 
         if (!mixture.PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
         {
@@ -89,7 +89,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     public void OnEndDrag(PointerEventData eventData)
     {
         if (ClickTargetAssence.isPouring) return;
-
+        if (mixture.CanGainPerfume()) return;
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
         StartCoroutine(EndDragCoroutine());
@@ -153,7 +153,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                     mixture.pMiddleData = null;
                     mixture.pTopData = null;
                     mixture.perfumeData = null;
-
+                    mixture.perfumeIsComplete = false;
                     // 일단 깔떼기는 아이템 획득하는대로 다시 꽂아둠
                     // 꽂아두는 애니메이션
                     StartCoroutine(RestorePunnelMotion());
