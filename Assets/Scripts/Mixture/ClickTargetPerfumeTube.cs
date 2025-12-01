@@ -20,6 +20,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     private UnityEngine.Quaternion originParentRot;
 
     private UnityEngine.Vector3 punnelBasePos;
+    private bool isShaking = false;
 
     void Awake()
     {
@@ -59,10 +60,22 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        //if (!mixture.CanGainPerfume()) return;
+
+        if (!mixture.PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
+        {
+            if (!mixture.PrepareForShaking()) return;
+        }
 
         UnityEngine.Vector3 worldPos = Camera.main.ScreenToWorldPoint(new UnityEngine.Vector3(eventData.position.x, eventData.position.y, Camera.main.nearClipPlane));
 
         worldPos.z = 0f;
+
+        if (!isShaking && mixture.perfumeCompleteAni != null)
+        {
+            mixture.perfumeCompleteAni.SetBool("shake", true);
+            isShaking = true;
+        }
 
         if (transform.parent != null)
             transform.parent.position = worldPos;
@@ -78,13 +91,36 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
         if (ClickTargetAssence.isPouring) return;
 
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
+        if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        StartCoroutine(EndDragCoroutine());
+    }
+
+    private IEnumerator EndDragCoroutine()
+    {
         if (transform.parent != null)
         {
+            float duration = 0.2f;
+            float elapsed = 0f;
+            UnityEngine.Vector3 startPos = transform.parent.position;
+            UnityEngine.Quaternion startRot = transform.parent.rotation;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                transform.parent.position = UnityEngine.Vector3.Lerp(startPos, originParentPos, t);
+                transform.parent.rotation = UnityEngine.Quaternion.Slerp(startRot, originParentRot, t);
+                yield return null;
+            }
             transform.parent.position = originParentPos;
             transform.parent.rotation = originParentRot;
         }
 
-        if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        if (mixture.perfumeCompleteAni != null)
+        {
+            mixture.perfumeCompleteAni.SetBool("shake", false);
+            isShaking = false;
+        }
 
         if (shakeAmount >= shakeThreshold)
         {
@@ -135,7 +171,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                 }
                 else
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("cannot make perfume");
+                    //TillUIManager.Instance.ShowWarningCanvas("cannot make perfume");
                 }
                 break;
         }

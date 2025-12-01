@@ -36,6 +36,7 @@ public class Mixture : MonoBehaviour
     [SerializeField] public Animator pBaseLAni;
     [SerializeField] public Animator pMiddleLAni;
     [SerializeField] public Animator pTopLAni;
+    [SerializeField] public Animator perfumeCompleteAni;
 
     float perfumeWarm;
     float perfumeCool;
@@ -313,5 +314,34 @@ public class Mixture : MonoBehaviour
             sr.color = essenceData.color;
             sr.sortingOrder = 1;
         }
+    }
+
+    public bool PrepareForShaking()
+    {
+        if(!PerfumeL[0].GetComponent<SpriteRenderer>().enabled||
+           !PerfumeL[1].GetComponent<SpriteRenderer>().enabled||
+           !PerfumeL[2].GetComponent<SpriteRenderer>().enabled)
+        {
+            return false;
+        }
+
+        if(PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
+        {
+            return true;
+        }
+
+        PerfumeL[0].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;
+
+        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
+
+        CalculateCapacityAndColor();
+        if (perfumeData != null)
+        {
+            PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
+        }
+        SaveNow();
+        return true;
     }
 }
