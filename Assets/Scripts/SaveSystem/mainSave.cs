@@ -54,6 +54,7 @@ public class mainSave : MonoBehaviour
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.ResetGame();
+            Player.ResetPosition();
         }
     }
 

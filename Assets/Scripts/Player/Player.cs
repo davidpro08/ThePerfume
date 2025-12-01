@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
     [Header("기본 설정")] public float moveSpeed = 5f;
 
     [Header("인벤토리 설정")] private bool isOpenInventory = false;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
     private Vector2 _moveInput;
+    private Transform playerTransform;
     private bool _isSprint;
     private readonly float _runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
     private Rigidbody2D _rb;
@@ -24,6 +26,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        playerTransform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _sr = GetComponentInChildren<SpriteRenderer>();
@@ -220,5 +229,13 @@ public class Player : MonoBehaviour
     public void OnPause(InputValue value)
     {
         PauseManager.Instance.TogglePause(true);
+    }
+
+    public static void ResetPosition()
+    {
+        if (Instance != null && Instance.playerTransform != null)
+        {
+            Instance.playerTransform.position = Vector2.zero;
+        }
     }
 }
