@@ -9,54 +9,54 @@ public class SceneChanger : MonoBehaviour, IInteract
     [SerializeField] public Vector2 targetPosition;
     [Header("이동 방식")]
     [SerializeField] public bool isTrigger;
-    
+
     public void MoveToScene()
     {
         string currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene == "Main")
-        {
-            if (name == "Play")
-            {
-                SaveManager.Instance.ResetGame();
-            }
-            else if (name == "Load")
-            {
-                SaveManager.Instance.LoadGame();
-            }
-        }
+        // if (currentScene == "Main")
+        // {
+        //     if (name == "Play")
+        //     {
+        //         SaveManager.Instance.ResetGame();
+        //     }
+        //     else if (name == "Load")
+        //     {
+        //         SaveManager.Instance.LoadGame();
+        //     }
+        // }
 
         if (currentScene == "lab" && SaveManager.Instance != null) SaveManager.Instance.SaveGame();
 
         Resources.UnloadUnusedAssets();
         SceneManager.LoadScene(targetSceneName);
     }
-    
+
     public void MoveToScene(Player player)
     {
         string currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene == "Main")
-        {
-            if (name == "Play")
-            {
-                SaveManager.Instance.ResetGame();
-            }
-            else if (name == "Load")
-            {
-                SaveManager.Instance.LoadGame();
-            }
-        }
+        // if (currentScene == "Main")
+        // {
+        //     if (name == "Play")
+        //     {
+        //         SaveManager.Instance.ResetGame();
+        //     }
+        //     else if (name == "Load")
+        //     {
+        //         SaveManager.Instance.LoadGame();
+        //     }
+        // }
 
         if (currentScene == "lab" && SaveManager.Instance != null) SaveManager.Instance.SaveGame();
 
         Resources.UnloadUnusedAssets();
         SceneManager.LoadScene(targetSceneName);
-        
+
         player.transform.position = targetPosition;
     }
 
     public void Interact(Player player)
     {
-        if(CanInteract(player)) MoveToScene(player);
+        if (CanInteract(player)) MoveToScene(player);
     }
 
     public bool CanInteract(Player player)
@@ -69,7 +69,7 @@ public class SceneChanger : MonoBehaviour, IInteract
 
         return true;
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!isTrigger)
