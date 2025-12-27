@@ -238,7 +238,12 @@ public class Mixture : MonoBehaviour
 
         perfumeIsComplete = data.perfumeComplete;
         var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (perfumeIsComplete) p3.enabled = perfumeIsComplete;
+        if (perfumeIsComplete)
+        {
+            p3.enabled = perfumeIsComplete;
+            perfumeCompleteAni.Play("shakeEnd", 0, 1f);
+            perfumeCompleteAni.SetBool("shake", false);
+        }
         else
         {
             SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
