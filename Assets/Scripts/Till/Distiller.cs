@@ -60,19 +60,19 @@ public class Distiller : MonoBehaviour
     {
         if (fuelCount >= fuelSlotParent.Count)
         {
-            TillUIManager.Instance.ShowWarningCanvas("No empty fuel slot");
+            NoticeUIManager.Instance.ShowNoticeCanvas("No empty fuel slot");
             return;
         }
 
         if (!TryConsumeInventoryFuel(out ItemData fuelData))
         {
-            TillUIManager.Instance.ShowWarningCanvas("need fuel item");
+            NoticeUIManager.Instance.ShowNoticeCanvas("need fuel item");
             return;
         }
 
         if (fuelData.itemType != ItemType.Material || fuelData.id != fuelID)
         {
-            TillUIManager.Instance.ShowWarningCanvas("this is not fuel");
+            NoticeUIManager.Instance.ShowNoticeCanvas("this is not fuel");
             return;
         }
 
@@ -96,7 +96,7 @@ public class Distiller : MonoBehaviour
             {
                 if (essenceSR != null && essenceSR.enabled)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("Essence is already");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("Essence is already");
                     return;
                 }
             }
@@ -105,19 +105,19 @@ public class Distiller : MonoBehaviour
 
         if (petalData == null || !petalData.itemPrefab)
         {
-            TillUIManager.Instance.ShowWarningCanvas("need petal item");
+            NoticeUIManager.Instance.ShowNoticeCanvas("need petal item");
             return;
         }
 
         var slot = FindFirstEmpty(petalSlotParent);
         if (slot == null)
         {
-            TillUIManager.Instance.ShowWarningCanvas("no empty petal slot");
+            NoticeUIManager.Instance.ShowNoticeCanvas("no empty petal slot");
             return;
         }
         if (!InventoryManager.Instance.RemoveItem(petalData, 1))
         {
-            TillUIManager.Instance.ShowWarningCanvas("need petal item");
+            NoticeUIManager.Instance.ShowNoticeCanvas("need petal item");
             return;
         }
 

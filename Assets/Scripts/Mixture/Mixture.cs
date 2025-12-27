@@ -67,13 +67,13 @@ public class Mixture : MonoBehaviour
 
         if (slotToRemove == null)
         {
-            TillUIManager.Instance.ShowWarningCanvas("need essence item");
+            NoticeUIManager.Instance.ShowNoticeCanvas("need essence item");
             return;
         }
 
         if (target.GetComponent<SpriteRenderer>().enabled)
         {
-            TillUIManager.Instance.ShowWarningCanvas("Already Exist essence");
+            NoticeUIManager.Instance.ShowNoticeCanvas("Already Exist essence");
             return;
         }
 
@@ -167,7 +167,7 @@ public class Mixture : MonoBehaviour
     {
         // var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
         // if (PCompleteL.enabled == true) return true;
-        if(perfumeIsComplete) return true;
+        if (perfumeIsComplete) return true;
         return false;
     }
 
@@ -236,14 +236,15 @@ public class Mixture : MonoBehaviour
         SetSR(middleL, data.middleOn, middleData);
         SetSR(topL, data.topOn, topData);
 
-        SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
-        SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
-        SetSR(PerfumeL[2], data.pTopOn, pTopData);
-        
         perfumeIsComplete = data.perfumeComplete;
         var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
-        p3.enabled = perfumeIsComplete;
-
+        if (perfumeIsComplete) p3.enabled = perfumeIsComplete;
+        else
+        {
+            SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
+            SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
+            SetSR(PerfumeL[2], data.pTopOn, pTopData);
+        }
         if (data.perfumeID >= 0)
         {
             perfumeData = perfumeDatas.Find(p => p.id == data.perfumeID);
@@ -323,14 +324,14 @@ public class Mixture : MonoBehaviour
 
     public bool PrepareForShaking()
     {
-        if(!PerfumeL[0].GetComponent<SpriteRenderer>().enabled||
-           !PerfumeL[1].GetComponent<SpriteRenderer>().enabled||
+        if (!PerfumeL[0].GetComponent<SpriteRenderer>().enabled ||
+           !PerfumeL[1].GetComponent<SpriteRenderer>().enabled ||
            !PerfumeL[2].GetComponent<SpriteRenderer>().enabled)
         {
             return false;
         }
 
-        if(PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
+        if (PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
         {
             return true;
         }

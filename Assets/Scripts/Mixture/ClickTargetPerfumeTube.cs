@@ -134,7 +134,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     {
         if (ClickTargetAssence.isPouring) return;
 
-        if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
+        if (InventoryUIManager.isFullInventoryOpen) return;
 
         switch (perfumeType)
         {

@@ -80,7 +80,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
     {
         if (isPouring) return;
 
-        if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
+        if (InventoryUIManager.isFullInventoryOpen) return;
 
         switch (essenceType)
         {
@@ -89,7 +89,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 mixture.baseData = currentSelectedEssence();
                 if (mixture.baseData == null)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                     return;
                 }
                 mixture.PlaceEssence(mixture.baseData, mixture.baseL);
@@ -99,7 +99,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 mixture.middleData = currentSelectedEssence();
                 if (mixture.middleData == null)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                     return;
                 }
                 mixture.PlaceEssence(mixture.middleData, mixture.middleL);
@@ -109,7 +109,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 mixture.topData = currentSelectedEssence();
                 if (mixture.topData == null)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                     return;
                 }
                 mixture.PlaceEssence(mixture.topData, mixture.topL);
@@ -227,13 +227,13 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 case TargetEssenceType.Base:
                     if (mixture.baseData == null)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                         ResetPouringState();
                         yield break;
                     }
                     if (mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled == true && mixture.baseL.GetComponent<SpriteRenderer>().enabled == true)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Base Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Base Essence exist in perfume");
                         ResetPouringState();
                         yield break;
                     }
@@ -241,20 +241,20 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 case TargetEssenceType.Middle:
                     if (mixture.middleData == null)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                         ResetPouringState();
                         yield break;
                     }
                     if (mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled == true && mixture.middleL.GetComponent<SpriteRenderer>().enabled == true)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Middle Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Middle Essence exist in perfume");
                         ResetPouringState();
                         yield break;
                     }
 
                     if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("No Base Essence");
                         ResetPouringState();
                         yield break;
                     }
@@ -262,26 +262,26 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                 case TargetEssenceType.Top:
                     if (mixture.topData == null)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("need Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("need Essence");
                         ResetPouringState();
                         yield break;
                     }
                     if (mixture.PerfumeL[2].GetComponent<SpriteRenderer>().enabled == true && mixture.topL.GetComponent<SpriteRenderer>().enabled == true)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Top Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Top Essence exist in perfume");
                         ResetPouringState();
                         yield break;
                     }
 
                     if (!mixture.PerfumeL[0].GetComponent<SpriteRenderer>().enabled)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("No Base Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("No Base Essence");
                         ResetPouringState();
                         yield break;
                     }
                     if (!mixture.PerfumeL[1].GetComponent<SpriteRenderer>().enabled)
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("No Middle Essence");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("No Middle Essence");
                         ResetPouringState();
                         yield break;
                     }
@@ -318,7 +318,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     }
                     else
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Essence exist in perfume");
                         transform.position = originPos;
                         transform.rotation = originRot;
                         isPouring = false;
@@ -337,7 +337,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     }
                     else
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Essence exist in perfume");
                         ResetPouringState();
                         yield break;
                     }
@@ -354,7 +354,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     }
                     else
                     {
-                        TillUIManager.Instance.ShowWarningCanvas("Already Essence exist in perfume");
+                        NoticeUIManager.Instance.ShowNoticeCanvas("Already Essence exist in perfume");
                         ResetPouringState();
                         yield break;
                     }

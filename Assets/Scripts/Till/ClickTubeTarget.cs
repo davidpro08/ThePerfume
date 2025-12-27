@@ -18,7 +18,7 @@ public class ClickTubeTarget : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (eventData.pointerPressRaycast.module is not Physics2DRaycaster) return;
-        if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
+        if (InventoryUIManager.isFullInventoryOpen) return;
 
         switch (type)
         {
@@ -29,7 +29,7 @@ public class ClickTubeTarget : MonoBehaviour, IPointerClickHandler
                 MaterialData petal = currentSelectedPetal();
                 if (petal == null)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("need petal item");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("need petal item");
                     return;
                 }
                 distiller.PlacePetal(petal);
