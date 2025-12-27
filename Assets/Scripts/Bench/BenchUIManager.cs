@@ -7,12 +7,6 @@ using UnityEngine.UI;
 public class BenchUIManager : MonoBehaviour
 {
     public static BenchUIManager Instance { get; private set; }
-    [Header("인벤토리 경고창UI")]
-    [SerializeField] private GameObject warningCanvas;
-    [SerializeField] private TextMeshProUGUI warningMessageText;
-    [SerializeField] private Button warningOkButton;
-
-
 
     [Header("아이템 생성 설정")]
     [SerializeField] private Transform itemSpawnTray; // 아이템이 올라갈 철재 쟁반
@@ -31,39 +25,6 @@ public class BenchUIManager : MonoBehaviour
             return;
         }
         Instance = this;
-
-        if (warningCanvas != null) warningCanvas.SetActive(false);
-
-        if (warningOkButton != null)
-        {
-            warningOkButton.onClick.RemoveAllListeners();
-            warningOkButton.onClick.AddListener(OnWarningCanvasOkButton);
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (warningOkButton != null) warningOkButton.onClick.RemoveAllListeners();
-    }
-
-    // 경고창 표시
-    public void ShowWarningCanvas(string message)
-    {
-        if (warningCanvas != null)
-        {
-            warningMessageText.text = message;
-            warningCanvas.SetActive(true);
-            warningCanvasOpen = true;
-        }
-    }
-    // 경고창 끄기
-    public void OnWarningCanvasOkButton()
-    {
-        if (warningCanvas != null)
-        {
-            warningCanvas.SetActive(false);
-            warningCanvasOpen = false;
-        }
     }
 
     // ============================ 시스템 관련 코드 =====================================
