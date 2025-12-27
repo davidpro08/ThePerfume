@@ -117,7 +117,7 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
     /// </summary>
     /// <param name="seedData"></param>
     /// <returns></returns>
-    public void PlantSeed(SeedData seedData, int stage = 0, float timer = 0f)
+    public void PlantSeed(SeedData seedData, int stage = 0, float timer = -1f)
     {
         isOccupied = true;
         UpdateTile();
@@ -134,7 +134,14 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
             {
                 currentCropInstance.parentFarm = this;
                 currentCropInstance.currentStage = stage;
-                currentCropInstance.timer = timer;
+                if (timer < 0)
+                {
+                    currentCropInstance.plantedTimeAtTotalPlayTime = SaveManager.Instance.CurrentSave.totalPlayTime;
+                }
+                else
+                {
+                    currentCropInstance.plantedTimeAtTotalPlayTime = timer;
+                }
                 currentCropInstance.UpdateSprite();
             }
         }

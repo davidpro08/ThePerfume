@@ -15,6 +15,7 @@ public class HarvestableCrop : MonoBehaviour, IInteract
     [Header("성장 시스템")]
     public CropStage cropStage; // 성장 단계 데이터
     private SpriteRenderer spriteRenderer; // 작물 스프라이트 변경
+    public float plantedTimeAtTotalPlayTime = 0f;
     public float timer = 0f; // 현재 단계에서 경과한 시간
     public int currentStage = 0; // 현재 성장 단계
 
@@ -31,26 +32,31 @@ public class HarvestableCrop : MonoBehaviour, IInteract
 
     void Update()
     {
-        if (!isFullGrowth)
+        if (isFullGrowth) return;
+
+        float currentTotalTime = SaveManager.Instance.CurrentSave.totalPlayTime / 1000f; // 밀리초 -> 초
+        float plantedTime = plantedTimeAtTotalPlayTime / 1000f;
+
+        float elapsedTime = currentTotalTime - plantedTime;
+
+        if (elapsedTime < 0) return;
+
+        int calculatedStage = Mathf.FloorToInt(elapsedTime / cropStage.growDuration);
+
+        if (calculatedStage != currentStage)
         {
-            timer += Time.deltaTime;
+            currentStage = Mathf.Min(calculatedStage, cropStage.fullGrowthIndex);
+            UpdateSprite();
 
-            // 해당 단계 끝
-            if (timer >= cropStage.growDuration)
-            {
-                timer -= cropStage.growDuration; // 남은 시간 처리
-                currentStage++;
-
-                if (currentStage >= cropStage.totalStage)
-                {
-                    currentStage = cropStage.fullGrowthIndex; // 마지막 단계 고정
-                    Debug.Log($"{cropType}이 모두 자라났음");
-                }
-                UpdateSprite();
-
-                if (parentFarm != null) SaveManager.Instance.SaveGame();
-            }
+            if (parentFarm != null) SaveManager.Instance.SaveGame();
         }
+
+        timer = elapsedTime % cropStage.growDuration;
+    }
+
+    public void Initialize(float plantedTime)
+    {
+        this.plantedTimeAtTotalPlayTime = plantedTime;
     }
 
     public bool CanHarvest() // 수확 가능한지 여부

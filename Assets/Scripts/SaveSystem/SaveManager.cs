@@ -16,7 +16,7 @@ public class GameSave
     public MixtureSaveData mixture = new(); // 단일 소환
     public List<InventoryItemSaveData> inventory = new();
     public TutorialSaveData tutorial = new();
-    public long lastSavedUtc;
+    public long totalPlayTime;
 }
 
 // ============= 저장 데이터 스키마 =============
@@ -46,7 +46,7 @@ public class FarmSaveData
     public bool isWatered;
     public int seedItemID;
     public int growthStage;
-    public float cropTimer;
+    public float plantedTimeAtTotalPlayTime;
 }
 
 [Serializable]
@@ -128,6 +128,10 @@ public class SaveManager : MonoBehaviour
             itemDict[item.id] = item;
         }
     }
+    void Update()
+    {
+        CurrentSave.totalPlayTime += (long)(Time.deltaTime * 1000);
+    }
 
     public static GameSave Load()
     {
@@ -185,7 +189,6 @@ public class SaveManager : MonoBehaviour
         FarmSaveManager.SaveFarms(save, buildController);
         TutorialManager.Instance?.PrepareSaveData(save);
 
-        save.lastSavedUtc = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         SaveManager.Save(save);
     }
 
