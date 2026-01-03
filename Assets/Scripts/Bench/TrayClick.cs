@@ -21,8 +21,20 @@ public class TrayClick : MonoBehaviour
             // UI가 열려도 월드 오브젝트 클릭 무시가 안됨
             // UI가 열려있으면 월드 오브젝트 클릭 무시
             Debug.Log($"InventoryUIManager.isFullInventoryOpen : {InventoryUIManager.isFullInventoryOpen}");
-            if (InventoryUIManager.isFullInventoryOpen || FlowerManager.Instance.blockingCanvasOpen)
+            if (InventoryUIManager.isFullInventoryOpen || FlowerManager.Instance.blockingCanvasOpen || cropClicked)
             {
+                if (InventoryUIManager.isFullInventoryOpen)
+                {
+                    Debug.Log($"Full Inventory open");
+                }
+                else if (FlowerManager.Instance.blockingCanvasOpen)
+                {
+                    Debug.Log($"FlowerManager blocking canvas open");
+                }
+                else if (cropClicked)
+                {
+                    Debug.Log($"Crop clicked");
+                }
                 if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1) || FlowerManager.Instance.isHandling)
                 {
                     Debug.Log($"UI open");
@@ -80,6 +92,7 @@ public class TrayClick : MonoBehaviour
                     {
                         Debug.Log($"Tray SpawnItemOnTray call");
                         BenchUIManager.Instance.SpawnItemOnTray(selectedSlot.itemData, 1);
+                        InventoryManager.Instance.RemoveItem(selectedSlot.itemData, 1);
                     }
                     else
                     {

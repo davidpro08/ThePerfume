@@ -27,11 +27,11 @@ public class FlowerManager : MonoBehaviour
     [SerializeField] private float petalStackZOffsest = 0.01f;
 
     private GameObject currentMainFlower;
-    private List<FlowerPetalUI> allPetalFlower = new List<FlowerPetalUI>();
+    private List<FlowerPetalUI> PetalFlower = new List<FlowerPetalUI>();
     private int totalPetalInBowl = 0;
     private int collectedPetalCount = 0;
     private CropData currentCropItemData;
-    public bool isHandling = false;
+    public bool isHandling = false; // 필요 없어 보이는데 테스트 필요
     public GameObject _TrayClick;
     public bool blockingCanvasOpen = false;
 
@@ -81,10 +81,10 @@ public class FlowerManager : MonoBehaviour
             return;
         }
 
-        allPetalFlower.Clear();
-        allPetalFlower.AddRange(currentMainFlower.GetComponentsInChildren<FlowerPetalUI>());
+        PetalFlower.Clear();
+        PetalFlower.AddRange(currentMainFlower.GetComponentsInChildren<FlowerPetalUI>());
 
-        foreach (FlowerPetalUI petal in allPetalFlower)
+        foreach (FlowerPetalUI petal in PetalFlower)
         {
             petal.Initialize(this, centerRect);
             petal.gameObject.SetActive(true);
@@ -105,8 +105,8 @@ public class FlowerManager : MonoBehaviour
         UpdateBowlSprite();
 
 
-        Debug.Log($"collectedPetalCount:{collectedPetalCount}, allPetalFlower.Count:{allPetalFlower.Count}");
-        if (collectedPetalCount >= allPetalFlower.Count)
+        Debug.Log($"collectedPetalCount:{collectedPetalCount}, allPetalFlower.Count:{PetalFlower.Count}");
+        if (collectedPetalCount >= PetalFlower.Count)
         {
             Debug.Log($"모든 꽃잎 뜯기 완");
             if (blockingCanvas != null)
@@ -118,7 +118,7 @@ public class FlowerManager : MonoBehaviour
             {
                 Destroy(currentMainFlower);
                 currentMainFlower = null;
-                allPetalFlower.Clear();
+                PetalFlower.Clear();
             }
 
             // ===============================

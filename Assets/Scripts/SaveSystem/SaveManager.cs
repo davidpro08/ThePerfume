@@ -12,6 +12,7 @@ public class GameSave
 {
     public List<InstallationSaveData> installationList = new();
     public List<FarmSaveData> farms = new();
+    public BenchSaveData bench = new();
     public List<DistillerSaveData> distillers = new List<DistillerSaveData>(); // ID 기반 다중 소환
     public MixtureSaveData mixture = new(); // 단일 소환
     public List<InventoryItemSaveData> inventory = new();
@@ -47,6 +48,12 @@ public class FarmSaveData
     public int seedItemID;
     public int growthStage;
     public float plantedTimeAtTotalPlayTime;
+}
+
+[Serializable]
+public class BenchSaveData
+{
+    public List<int> spawnedItemData = new List<int>();
 }
 
 [Serializable]
