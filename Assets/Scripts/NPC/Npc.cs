@@ -13,11 +13,11 @@ using Vector2 = UnityEngine.Vector2;
 public class Npc : MonoBehaviour, IInteract
 {
     [Header("NPC 설정")]
-    [SerializeField] string npcId = "npc_001";
-    [SerializeField] string startDialogueId = "";
+    [SerializeField] protected string npcId = "npc_001";
+    [SerializeField] protected string startDialogueId = "";
 
     [Header("초상화 설정")]
-    [SerializeField] private NpcPortraitData portraitData;
+    [SerializeField] protected NpcPortraitData portraitData;
 
     [Header("기존 호환성")]
     [SerializeField] List<String> dialogueObjects = new();
@@ -30,11 +30,18 @@ public class Npc : MonoBehaviour, IInteract
     [SerializeField] private Vector2 maxArea = new Vector2(5f, 5f);
 
     [Header("애니메이션 세팅")]
-    [SerializeField] private Animator _animator;
+    [SerializeField] protected Animator _animator;
 
     private NpcState currentState = NpcState.Default;
 
-    void Start()
+    protected virtual void Start()
+    {
+        InitializePortrait();
+
+        StartCoroutine(RandomMove(minArea, maxArea));
+    }
+
+    protected void InitializePortrait()
     {
         // 초상화 데이터가 설정되지 않았다면 자동으로 찾기
         if (portraitData == null)
@@ -46,8 +53,6 @@ public class Npc : MonoBehaviour, IInteract
                 Debug.LogWarning($"NPC {npcId}의 초상화 데이터를 찾을 수 없습니다. Resources/NPC/PortraitData/{npcId} 경로를 확인해주세요.");
             }
         }
-
-        StartCoroutine(RandomMove(minArea, maxArea));
     }
 
     public void Interact(Player player)
@@ -151,7 +156,7 @@ public class Npc : MonoBehaviour, IInteract
         }
     }
 
-    private void UpdateAnimator(Vector2 input)
+    protected virtual void UpdateAnimator(Vector2 input)
     {
         float magnitude = input.magnitude;
 
