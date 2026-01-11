@@ -51,6 +51,15 @@ public class DistillerToTill : MonoBehaviour, IPointerClickHandler
             GameContext context = new GameObject("GameContext").AddComponent<GameContext>();
         }
         GameContext.Instance.SelectDistiller(distillerID);
-        SceneManager.LoadScene(tillSceneName);
+        
+        // 로딩 UI를 사용하여 씬 전환
+        if (LoadingUIManager.Instance != null)
+        {
+            LoadingUIManager.Instance.LoadScene(tillSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(tillSceneName);
+        }
     }
 }
