@@ -88,7 +88,7 @@ public class NpcDialogueManager : MonoBehaviour
         }
 
         ShowDialogue(currentDialogue);
-        
+
         SoundManager.Instance.PlaySFX(SFXType.Talk);
     }
 
@@ -122,7 +122,7 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("대화창 UI 요소가 설정되지 않았습니다!");
             return;
         }
-        
+
         currentDialogue = dialogue;
         isActive = true;
         dialogueObject.SetActive(true);
@@ -132,9 +132,9 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("이름 요소가 설정되지 않았습니다!");
             return;
         }
-        
+
         nameText.text = dialogue.npcId;
-        
+
         // NPC 상태에 따른 초상화 업데이트
         UpdatePortraitForDialogue(dialogue);
 
@@ -337,5 +337,15 @@ public class NpcDialogueManager : MonoBehaviour
             dialogueObject.SetActive(false);
 
         PauseManager.Instance.ResumeFromDialogue();
+    }
+
+    public IEnumerator StartStoryDialogue(DialogueEntry dialouge)
+    {
+        if (dialogueObject == null) yield break;
+        ShowDialogue(dialouge);
+        while (isActive)
+        {
+            yield return null;
+        }
     }
 }

@@ -17,6 +17,7 @@ public class GameSave
     public MixtureSaveData mixture = new(); // 단일 소환
     public List<InventoryItemSaveData> inventory = new();
     public TutorialSaveData tutorial = new();
+    public StorySaveData story = new();
     public long totalPlayTime;
 }
 
@@ -92,6 +93,13 @@ public class PetalSlotData
 {
     public int index;
     public int itemID;
+}
+
+[Serializable]
+public class StorySaveData
+{
+    public bool isPrologueCompleted = false;
+    public int lastDialougeIndex = 0;
 }
 
 [Serializable]

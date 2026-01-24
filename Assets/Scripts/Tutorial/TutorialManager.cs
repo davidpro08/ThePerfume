@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -49,7 +50,13 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(InitializeTutorial());
+        Debug.Log($"스토리 시작 여부: {SaveManager.Instance.CurrentSave.story.isPrologueCompleted}");
+        if (!SaveManager.Instance.CurrentSave.story.isPrologueCompleted)
+        {
+            Debug.Log("프롤로그 스토리 진행 중이므로 스토리씬으로 이동합니다.");
+            SceneManager.LoadScene("StoryScene");
+        }
+        //StartCoroutine(InitializeTutorial());
     }
 
     private IEnumerator InitializeTutorial()

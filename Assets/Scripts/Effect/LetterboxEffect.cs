@@ -5,7 +5,7 @@ public class LetterboxEffect : MonoBehaviour
     public static LetterboxEffect instance { get; private set; }
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {

@@ -24,11 +24,16 @@ public class SoundManager : MonoBehaviour
         public AudioClip clip;
     }
 
+    [Header("Loop SFX Settings")]
+    public Transform loopSfxParent;
+
+
     public List<SFXData> sfxList;
     public List<BGMData> bgmList;
 
     private Dictionary<SFXType, AudioClip> sfxDict;
     private Dictionary<BGMType, AudioClip> bgmDict;
+    private Dictionary<string, AudioSource> activeLoops = new Dictionary<string, AudioSource>();
 
     private AudioSource sfxSource;
     public AudioSource bgmSource;
@@ -65,6 +70,63 @@ public class SoundManager : MonoBehaviour
         if (sfxDict.ContainsKey(type))
             sfxSource.PlayOneShot(sfxDict[type]);
     }
+
+    // 스토리 진행을 위함
+    // ===========================================
+    public void PlaySFX(string typeName)
+    {
+        if (System.Enum.TryParse(typeName, out SFXType type))
+        {
+            PlaySFX(type);
+        }
+        else Debug.LogWarning($"SFXType '{typeName}'을(를) 찾을 수 없습니다.");
+    }
+
+    public void PlayLoopSFX(string name, float volume = 1.0f)
+    {
+        if (activeLoops.ContainsKey(name))
+        {
+            // 이미 재생 중인 경우 무시
+            return;
+        }
+
+        if (System.Enum.TryParse(name, out SFXType type) && sfxDict.ContainsKey(type))
+        {
+            GameObject go = new GameObject($"LoopSFX_{name}");
+            if (loopSfxParent != null)
+                go.transform.SetParent(loopSfxParent);
+
+            AudioSource source = go.AddComponent<AudioSource>();
+            source.outputAudioMixerGroup = sfxMixerGroup;
+            source.clip = sfxDict[type];
+            source.volume = volume;
+            source.loop = true;
+            source.Play();
+
+            activeLoops.Add(name, source);
+
+        }
+        else Debug.LogWarning($"SFXType '{name}'을(를) 찾을 수 없습니다.");
+    }
+
+    public void StopLoopSFX(string name)
+    {
+        if (activeLoops.ContainsKey(name))
+        {
+            AudioSource source = activeLoops[name];
+            if (source != null)
+            {
+                source.Stop();
+                Destroy(source.gameObject);
+            }
+            activeLoops.Remove(name);
+        }
+        else
+        {
+            Debug.LogWarning($"재생 중인 루프 SFX '{name}'이(가) 없습니다.");
+        }
+    }
+    // ===========================================
 
     public void PlayBGM(BGMType type, bool loop = true)
     {

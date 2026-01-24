@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 public class CharacterMotion : Npc
@@ -8,44 +9,65 @@ public class CharacterMotion : Npc
     // GetNpcId(), GetCurrentPortraitSprite(NpcState npcState)
     private Animator animator;
 
-    protected override void Start()
+    protected void Awake()
     {
         InitializePortrait();
         animator = GetComponent<Animator>();
     }
 
-    // 캐릭터 이동
-    public void CharacterWalk(Vector2 startPos, Vector2 endPos, float duration)
+    // 캐릭터 시작 위치
+    public void SetStartPosition(UnityEngine.Vector2 startPos)
     {
-        StartCoroutine(WalkRoutine(startPos, endPos, duration));
+        transform.position = startPos;
+    }
+
+    // 캐릭터 이동
+    public void CharacterWalk(UnityEngine.Vector2 startPos, UnityEngine.Vector2 endPos, float duration, bool useMoveAnim = true)
+    {
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        StartCoroutine(WalkRoutine(startPos, endPos, duration, useMoveAnim));
     }
 
     // 캐릭터 원하는 방향으로 바라보기
-    public void CharacterLookAt(Vector2 direction)
+    public void CharacterLookAt(UnityEngine.Vector2 direction)
     {
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
         UpdateAnimator(direction, false);
     }
 
-    private IEnumerator WalkRoutine(Vector2 startPos, Vector2 endPos, float duration)
+    // 애니메이션 출력
+    public void PlayAnimation(string animationName)
+    {
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        animator.Play(animationName);
+    }
+
+    private IEnumerator WalkRoutine(UnityEngine.Vector2 startPos, UnityEngine.Vector2 endPos, float duration, bool useMoveAnim)
     {
         float elapsed = 0f;
         transform.position = startPos;
-        Vector2 direction = (endPos - startPos).normalized;
+        UnityEngine.Vector2 direction = (endPos - startPos).normalized;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            transform.position = Vector2.Lerp(startPos, endPos, elapsed / duration);
+            transform.position = UnityEngine.Vector2.Lerp(startPos, endPos, elapsed / duration);
 
-            UpdateAnimator(direction, true);
+            if (useMoveAnim)
+                UpdateAnimator(direction, true);
+            else
+                UpdateAnimator(direction, false);
             yield return null;
         }
         transform.position = endPos;
-        UpdateAnimator(Vector2.zero, false);
+        UpdateAnimator(UnityEngine.Vector2.zero, false);
     }
 
 
-    void UpdateAnimator(Vector2 input, bool isWalking = true)
+    void UpdateAnimator(UnityEngine.Vector2 input, bool isWalking = true)
     {
         // 방향 갱신
         if (input.magnitude > 0.01f)

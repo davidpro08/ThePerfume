@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         SetPlayerDisenabled(disable);
     }
 
-    void SetPlayerDisenabled(bool disabled)
+    public void SetPlayerDisenabled(bool disabled)
     {
         if (_rb)
         {
