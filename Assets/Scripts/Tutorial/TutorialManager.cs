@@ -56,7 +56,7 @@ public class TutorialManager : MonoBehaviour
             Debug.Log("프롤로그 스토리 진행 중이므로 스토리씬으로 이동합니다.");
             SceneManager.LoadScene("StoryScene");
         }
-        //StartCoroutine(InitializeTutorial());
+        // StartCoroutine(InitializeTutorial());
     }
 
     private IEnumerator InitializeTutorial()

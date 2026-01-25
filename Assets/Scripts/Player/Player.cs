@@ -106,7 +106,12 @@ public class Player : MonoBehaviour
 
     void OnMove(InputValue value)
     {
-        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory) return;
+        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory || (NpcDialogueManager.Instance != null && NpcDialogueManager.Instance.isActive))
+        {
+            _moveInput = Vector2.zero;
+            UpdateAnimator(Vector2.zero);
+            return;
+        }
         _moveInput = value.Get<Vector2>();
         UpdateAnimator(_moveInput);
     }
@@ -162,6 +167,12 @@ public class Player : MonoBehaviour
     // PlayerInput으로 입력 받을 수 있도록 수정중 >> 기획서에 맞춰서 키보드/마우스 상호작용으로 나눔
     void OnInteract(InputValue value)
     {
+        if (NpcDialogueManager.Instance != null && NpcDialogueManager.Instance.isActive)
+        {
+            // 대화 중일 때는 대화 진행
+            NpcDialogueManager.Instance.OnNextButtonClicked();
+            return;
+        }
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             MouseInteration();

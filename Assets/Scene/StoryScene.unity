@@ -325,8 +325,63 @@ Transform:
   - {fileID: 1448692219021643044}
   - {fileID: 8183826903544068741}
   - {fileID: 9182130054000102262}
+  - {fileID: 842947211}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &842947210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842947211}
+  - component: {fileID: 842947212}
+  m_Layer: 0
+  m_Name: narration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842947211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842947210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 634316104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &842947212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842947210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcId: narration
+  startDialogueId: 
+  portraitData: {fileID: 0}
+  dialogueObjects: []
+  moveSpeed: 1
+  moveDuration: 0.8
+  nextMoveTime: 2
+  minArea: {x: 0, y: 0}
+  maxArea: {x: 5, y: 5}
+  _animator: {fileID: 0}
 --- !u!1 &1202268194
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +611,7 @@ GameObject:
   - component: {fileID: 5648845439355565169}
   - component: {fileID: 9182130054000102263}
   m_Layer: 8
-  m_Name: Isolde
+  m_Name: isolde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,7 +728,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -5029883670407346051, guid: 952e5870cf82c6e4cb7526ab055a00bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -699,7 +754,7 @@ GameObject:
   - component: {fileID: 3322089242653046379}
   - component: {fileID: 6909522281912656591}
   m_Layer: 0
-  m_Name: Jang
+  m_Name: jang
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,7 +772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: Jang
+  npcId: jang
   startDialogueId: 
   portraitData: {fileID: 0}
   dialogueObjects: []
@@ -792,7 +847,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4740127431408580785, guid: 77937b87af10ce94e80cfcf3d62c9214, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -833,7 +888,7 @@ GameObject:
   - component: {fileID: 6948116402834534707}
   - component: {fileID: 8916777407064466460}
   m_Layer: 8
-  m_Name: Ansel
+  m_Name: ansel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -851,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: Ansel
+  npcId: ansel
   startDialogueId: 
   portraitData: {fileID: 11400000, guid: 54159f4c45cc27049a0a67f717a1ab80, type: 2}
   dialogueObjects:
@@ -944,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: Isolde
+  npcId: isolde
   startDialogueId: 
   portraitData: {fileID: 11400000, guid: 51e51a0868e69254293d12af3b0b5751, type: 2}
   dialogueObjects:

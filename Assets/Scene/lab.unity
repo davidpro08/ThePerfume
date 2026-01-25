@@ -424,6 +424,8 @@ MonoBehaviour:
     dialogueCSV: {fileID: 4900000, guid: 7c35c6f0a0fde294dbb50da31fb4d48c, type: 3}
   - dialogueName: Tutorial
     dialogueCSV: {fileID: 4900000, guid: a53b1690e3c9f2f488ad86dad9512278, type: 3}
+  - dialogueName: Intro_dialogue
+    dialogueCSV: {fileID: 4900000, guid: 555df29b84b906441af4ba7a61054cc5, type: 3}
   requiredColumns:
   - ID
   - NPC_ID

@@ -29,6 +29,7 @@ public class StoryManager : MonoBehaviour
     [Header("Story CSV File")]
     [SerializeField] TextAsset storyCsvFile;
     [SerializeField] TextAsset dialogueFile;
+    private string dialogueID = "Intro_dialogue";
     private int currentDialogueIndex = 0;
     [Header("Background Settings")]
     [SerializeField] Transform backgroundParent;
@@ -36,6 +37,8 @@ public class StoryManager : MonoBehaviour
     private Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
     private const float BG_FADE_DURATION = 1.0f;
     public bool isPrologueDone = false;
+
+    private float currentLightingAlpha = 0f;
 
     void Start()
     {
@@ -101,9 +104,24 @@ public class StoryManager : MonoBehaviour
 
     IEnumerator ShowDialogue(int count)
     {
-        // 대사 파일명 안 정해짐
-        var data = CSVDialogueParser.Instance.GetDialogueData(dialogueFile.name);
-        if (data == null || data.dialogues == null) yield break;
+        if (dialogueFile == null)
+        {
+            Debug.LogError("대화 CSV 파일이 할당되지 않았습니다.");
+            yield break;
+        }
+
+        var data = CSVDialogueParser.Instance.GetDialogueData(dialogueID);
+
+        if (data == null)
+        {
+            Debug.LogError($"대화 데이터를 찾을 수 없습니다: {dialogueID}");
+            yield break;
+        }
+        if (data == null || data.dialogues == null)
+        {
+            Debug.LogError($"대화 데이터가 비어있습니다: {dialogueID}");
+            yield break;
+        }
 
         for (int i = 0; i < count; i++)
         {
@@ -129,7 +147,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
     }
 
-    IEnumerator ChangeBackground(string bgName)
+    IEnumerator ChangeBackground(string bgName, float targetAlpha = 0f)
     {
         LightingEffect.instance.SetLighting(1f, BG_FADE_DURATION);
         yield return new WaitForSeconds(BG_FADE_DURATION);
@@ -147,7 +165,7 @@ public class StoryManager : MonoBehaviour
             Debug.LogWarning($"배경 이미지 '{bgName}'을(를) 찾을 수 없습니다.");
         }
         yield return new WaitForSeconds(0.1f);
-        LightingEffect.instance.SetLighting(0f, BG_FADE_DURATION);
+        LightingEffect.instance.SetLighting(targetAlpha, BG_FADE_DURATION);
         yield return new WaitForSeconds(BG_FADE_DURATION);
     }
 
@@ -163,13 +181,21 @@ public class StoryManager : MonoBehaviour
 
         foreach (var evt in storyEvents)
         {
+            if (evt.type == "EFFECT")
+            {
+                if (evt.value == "FADE_TO_70") currentLightingAlpha = 0.7f;
+                else if (evt.value == "FADE_IN") currentLightingAlpha = 0f;
+                else if (evt.value == "FADE_OUT") currentLightingAlpha = 1f;
+            }
+
             // 배경 우선 변경
             if (!string.IsNullOrEmpty(evt.background))
             {
-                yield return StartCoroutine(ChangeBackground(evt.background));
+                yield return StartCoroutine(ChangeBackground(evt.background, currentLightingAlpha));
             }
 
             CharacterMotion targetChar = GetCharacter(evt.charID);
+
             switch (evt.type)
             {
                 case "MOVE":
