@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 public class SoundManager : MonoBehaviour
 {
@@ -139,4 +140,14 @@ public class SoundManager : MonoBehaviour
     }
 
     public void StopBGM() => bgmSource.Stop();
+
+    public BGMType FindByName(string bgmName)
+    {
+        if (System.Enum.TryParse(bgmName, out BGMType type))
+        {
+            return type;
+        }
+        else Debug.LogWarning($"BGMType '{bgmName}'을(를) 찾을 수 없습니다.");
+        return default;
+    }
 }

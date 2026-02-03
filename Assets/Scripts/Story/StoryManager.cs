@@ -23,11 +23,13 @@ public class StoryEvent
 
 public class StoryManager : MonoBehaviour
 {
+    public static StoryManager Instance;
     [SerializeField] List<CharacterMotion> characters;
     [SerializeField] GameObject characterParent;
     List<StoryEvent> storyEvents = new List<StoryEvent>(); // 추후 CSV에서 파생해온 데이터
     [Header("Story CSV File")]
-    [SerializeField] TextAsset storyCsvFile;
+    [SerializeField] public TextAsset IntroCsvFile;
+    [SerializeField] public TextAsset nextStroyCsvFile;
     [SerializeField] TextAsset dialogueFile;
     private string dialogueID = "Intro_dialogue";
     private int currentDialogueIndex = 0;
@@ -36,19 +38,17 @@ public class StoryManager : MonoBehaviour
 
     private Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
     private const float BG_FADE_DURATION = 1.0f;
+    private System.Action onStoryCompleteCallBackF;
     public bool isPrologueDone = false;
 
     private float currentLightingAlpha = 0f;
 
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
     void Start()
     {
-        if (SaveManager.Instance != null && SaveManager.Instance.CurrentSave != null) LoadStoryData();
-        if (isPrologueDone)
-        {
-            if (characterParent != null) characterParent.SetActive(false);
-            return;
-        }
-
         if (backgroundParent != null)
         {
             foreach (Transform child in backgroundParent)
@@ -56,15 +56,6 @@ public class StoryManager : MonoBehaviour
                 backgroundDict[child.name] = child.gameObject;
                 child.gameObject.SetActive(false);
             }
-        }
-        if (storyCsvFile != null)
-        {
-            LoadStory(storyCsvFile);
-            StartCoroutine(PlayStory());
-        }
-        else
-        {
-            Debug.LogError("스토리 CSV 파일이 할당되지 않았습니다!");
         }
 
         if (characterParent != null)
@@ -75,6 +66,15 @@ public class StoryManager : MonoBehaviour
         {
             InventoryUIManager.Instance.CloseHotbar();
         }
+    }
+
+    public void PlayStorySequence(TextAsset csvFile, System.Action onComplete)
+    {
+        if (csvFile == null) return;
+
+        onStoryCompleteCallBackF = onComplete;
+        LoadStory(csvFile);
+        StartCoroutine(PlayStory());
     }
 
     public void LoadStory(TextAsset csvFile)
@@ -198,6 +198,12 @@ public class StoryManager : MonoBehaviour
 
             switch (evt.type)
             {
+                case "TELEPORT":
+                    if (targetChar != null)
+                        targetChar.SetStartPosition(evt.endPos);
+                    else
+                        Debug.LogWarning($"캐릭터 '{evt.charID}'을(를) 찾을 수 없습니다.");
+                    break;
                 case "MOVE":
                     targetChar.CharacterWalk(evt.startPos, evt.endPos, evt.duration);
                     yield return new WaitForSeconds(evt.duration + 0.2f);
@@ -207,7 +213,10 @@ public class StoryManager : MonoBehaviour
                     yield return new WaitForSeconds(evt.duration + 0.2f);
                     break;
                 case "ANIMATION":
-                    targetChar.PlayAnimation(evt.value);
+                    if (targetChar != null)
+                        targetChar.PlayAnimation(evt.value);
+                    else
+                        Debug.LogWarning($"캐릭터 '{evt.charID}'을(를) 찾을 수 없습니다.");
                     break;
                 // 씬 이동
                 case "SCENE_CHANGE":
@@ -275,6 +284,22 @@ public class StoryManager : MonoBehaviour
                 case "WAIT":
                     yield return new WaitForSeconds(evt.duration);
                     break;
+
+                case "ITEM":
+                    ItemData itemData = ItemDataBase.Instance.GetItemByID(int.Parse(evt.value));
+                    NoticeUIManager.Instance.ShowNoticeCanvas($"{itemData.itemName} 획득!");
+                    InventoryManager.Instance.AddItem(itemData, 1);
+                    yield return new WaitForSeconds(0.5f);
+                    break;
+
+                case "BGM_START":
+                    BGMType bgmType = SoundManager.Instance.FindByName(evt.value);
+                    SoundManager.Instance.PlayBGM(bgmType);
+                    break;
+
+                case "BGM_STOP":
+                    SoundManager.Instance.StopBGM();
+                    break;
             }
 
             yield return new WaitForSeconds(0.05f);
@@ -290,6 +315,9 @@ public class StoryManager : MonoBehaviour
         {
             InventoryUIManager.Instance.OpenHotbar();
         }
+
+        onStoryCompleteCallBackF?.Invoke();
+        onStoryCompleteCallBackF = null;
     }
 
     #region Helpers

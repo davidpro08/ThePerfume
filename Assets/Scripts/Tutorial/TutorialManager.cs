@@ -18,12 +18,13 @@ public class TutorialManager : MonoBehaviour
     public Npc guide; // 가이드 NPC (인스펙터에서 할당)
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
-    private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
-    private string _lastEndedDialogueId = "narration_001_001"; // 마지막으로 종료된 대화 ID를 캐시
+    private HashSet<TutorialStepSO> completedMakingSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private HashSet<TutorialStepSO> completedFlowerSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private string _lastEndedDialogueId = "tutorial_001_001"; // 마지막으로 종료된 대화 ID를 캐시
     private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
 
-    private const string FINAL_ID = "narration_001_039";
-    private const string START_ID = "narration_001_001";
+    private const string FINAL_ID = "alric_022";
+    private const string START_ID = "tutorial_001_001";
 
     void Awake()
     {
@@ -54,9 +55,17 @@ public class TutorialManager : MonoBehaviour
         if (!SaveManager.Instance.CurrentSave.story.isPrologueCompleted)
         {
             Debug.Log("프롤로그 스토리 진행 중이므로 스토리씬으로 이동합니다.");
-            SceneManager.LoadScene("StoryScene");
+            StoryManager.Instance.PlayStorySequence(StoryManager.Instance.IntroCsvFile, StartTutorialLogic);
         }
-        // StartCoroutine(InitializeTutorial());
+        else
+        {
+            StartTutorialLogic();
+        }
+    }
+
+    private void StartTutorialLogic()
+    {
+        StartCoroutine(InitializeTutorial());
     }
 
     private IEnumerator InitializeTutorial()
@@ -74,13 +83,13 @@ public class TutorialManager : MonoBehaviour
         }
 
         // Restore the set of completed steps from save data
-        completedSteps.Clear();
+        completedMakingSteps.Clear();
         if (tutorialData?.completedStepNames != null)
         {
             foreach (var stepName in tutorialData.completedStepNames)
             {
                 var step = tutorialSteps.FirstOrDefault(s => s.name == stepName);
-                if (step != null) completedSteps.Add(step);
+                if (step != null) completedMakingSteps.Add(step);
             }
         }
 
@@ -123,7 +132,7 @@ public class TutorialManager : MonoBehaviour
 
         _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
 
-        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
+        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedMakingSteps.Contains(step));
 
         if (stepToStart != null)
         {
@@ -151,13 +160,29 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log($"튜토리얼 단계 완료: {step.name}");
 
-        completedSteps.Add(step);
+        completedMakingSteps.Add(step);
         currentStep = null;
 
         // 다음 대화 시작
         if (!string.IsNullOrEmpty(step.nextDialogueId))
         {
             NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", step.nextDialogueId);
+        }
+
+        CheckAllMakingTutorialsCompleted();
+    }
+
+    private void CheckAllMakingTutorialsCompleted()
+    {
+
+        bool isAllFinished = tutorialSteps.All(step => completedMakingSteps.Contains(step));
+        if (isAllFinished)
+        {
+            Debug.Log("모든 향수 제작 튜토리얼 단계가 완료되었습니다!");
+            SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+            SaveManager.Instance.SaveGame();
+
+            StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile, () => Debug.Log("다음 챕터 시작!"));
         }
     }
 
@@ -197,10 +222,10 @@ public class TutorialManager : MonoBehaviour
         save.tutorial.currentStep = _lastEndedDialogueId;
 
         // 완료된 스텝들의 이름을 저장.
-        save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
+        save.tutorial.completedStepNames = new HashSet<string>(completedMakingSteps.Select(s => s.name));
 
         // 모든 튜토리얼 단계가 완료되었는지 확인
-        if (tutorialSteps.All(step => completedSteps.Contains(step)))
+        if (tutorialSteps.All(step => completedMakingSteps.Contains(step)))
         {
             save.tutorial.isTutorialEnd = true;
         }
@@ -208,7 +233,7 @@ public class TutorialManager : MonoBehaviour
 
     public void ResetTutorial()
     {
-        completedSteps.Clear();
+        completedMakingSteps.Clear();
         currentStep = null;
         _lastEndedDialogueId = START_ID;
         hasInteractedWithIsolde = false;
