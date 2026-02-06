@@ -31,7 +31,7 @@ public class StoryManager : MonoBehaviour
     [SerializeField] public TextAsset IntroCsvFile;
     [SerializeField] public TextAsset nextStroyCsvFile;
     [SerializeField] TextAsset dialogueFile;
-    private string dialogueID = "Intro_dialogue";
+    private string dialogueID = "";
     private int currentDialogueIndex = 0;
     [Header("Background Settings")]
     [SerializeField] Transform backgroundParent;
@@ -68,9 +68,14 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    public void PlayStorySequence(TextAsset csvFile, System.Action onComplete)
+    public void PlayStorySequence(TextAsset csvFile, string newDialogueID, System.Action onComplete)
     {
         if (csvFile == null) return;
+
+        if (!string.IsNullOrEmpty(newDialogueID))
+        {
+            this.dialogueID = newDialogueID;
+        }
 
         onStoryCompleteCallBackF = onComplete;
         LoadStory(csvFile);
@@ -198,18 +203,30 @@ public class StoryManager : MonoBehaviour
 
             switch (evt.type)
             {
+                case "ON":
+                    if (targetChar != null)
+                        targetChar.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                    else
+                        Debug.LogWarning($"캐릭터 '{evt.charID}'을(를) 찾을 수 없습니다.");
+                    break;
+                case "OFF":
+                    if (targetChar != null)
+                        targetChar.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    else
+                        Debug.LogWarning($"캐릭터 '{evt.charID}'을(를) 찾을 수 없습니다.");
+                    break;
                 case "TELEPORT":
                     if (targetChar != null)
-                        targetChar.SetStartPosition(evt.endPos);
+                        targetChar.SetStartPosition(GetPosition(evt.endPos));
                     else
                         Debug.LogWarning($"캐릭터 '{evt.charID}'을(를) 찾을 수 없습니다.");
                     break;
                 case "MOVE":
-                    targetChar.CharacterWalk(evt.startPos, evt.endPos, evt.duration);
+                    targetChar.CharacterWalk(GetPosition(evt.startPos), GetPosition(evt.endPos), evt.duration);
                     yield return new WaitForSeconds(evt.duration + 0.2f);
                     break;
                 case "SLIDE":
-                    targetChar.CharacterWalk(evt.startPos, evt.endPos, evt.duration, false);
+                    targetChar.CharacterWalk(GetPosition(evt.startPos), GetPosition(evt.endPos), evt.duration, false);
                     yield return new WaitForSeconds(evt.duration + 0.2f);
                     break;
                 case "ANIMATION":
@@ -332,6 +349,18 @@ public class StoryManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    Vector2 GetPosition(Vector2 csvPos)
+    {
+        if (Mathf.Abs(csvPos.x) > 1.5f || Mathf.Abs(csvPos.y) > 1.5f)
+        {
+            Debug.LogWarning("CSV 위치 값이 비정상적입니다. 기본 위치(0,0)로 설정합니다.");
+            return Vector2.zero;
+        }
+
+        Vector3 worldPos = Camera.main.ViewportToWorldPoint(new Vector3(csvPos.x, csvPos.y, 10f));
+        return new Vector2(worldPos.x, worldPos.y);
     }
 
     int ParseInt(Dictionary<string, object> row, string key, int defaultValue = 0)

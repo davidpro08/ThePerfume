@@ -422,10 +422,10 @@ MonoBehaviour:
   dialogueFiles:
   - dialogueName: Daily
     dialogueCSV: {fileID: 4900000, guid: 7c35c6f0a0fde294dbb50da31fb4d48c, type: 3}
-  - dialogueName: Tutorial
-    dialogueCSV: {fileID: 4900000, guid: a53b1690e3c9f2f488ad86dad9512278, type: 3}
   - dialogueName: Intro_dialogue
     dialogueCSV: {fileID: 4900000, guid: 555df29b84b906441af4ba7a61054cc5, type: 3}
+  - dialogueName: Tutorial_makingPerfume
+    dialogueCSV: {fileID: 4900000, guid: e17feca99db04a14da466df13dffbc7c, type: 3}
   requiredColumns:
   - ID
   - NPC_ID
@@ -6476,14 +6476,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialSteps:
-  - {fileID: 11400000, guid: 7bdac08f53f355b46ae6053fd6031f7c, type: 2}
-  - {fileID: 11400000, guid: 4717a8bb40a9ef748b9b339d1777d110, type: 2}
-  - {fileID: 11400000, guid: 4de736c080f2e6c47a2efe3d771ad8b9, type: 2}
-  - {fileID: 11400000, guid: 506176531bfbf90419400e7de6d75056, type: 2}
-  - {fileID: 11400000, guid: 938d3bfd1d1721440ae2af91d3ca0203, type: 2}
-  - {fileID: 11400000, guid: d22a13cf7900b59499e355c3ca405072, type: 2}
-  - {fileID: 11400000, guid: 0b3f4ace702b7ea43936fcc2452f0234, type: 2}
-  - {fileID: 11400000, guid: 4eca17d57f88db140a20ee34ea79d08f, type: 2}
+  - {fileID: 11400000, guid: 2d66ff6ecd7f821469b956e93b670f82, type: 2}
+  - {fileID: 11400000, guid: 1aca5ca7332426f458872b1fb25afbcb, type: 2}
+  - {fileID: 11400000, guid: fe6b0abc3b43ace439ea3f167bf59f7a, type: 2}
+  - {fileID: 11400000, guid: 9d15786e39c644c45a811bb8a6965cfa, type: 2}
+  - {fileID: 11400000, guid: 4f362fa7c6d5b844fad2f6193f1788a2, type: 2}
+  - {fileID: 11400000, guid: e98bcc3203565e54ca146539d4f0350d, type: 2}
+  - {fileID: 11400000, guid: 20d0d5d26ba842647a94bd001767176a, type: 2}
+  - {fileID: 11400000, guid: 03d19829f03c5e84b8c4af24b245c38e, type: 2}
+  - {fileID: 11400000, guid: 9a98d655b8c23294f8b1d64edd4fbe74, type: 2}
+  - {fileID: 11400000, guid: 9183b7a4d0518b34095b8870c0dc7569, type: 2}
+  - {fileID: 11400000, guid: 507d1e4fbd0996f4196bb41307287d04, type: 2}
+  - {fileID: 11400000, guid: d7c7650ba8aba294f95e5a96ea0ab9f0, type: 2}
+  - {fileID: 11400000, guid: 1bdceab98c583864393c2d4d1947987a, type: 2}
+  - {fileID: 11400000, guid: 900f8c2bf42c6fe40883105ed482f7d9, type: 2}
+  - {fileID: 11400000, guid: 03eafcd3223870c48b14e3993bcb7517, type: 2}
+  - {fileID: 11400000, guid: add2f484482131a44bb35b15aa00e2de, type: 2}
+  - {fileID: 11400000, guid: 6679b8609a116d84eaa65527ce62f017, type: 2}
+  - {fileID: 11400000, guid: bd561cc625916084f8c8dab13ea17735, type: 2}
+  - {fileID: 11400000, guid: fa431b336df83e6488ea264aad05335d, type: 2}
+  - {fileID: 11400000, guid: 9b03d78bdbf649040b2837d64d0f270a, type: 2}
+  - {fileID: 11400000, guid: c431da1b7253ac94e8aa5651b06959e4, type: 2}
+  - {fileID: 11400000, guid: 81969a9ba242d27428bb173ee4372f8d, type: 2}
+  - {fileID: 11400000, guid: 7dea3092f9105a4408f7eabff84b832a, type: 2}
+  - {fileID: 11400000, guid: 3d14a2bfa38f24d449d3f791904dae55, type: 2}
+  - {fileID: 11400000, guid: a026676a03622e141ac609ab6d02231a, type: 2}
+  - {fileID: 11400000, guid: ac8854009a067e1449d2afcbc1fe9ec4, type: 2}
   guide: {fileID: 1734265761}
 --- !u!4 &1734265763
 Transform:
@@ -8204,7 +8222,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.8333335
+  orthographic size: 10.633333
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

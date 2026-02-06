@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rose
   m_EditorClassIdentifier: 
   id: 10
-  itemName: New Item
+  itemName: Rose
   description: Null Description
   itemIcon: {fileID: 1644465312645540473, guid: 82fc92b4d4b804a4e9ee39d1badb6048, type: 3}
   overrideIcon: {fileID: 0}

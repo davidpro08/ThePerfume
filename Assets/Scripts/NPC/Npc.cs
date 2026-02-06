@@ -37,8 +37,8 @@ public class Npc : MonoBehaviour, IInteract
     protected virtual void Start()
     {
         InitializePortrait();
-
-        StartCoroutine(RandomMove(minArea, maxArea));
+        if (_animator != null)
+            StartCoroutine(RandomMove(minArea, maxArea));
     }
 
     protected void InitializePortrait()

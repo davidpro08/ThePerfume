@@ -440,7 +440,7 @@ public class Distiller : MonoBehaviour
         fuelCount = 0;
     }
 
-    bool HasAtLeastOneFuel()
+    public bool HasAtLeastOneFuel()
     {
         foreach (bool slot in occupiedFuelSlots)
         {
@@ -450,7 +450,7 @@ public class Distiller : MonoBehaviour
         return false;
     }
 
-    MaterialData FindFirstPetalMaterial()
+    public MaterialData FindFirstPetalMaterial()
     {
         foreach (Transform t in petalSlotParent)
         {
