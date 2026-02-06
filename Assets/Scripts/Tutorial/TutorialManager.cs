@@ -291,15 +291,5 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckForHandledFlower()
-    {
-        if (InventoryManager.Instance.HasHandledFlower())
-        {
-            Debug.Log("꽃 다루기 확인!");
-            return true;
-        }
-        return false;
-    }
-
     #endregion
 }
