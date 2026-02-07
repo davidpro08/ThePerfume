@@ -100,6 +100,8 @@ public class StorySaveData
 {
     public bool isPrologueCompleted = false;
     public int lastDialougeIndex = 0;
+    public bool isStoryMode = true;
+    public bool isChapter1Done = false;
 }
 
 [Serializable]

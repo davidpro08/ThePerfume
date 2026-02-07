@@ -37,11 +37,14 @@ public class StoryManager : MonoBehaviour
     private int currentDialogueIndex = 0;
     [Header("Background Settings")]
     [SerializeField] Transform backgroundParent;
+    [Header("Status")]
+    public bool isStoryMode = false;
+    public bool isPrologueDone = false;
+    public bool isChapter1Done = false;
 
     public Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
     private const float BG_FADE_DURATION = 1.0f;
     private System.Action onStoryCompleteCallBackF;
-    public bool isPrologueDone = false;
 
     private float currentLightingAlpha = 0f;
 
@@ -57,6 +60,7 @@ public class StoryManager : MonoBehaviour
     }
     void Start()
     {
+
         if (backgroundParent != null)
         {
             foreach (Transform child in backgroundParent)
@@ -74,6 +78,10 @@ public class StoryManager : MonoBehaviour
         {
             InventoryUIManager.Instance.CloseHotbar();
         }
+
+        LoadStoryData();
+
+        CheckAndResumeStory();
     }
 
     public void PlayStorySequence(UnityEngine.TextAsset csvFile, string newDialogueID, System.Action onComplete)
@@ -363,18 +371,72 @@ public class StoryManager : MonoBehaviour
         return null;
     }
 
+    private void onPrologueComplete()
+    {
+        isPrologueDone = true;
+        saveStoryData();
+    }
+
+    private void onChapter1Complete()
+    {
+        isChapter1Done = true;
+        saveStoryData();
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
+    }
+
+    private void ToggleEffects(bool isActive)
+    {
+        if (LightingEffect.instance != null)
+        {
+            Debug.Log("ToggleEffect 인스턴스 찾음");
+            LightingEffect.instance.gameObject.SetActive(isActive);
+            if (!isActive) LightingEffect.instance.SetLighting(0f, 0f);
+        }
+        else
+        {
+            Debug.Log("ToggleEffect 인스턴스 못 찾음");
+        }
+
+        if (LetterboxEffect.instance != null)
+        {
+            Debug.Log("ToggleEffect 인스턴스 찾음");
+            LetterboxEffect.instance.gameObject.SetActive(isActive);
+            if (!isActive) LetterboxEffect.instance.SetLetterbox(false);
+        }
+        else
+        {
+            Debug.Log("ToggleEffect 인스턴스 못 찾음");
+        }
+
+        if (VolumeEffect.instance != null)
+        {
+            Debug.Log("ToggleEffect 인스턴스 찾음");
+            VolumeEffect.instance.gameObject.SetActive(isActive);
+            if (!isActive) VolumeEffect.instance.SetVignette(false);
+        }
+        else
+        {
+            Debug.Log("ToggleEffect 인스턴스 못 찾음");
+        }
+    }
+
     private void SetStoryMode(bool isStoryMode)
     {
+        this.isStoryMode = isStoryMode;
+
         Player player = FindAnyObjectByType<Player>();
         if (player != null)
         {
-            player.gameObject.SetActive(!isStoryMode);
+            player.SetPlayerDisenabled(isStoryMode);
         }
 
         if (characterParent != null)
         {
             characterParent.SetActive(isStoryMode);
         }
+
+        ToggleEffects(isStoryMode);
 
         if (isStoryMode)
         {
@@ -384,6 +446,8 @@ public class StoryManager : MonoBehaviour
                 jang.gameObject.SetActive(true);
             }
         }
+
+        saveStoryData();
     }
 
     public void ResetBackground()
@@ -431,8 +495,12 @@ public class StoryManager : MonoBehaviour
     public void saveStoryData()
     {
         var storyData = SaveManager.Instance.CurrentSave.story;
+
         storyData.isPrologueCompleted = isPrologueDone;
         storyData.lastDialougeIndex = currentDialogueIndex;
+        storyData.isChapter1Done = isChapter1Done;
+        storyData.isStoryMode = isStoryMode;
+
         SaveManager.Save(SaveManager.Instance.CurrentSave);
     }
 
@@ -441,6 +509,31 @@ public class StoryManager : MonoBehaviour
         var storyData = SaveManager.Instance.CurrentSave.story;
         isPrologueDone = storyData.isPrologueCompleted;
         currentDialogueIndex = storyData.lastDialougeIndex;
+        isChapter1Done = storyData.isChapter1Done;
+        isStoryMode = storyData.isStoryMode;
+
+        if (this.isStoryMode) SetStoryMode(true);
+    }
+
+    public void CheckAndResumeStory()
+    {
+        if (!isPrologueDone)
+        {
+            PlayStorySequence(IntroCsvFile, "Intro_dialogue", onPrologueComplete);
+        }
+        else if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+        {
+
+            SetStoryMode(false);
+        }
+        else if (!isChapter1Done)
+        {
+            PlayStorySequence(nextStroyCsvFile, "Chapter1_dialogue", onChapter1Complete);
+        }
+        else
+        {
+            SetStoryMode(false);
+        }
     }
     #endregion
 }

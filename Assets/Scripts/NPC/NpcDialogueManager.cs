@@ -39,8 +39,6 @@ public class NpcDialogueManager : MonoBehaviour
     // 튜토리얼 매니저와 연결하기 위한 이벤트
     public static event Action<Npc, string> OnDialogueEnd;
 
-    private bool isStoryMode = false;
-
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -64,7 +62,7 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void StartDialogue(Npc npc, string dialogueName, string dialogueId = null)
     {
-        isStoryMode = false;
+        StoryManager.Instance.isStoryMode = false;
 
         if (CSVDialogueParser.Instance == null)
         {
@@ -314,7 +312,7 @@ public class NpcDialogueManager : MonoBehaviour
             return;
         }
 
-        if (isStoryMode)
+        if (StoryManager.Instance.isStoryMode)
         {
             Debug.Log("스토리 모드");
             EndDialogue();
@@ -357,7 +355,7 @@ public class NpcDialogueManager : MonoBehaviour
     {
         if (dialogueObject == null) yield break;
 
-        isStoryMode = true;
+        StoryManager.Instance.isStoryMode = true;
 
         ShowDialogue(dialouge);
         while (isActive)

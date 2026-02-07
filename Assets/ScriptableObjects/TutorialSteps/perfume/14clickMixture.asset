@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 14clickMixture
   m_EditorClassIdentifier: 
   triggerId: tutorial_001_016
-  giveItems: []
+  giveItems:
+  - itemData: {fileID: 11400000, guid: 089a29450ebb1144dac884b3a9f23203, type: 2}
+    amount: 3
   conditionType: 17
   nextDialogueId: tutorial_001_017

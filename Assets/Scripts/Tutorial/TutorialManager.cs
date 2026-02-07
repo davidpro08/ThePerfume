@@ -12,13 +12,15 @@ public class TutorialManager : MonoBehaviour
 
     [Header("튜토리얼 단계 설정")]
     [Tooltip("이 튜토리얼에서 진행할 모든 단계를 ScriptableObject 애셋으로 여기에 등록하세요.")]
-    public List<TutorialStepSO> tutorialSteps;
+    public List<TutorialStepSO> perfumeTutorialSteps;
+    public List<TutorialStepSO> chapter1TutorialSteps;
+    private IEnumerable<TutorialStepSO> AllSteps => perfumeTutorialSteps.Concat(chapter1TutorialSteps);
 
     [Header("필수 연결")]
     public Npc guide; // 가이드 NPC (인스펙터에서 할당)
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
-    private HashSet<TutorialStepSO> completedMakingSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
     private HashSet<TutorialStepSO> completedFlowerSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
     private string _lastEndedDialogueId = "tutorial_001_001"; // 마지막으로 종료된 대화 ID를 캐시
     private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
@@ -73,13 +75,23 @@ public class TutorialManager : MonoBehaviour
 
             if (StoryManager.Instance != null)
             {
-                StoryManager.Instance.PlayStorySequence(StoryManager.Instance.IntroCsvFile, "Intro_dialogue", StartTutorialLogic);
+                StoryManager.Instance.CheckAndResumeStory();
             }
             else
             {
                 Debug.LogError("StoryManager 인스턴스를 찾을 수 없습니다.");
                 StartTutorialLogic();
             }
+        }
+    }
+
+    private List<TutorialStepSO> CurrentPhaseSteps
+    {
+        get
+        {
+            if (!SaveManager.Instance.CurrentSave.story.isPrologueCompleted) return perfumeTutorialSteps;
+            else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done) return chapter1TutorialSteps;
+            return new List<TutorialStepSO>();
         }
     }
 
@@ -93,9 +105,10 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(1f); // Wait for other managers to be ready
 
         var tutorialData = SaveManager.Instance.CurrentSave?.tutorial;
+        var storyData = SaveManager.Instance.CurrentSave?.story;
 
         // Case 1: Tutorial is already completed.
-        if (tutorialData != null && tutorialData.isTutorialEnd)
+        if (tutorialData != null && storyData.isChapter1Done)
         {
             Debug.Log("튜토리얼이 이미 완료되었습니다.");
             gameObject.SetActive(false);
@@ -103,13 +116,13 @@ public class TutorialManager : MonoBehaviour
         }
 
         // Restore the set of completed steps from save data
-        completedMakingSteps.Clear();
+        completedSteps.Clear();
         if (tutorialData?.completedStepNames != null)
         {
             foreach (var stepName in tutorialData.completedStepNames)
             {
-                var step = tutorialSteps.FirstOrDefault(s => s.name == stepName);
-                if (step != null) completedMakingSteps.Add(step);
+                var step = AllSteps.FirstOrDefault(s => s.name == stepName);
+                if (step != null) completedSteps.Add(step);
             }
         }
 
@@ -117,7 +130,7 @@ public class TutorialManager : MonoBehaviour
         _lastEndedDialogueId = tutorialData?.currentStep ?? "";
 
         // Case 2: Resume tutorial from a saved point.
-        if (!string.IsNullOrEmpty(_lastEndedDialogueId))
+        if (!string.IsNullOrEmpty(_lastEndedDialogueId) && _lastEndedDialogueId != START_ID)
         {
             Debug.Log($"저장된 데이터로부터 튜토리얼을 재개합니다. 마지막 대화 ID: {_lastEndedDialogueId}");
             HandleDialogueEnd(null, _lastEndedDialogueId);
@@ -126,7 +139,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Debug.Log("저장된 튜토리얼 데이터가 없거나, 시작 지점 정보가 없어 새로 시작합니다.");
-            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial_makingPerfume", START_ID);
+            StartCurrentPhaseFirstDialogue();
         }
     }
 
@@ -152,7 +165,7 @@ public class TutorialManager : MonoBehaviour
 
         _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
 
-        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedMakingSteps.Contains(step));
+        var stepToStart = CurrentPhaseSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
 
         if (stepToStart != null)
         {
@@ -180,29 +193,58 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log($"튜토리얼 단계 완료: {step.name}");
 
-        completedMakingSteps.Add(step);
+        completedSteps.Add(step);
         currentStep = null;
 
         // 다음 대화 시작
         if (!string.IsNullOrEmpty(step.nextDialogueId))
         {
-            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial_makingPerfume", step.nextDialogueId);
+            string dialogueFileName = SaveManager.Instance.CurrentSave.story.isPrologueCompleted ? "Chapter1_Tutorial" : "Tutorial_makingPerfume";
+            NpcDialogueManager.Instance.StartDialogue(guide, dialogueFileName, step.nextDialogueId);
         }
 
-        CheckAllMakingTutorialsCompleted();
+        CheckTutorialsCompleted();
     }
 
-    private void CheckAllMakingTutorialsCompleted()
+    private void CheckTutorialsCompleted()
     {
-
-        bool isAllFinished = tutorialSteps.All(step => completedMakingSteps.Contains(step));
-        if (isAllFinished)
+        if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
         {
-            Debug.Log("모든 향수 제작 튜토리얼 단계가 완료되었습니다!");
-            SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
-            SaveManager.Instance.SaveGame();
+            bool isPhase1Done = perfumeTutorialSteps.All(step => completedSteps.Contains(step));
+            if (isPhase1Done)
+            {
+                Debug.Log("1단계 완");
+                SaveManager.Instance.CurrentSave.story.isPrologueCompleted = true;
+                SaveManager.Instance.SaveGame();
 
-            StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile, "Chapter1_dialogue", () => Debug.Log("다음 챕터 시작!"));
+                StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile, "Chapter1_dialogue", () => Debug.Log("다음 챕터 시작!"));
+            }
+        }
+
+        if (SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd && !SaveManager.Instance.CurrentSave.story.isChapter1Done)
+        {
+            bool isPhase2Done = chapter1TutorialSteps.All(step => completedSteps.Contains(step));
+            if (isPhase2Done)
+            {
+                Debug.Log("2단계 완");
+                SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+                SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
+                SaveManager.Instance.SaveGame();
+
+                gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void StartCurrentPhaseFirstDialogue()
+    {
+        if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+        {
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial_makingPerfume", START_ID);
+        }
+        else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done)
+        {
+            NpcDialogueManager.Instance.StartDialogue(guide, "Chapter1_Tutorial", "dietrich_008");
         }
     }
 
@@ -280,10 +322,10 @@ public class TutorialManager : MonoBehaviour
         save.tutorial.currentStep = _lastEndedDialogueId;
 
         // 완료된 스텝들의 이름을 저장.
-        save.tutorial.completedStepNames = new HashSet<string>(completedMakingSteps.Select(s => s.name));
+        save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
 
         // 모든 튜토리얼 단계가 완료되었는지 확인
-        if (tutorialSteps.All(step => completedMakingSteps.Contains(step)))
+        if (perfumeTutorialSteps.All(step => completedSteps.Contains(step)))
         {
             save.tutorial.isTutorialEnd = true;
         }
@@ -291,7 +333,7 @@ public class TutorialManager : MonoBehaviour
 
     public void ResetTutorial()
     {
-        completedMakingSteps.Clear();
+        completedSteps.Clear();
         currentStep = null;
         _lastEndedDialogueId = START_ID;
         hasInteractedWithIsolde = false;
@@ -630,6 +672,12 @@ public class TutorialManager : MonoBehaviour
         for (int i = InventoryManager.Instance.itemSlots.Count - 1; i >= 0; i--)
         {
             ItemSlot slot = InventoryManager.Instance.itemSlots[i];
+
+            if (slot == null || slot.itemData == null)
+            {
+                continue;
+            }
+
             if (slot.itemData.itemType == ItemType.Perfume && SceneManager.GetActiveScene().name == "lab")
             {
                 Debug.Log("향수 클릭 및 나가기 확인!");
