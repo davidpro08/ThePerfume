@@ -225,4 +225,9 @@ public class FlowerManager : MonoBehaviour
     {
         return totalPetalInBowl <= 0;
     }
+
+    public bool isBlockingCanvasOpen()
+    {
+        return blockingCanvasOpen;
+    }
 }

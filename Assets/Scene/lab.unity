@@ -425,7 +425,7 @@ MonoBehaviour:
   - dialogueName: Intro_dialogue
     dialogueCSV: {fileID: 4900000, guid: 555df29b84b906441af4ba7a61054cc5, type: 3}
   - dialogueName: Tutorial_makingPerfume
-    dialogueCSV: {fileID: 4900000, guid: e17feca99db04a14da466df13dffbc7c, type: 3}
+    dialogueCSV: {fileID: 4900000, guid: e0c1f27b7b8f622469e40338ff738195, type: 3}
   requiredColumns:
   - ID
   - NPC_ID
@@ -8222,7 +8222,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 10.633333
+  orthographic size: 6.8333335
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

@@ -161,7 +161,7 @@ MonoBehaviour:
   waterDrop: {fileID: 716314782}
   tubeFillRenderer: {fileID: 846667321}
   tubeFillAnimator: {fileID: 846667319}
-  craftDurationSec: 1
+  craftDurationSec: 60
   fuelID: 99
 --- !u!4 &147898456
 Transform:
@@ -1621,54 +1621,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1671531430
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1671531431}
-  - component: {fileID: 1671531432}
-  m_Layer: 0
-  m_Name: TillUIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1671531431
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671531430}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7284241, y: 0.21128845, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1671531432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671531430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d59ecbc80f6d643bab8f95343ccc85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warningCanvas: {fileID: 1727222304}
-  warningMessageText: {fileID: 321251328}
-  warningOkButton: {fileID: 722902966}
-  isWarningCanvasOpen: 0
 --- !u!1 &1725854642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,7 +2332,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1732864830}
-  - {fileID: 1671531431}
   - {fileID: 1727222308}
   - {fileID: 1025669263}
   - {fileID: 602366921}

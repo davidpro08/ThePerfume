@@ -15,4 +15,4 @@ MonoBehaviour:
   triggerId: tutorial_001_005
   giveItems: []
   conditionType: 8
-  nextDialogueId: 'tutorial_001_006 '
+  nextDialogueId: tutorial_001_006

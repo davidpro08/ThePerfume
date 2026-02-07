@@ -9,6 +9,11 @@ public class CharacterMotion : Npc
     // GetNpcId(), GetCurrentPortraitSprite(NpcState npcState)
     private Animator animator;
 
+    protected override void Start()
+    {
+        InitializePortrait();
+    }
+
     protected void Awake()
     {
         InitializePortrait();

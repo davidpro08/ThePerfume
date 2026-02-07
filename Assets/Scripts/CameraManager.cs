@@ -21,7 +21,7 @@ public class CameraManager : MonoBehaviour
     Bounds overviewBounds;
     Camera cam;
     Vector3 vel; // SmoothDamp 속도 벡터
-    private static CameraManager instance;
+    public static CameraManager instance;
     private bool isFollowMode = false;
     public const float TARGET_ASPECT = 16f / 9f;
 
@@ -190,5 +190,25 @@ public class CameraManager : MonoBehaviour
             }
         }
         return b;
+    }
+
+    public void SetOverviewTarget(GameObject target)
+    {
+        if (target == null) return;
+
+        mapRoot = target.transform;
+        SpriteRenderer sr = target.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            overviewBounds = sr.bounds;
+        }
+        else
+        {
+            if (BoundsUtil.TryCalcBoundsFromRoot(mapRoot, out overviewBounds, true) == false)
+            {
+                overviewBounds = CalcBoundsFromAllSpriteRenderers();
+            }
+        }
+        SnapToOverview();
     }
 }

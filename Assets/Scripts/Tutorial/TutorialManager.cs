@@ -361,9 +361,34 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForSelectedRose()
     {
-        if (InventoryManager.Instance.EquippedItem().name == "Rose")
+        // if (InventoryManager.Instance == null)
+        // {
+        //     Debug.Log("인벤토리 매니저가 없습니다!-SelectedRose");
+        //     return false;
+        // }
+
+        // ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        // if (equippedItem == null)
+        // {
+        //     Debug.Log("선택된 아이템이 없습니다!-SelectedRose");
+        //     return false;
+        // }
+
+        // if (equippedItem.name == "Rose")
+        // {
+        //     Debug.Log("장미 선택 확인!");
+        //     return true;
+        // }
+        // return false;
+        if (BenchUIManager.Instance == null)
         {
-            Debug.Log("장미 선택 확인!");
+            Debug.Log("벤치 UI 매니저가 없습니다!-ClickedRose");
+            return false;
+        }
+
+        if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+        {
+            Debug.Log("장미 클릭 확인!");
             return true;
         }
         return false;
@@ -371,7 +396,13 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForClickedRose()
     {
-        if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-ClickedRose");
+            return false;
+        }
+
+        if (FlowerManager.Instance.isBlockingCanvasOpen())
         {
             Debug.Log("장미 클릭 확인!");
             return true;
@@ -381,7 +412,13 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForNativeRose()
     {
-        if (!FlowerManager.Instance.IsExitable())
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-NativeRose");
+            return false;
+        }
+
+        if (!FlowerManager.Instance.isBlockingCanvasOpen())
         {
             Debug.Log("원예 장미 확인!");
             return true;
@@ -391,7 +428,13 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForHandledAllRose()
     {
-        if (!BenchUIManager.Instance.HasSpawnedItemOnTray())
+        if (BenchUIManager.Instance == null)
+        {
+            Debug.Log("벤치 UI 매니저가 없습니다!-HandledAllRose");
+            return false;
+        }
+
+        if (!BenchUIManager.Instance.HasSpawnedItemOnTray() && !FlowerManager.Instance.isBlockingCanvasOpen())
         {
             Debug.Log("모든 장미 처리 확인!");
             return true;
@@ -401,6 +444,12 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForClickedBowl()
     {
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-ClickedBowl");
+            return false;
+        }
+
         if (FlowerManager.Instance.IsExitable())
         {
             Debug.Log("꽃그릇 클릭 확인!");
@@ -431,7 +480,20 @@ public class TutorialManager : MonoBehaviour
 
     private bool ChecnkForSelectedRoseLeaf()
     {
-        if (InventoryManager.Instance.EquippedItem().name == "RosePetal")
+        if (InventoryManager.Instance == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-SelectedRoseLeaf");
+            return false;
+        }
+
+        ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        if (equippedItem == null)
+        {
+            Debug.Log("선택된 아이템이 없습니다!-SelectedRoseLeaf");
+            return false;
+        }
+
+        if (equippedItem.name == "RosePetal")
         {
             Debug.Log("장미잎 선택 확인!");
             return true;
@@ -453,7 +515,20 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForSelectedFuel()
     {
-        if (InventoryManager.Instance.EquippedItem().name == "Fuel")
+        if (InventoryManager.Instance == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-SelectedFuel");
+            return false;
+        }
+
+        ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        if (equippedItem == null)
+        {
+            Debug.Log("선택된 아이템이 없습니다!-SelectedFuel");
+            return false;
+        }
+
+        if (equippedItem.name == "Fuel")
         {
             Debug.Log("연료 선택 확인!");
             return true;
@@ -546,6 +621,12 @@ public class TutorialManager : MonoBehaviour
 
     private bool CheckForClickedPerfumeAndClickedExit()
     {
+        if (InventoryManager.Instance == null || InventoryManager.Instance.itemSlots == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-ClickedPerfumeAndClickedExit");
+            return false;
+        }
+
         for (int i = InventoryManager.Instance.itemSlots.Count - 1; i >= 0; i--)
         {
             ItemSlot slot = InventoryManager.Instance.itemSlots[i];

@@ -6,6 +6,8 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.Text;
+using static UnityEngine.TextAsset;
 
 [System.Serializable]
 public class StoryEvent
@@ -28,15 +30,15 @@ public class StoryManager : MonoBehaviour
     [SerializeField] GameObject characterParent;
     List<StoryEvent> storyEvents = new List<StoryEvent>(); // 추후 CSV에서 파생해온 데이터
     [Header("Story CSV File")]
-    [SerializeField] public TextAsset IntroCsvFile;
-    [SerializeField] public TextAsset nextStroyCsvFile;
-    [SerializeField] TextAsset dialogueFile;
+    [SerializeField] public UnityEngine.TextAsset IntroCsvFile;
+    [SerializeField] public UnityEngine.TextAsset nextStroyCsvFile;
+    [SerializeField] public UnityEngine.TextAsset dialogueFile;
     private string dialogueID = "";
     private int currentDialogueIndex = 0;
     [Header("Background Settings")]
     [SerializeField] Transform backgroundParent;
 
-    private Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
+    public Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
     private const float BG_FADE_DURATION = 1.0f;
     private System.Action onStoryCompleteCallBackF;
     public bool isPrologueDone = false;
@@ -45,7 +47,13 @@ public class StoryManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start()
     {
@@ -68,7 +76,7 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    public void PlayStorySequence(TextAsset csvFile, string newDialogueID, System.Action onComplete)
+    public void PlayStorySequence(UnityEngine.TextAsset csvFile, string newDialogueID, System.Action onComplete)
     {
         if (csvFile == null) return;
 
@@ -77,12 +85,14 @@ public class StoryManager : MonoBehaviour
             this.dialogueID = newDialogueID;
         }
 
+        SetStoryMode(true);
+
         onStoryCompleteCallBackF = onComplete;
         LoadStory(csvFile);
         StartCoroutine(PlayStory());
     }
 
-    public void LoadStory(TextAsset csvFile)
+    public void LoadStory(UnityEngine.TextAsset csvFile)
     {
         var parsedData = CSVParser.ParseFromTextAsObject(csvFile.text, true);
         storyEvents.Clear();
@@ -157,13 +167,17 @@ public class StoryManager : MonoBehaviour
         LightingEffect.instance.SetLighting(1f, BG_FADE_DURATION);
         yield return new WaitForSeconds(BG_FADE_DURATION);
 
+        ResetBackground();
+
         if (backgroundDict.ContainsKey(bgName))
         {
-            foreach (var bg in backgroundDict.Values)
+            GameObject newBG = backgroundDict[bgName];
+            newBG.SetActive(true);
+
+            if (CameraManager.instance != null)
             {
-                bg.SetActive(false);
+                CameraManager.instance.SetOverviewTarget(newBG);
             }
-            backgroundDict[bgName].SetActive(true);
         }
         else
         {
@@ -179,11 +193,6 @@ public class StoryManager : MonoBehaviour
 
     IEnumerator PlayStory()
     {
-        if (characterParent != null)
-        {
-            characterParent.SetActive(true);
-        }
-
         foreach (var evt in storyEvents)
         {
             if (evt.type == "EFFECT")
@@ -237,8 +246,10 @@ public class StoryManager : MonoBehaviour
                     break;
                 // 씬 이동
                 case "SCENE_CHANGE":
+                    ResetBackground();
                     UnityEngine.SceneManagement.SceneManager.LoadScene(evt.value);
                     yield return new WaitForSeconds(1.0f); // 씬 전환 대기
+                    SetStoryMode(true);
                     break;
                 case "LOOK":
                     targetChar.CharacterLookAt(evt.direction);
@@ -321,13 +332,14 @@ public class StoryManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.05f);
         }
+
+        ResetBackground();
+
         isPrologueDone = true;
         saveStoryData();
 
-        if (characterParent != null)
-        {
-            characterParent.SetActive(false);
-        }
+        SetStoryMode(false);
+
         if (InventoryUIManager.Instance != null)
         {
             InventoryUIManager.Instance.OpenHotbar();
@@ -349,6 +361,39 @@ public class StoryManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void SetStoryMode(bool isStoryMode)
+    {
+        Player player = FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            player.gameObject.SetActive(!isStoryMode);
+        }
+
+        if (characterParent != null)
+        {
+            characterParent.SetActive(isStoryMode);
+        }
+
+        if (isStoryMode)
+        {
+            CharacterMotion jang = GetCharacter("Jang");
+            if (jang != null)
+            {
+                jang.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void ResetBackground()
+    {
+        if (backgroundDict == null) return;
+
+        foreach (var bg in backgroundDict.Values)
+        {
+            if (bg != null) bg.SetActive(false);
+        }
     }
 
     Vector2 GetPosition(Vector2 csvPos)
