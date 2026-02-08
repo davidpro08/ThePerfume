@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -89,7 +90,7 @@ public class TutorialManager : MonoBehaviour
     {
         get
         {
-            if (!SaveManager.Instance.CurrentSave.story.isPrologueCompleted) return perfumeTutorialSteps;
+            if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd) return perfumeTutorialSteps;
             else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done) return chapter1TutorialSteps;
             return new List<TutorialStepSO>();
         }
@@ -199,7 +200,16 @@ public class TutorialManager : MonoBehaviour
         // 다음 대화 시작
         if (!string.IsNullOrEmpty(step.nextDialogueId))
         {
-            string dialogueFileName = SaveManager.Instance.CurrentSave.story.isPrologueCompleted ? "Chapter1_Tutorial" : "Tutorial_makingPerfume";
+            string dialogueFileName = "";
+            if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+            {
+                dialogueFileName = "Tutorial_makingPerfume";
+            }
+            else
+            {
+                dialogueFileName = "Intro_dialogue";
+            }
+
             NpcDialogueManager.Instance.StartDialogue(guide, dialogueFileName, step.nextDialogueId);
         }
 
@@ -210,28 +220,87 @@ public class TutorialManager : MonoBehaviour
     {
         if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
         {
-            bool isPhase1Done = perfumeTutorialSteps.All(step => completedSteps.Contains(step));
-            if (isPhase1Done)
-            {
-                Debug.Log("1단계 완");
-                SaveManager.Instance.CurrentSave.story.isPrologueCompleted = true;
-                SaveManager.Instance.SaveGame();
+            // bool foundMissing = false;
+            // foreach (var step in perfumeTutorialSteps)
+            // {
+            //     if (!completedSteps.Contains(step))
+            //     {
+            //         Debug.Log($"[Tutorial debug] 1단계 미완료 스텝: {step.name}");
+            //         foundMissing = true;
+            //     }
+            // }
+            // if (foundMissing)
+            // {
+            //     Debug.Log($"[Tutorial Debug] 1단계 진행률: {completedSteps.Count}/{perfumeTutorialSteps.Count}");
+            //     return;
+            // }
 
-                StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile, "Chapter1_dialogue", () => Debug.Log("다음 챕터 시작!"));
+            // bool isPhase1Done = perfumeTutorialSteps.All(step => completedSteps.Contains(step));
+
+            // if (isPhase1Done)
+            // {
+            //     Debug.Log("1단계 완");
+            //     SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+            //     SaveManager.Instance.SaveGame();
+
+            //     StoryManager.Instance.CheckAndResumeStory();
+            //     return;
+            // }
+
+            if (perfumeTutorialSteps.Count > 0)
+            {
+                TutorialStepSO lastStep = perfumeTutorialSteps[perfumeTutorialSteps.Count - 1];
+
+                if (completedSteps.Contains(lastStep))
+                {
+                    Debug.Log($"1단계 마지막 스텝 {lastStep.name} 완료");
+                    SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+                    SaveManager.Instance.SaveGame();
+
+                    if (StoryManager.Instance != null)
+                    {
+                        StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile,"dietrich_008",()=>Debug.Log("챕터1 스토리 끝"));
+                    }
+                    else
+                    {
+                        Debug.Log("storyManager가 없음");
+                    }
+
+                    return;
+                }
             }
         }
 
         if (SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd && !SaveManager.Instance.CurrentSave.story.isChapter1Done)
         {
-            bool isPhase2Done = chapter1TutorialSteps.All(step => completedSteps.Contains(step));
-            if (isPhase2Done)
-            {
-                Debug.Log("2단계 완");
-                SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
-                SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
-                SaveManager.Instance.SaveGame();
+            // foreach (var step in chapter1TutorialSteps)
+            // {
+            //     if (!completedSteps.Contains(step))
+            //     {
+            //         Debug.Log($"[Tutorial debug] 2단계 미완료 스텝: {step.name}");
+            //     }
+            // }
 
-                gameObject.SetActive(false);
+            // bool isPhase2Done = chapter1TutorialSteps.All(step => completedSteps.Contains(step));
+            // if (isPhase2Done)
+            // {
+            //     Debug.Log("2단계 완");
+            //     SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
+            //     SaveManager.Instance.SaveGame();
+
+            //     gameObject.SetActive(false);
+            // }
+            if (chapter1TutorialSteps.Count > 0)
+            {
+                TutorialStepSO lastStepPhase2 = chapter1TutorialSteps[chapter1TutorialSteps.Count - 1];
+                if (completedSteps.Contains(lastStepPhase2))
+                {
+                    Debug.Log($"1단계 마지막 스텝 {lastStepPhase2.name} 완료");
+
+                    SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
+                    SaveManager.Instance.SaveGame();
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -244,7 +313,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done)
         {
-            NpcDialogueManager.Instance.StartDialogue(guide, "Chapter1_Tutorial", "dietrich_008");
+            //NpcDialogueManager.Instance.StartDialogue(guide, "Chapter1_Tutorial", "dietrich_008");
         }
     }
 

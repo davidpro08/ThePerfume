@@ -132,19 +132,40 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     private void HandleClick()
     {
-        if (ClickTargetAssence.isPouring) return;
+        Debug.Log($"[clickTarget] 클릭 시도: {perfumeType}");
+        if (ClickTargetAssence.isPouring)
+        {
+            Debug.Log($"[clickTarget] 실패: isPouring==true");
+            return;
+        }
 
-        if (InventoryUIManager.isFullInventoryOpen) return;
+        if (InventoryUIManager.isFullInventoryOpen)
+        {
+            Debug.Log($"[clickTarget] 실패 인벤토리 열려있음");
+            return;
+        }
 
         switch (perfumeType)
         {
             case TargetPerfumeType.Perfume:
             case TargetPerfumeType.PerfumeShaking:
-                // 향수가 완성됐는지 확인
-                if (mixture.CanGainPerfume())
+                if (mixture == null)
                 {
+                    Debug.Log($"[clickTarget] 에러: Mixture 참조 없음");
+                    return;
+                }
+                // 향수가 완성됐는지 확인
+                bool canGain = mixture.CanGainPerfume();
+                Debug.Log($"[clickTarget] CanGainPerfume: {canGain}");
+                if (canGain)
+                {
+                    Debug.Log($"[clickTarget] perfume/perfumeShaking 선택");
                     // 아이템 획득
-                    if (mixture.perfumeData == null) return;
+                    if (mixture.perfumeData == null)
+                    {
+                        Debug.Log($"[clickTarget] perfumeData이 null임");
+                        return;
+                    }
                     InventoryManager.Instance.AddItem(mixture.perfumeData, 1);
                     var PCompleteL = mixture.PerfumeL[3].GetComponent<SpriteRenderer>();
                     PCompleteL.enabled = false;

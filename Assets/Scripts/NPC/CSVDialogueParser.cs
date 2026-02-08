@@ -205,6 +205,43 @@ public class CSVDialogueParser : MonoBehaviour
         return new List<DialogueEntry>();
     }
 
+    public void Parse(string dialogueName, string csvText)
+    {
+        if (string.IsNullOrEmpty(csvText))
+        {
+            Debug.Log($"[CSVDialogueParser] '{dialogueName}의 CSV 텍스트 비어있음");
+            return;
+        }
+
+        try
+        {
+            var parsedData = CSVParser.ParseFromTextAsObject(csvText, true);
+
+            if (!ValidateDialogueData(parsedData))
+            {
+                Debug.Log($"[CSVDialogueParser] '{dialogueName}' 데이터 검증 실패");
+                return;
+            }
+
+            DialogueData dialogueData = InterpretDialogueData(parsedData);
+
+            if (dialogueDataCollection.ContainsKey(dialogueName))
+            {
+                dialogueDataCollection[dialogueName] = dialogueData;
+                Debug.Log($"[CSVDialogueParser] '{dialogueName}' 데이터 갱신");
+            }
+            else
+            {
+                dialogueDataCollection.Add(dialogueName, dialogueData);
+                Debug.Log($"[CSVDialogueParser] '{dialogueName}' 데이터 새로 등록");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"[CSVDialogueParser] 오류 발생: {dialogueName}");
+        }
+    }
+
     #region Helper Methods
 
     private string GetString(Dictionary<string, object> dict, string key)

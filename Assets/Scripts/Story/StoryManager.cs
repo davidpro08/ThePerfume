@@ -39,8 +39,8 @@ public class StoryManager : MonoBehaviour
     [SerializeField] Transform backgroundParent;
     [Header("Status")]
     public bool isStoryMode = false;
-    public bool isPrologueDone = false;
-    public bool isChapter1Done = false;
+    public bool isPrologueDone = false; // 인트로 영상 다 봤는지 확인
+    public bool isChapter1Done = false; // 2번째 스토리와 꽃심기까지 끝났는지
 
     public Dictionary<string, GameObject> backgroundDict = new Dictionary<string, GameObject>();
     private const float BG_FADE_DURATION = 1.0f;
@@ -88,6 +88,11 @@ public class StoryManager : MonoBehaviour
     {
         if (csvFile == null) return;
 
+        if (dialogueFile != null)
+        {
+            CSVDialogueParser.Instance.Parse(dialogueFile.name, dialogueFile.text);
+        }
+
         if (!string.IsNullOrEmpty(newDialogueID))
         {
             this.dialogueID = newDialogueID;
@@ -133,17 +138,26 @@ public class StoryManager : MonoBehaviour
             yield break;
         }
 
-        var data = CSVDialogueParser.Instance.GetDialogueData(dialogueID);
+        var data = CSVDialogueParser.Instance.GetDialogueData(dialogueFile.name);
 
-        if (data == null)
-        {
-            Debug.LogError($"대화 데이터를 찾을 수 없습니다: {dialogueID}");
-            yield break;
-        }
         if (data == null || data.dialogues == null)
         {
-            Debug.LogError($"대화 데이터가 비어있습니다: {dialogueID}");
+            Debug.LogError($"대화 데이터를 찾을 수 없습니다: {dialogueID}");
+            Debug.LogError($"현재 할당된 파일: {dialogueFile.name}");
             yield break;
+        }
+        if (!string.IsNullOrEmpty(dialogueID))
+        {
+            int foundIndex = data.dialogues.FindIndex(x => x.id == dialogueID);
+            if (foundIndex != -1)
+            {
+                currentDialogueIndex = foundIndex;
+                dialogueID = "";
+            }
+            else
+            {
+                Debug.LogWarning($"ID '{dialogueID}'를 찾을 수 없습니다. 기존 인덱스 {currentDialogueIndex}에서 진행합니다.");
+            }
         }
 
         for (int i = 0; i < count; i++)
@@ -374,15 +388,19 @@ public class StoryManager : MonoBehaviour
     private void onPrologueComplete()
     {
         isPrologueDone = true;
+        SetStoryMode(false);
+
         saveStoryData();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
     }
 
     private void onChapter1Complete()
     {
-        isChapter1Done = true;
-        saveStoryData();
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
+        SetStoryMode(false);
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.ResetTutorial();
+        }
     }
 
     private void ToggleEffects(bool isActive)
@@ -517,21 +535,23 @@ public class StoryManager : MonoBehaviour
 
     public void CheckAndResumeStory()
     {
+        var save = SaveManager.Instance.CurrentSave;
+
         if (!isPrologueDone)
         {
             PlayStorySequence(IntroCsvFile, "Intro_dialogue", onPrologueComplete);
         }
-        else if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+        else if (save.tutorial.isTutorialEnd && !isChapter1Done)
         {
-
-            SetStoryMode(false);
-        }
-        else if (!isChapter1Done)
-        {
-            PlayStorySequence(nextStroyCsvFile, "Chapter1_dialogue", onChapter1Complete);
+            PlayStorySequence(nextStroyCsvFile, "dietrich_008", onChapter1Complete);
+            //SetStoryMode(false);
         }
         else
         {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "StoryScene")
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
+            }
             SetStoryMode(false);
         }
     }

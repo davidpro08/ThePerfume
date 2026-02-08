@@ -61,7 +61,6 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
     {
         if (isPouring) return;
 
-        Debug.Log("PointerDown");
         pointerDownTime = Time.time;
     }
 
@@ -71,7 +70,6 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
 
         if (Time.time - pointerDownTime <= clickThreshold)
         {
-            Debug.Log("PointerUp");
             HandleClick();
         }
     }
