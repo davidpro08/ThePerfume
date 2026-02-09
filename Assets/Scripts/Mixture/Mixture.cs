@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -36,10 +38,12 @@ public class Mixture : MonoBehaviour
     [SerializeField] public Animator pBaseLAni;
     [SerializeField] public Animator pMiddleLAni;
     [SerializeField] public Animator pTopLAni;
+    [SerializeField] public Animator perfumeCompleteAni;
 
     float perfumeWarm;
     float perfumeCool;
     float perfumeRelax;
+    [NonSerialized] public bool perfumeIsComplete = false;
 
     void Start()
     {
@@ -63,13 +67,13 @@ public class Mixture : MonoBehaviour
 
         if (slotToRemove == null)
         {
-            TillUIManager.Instance.ShowWarningCanvas("need essence item");
+            NoticeUIManager.Instance.ShowNoticeCanvas("need essence item");
             return;
         }
 
         if (target.GetComponent<SpriteRenderer>().enabled)
         {
-            TillUIManager.Instance.ShowWarningCanvas("Already Exist essence");
+            NoticeUIManager.Instance.ShowNoticeCanvas("Already Exist essence");
             return;
         }
 
@@ -109,7 +113,7 @@ public class Mixture : MonoBehaviour
         CalculateCapacityAndColor();
         PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
         PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
-
+        perfumeIsComplete = true;
         SaveNow();
     }
 
@@ -161,8 +165,9 @@ public class Mixture : MonoBehaviour
 
     public bool CanGainPerfume()
     {
-        var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
-        if (PCompleteL.enabled == true) return true;
+        // var PCompleteL = PerfumeL[3].GetComponent<SpriteRenderer>();
+        // if (PCompleteL.enabled == true) return true;
+        if (perfumeIsComplete) return true;
         return false;
     }
 
@@ -178,7 +183,7 @@ public class Mixture : MonoBehaviour
         data.pMiddleID = (pMiddleData != null ? pMiddleData.id : -1);
         data.pTopID = (pTopData != null ? pTopData.id : -1);
 
-        data.perfumeComplete = PerfumeL[3].GetComponent<SpriteRenderer>().enabled;
+        data.perfumeComplete = perfumeIsComplete;
         data.perfumeID = perfumeData != null ? perfumeData.id : -1;
 
         if (perfumeData != null)
@@ -231,13 +236,20 @@ public class Mixture : MonoBehaviour
         SetSR(middleL, data.middleOn, middleData);
         SetSR(topL, data.topOn, topData);
 
-        SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
-        SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
-        SetSR(PerfumeL[2], data.pTopOn, pTopData);
-
+        perfumeIsComplete = data.perfumeComplete;
         var p3 = PerfumeL[3].GetComponent<SpriteRenderer>();
-        p3.enabled = data.perfumeComplete;
-
+        if (perfumeIsComplete)
+        {
+            p3.enabled = perfumeIsComplete;
+            perfumeCompleteAni.Play("shakeEnd", 0, 1f);
+            perfumeCompleteAni.SetBool("shake", false);
+        }
+        else
+        {
+            SetSR(PerfumeL[0], data.pBaseOn, pBaseData);
+            SetSR(PerfumeL[1], data.pMiddleOn, pMiddleData);
+            SetSR(PerfumeL[2], data.pTopOn, pTopData);
+        }
         if (data.perfumeID >= 0)
         {
             perfumeData = perfumeDatas.Find(p => p.id == data.perfumeID);
@@ -313,5 +325,34 @@ public class Mixture : MonoBehaviour
             sr.color = essenceData.color;
             sr.sortingOrder = 1;
         }
+    }
+
+    public bool PrepareForShaking()
+    {
+        if (!PerfumeL[0].GetComponent<SpriteRenderer>().enabled ||
+           !PerfumeL[1].GetComponent<SpriteRenderer>().enabled ||
+           !PerfumeL[2].GetComponent<SpriteRenderer>().enabled)
+        {
+            return false;
+        }
+
+        if (PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
+        {
+            return true;
+        }
+
+        PerfumeL[0].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[1].GetComponent<SpriteRenderer>().enabled = false;
+        PerfumeL[2].GetComponent<SpriteRenderer>().enabled = false;
+
+        PerfumeL[3].GetComponent<SpriteRenderer>().enabled = true;
+
+        CalculateCapacityAndColor();
+        if (perfumeData != null)
+        {
+            PerfumeL[3].GetComponent<SpriteRenderer>().color = perfumeData.color;
+        }
+        SaveNow();
+        return true;
     }
 }

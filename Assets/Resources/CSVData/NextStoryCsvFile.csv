@@ -1,0 +1,13 @@
+﻿type,charID,startX,startY,endX,endY,dirX,dirY,duration,value,background,sfx,비고
+EFFECT,,,,,,,,,FADE_OUT,,,
+TELEPORT,alric,,,0.6,0.6,,,,,,,
+TELEPORT,dietrich,,,0.6,0.5,,,,,,,
+TELEPORT,lorenz,,,0.6,0.4,,,,,,,
+TELEPORT,jang,,,0.5,0.5,,,,,,,
+LOOK,jang,,,,,,1,,,,,
+EFFECT,,,,,,,,,FADE_IN,,,
+DIALOGUE,,,,,,,,,27,,,
+EFFECT,,,,,,,,,FADE_OUT,,,
+DIALOGUE,,,,,,,,,7,,,
+EFFECT,,,,,,,,,FADE_IN,,,
+DIALOGUE,,,,,,,,,15,,,

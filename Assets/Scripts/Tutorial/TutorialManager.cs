@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -11,18 +13,21 @@ public class TutorialManager : MonoBehaviour
 
     [Header("튜토리얼 단계 설정")]
     [Tooltip("이 튜토리얼에서 진행할 모든 단계를 ScriptableObject 애셋으로 여기에 등록하세요.")]
-    public List<TutorialStepSO> tutorialSteps;
+    public List<TutorialStepSO> perfumeTutorialSteps;
+    public List<TutorialStepSO> chapter1TutorialSteps;
+    private IEnumerable<TutorialStepSO> AllSteps => perfumeTutorialSteps.Concat(chapter1TutorialSteps);
 
     [Header("필수 연결")]
     public Npc guide; // 가이드 NPC (인스펙터에서 할당)
 
     private TutorialStepSO currentStep; // 현재 진행 중인 튜토리얼 단계
     private HashSet<TutorialStepSO> completedSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
-    private string _lastEndedDialogueId = "narration_001_001"; // 마지막으로 종료된 대화 ID를 캐시
+    private HashSet<TutorialStepSO> completedFlowerSteps = new HashSet<TutorialStepSO>(); // 완료된 단계들을 저장
+    private string _lastEndedDialogueId = "tutorial_001_001"; // 마지막으로 종료된 대화 ID를 캐시
     private bool hasInteractedWithIsolde = false; // 이졸데와 상호작용했는지 여부
 
-    private const string FINAL_ID = "narration_001_039";
-    private const string START_ID = "narration_001_001";
+    private const string FINAL_ID = "alric_022";
+    private const string START_ID = "tutorial_001_001";
 
     void Awake()
     {
@@ -49,6 +54,50 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+
+        Debug.Log($"스토리 시작 여부: {SaveManager.Instance.CurrentSave.story.isPrologueCompleted}");
+        if (!SaveManager.Instance.CurrentSave.story.isPrologueCompleted)
+        {
+            Debug.Log("프롤로그 스토리 진행 중이므로 스토리씬으로 이동합니다.");
+            SceneManager.sceneLoaded += OnStorySceneLoaded;
+            SceneManager.LoadScene("StoryScene");
+        }
+        else
+        {
+            StartTutorialLogic();
+        }
+    }
+
+    private void OnStorySceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "StoryScene")
+        {
+            SceneManager.sceneLoaded -= OnStorySceneLoaded;
+
+            if (StoryManager.Instance != null)
+            {
+                StoryManager.Instance.CheckAndResumeStory();
+            }
+            else
+            {
+                Debug.LogError("StoryManager 인스턴스를 찾을 수 없습니다.");
+                StartTutorialLogic();
+            }
+        }
+    }
+
+    private List<TutorialStepSO> CurrentPhaseSteps
+    {
+        get
+        {
+            if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd) return perfumeTutorialSteps;
+            else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done) return chapter1TutorialSteps;
+            return new List<TutorialStepSO>();
+        }
+    }
+
+    private void StartTutorialLogic()
+    {
         StartCoroutine(InitializeTutorial());
     }
 
@@ -57,9 +106,10 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(1f); // Wait for other managers to be ready
 
         var tutorialData = SaveManager.Instance.CurrentSave?.tutorial;
+        var storyData = SaveManager.Instance.CurrentSave?.story;
 
         // Case 1: Tutorial is already completed.
-        if (tutorialData != null && tutorialData.isTutorialEnd)
+        if (tutorialData != null && storyData.isChapter1Done)
         {
             Debug.Log("튜토리얼이 이미 완료되었습니다.");
             gameObject.SetActive(false);
@@ -72,16 +122,16 @@ public class TutorialManager : MonoBehaviour
         {
             foreach (var stepName in tutorialData.completedStepNames)
             {
-                var step = tutorialSteps.FirstOrDefault(s => s.name == stepName);
+                var step = AllSteps.FirstOrDefault(s => s.name == stepName);
                 if (step != null) completedSteps.Add(step);
             }
         }
-        
+
         // 마지막으로 끝난 대화 ID를 복원
         _lastEndedDialogueId = tutorialData?.currentStep ?? "";
 
         // Case 2: Resume tutorial from a saved point.
-        if (!string.IsNullOrEmpty(_lastEndedDialogueId))
+        if (!string.IsNullOrEmpty(_lastEndedDialogueId) && _lastEndedDialogueId != START_ID)
         {
             Debug.Log($"저장된 데이터로부터 튜토리얼을 재개합니다. 마지막 대화 ID: {_lastEndedDialogueId}");
             HandleDialogueEnd(null, _lastEndedDialogueId);
@@ -90,7 +140,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Debug.Log("저장된 튜토리얼 데이터가 없거나, 시작 지점 정보가 없어 새로 시작합니다.");
-            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", START_ID);
+            StartCurrentPhaseFirstDialogue();
         }
     }
 
@@ -115,8 +165,8 @@ public class TutorialManager : MonoBehaviour
         }
 
         _lastEndedDialogueId = dialogueId; // 항상 마지막 대화 ID를 캐시
-        
-        var stepToStart = tutorialSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
+
+        var stepToStart = CurrentPhaseSteps.FirstOrDefault(step => step.triggerId == dialogueId && !completedSteps.Contains(step));
 
         if (stepToStart != null)
         {
@@ -138,7 +188,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-    
+
     // 현재 단계를 완료 처리
     private void CompleteStep(TutorialStepSO step)
     {
@@ -150,7 +200,120 @@ public class TutorialManager : MonoBehaviour
         // 다음 대화 시작
         if (!string.IsNullOrEmpty(step.nextDialogueId))
         {
-            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial", step.nextDialogueId);
+            string dialogueFileName = "";
+            if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+            {
+                dialogueFileName = "Tutorial_makingPerfume";
+            }
+            else
+            {
+                dialogueFileName = "Intro_dialogue";
+            }
+
+            NpcDialogueManager.Instance.StartDialogue(guide, dialogueFileName, step.nextDialogueId);
+        }
+
+        CheckTutorialsCompleted();
+    }
+
+    private void CheckTutorialsCompleted()
+    {
+        if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+        {
+            // bool foundMissing = false;
+            // foreach (var step in perfumeTutorialSteps)
+            // {
+            //     if (!completedSteps.Contains(step))
+            //     {
+            //         Debug.Log($"[Tutorial debug] 1단계 미완료 스텝: {step.name}");
+            //         foundMissing = true;
+            //     }
+            // }
+            // if (foundMissing)
+            // {
+            //     Debug.Log($"[Tutorial Debug] 1단계 진행률: {completedSteps.Count}/{perfumeTutorialSteps.Count}");
+            //     return;
+            // }
+
+            // bool isPhase1Done = perfumeTutorialSteps.All(step => completedSteps.Contains(step));
+
+            // if (isPhase1Done)
+            // {
+            //     Debug.Log("1단계 완");
+            //     SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+            //     SaveManager.Instance.SaveGame();
+
+            //     StoryManager.Instance.CheckAndResumeStory();
+            //     return;
+            // }
+
+            if (perfumeTutorialSteps.Count > 0)
+            {
+                TutorialStepSO lastStep = perfumeTutorialSteps[perfumeTutorialSteps.Count - 1];
+
+                if (completedSteps.Contains(lastStep))
+                {
+                    Debug.Log($"1단계 마지막 스텝 {lastStep.name} 완료");
+                    SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd = true;
+                    SaveManager.Instance.SaveGame();
+
+                    if (StoryManager.Instance != null)
+                    {
+                        StoryManager.Instance.PlayStorySequence(StoryManager.Instance.nextStroyCsvFile,"dietrich_008",()=>Debug.Log("챕터1 스토리 끝"));
+                    }
+                    else
+                    {
+                        Debug.Log("storyManager가 없음");
+                    }
+
+                    return;
+                }
+            }
+        }
+
+        if (SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd && !SaveManager.Instance.CurrentSave.story.isChapter1Done)
+        {
+            // foreach (var step in chapter1TutorialSteps)
+            // {
+            //     if (!completedSteps.Contains(step))
+            //     {
+            //         Debug.Log($"[Tutorial debug] 2단계 미완료 스텝: {step.name}");
+            //     }
+            // }
+
+            // bool isPhase2Done = chapter1TutorialSteps.All(step => completedSteps.Contains(step));
+            // if (isPhase2Done)
+            // {
+            //     Debug.Log("2단계 완");
+            //     SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
+            //     SaveManager.Instance.SaveGame();
+
+            //     gameObject.SetActive(false);
+            // }
+            if (chapter1TutorialSteps.Count > 0)
+            {
+                TutorialStepSO lastStepPhase2 = chapter1TutorialSteps[chapter1TutorialSteps.Count - 1];
+                if (completedSteps.Contains(lastStepPhase2))
+                {
+                    Debug.Log($"1단계 마지막 스텝 {lastStepPhase2.name} 완료");
+
+                    SaveManager.Instance.CurrentSave.story.isChapter1Done = true;
+                    SaveManager.Instance.SaveGame();
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void StartCurrentPhaseFirstDialogue()
+    {
+        if (!SaveManager.Instance.CurrentSave.tutorial.isTutorialEnd)
+        {
+            NpcDialogueManager.Instance.StartDialogue(guide, "Tutorial_makingPerfume", START_ID);
+        }
+        else if (!SaveManager.Instance.CurrentSave.story.isChapter1Done)
+        {
+            //NpcDialogueManager.Instance.StartDialogue(guide, "Chapter1_Tutorial", "dietrich_008");
         }
     }
 
@@ -167,6 +330,44 @@ public class TutorialManager : MonoBehaviour
                 return CheckForSeededSoil();
             case TutorialConditionType.InteractedWithIsolde:
                 return CheckInteractedWithIsolde();
+            case TutorialConditionType.CheckForClickedBench:
+                return CheckForClickedBench();
+            case TutorialConditionType.CheckForSelectedRose:
+                return CheckForSelectedRose();
+            case TutorialConditionType.CheckForClickedRose:
+                return CheckForClickedRose();
+            case TutorialConditionType.CheckForNativeRose:
+                return CheckForNativeRose();
+            case TutorialConditionType.CheckForHandledAllRose:
+                return CheckForHandledAllRose();
+            case TutorialConditionType.CheckForClickedExit:
+                return CheckForClickedExit();
+            case TutorialConditionType.CheckforClickedTill:
+                return CheckforClickedTill();
+            case TutorialConditionType.ChecnkForSelectedRoseLeaf:
+                return ChecnkForSelectedRoseLeaf();
+            case TutorialConditionType.CheckForClickedRoseTube:
+                return CheckForClickedRoseTube();
+            case TutorialConditionType.CheckForSelectedFuel:
+                return CheckForSelectedFuel();
+            case TutorialConditionType.CheckForClickedFuelTube:
+                return CheckForClickedFuelTube();
+            case TutorialConditionType.CheckForClickedMixture:
+                return CheckForClickedMixture();
+            case TutorialConditionType.CheckForClickedBaseTube:
+                return CheckForClickedBaseTube();
+            case TutorialConditionType.CheckForClickedMiiddleTube:
+                return CheckForClickedMiiddleTube();
+            case TutorialConditionType.CheckForTopTube:
+                return CheckForTopTube();
+            case TutorialConditionType.CheckForPutLiqiuid:
+                return CheckForPutLiqiuid();
+            case TutorialConditionType.CheckForMixedPerfume:
+                return CheckForMixedPerfume();
+            case TutorialConditionType.CheckForClickedPerfumeAndClickedExit:
+                return CheckForClickedPerfumeAndClickedExit();
+            case TutorialConditionType.CheckForClickedBowl:
+                return CheckForClickedBowl();
             case TutorialConditionType.None:
                 return true; // 'None' 조건은 항상 참
             default:
@@ -188,17 +389,30 @@ public class TutorialManager : MonoBehaviour
 
         // 마지막으로 끝난 대화 ID를 저장하여, 언제나 정확한 재개 지점을 확보.
         save.tutorial.currentStep = _lastEndedDialogueId;
-        
+
         // 완료된 스텝들의 이름을 저장.
         save.tutorial.completedStepNames = new HashSet<string>(completedSteps.Select(s => s.name));
-        
+
         // 모든 튜토리얼 단계가 완료되었는지 확인
-        if (tutorialSteps.All(step => completedSteps.Contains(step)))
+        if (perfumeTutorialSteps.All(step => completedSteps.Contains(step)))
         {
             save.tutorial.isTutorialEnd = true;
         }
     }
-    
+
+    public void ResetTutorial()
+    {
+        completedSteps.Clear();
+        currentStep = null;
+        _lastEndedDialogueId = START_ID;
+        hasInteractedWithIsolde = false;
+
+        gameObject.SetActive(true);
+
+        StopAllCoroutines();
+        StartCoroutine(InitializeTutorial());
+    }
+
     #endregion
 
     #region === 조건 확인 메소드들 ===
@@ -242,6 +456,302 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.Log("이졸데와 상호작용 확인!");
             return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedBench()
+    {
+        if (SceneManager.GetActiveScene().name == "bench")
+        {
+            Debug.Log("벤치 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForSelectedRose()
+    {
+        // if (InventoryManager.Instance == null)
+        // {
+        //     Debug.Log("인벤토리 매니저가 없습니다!-SelectedRose");
+        //     return false;
+        // }
+
+        // ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        // if (equippedItem == null)
+        // {
+        //     Debug.Log("선택된 아이템이 없습니다!-SelectedRose");
+        //     return false;
+        // }
+
+        // if (equippedItem.name == "Rose")
+        // {
+        //     Debug.Log("장미 선택 확인!");
+        //     return true;
+        // }
+        // return false;
+        if (BenchUIManager.Instance == null)
+        {
+            Debug.Log("벤치 UI 매니저가 없습니다!-ClickedRose");
+            return false;
+        }
+
+        if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+        {
+            Debug.Log("장미 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedRose()
+    {
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-ClickedRose");
+            return false;
+        }
+
+        if (FlowerManager.Instance.isBlockingCanvasOpen())
+        {
+            Debug.Log("장미 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForNativeRose()
+    {
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-NativeRose");
+            return false;
+        }
+
+        if (!FlowerManager.Instance.isBlockingCanvasOpen())
+        {
+            Debug.Log("원예 장미 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForHandledAllRose()
+    {
+        if (BenchUIManager.Instance == null)
+        {
+            Debug.Log("벤치 UI 매니저가 없습니다!-HandledAllRose");
+            return false;
+        }
+
+        if (!BenchUIManager.Instance.HasSpawnedItemOnTray() && !FlowerManager.Instance.isBlockingCanvasOpen())
+        {
+            Debug.Log("모든 장미 처리 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedBowl()
+    {
+        if (FlowerManager.Instance == null)
+        {
+            Debug.Log("플라워 매니저가 없습니다!-ClickedBowl");
+            return false;
+        }
+
+        if (FlowerManager.Instance.IsExitable())
+        {
+            Debug.Log("꽃그릇 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedExit()
+    {
+        if (SceneManager.GetActiveScene().name == "lab")
+        {
+            Debug.Log("나가기 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckforClickedTill()
+    {
+        if (SceneManager.GetActiveScene().name == "distiller")
+        {
+            Debug.Log("증류기 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool ChecnkForSelectedRoseLeaf()
+    {
+        if (InventoryManager.Instance == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-SelectedRoseLeaf");
+            return false;
+        }
+
+        ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        if (equippedItem == null)
+        {
+            Debug.Log("선택된 아이템이 없습니다!-SelectedRoseLeaf");
+            return false;
+        }
+
+        if (equippedItem.name == "RosePetal")
+        {
+            Debug.Log("장미잎 선택 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedRoseTube()
+    {
+        Distiller distiller = FindAnyObjectByType<Distiller>();
+
+        if (distiller != null && distiller.FindFirstPetalMaterial() != null)
+        {
+            Debug.Log("장미관 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForSelectedFuel()
+    {
+        if (InventoryManager.Instance == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-SelectedFuel");
+            return false;
+        }
+
+        ItemData equippedItem = InventoryManager.Instance.EquippedItem();
+        if (equippedItem == null)
+        {
+            Debug.Log("선택된 아이템이 없습니다!-SelectedFuel");
+            return false;
+        }
+
+        if (equippedItem.name == "Fuel")
+        {
+            Debug.Log("연료 선택 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedFuelTube()
+    {
+        Distiller distiller = FindAnyObjectByType<Distiller>();
+
+        if (distiller != null && distiller.HasAtLeastOneFuel())
+        {
+            Debug.Log("연료 선택 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedMixture()
+    {
+        if (SceneManager.GetActiveScene().name == "Mixture")
+        {
+            Debug.Log("조합대 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedBaseTube()
+    {
+        Mixture mixture = FindAnyObjectByType<Mixture>();
+
+        if (mixture != null && mixture.baseData != null)
+        {
+            Debug.Log("베이스관 클릭 확인!");
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckForClickedMiiddleTube()
+    {
+        Mixture mixture = FindAnyObjectByType<Mixture>();
+
+        if (mixture != null && mixture.middleData != null)
+        {
+            Debug.Log("미들관 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForTopTube()
+    {
+        Mixture mixture = FindAnyObjectByType<Mixture>();
+
+        if (mixture != null && mixture.topData != null)
+        {
+            Debug.Log("탑관 클릭 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForPutLiqiuid()
+    {
+        Mixture mixture = FindAnyObjectByType<Mixture>();
+
+        if (mixture != null && mixture.pBaseData != null && mixture.pMiddleData != null && mixture.pTopData != null)
+        {
+            Debug.Log("액체 넣기 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForMixedPerfume()
+    {
+        Mixture mixture = FindAnyObjectByType<Mixture>();
+
+        if (mixture != null && mixture.perfumeData != null)
+        {
+            Debug.Log("향수 혼합 확인!");
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckForClickedPerfumeAndClickedExit()
+    {
+        if (InventoryManager.Instance == null || InventoryManager.Instance.itemSlots == null)
+        {
+            Debug.Log("인벤토리 매니저가 없습니다!-ClickedPerfumeAndClickedExit");
+            return false;
+        }
+
+        for (int i = InventoryManager.Instance.itemSlots.Count - 1; i >= 0; i--)
+        {
+            ItemSlot slot = InventoryManager.Instance.itemSlots[i];
+
+            if (slot == null || slot.itemData == null)
+            {
+                continue;
+            }
+
+            if (slot.itemData.itemType == ItemType.Perfume && SceneManager.GetActiveScene().name == "lab")
+            {
+                Debug.Log("향수 클릭 및 나가기 확인!");
+                return true;
+            }
         }
         return false;
     }

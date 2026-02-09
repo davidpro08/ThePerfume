@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
     [Header("기본 설정")] public float moveSpeed = 5f;
 
     [Header("인벤토리 설정")] private bool isOpenInventory = false;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform interactionPoint; // 상호작용 지점
 
     private Vector2 _moveInput;
+    private Transform playerTransform;
     private bool _isSprint;
     private readonly float _runRate = 1.8f; // 걷는 속력과 비교한 달리기 속력비
     private Rigidbody2D _rb;
@@ -24,6 +26,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        playerTransform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _sr = GetComponentInChildren<SpriteRenderer>();
@@ -47,7 +56,7 @@ public class Player : MonoBehaviour
         SetPlayerDisenabled(disable);
     }
 
-    void SetPlayerDisenabled(bool disabled)
+    public void SetPlayerDisenabled(bool disabled)
     {
         if (_rb)
         {
@@ -97,7 +106,12 @@ public class Player : MonoBehaviour
 
     void OnMove(InputValue value)
     {
-        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory) return;
+        if (PauseManager.Instance.IsPlayerMovementBlocked() || isOpenInventory || (NpcDialogueManager.Instance != null && NpcDialogueManager.Instance.isActive))
+        {
+            _moveInput = Vector2.zero;
+            UpdateAnimator(Vector2.zero);
+            return;
+        }
         _moveInput = value.Get<Vector2>();
         UpdateAnimator(_moveInput);
     }
@@ -153,6 +167,12 @@ public class Player : MonoBehaviour
     // PlayerInput으로 입력 받을 수 있도록 수정중 >> 기획서에 맞춰서 키보드/마우스 상호작용으로 나눔
     void OnInteract(InputValue value)
     {
+        if (NpcDialogueManager.Instance != null && NpcDialogueManager.Instance.isActive)
+        {
+            // 대화 중일 때는 대화 진행
+            NpcDialogueManager.Instance.OnNextButtonClicked();
+            return;
+        }
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             MouseInteration();
@@ -220,5 +240,13 @@ public class Player : MonoBehaviour
     public void OnPause(InputValue value)
     {
         PauseManager.Instance.TogglePause(true);
+    }
+
+    public static void ResetPosition()
+    {
+        if (Instance != null && Instance.playerTransform != null)
+        {
+            Instance.playerTransform.position = Vector2.zero;
+        }
     }
 }

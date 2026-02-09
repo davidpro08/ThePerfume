@@ -1,27 +1,32 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BenchUIManager : MonoBehaviour
 {
     public static BenchUIManager Instance { get; private set; }
-    [Header("인벤토리 경고창UI")]
-    [SerializeField] private GameObject warningCanvas;
-    [SerializeField] private TextMeshProUGUI warningMessageText;
-    [SerializeField] private Button warningOkButton;
-
-
 
     [Header("아이템 생성 설정")]
     [SerializeField] private Transform itemSpawnTray; // 아이템이 올라갈 철재 쟁반
     [SerializeField] private List<Transform> transformPos;
+
+    [SerializeField] private ItemDataBase database;
     // 트레이 위에 생성된 아이템 리스트
     private List<GameObject> spawnedItemOnTray = new List<GameObject>();
+    public List<int> spawnedItemData = new List<int>();
     public bool warningCanvasOpen = false;
 
-
+    void Start()
+    {
+        GameSave save = SaveManager.Instance.CurrentSave ?? SaveManager.Load();
+        if (save != null)
+        {
+            BenchLoad(save);
+        }
+    }
     void Awake()
     {
         Debug.Log($"Awake 실행");
@@ -31,39 +36,6 @@ public class BenchUIManager : MonoBehaviour
             return;
         }
         Instance = this;
-
-        if (warningCanvas != null) warningCanvas.SetActive(false);
-
-        if (warningOkButton != null)
-        {
-            warningOkButton.onClick.RemoveAllListeners();
-            warningOkButton.onClick.AddListener(OnWarningCanvasOkButton);
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (warningOkButton != null) warningOkButton.onClick.RemoveAllListeners();
-    }
-
-    // 경고창 표시
-    public void ShowWarningCanvas(string message)
-    {
-        if (warningCanvas != null)
-        {
-            warningMessageText.text = message;
-            warningCanvas.SetActive(true);
-            warningCanvasOpen = true;
-        }
-    }
-    // 경고창 끄기
-    public void OnWarningCanvasOkButton()
-    {
-        if (warningCanvas != null)
-        {
-            warningCanvas.SetActive(false);
-            warningCanvasOpen = false;
-        }
     }
 
     // ============================ 시스템 관련 코드 =====================================
@@ -96,9 +68,21 @@ public class BenchUIManager : MonoBehaviour
                 spawndItem.transform.SetParent(spawnPoint);
                 spawnedItemOnTray.Add(spawndItem);
 
+                ItemOnTrayClick trayClick = spawndItem.GetComponent<ItemOnTrayClick>();
+                if (trayClick != null)
+                {
+                    trayClick.ItemData = itemToSpawn;
+                    Debug.Log($"아이템 데이터 할당 완료: {itemToSpawn.id}");
+                    spawnedItemData.Add(itemToSpawn.id);
+                }
+                else
+                {
+                    Debug.LogWarning($"{spawndItem.name}에 ItemOnTrayClick 컴포넌트가 없습니다.");
+                }
+
                 Debug.Log($"{spawndItem.name} {spawnd + 1}개 생성");
                 spawnd++;
-                InventoryManager.Instance.RemoveItem(itemToSpawn, 1);
+                // InventoryManager.Instance.RemoveItem(itemToSpawn, 1);
 
                 if (spawnd >= count) break;
             }
@@ -110,10 +94,27 @@ public class BenchUIManager : MonoBehaviour
     }
 
     // Tray 아이템 삭제
-    public void RemoveSpawnedItemd(GameObject itemToRemove)
+    public void RemoveSpawnedItem(GameObject itemToRemove)
     {
         if (spawnedItemOnTray.Contains(itemToRemove))
         {
+            ItemOnTrayClick trayClick = itemToRemove.GetComponent<ItemOnTrayClick>();
+            if (trayClick != null)
+            {
+                int idToRemove = trayClick.ItemData.id;
+                if (spawnedItemData.Contains(idToRemove))
+                {
+                    spawnedItemData.Remove(idToRemove);
+                }
+                else
+                {
+                    Debug.LogWarning($"spawnedItemData에 ID {idToRemove}가 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"{itemToRemove.name}에 ItemOnTrayClick 컴포넌트가 없습니다.");
+            }
             spawnedItemOnTray.Remove(itemToRemove);
             Destroy(itemToRemove);
         }
@@ -124,5 +125,51 @@ public class BenchUIManager : MonoBehaviour
     {
         // 리스트가 비어있으면 false
         return spawnedItemOnTray != null && spawnedItemOnTray.Count > 0;
+    }
+
+    // ======================== save/load 관련 코드 =====================================
+    public static void BenchSave(GameSave save)
+    {
+        BenchSaveData saveData = new BenchSaveData();
+        saveData.spawnedItemData = new List<int>(Instance.spawnedItemData);
+        save.bench = saveData;
+    }
+
+    public void BenchLoad(GameSave save)
+    {
+        if (save == null || save.bench == null)
+        {
+            Debug.Log("BenchLoad: save is null");
+            return;
+        }
+
+        spawnedItemData = new List<int>(save.bench.spawnedItemData);
+
+        // 기존에 생성된 아이템 삭제
+        foreach (GameObject item in spawnedItemOnTray)
+        {
+            if (item != null) Destroy(item);
+        }
+        spawnedItemOnTray.Clear();
+
+        List<int> loadList = new List<int>(save.bench.spawnedItemData);
+
+        spawnedItemData.Clear();
+
+        // 저장된 데이터 기반으로 아이템 생성
+        foreach (int itemId in loadList)
+        {
+            ItemData itemData = null;
+            if (database != null) itemData = database.GetItemByID(itemId);
+
+            if (itemData != null)
+            {
+                SpawnItemOnTray(itemData, 1);
+            }
+            else
+            {
+                Debug.LogWarning($"BenchLoad: ItemData with ID {itemId} not found.");
+            }
+        }
     }
 }

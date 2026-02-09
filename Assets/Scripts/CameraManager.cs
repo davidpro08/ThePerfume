@@ -5,23 +5,25 @@ using UnityEngine.SceneManagement;
 public class CameraManager : MonoBehaviour
 {
     [Header("Follow Mode")]
-    [SerializeField] float followSmoothTime = 0.15f;
-    [SerializeField] float followZoom = 3.5f; // 줌
+    [SerializeField] float followSmoothTime;
+    [SerializeField] float followZoom; // 줌
     [SerializeField] Vector2 followOffset = Vector2.zero; // 플레이어 기준 오프셋, 일단 혹시 모르니깐 뷰를 위해서 추가는 해놓음
 
     [Header("Overview Mode")]
     [SerializeField] Transform mapRoot;
-    [SerializeField] float overviewPadding = 0.8f;
+    [SerializeField] float overviewPadding;
 
     [Header("Refs")]
     [SerializeField] Transform player;
     [SerializeField] string[] followScenes = { "lab", "NPC_house", "Village" };
-    [SerializeField] string[] overviewScenes = { "bench", "distiller", "Mixture" };
+    [SerializeField] string[] overviewScenes = { "bench", "distiller", "Mixture", "StoryScene" };
 
     Bounds overviewBounds;
     Camera cam;
     Vector3 vel; // SmoothDamp 속도 벡터
-    private static CameraManager instance;
+    public static CameraManager instance;
+    private bool isFollowMode = false;
+    public const float TARGET_ASPECT = 16f / 9f;
 
     void Awake()
     {
@@ -48,12 +50,19 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate()
     {
-        if (ShouldFollow()) DoFollow();
+        float currentAspect = (float)Screen.width / (float)Screen.height;
+        float zoomMultiplier = 1f;
+        if (currentAspect < TARGET_ASPECT)
+        {
+            zoomMultiplier = TARGET_ASPECT / currentAspect;
+        }
+
+        if (CheckPlayerState() && isFollowMode) DoFollow(zoomMultiplier);
         else DoOverview();
     }
 
     // ===== 기능 =====
-    void DoFollow()
+    void DoFollow(float multiplier)
     {
         Vector3 target = new Vector3(player.position.x + followOffset.x,
         player.position.y + followOffset.y,
@@ -61,7 +70,8 @@ public class CameraManager : MonoBehaviour
 
         transform.position = Vector3.SmoothDamp(transform.position, target, ref vel, followSmoothTime);
 
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, followZoom, Time.deltaTime * 5f);
+        float targetZoom = followZoom * multiplier;
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * 5f);
     }
 
     void DoOverview()
@@ -103,19 +113,30 @@ public class CameraManager : MonoBehaviour
             overviewBounds = CalcBoundsFromAllSpriteRenderers();
         }
 
+        Debug.Log($"CameraManager: OnSceneLoaded '{scene.name}', overviewBounds={overviewBounds}");
+
         if (IsIn(scene.name, followScenes) && player != null)
         {
+            float currentAspect = (float)Screen.width / (float)Screen.height;
+            float multiplier = (currentAspect < TARGET_ASPECT) ? (TARGET_ASPECT / currentAspect) : 1f
+            ;
+            isFollowMode = true;
             Vector3 target = new Vector3(player.position.x + followOffset.x,
             player.position.y + followOffset.y,
             transform.position.z);
             transform.position = target;
-            cam.orthographicSize = followZoom;
+            cam.orthographicSize = followZoom * multiplier;
+            Player.Instance.SetPlayerDisenabled(false);
         }
-        else SnapToOverview();
+        else
+        {
+            isFollowMode = false;
+            SnapToOverview();
+        }
     }
 
     // ===== 보조 =====
-    bool ShouldFollow()
+    bool CheckPlayerState()
     {
         if (player == null) return false;
 
@@ -148,6 +169,7 @@ public class CameraManager : MonoBehaviour
 
         float size = Mathf.Max(overviewBounds.extents.y, overviewBounds.extents.x / cam.aspect);
         cam.orthographicSize = size * overviewPadding;
+        Player.Instance.SetPlayerDisenabled(true);
     }
 
     Bounds CalcBoundsFromAllSpriteRenderers()
@@ -168,5 +190,25 @@ public class CameraManager : MonoBehaviour
             }
         }
         return b;
+    }
+
+    public void SetOverviewTarget(GameObject target)
+    {
+        if (target == null) return;
+
+        mapRoot = target.transform;
+        SpriteRenderer sr = target.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            overviewBounds = sr.bounds;
+        }
+        else
+        {
+            if (BoundsUtil.TryCalcBoundsFromRoot(mapRoot, out overviewBounds, true) == false)
+            {
+                overviewBounds = CalcBoundsFromAllSpriteRenderers();
+            }
+        }
+        SnapToOverview();
     }
 }

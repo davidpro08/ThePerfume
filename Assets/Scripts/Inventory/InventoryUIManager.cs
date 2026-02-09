@@ -5,12 +5,14 @@ using System.Collections.Generic;
 // 핫바와 전체 인벤토리 UI를 모두 관리하는 통합 UI 관리자입니다.
 public class InventoryUIManager : MonoBehaviour
 {
+    public static InventoryUIManager Instance { get; private set; }
     [Header("필수 연결")]
     [SerializeField] protected InventoryManager inventoryManager; // 데이터 소스
     [SerializeField] protected GameObject inventorySlotUIPrefab;  // 슬롯 UI 프리팹
 
     [Header("핫바 설정")]
     [SerializeField] protected Transform hotbarSlotsContainer; // 핫바 슬롯들의 부모
+    [SerializeField] protected GameObject hotbarPanel;          // 핫바 패널
 
     [Header("전체 인벤토리 설정")]
     [SerializeField] protected GameObject fullInventoryPanel;   // 전체 인벤토리 패널
@@ -38,6 +40,15 @@ public class InventoryUIManager : MonoBehaviour
 
         // 시작할 때 전체 인벤토리는 닫아 둠
         fullInventoryPanel.SetActive(false);
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDestroy()
@@ -125,8 +136,17 @@ public class InventoryUIManager : MonoBehaviour
         }
 
         isFullInventoryOpen = fullInventoryPanel.activeSelf;
-        
+
         SoundManager.Instance.PlaySFX(SFXType.Inventory);
     }
 
+    public void OpenHotbar()
+    {
+        hotbarPanel.SetActive(true);
+    }
+
+    public void CloseHotbar()
+    {
+        hotbarPanel.SetActive(false);
+    }
 }

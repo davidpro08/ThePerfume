@@ -20,6 +20,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
     private UnityEngine.Quaternion originParentRot;
 
     private UnityEngine.Vector3 punnelBasePos;
+    private bool isShaking = false;
 
     void Awake()
     {
@@ -30,6 +31,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         Debug.Log("PointerDown");
         pointerDownTime = Time.time;
 
@@ -42,6 +45,8 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (Time.time - pointerDownTime <= clickThreshold)
         {
             Debug.Log("PointerUp");
@@ -51,12 +56,26 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
         if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        if (mixture.CanGainPerfume()) return;
+
+        if (!mixture.PerfumeL[3].GetComponent<SpriteRenderer>().enabled)
+        {
+            if (!mixture.PrepareForShaking()) return;
+        }
 
         UnityEngine.Vector3 worldPos = Camera.main.ScreenToWorldPoint(new UnityEngine.Vector3(eventData.position.x, eventData.position.y, Camera.main.nearClipPlane));
 
         worldPos.z = 0f;
+
+        if (!isShaking && mixture.perfumeCompleteAni != null)
+        {
+            mixture.perfumeCompleteAni.SetBool("shake", true);
+            isShaking = true;
+        }
 
         if (transform.parent != null)
             transform.parent.position = worldPos;
@@ -69,14 +88,39 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (ClickTargetAssence.isPouring) return;
+        if (mixture.CanGainPerfume()) return;
         if (perfumeType != TargetPerfumeType.PerfumeShaking) return;
+        if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        StartCoroutine(EndDragCoroutine());
+    }
+
+    private IEnumerator EndDragCoroutine()
+    {
         if (transform.parent != null)
         {
+            float duration = 0.2f;
+            float elapsed = 0f;
+            UnityEngine.Vector3 startPos = transform.parent.position;
+            UnityEngine.Quaternion startRot = transform.parent.rotation;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                transform.parent.position = UnityEngine.Vector3.Lerp(startPos, originParentPos, t);
+                transform.parent.rotation = UnityEngine.Quaternion.Slerp(startRot, originParentRot, t);
+                yield return null;
+            }
             transform.parent.position = originParentPos;
             transform.parent.rotation = originParentRot;
         }
 
-        if (mixture.punnel.GetComponent<SpriteRenderer>().enabled == true) return;
+        if (mixture.perfumeCompleteAni != null)
+        {
+            mixture.perfumeCompleteAni.SetBool("shake", false);
+            isShaking = false;
+        }
 
         if (shakeAmount >= shakeThreshold)
         {
@@ -88,17 +132,40 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
 
     private void HandleClick()
     {
-        if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
+        Debug.Log($"[clickTarget] 클릭 시도: {perfumeType}");
+        if (ClickTargetAssence.isPouring)
+        {
+            Debug.Log($"[clickTarget] 실패: isPouring==true");
+            return;
+        }
+
+        if (InventoryUIManager.isFullInventoryOpen)
+        {
+            Debug.Log($"[clickTarget] 실패 인벤토리 열려있음");
+            return;
+        }
 
         switch (perfumeType)
         {
             case TargetPerfumeType.Perfume:
             case TargetPerfumeType.PerfumeShaking:
-                // 향수가 완성됐는지 확인
-                if (mixture.CanGainPerfume())
+                if (mixture == null)
                 {
+                    Debug.Log($"[clickTarget] 에러: Mixture 참조 없음");
+                    return;
+                }
+                // 향수가 완성됐는지 확인
+                bool canGain = mixture.CanGainPerfume();
+                Debug.Log($"[clickTarget] CanGainPerfume: {canGain}");
+                if (canGain)
+                {
+                    Debug.Log($"[clickTarget] perfume/perfumeShaking 선택");
                     // 아이템 획득
-                    if (mixture.perfumeData == null) return;
+                    if (mixture.perfumeData == null)
+                    {
+                        Debug.Log($"[clickTarget] perfumeData이 null임");
+                        return;
+                    }
                     InventoryManager.Instance.AddItem(mixture.perfumeData, 1);
                     var PCompleteL = mixture.PerfumeL[3].GetComponent<SpriteRenderer>();
                     PCompleteL.enabled = false;
@@ -107,7 +174,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                     mixture.pMiddleData = null;
                     mixture.pTopData = null;
                     mixture.perfumeData = null;
-
+                    mixture.perfumeIsComplete = false;
                     // 일단 깔떼기는 아이템 획득하는대로 다시 꽂아둠
                     // 꽂아두는 애니메이션
                     StartCoroutine(RestorePunnelMotion());
@@ -125,7 +192,7 @@ public class ClickTargetPerfumeTube : MonoBehaviour, IPointerDownHandler, IPoint
                 }
                 else
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("cannot make perfume");
+                    //TillUIManager.Instance.ShowWarningCanvas("cannot make perfume");
                 }
                 break;
         }

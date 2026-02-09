@@ -100,3 +100,10 @@ InitTestScene*.unity*
 
 # AI, MCP configuration
 /.gemini
+
+[merge]
+    tool = unityyamlmerge
+
+[mergetool "unityyamlmerge"]
+    trustExitCode = false
+    cmd = 'C:\\Program Files\\Unity\\Hub\\Editor\\<본인 버전>\\Editor\\Data\\Tools\\UnityYAMLMerge.exe' merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"

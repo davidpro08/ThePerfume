@@ -26,7 +26,7 @@ public class FarmSaveManager : MonoBehaviour
                     isWatered = farm.isWatered,
                     seedItemID = farm.currentCropInstance != null ? farm.currentCropInstance.cropData.seed.id : 0,
                     growthStage = farm.currentCropInstance != null ? farm.currentCropInstance.currentStage : 0,
-                    cropTimer = farm.currentCropInstance != null ? farm.currentCropInstance.timer : 0
+                    plantedTimeAtTotalPlayTime = farm.currentCropInstance != null ? farm.currentCropInstance.plantedTimeAtTotalPlayTime : 0
                 });
             }
         }
@@ -45,7 +45,7 @@ public class FarmSaveManager : MonoBehaviour
             }
 
             var farmComp = farmObj.GetComponent<Farm>();
-            if (farmComp == null) return;
+            if (farmComp == null) continue;
 
             farmComp.Init(data.gridPosition, controller.installationTilemap, farmComp.ItemID);
 
@@ -58,7 +58,7 @@ public class FarmSaveManager : MonoBehaviour
                 SeedData seed = SaveManager.Instance.GetItemData(data.seedItemID) as SeedData;
                 if (seed != null)
                 {
-                    farmComp.PlantSeed(seed, data.growthStage, data.cropTimer);
+                    farmComp.PlantSeed(seed, data.growthStage, data.plantedTimeAtTotalPlayTime);
                 }
             }
         }

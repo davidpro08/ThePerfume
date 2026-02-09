@@ -31,7 +31,7 @@ public class TillExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (!InventoryUIManager.isFullInventoryOpen && !TillUIManager.Instance.isWarningCanvasOpen)
+        if (!InventoryUIManager.isFullInventoryOpen && ClickTargetAssence.isPouring == false)
         {
             if (string.IsNullOrEmpty(targetSceneName))
             {
@@ -49,6 +49,10 @@ public class TillExitPoint : MonoBehaviour
             {
                 SceneManager.LoadScene(targetSceneName);
             }
+        }
+        if (ClickTargetAssence.isPouring)
+        {
+            NoticeUIManager.Instance.ShowNoticeCanvas("향수를 붓는 중에는 나갈 수 없습니다.");
         }
     }
 }

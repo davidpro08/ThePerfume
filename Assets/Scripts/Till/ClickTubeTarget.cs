@@ -16,9 +16,17 @@ public class ClickTubeTarget : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left) return;
-        if (eventData.pointerPressRaycast.module is not Physics2DRaycaster) return;
-        if (InventoryUIManager.isFullInventoryOpen || (TillUIManager.Instance != null && TillUIManager.Instance.isWarningCanvasOpen)) return;
+        Debug.Log($"[1] 클릭 감지: {gameObject.name}");
+
+        if (eventData.button != PointerEventData.InputButton.Left) {
+            Debug.Log($"[2] 실패:왼쪽 버튼 아님");
+            return;}
+        if (eventData.pointerPressRaycast.module is not Physics2DRaycaster)
+        {
+            Debug.Log("[3]Raycaster가 Physics2DRaycaster가 아님");
+            return;
+        }
+        if (InventoryUIManager.isFullInventoryOpen) return;
 
         switch (type)
         {
@@ -29,7 +37,7 @@ public class ClickTubeTarget : MonoBehaviour, IPointerClickHandler
                 MaterialData petal = currentSelectedPetal();
                 if (petal == null)
                 {
-                    TillUIManager.Instance.ShowWarningCanvas("need petal item");
+                    NoticeUIManager.Instance.ShowNoticeCanvas("need petal item");
                     return;
                 }
                 distiller.PlacePetal(petal);

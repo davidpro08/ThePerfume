@@ -62,6 +62,8 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void StartDialogue(Npc npc, string dialogueName, string dialogueId = null)
     {
+        StoryManager.Instance.isStoryMode = false;
+
         if (CSVDialogueParser.Instance == null)
         {
             Debug.LogError("CSVDialogueParser가 없습니다!");
@@ -88,7 +90,7 @@ public class NpcDialogueManager : MonoBehaviour
         }
 
         ShowDialogue(currentDialogue);
-        
+
         SoundManager.Instance.PlaySFX(SFXType.Talk);
     }
 
@@ -122,7 +124,7 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("대화창 UI 요소가 설정되지 않았습니다!");
             return;
         }
-        
+
         currentDialogue = dialogue;
         isActive = true;
         dialogueObject.SetActive(true);
@@ -132,9 +134,9 @@ public class NpcDialogueManager : MonoBehaviour
             Debug.LogError("이름 요소가 설정되지 않았습니다!");
             return;
         }
-        
+
         nameText.text = dialogue.npcId;
-        
+
         // NPC 상태에 따른 초상화 업데이트
         UpdatePortraitForDialogue(dialogue);
 
@@ -192,7 +194,7 @@ public class NpcDialogueManager : MonoBehaviour
         foreach (char letter in text.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(textSpeed);
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
 
         isTyping = false;
@@ -287,8 +289,11 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void OnNextButtonClicked()
     {
+        Debug.Log("버튼 클릭됨");
+
         if (isTyping)
         {
+            Debug.Log("타이핑 중");
             StopCoroutine(typewriterCoroutine);
             dialogueText.text = currentDialogue.dialogueText;
             isTyping = false;
@@ -304,6 +309,13 @@ public class NpcDialogueManager : MonoBehaviour
         // 선택지가 있을 때는 다음 버튼 무시
         if (currentDialogue.ShouldShowChoices())
         {
+            return;
+        }
+
+        if (StoryManager.Instance.isStoryMode)
+        {
+            Debug.Log("스토리 모드");
+            EndDialogue();
             return;
         }
 
@@ -337,5 +349,18 @@ public class NpcDialogueManager : MonoBehaviour
             dialogueObject.SetActive(false);
 
         PauseManager.Instance.ResumeFromDialogue();
+    }
+
+    public IEnumerator StartStoryDialogue(DialogueEntry dialouge)
+    {
+        if (dialogueObject == null) yield break;
+
+        StoryManager.Instance.isStoryMode = true;
+
+        ShowDialogue(dialouge);
+        while (isActive)
+        {
+            yield return null;
+        }
     }
 }

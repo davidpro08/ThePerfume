@@ -32,9 +32,9 @@ public class ExitPoint : MonoBehaviour
 
     public void HandleExit()
     {
-        if (FlowerManager.Instance == null) Debug.Log("[HandleExit] TillUIManager.Instance == null");
+        if (FlowerManager.Instance == null) Debug.Log("[HandleExit] FlowerManager.Instance == null");
 
-        if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && !BenchUIManager.Instance.warningCanvasOpen && FlowerManager.Instance.IsExitable() && !BenchUIManager.Instance.HasSpawnedItemOnTray())
+        if (!InventoryUIManager.isFullInventoryOpen && !FlowerManager.Instance.blockingCanvasOpen && FlowerManager.Instance.IsExitable())
         {
             if (string.IsNullOrEmpty(targetSceneName))
             {
@@ -42,6 +42,7 @@ public class ExitPoint : MonoBehaviour
             }
 
             InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance, this, immediate: true);
+            BenchUIManager.BenchSave(SaveManager.Instance.CurrentSave);
 
             // 로딩 UI를 사용하여 씬 전환
             if (LoadingUIManager.Instance != null)
@@ -57,14 +58,14 @@ public class ExitPoint : MonoBehaviour
         {
             if (!FlowerManager.Instance.IsExitable())
             {
-                BenchUIManager.Instance.ShowWarningCanvas("bowl에 꽃잎이 남아있습니다.");
+                NoticeUIManager.Instance.ShowNoticeCanvas("bowl에 꽃잎이 남아있습니다.");
                 Debug.LogWarning($"IsExitable : Bowl에 꽃잎이 남아있음");
             }
-            if (BenchUIManager.Instance.HasSpawnedItemOnTray())
-            {
-                BenchUIManager.Instance.ShowWarningCanvas("Tray 위에 작물이 남아있습니다.");
-                Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
-            }
+            // if (BenchUIManager.Instance.HasSpawnedItemOnTray())
+            // {
+            //     NoticeUIManager.Instance.ShowNoticeCanvas("Tray 위에 작물이 남아있습니다.");
+            //     Debug.LogWarning($"HasSpawnedItemOnTray : Tray 위에 작물이 있음");
+            // }
         }
     }
 }

@@ -12,11 +12,13 @@ public class GameSave
 {
     public List<InstallationSaveData> installationList = new();
     public List<FarmSaveData> farms = new();
+    public BenchSaveData bench = new();
     public List<DistillerSaveData> distillers = new List<DistillerSaveData>(); // ID 기반 다중 소환
     public MixtureSaveData mixture = new(); // 단일 소환
     public List<InventoryItemSaveData> inventory = new();
     public TutorialSaveData tutorial = new();
-    public long lastSavedUtc;
+    public StorySaveData story = new();
+    public long totalPlayTime;
 }
 
 // ============= 저장 데이터 스키마 =============
@@ -46,7 +48,13 @@ public class FarmSaveData
     public bool isWatered;
     public int seedItemID;
     public int growthStage;
-    public float cropTimer;
+    public float plantedTimeAtTotalPlayTime;
+}
+
+[Serializable]
+public class BenchSaveData
+{
+    public List<int> spawnedItemData = new List<int>();
 }
 
 [Serializable]
@@ -85,6 +93,15 @@ public class PetalSlotData
 {
     public int index;
     public int itemID;
+}
+
+[Serializable]
+public class StorySaveData
+{
+    public bool isPrologueCompleted = false;
+    public int lastDialougeIndex = 0;
+    public bool isStoryMode = true;
+    public bool isChapter1Done = false;
 }
 
 [Serializable]
@@ -128,6 +145,10 @@ public class SaveManager : MonoBehaviour
             itemDict[item.id] = item;
         }
     }
+    void Update()
+    {
+        CurrentSave.totalPlayTime += (long)(Time.deltaTime * 1000);
+    }
 
     public static GameSave Load()
     {
@@ -170,6 +191,9 @@ public class SaveManager : MonoBehaviour
 
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.ResetInventory();
+
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.ResetTutorial();
     }
 
     // ========== 모든 SaveManager 통합 =========
@@ -182,7 +206,6 @@ public class SaveManager : MonoBehaviour
         FarmSaveManager.SaveFarms(save, buildController);
         TutorialManager.Instance?.PrepareSaveData(save);
 
-        save.lastSavedUtc = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         SaveManager.Save(save);
     }
 

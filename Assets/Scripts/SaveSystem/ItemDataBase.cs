@@ -23,4 +23,9 @@ public class ItemDataBase : ScriptableObject
     public ItemData ResolveItem(int key) => (key != 0 && map != null && map.TryGetValue(key, out ItemData v)) ? v : null;
     public MaterialData ResolveMaterial(int key) => ResolveItem(key) as MaterialData;
     public EssenceData ResolveEssence(int key) => ResolveItem(key) as EssenceData;
+
+    public ItemData GetItemByID(int id)
+    {
+        return items.Find(item => item.id == id);
+    }
 }

@@ -85,6 +85,7 @@ public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             Debug.LogWarning($"[FlowerPetalUI] FlowerManager == null");
         }
+        isHandled = false;
     }
     // ==================================================
 }
