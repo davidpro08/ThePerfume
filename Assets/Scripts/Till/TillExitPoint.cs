@@ -40,7 +40,15 @@ public class TillExitPoint : MonoBehaviour
 
             InventorySaveManager.SaveInventory(SaveManager.Instance.CurrentSave, InventoryManager.Instance, this, immediate: true);
 
-            SceneManager.LoadScene(targetSceneName);
+            // 로딩 UI를 사용하여 씬 전환
+            if (LoadingUIManager.Instance != null)
+            {
+                LoadingUIManager.Instance.LoadScene(targetSceneName);
+            }
+            else
+            {
+                SceneManager.LoadScene(targetSceneName);
+            }
         }
         if (ClickTargetAssence.isPouring)
         {
