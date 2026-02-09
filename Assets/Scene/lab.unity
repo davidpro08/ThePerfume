@@ -401,7 +401,7 @@ Transform:
   m_GameObject: {fileID: 86026769}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.59774, y: 0.42658, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -426,6 +426,8 @@ MonoBehaviour:
     dialogueCSV: {fileID: 4900000, guid: 555df29b84b906441af4ba7a61054cc5, type: 3}
   - dialogueName: Tutorial_makingPerfume
     dialogueCSV: {fileID: 4900000, guid: e0c1f27b7b8f622469e40338ff738195, type: 3}
+  - dialogueName: Tutorial_Flower
+    dialogueCSV: {fileID: 4900000, guid: 9c720f7e7b4a70b49bc021c218649b14, type: 3}
   requiredColumns:
   - ID
   - NPC_ID
@@ -6475,12 +6477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b218c13b370b4c98a59a463e543a70f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialSteps:
-  - {fileID: 11400000, guid: 2d66ff6ecd7f821469b956e93b670f82, type: 2}
-  - {fileID: 11400000, guid: 1aca5ca7332426f458872b1fb25afbcb, type: 2}
-  - {fileID: 11400000, guid: fe6b0abc3b43ace439ea3f167bf59f7a, type: 2}
-  - {fileID: 11400000, guid: 9d15786e39c644c45a811bb8a6965cfa, type: 2}
-  - {fileID: 11400000, guid: 4f362fa7c6d5b844fad2f6193f1788a2, type: 2}
+  perfumeTutorialSteps:
   - {fileID: 11400000, guid: e98bcc3203565e54ca146539d4f0350d, type: 2}
   - {fileID: 11400000, guid: 20d0d5d26ba842647a94bd001767176a, type: 2}
   - {fileID: 11400000, guid: 03d19829f03c5e84b8c4af24b245c38e, type: 2}
@@ -6502,6 +6499,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d14a2bfa38f24d449d3f791904dae55, type: 2}
   - {fileID: 11400000, guid: a026676a03622e141ac609ab6d02231a, type: 2}
   - {fileID: 11400000, guid: ac8854009a067e1449d2afcbc1fe9ec4, type: 2}
+  chapter1TutorialSteps:
+  - {fileID: 11400000, guid: 9d15786e39c644c45a811bb8a6965cfa, type: 2}
+  - {fileID: 11400000, guid: 2d66ff6ecd7f821469b956e93b670f82, type: 2}
+  - {fileID: 11400000, guid: 1aca5ca7332426f458872b1fb25afbcb, type: 2}
+  - {fileID: 11400000, guid: fe6b0abc3b43ace439ea3f167bf59f7a, type: 2}
   guide: {fileID: 1734265761}
 --- !u!4 &1734265763
 Transform:
@@ -9513,7 +9515,7 @@ MonoBehaviour:
   - {fileID: 1188923078605084872}
   characterParent: {fileID: 6374291187219118250}
   IntroCsvFile: {fileID: 4900000, guid: 05f77b5d1b2027a469a4a76c81bd471e, type: 3}
-  nextStroyCsvFile: {fileID: 4900000, guid: 661887b77e3a70d4c99518ac10709303, type: 3}
+  nextStroyCsvFile: {fileID: 4900000, guid: 83f7a1e21dfe3ad4686b21ebc13db30b, type: 3}
   dialogueFile: {fileID: 4900000, guid: 555df29b84b906441af4ba7a61054cc5, type: 3}
   backgroundParent: {fileID: 3680740214352740029}
   isStoryMode: 0
@@ -23583,7 +23585,7 @@ Transform:
   m_GameObject: {fileID: 6374291187219118250}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.24131, y: 15.73342, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

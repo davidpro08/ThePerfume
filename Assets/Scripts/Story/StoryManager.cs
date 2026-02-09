@@ -80,8 +80,7 @@ public class StoryManager : MonoBehaviour
         }
 
         LoadStoryData();
-
-        CheckAndResumeStory();
+        SetStoryMode(false);
     }
 
     public void PlayStorySequence(UnityEngine.TextAsset csvFile, string newDialogueID, System.Action onComplete)
@@ -439,7 +438,7 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    private void SetStoryMode(bool isStoryMode)
+    public void SetStoryMode(bool isStoryMode)
     {
         this.isStoryMode = isStoryMode;
 
@@ -539,7 +538,7 @@ public class StoryManager : MonoBehaviour
 
         if (!isPrologueDone)
         {
-            PlayStorySequence(IntroCsvFile, "Intro_dialogue", onPrologueComplete);
+            PlayStorySequence(IntroCsvFile, "narration_001", onPrologueComplete);
         }
         else if (save.tutorial.isTutorialEnd && !isChapter1Done)
         {

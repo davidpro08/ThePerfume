@@ -62,6 +62,7 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void StartDialogue(Npc npc, string dialogueName, string dialogueId = null)
     {
+        Debug.Log($"[NpcDialogueManager] StartDialogue 호출됨! 파일: {dialogueName}, ID: {dialogueId}");
         StoryManager.Instance.isStoryMode = false;
 
         if (CSVDialogueParser.Instance == null)
@@ -80,15 +81,16 @@ public class NpcDialogueManager : MonoBehaviour
         }
         else
         {
+            Debug.Log($"[NpcDialogueManager] 파서에게 데이터 요청 중...");
             currentDialogue = CSVDialogueParser.Instance.GetDialogueById(dialogueName, dialogueId);
         }
 
         if (currentDialogue == null)
         {
-            Debug.LogError($"대화 데이터를 찾을 수 없습니다! Dialogue Name: {dialogueName}, NPC ID: {currentNpcId}, Dialogue ID: {dialogueId}");
+            Debug.LogError($"[오류] 데이터를 못 찾았습니다! 파일명({dialogueName})이 파서에 등록되었는지, ID({dialogueId})가 CSV에 있는지 확인하세요.");
             return;
         }
-
+        Debug.Log($"[NpcDialogueManager] 데이터 찾음! 내용: {currentDialogue.dialogueText} -> 대화창 오픈");
         ShowDialogue(currentDialogue);
 
         SoundManager.Instance.PlaySFX(SFXType.Talk);
@@ -193,6 +195,11 @@ public class NpcDialogueManager : MonoBehaviour
         dialogueText.text = "";
         foreach (char letter in text.ToCharArray())
         {
+            if (currentDialogue == null || !isActive)
+            {
+                isTyping = false;
+                yield break;
+            }
             dialogueText.text += letter;
             yield return new WaitForSecondsRealtime(textSpeed);
         }
@@ -200,7 +207,7 @@ public class NpcDialogueManager : MonoBehaviour
         isTyping = false;
 
         // 선택지가 표시되어야 하는지 확인 (Next_Dialogue_ID가 2개 이상일 때만)
-        if (currentDialogue.ShouldShowChoices())
+        if (currentDialogue != null && currentDialogue.ShouldShowChoices())
         {
             DisplayChoices();
         }
@@ -335,20 +342,42 @@ public class NpcDialogueManager : MonoBehaviour
     /// </summary>
     public void EndDialogue()
     {
-        if (currentDialogue != null)
-        {
-            OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
-        }
+        // if (currentDialogue != null)
+        // {
+        //     OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
+        // }
+
+        // isActive = false;
+        // currentDialogue = null;
+        // currentNpcId = null;
+        // currentDialogueName = null;
+
+        // if (dialogueObject != null)
+        //     dialogueObject.SetActive(false);
+
+        // PauseManager.Instance.ResumeFromDialogue();
+
+        Npc lastNpc = currentNpc;
+        string lastDialogueId = currentDialogue != null ? currentDialogue.id : "";
 
         isActive = false;
         currentDialogue = null;
         currentNpcId = null;
         currentDialogueName = null;
+        isTyping = false;
 
-        if (dialogueObject != null)
-            dialogueObject.SetActive(false);
+        if (dialogueObject != null) dialogueObject.SetActive(false);
 
+        foreach (var btn in choiceButtons)
+        {
+            if (btn != null) btn.gameObject.SetActive(false);
+        }
         PauseManager.Instance.ResumeFromDialogue();
+
+        if (!string.IsNullOrEmpty(lastDialogueId))
+        {
+            OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
+        }
     }
 
     public IEnumerator StartStoryDialogue(DialogueEntry dialouge)

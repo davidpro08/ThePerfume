@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13a0617ca80ab4244b684c15eaf2562b, type: 3}
-  m_Name: TutorialStep4
+  m_Name: 3WateredSoil
   m_EditorClassIdentifier: 
-  triggerId: narration_040
+  triggerId: alric_015
   giveItems: []
-  conditionType: 0
-  nextDialogueId: narration_041
+  conditionType: 2
+  nextDialogueId: alric_016
