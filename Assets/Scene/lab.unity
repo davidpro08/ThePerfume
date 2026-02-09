@@ -6478,7 +6478,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perfumeTutorialSteps:
-  - {fileID: 11400000, guid: e98bcc3203565e54ca146539d4f0350d, type: 2}
   - {fileID: 11400000, guid: 20d0d5d26ba842647a94bd001767176a, type: 2}
   - {fileID: 11400000, guid: 03d19829f03c5e84b8c4af24b245c38e, type: 2}
   - {fileID: 11400000, guid: 9a98d655b8c23294f8b1d64edd4fbe74, type: 2}
@@ -6499,11 +6498,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d14a2bfa38f24d449d3f791904dae55, type: 2}
   - {fileID: 11400000, guid: a026676a03622e141ac609ab6d02231a, type: 2}
   - {fileID: 11400000, guid: ac8854009a067e1449d2afcbc1fe9ec4, type: 2}
-  chapter1TutorialSteps:
-  - {fileID: 11400000, guid: 9d15786e39c644c45a811bb8a6965cfa, type: 2}
-  - {fileID: 11400000, guid: 2d66ff6ecd7f821469b956e93b670f82, type: 2}
-  - {fileID: 11400000, guid: 1aca5ca7332426f458872b1fb25afbcb, type: 2}
-  - {fileID: 11400000, guid: fe6b0abc3b43ace439ea3f167bf59f7a, type: 2}
+  FlowerTutorialSteps: []
   guide: {fileID: 1734265761}
 --- !u!4 &1734265763
 Transform:

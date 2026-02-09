@@ -74,10 +74,7 @@ public class StoryManager : MonoBehaviour
         {
             DontDestroyOnLoad(characterParent);
         }
-        if (InventoryUIManager.Instance != null)
-        {
-            InventoryUIManager.Instance.CloseHotbar();
-        }
+
 
         LoadStoryData();
         SetStoryMode(false);
@@ -448,6 +445,11 @@ public class StoryManager : MonoBehaviour
             player.SetPlayerDisenabled(isStoryMode);
         }
 
+        if (InventoryUIManager.Instance != null)
+        {
+            InventoryUIManager.Instance.CloseHotbar();
+        }
+
         if (characterParent != null)
         {
             characterParent.SetActive(isStoryMode);
@@ -530,29 +532,6 @@ public class StoryManager : MonoBehaviour
         isStoryMode = storyData.isStoryMode;
 
         if (this.isStoryMode) SetStoryMode(true);
-    }
-
-    public void CheckAndResumeStory()
-    {
-        var save = SaveManager.Instance.CurrentSave;
-
-        if (!isPrologueDone)
-        {
-            PlayStorySequence(IntroCsvFile, "narration_001", onPrologueComplete);
-        }
-        else if (save.tutorial.isTutorialEnd && !isChapter1Done)
-        {
-            PlayStorySequence(nextStroyCsvFile, "dietrich_008", onChapter1Complete);
-            //SetStoryMode(false);
-        }
-        else
-        {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "StoryScene")
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
-            }
-            SetStoryMode(false);
-        }
     }
     #endregion
 }

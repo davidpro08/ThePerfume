@@ -376,7 +376,7 @@ public class NpcDialogueManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(lastDialogueId))
         {
-            OnDialogueEnd?.Invoke(currentNpc, currentDialogue.id);
+            OnDialogueEnd?.Invoke(currentNpc, lastDialogueId);
         }
     }
 

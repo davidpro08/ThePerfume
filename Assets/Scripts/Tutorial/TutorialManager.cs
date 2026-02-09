@@ -51,20 +51,32 @@ public class TutorialManager : MonoBehaviour
     {
         NpcDialogueManager.OnDialogueEnd -= HandleDialogueEnd;
     }
-
+    private bool isFirstCheckDone = false;
     void Start()
     {
         SceneManager.sceneLoaded += OnStorySceneLoaded;
-        StartCoroutine(CheckSequence());
+        if (!isFirstCheckDone)
+        {
+            StartCoroutine(CheckSequence());
+            isFirstCheckDone = true;
+        }
     }
 
     private void OnStorySceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(CheckSequence());
+        currentStep = null;
+        if (isFirstCheckDone)
+        {
+            StopAllCoroutines();
+            StartCoroutine(CheckSequence());
+        }
     }
-
+    private bool isProcessing = false;
     private IEnumerator CheckSequence()
     {
+        if(isProcessing) yield break;
+        isProcessing = true;
+
         yield return new WaitForSeconds(0.5f);
         var save = SaveManager.Instance.CurrentSave;
 
@@ -72,6 +84,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name != "StoryScene")
             {
+                isProcessing = false;
                 SceneManager.LoadScene("StoryScene");
                 yield break;
             }
@@ -84,6 +97,7 @@ public class TutorialManager : MonoBehaviour
                     Debug.Log(">>> [1] 프롤로그 끝 -> lab으로 이동");
                     save.story.isPrologueCompleted = true;
                     SaveManager.Instance.SaveGame();
+                    isProcessing = false;
                     SceneManager.LoadScene("lab");
                 }
             );
@@ -123,6 +137,8 @@ public class TutorialManager : MonoBehaviour
                 });
             }
         }
+
+        if(!StoryManager.Instance.isStoryMode) isProcessing = false;
     }
 
     private List<TutorialStepSO> CurrentPhaseSteps
@@ -280,7 +296,7 @@ public class TutorialManager : MonoBehaviour
                     Debug.Log($"1단계 마지막 스텝 {lastStep.name} 완료");
                     save.tutorial.isTutorialEnd = true;
                     SaveManager.Instance.SaveGame();
-
+                    currentStep = null;
                     SceneManager.LoadScene("lab");
                 }
             }
