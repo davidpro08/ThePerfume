@@ -9466,6 +9466,9 @@ MonoBehaviour:
   - {fileID: 8446948860906375145}
   - {fileID: 6672594557297682676}
   - {fileID: 1188923078605084872}
+  - {fileID: 2775755097262850137}
+  - {fileID: 3692195166896854915}
+  - {fileID: 678030841490465509}
   characterParent: {fileID: 6374291187219118250}
   IntroCsvFile: {fileID: 4900000, guid: 05f77b5d1b2027a469a4a76c81bd471e, type: 3}
   nextStroyCsvFile: {fileID: 4900000, guid: 83f7a1e21dfe3ad4686b21ebc13db30b, type: 3}
@@ -23057,7 +23060,7 @@ GameObject:
   - component: {fileID: 6860688022095880503}
   - component: {fileID: 3692195166896854915}
   m_Layer: 0
-  m_Name: 'lorenz '
+  m_Name: lorenz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
