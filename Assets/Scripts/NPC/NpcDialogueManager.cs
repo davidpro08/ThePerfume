@@ -171,19 +171,43 @@ public class NpcDialogueManager : MonoBehaviour
     /// <param name="dialogue">대화 엔트리</param>
     private void UpdatePortraitForDialogue(DialogueEntry dialogue)
     {
-        // 현재 대화 중인 NPC 객체가 있으면 대화창 초상화만 업데이트
-        if (currentNpc != null && dialoguePortraitImage != null)
+        if (dialoguePortraitImage == null)
         {
-            Sprite portraitSprite = currentNpc.GetCurrentPortraitSprite(dialogue.condition);
-            if (portraitSprite != null)
-            {
-                dialoguePortraitImage.sprite = portraitSprite;
-            }
+            Debug.Log("[NpcDialogueManager Error] 인스펙터에 'Dialogue Portrait Image'가 연결되지 않았습니다!");
+            return;
         }
-        else if (dialoguePortraitImage == null)
+
+        if (currentNpc == null)
         {
-            Debug.LogWarning("대화창 초상화 이미지가 설정되지 않았습니다.");
+            Debug.Log("[NpcDialogueManager Error] 대화는 시작됐는데 'currentNpc'가 없습니다!");
+            return;
         }
+
+        Sprite portrait = currentNpc.GetCurrentPortraitSprite(dialogue.condition);
+        if (portrait != null)
+        {
+            dialoguePortraitImage.sprite = portrait;
+
+            Debug.Log($"[Portrait Update] 초상화 갱신 성공! 이미지: {portrait.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Portrait Warning] {currentNpc.name}에게서 '{dialogue.condition}' 상태의 이미지를 못 가져왔습니다.");
+        }
+
+        // // 현재 대화 중인 NPC 객체가 있으면 대화창 초상화만 업데이트
+        // if (currentNpc != null && dialoguePortraitImage != null)
+        // {
+        //     Sprite portraitSprite = currentNpc.GetCurrentPortraitSprite(dialogue.condition);
+        //     if (portraitSprite != null)
+        //     {
+        //         dialoguePortraitImage.sprite = portraitSprite;
+        //     }
+        // }
+        // else if (dialoguePortraitImage == null)
+        // {
+        //     Debug.LogWarning("대화창 초상화 이미지가 설정되지 않았습니다.");
+        // }
     }
 
     /// <summary>
@@ -380,13 +404,26 @@ public class NpcDialogueManager : MonoBehaviour
         }
     }
 
-    public IEnumerator StartStoryDialogue(DialogueEntry dialouge)
+    public IEnumerator StartStoryDialogue(DialogueEntry dialogue)
     {
         if (dialogueObject == null) yield break;
 
         StoryManager.Instance.isStoryMode = true;
 
-        ShowDialogue(dialouge);
+        string speakerId = dialogue.npcId;
+        CharacterMotion storyChar = StoryManager.Instance.GetCharacter(speakerId);
+
+        if (storyChar != null)
+        {
+            currentNpc = storyChar;
+        }
+
+        if (currentNpc == null)
+        {
+            Debug.LogWarning($"[NpcDialogueManager] 스토리 대화 중 화자 '{speakerId}'를 찾을 수 없습니다. 초상화가 안 나올 수 있습니다.");
+        }
+
+        ShowDialogue(dialogue);
         while (isActive)
         {
             yield return null;

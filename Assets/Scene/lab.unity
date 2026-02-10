@@ -8050,7 +8050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: alric
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: 74793828018e5ee49928fc8772064aeb, type: 2}
+  portraitData: {fileID: 11400000, guid: fccef9b813155ae4fa11e6b87d720a58, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
@@ -8353,7 +8353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: jack
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: 66ca9b6a376483043a80379ea6c50cca, type: 2}
+  portraitData: {fileID: 11400000, guid: f64578a0bd9b7de4d91d0e976afc86cb, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
@@ -8955,7 +8955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: dietrich
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: 285507b1908b2534089f27f1be111fa4, type: 2}
+  portraitData: {fileID: 11400000, guid: 6503331a868261c48b1b0b4582c339ce, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
@@ -9329,7 +9329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: lorenz
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: cf9a371301c8c6040ad7923d7d7122a1, type: 2}
+  portraitData: {fileID: 11400000, guid: da62271653cd641428ea245fbb1e288e, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
@@ -9619,7 +9619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: ansel
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: 54159f4c45cc27049a0a67f717a1ab80, type: 2}
+  portraitData: {fileID: 11400000, guid: 35478534c29439d4388d5f9b4cf4cdcb, type: 2}
   dialogueObjects:
   - "\uD14C\uC2A4\uD2B8. NPC : \uC548\uB155?"
   moveSpeed: 1
@@ -22833,9 +22833,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: Jang
+  npcId: jang
   startDialogueId: 
-  portraitData: {fileID: 11400000, guid: 73de5d5bd3419ff479dc2a78a046ea3b, type: 2}
+  portraitData: {fileID: 11400000, guid: 74ad59af6159e82408413e22ff9fe4aa, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
