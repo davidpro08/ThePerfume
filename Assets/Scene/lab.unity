@@ -8011,28 +8011,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &579023641601415087
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7535386021039608453}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!224 &606610837778249854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8061,7 +8039,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2362452592168101159}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172bdeb08d5ab184ba1eb47ce400d013, type: 3}
   m_Name: 
@@ -8075,7 +8053,7 @@ MonoBehaviour:
   nextMoveTime: 2
   minArea: {x: 0, y: 0}
   maxArea: {x: 5, y: 5}
-  _animator: {fileID: 2740984835992111175}
+  _animator: {fileID: 0}
 --- !u!61 &709808767496082323
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8456,7 +8434,6 @@ GameObject:
   - component: {fileID: 5043728475100988830}
   - component: {fileID: 1080507700070948753}
   - component: {fileID: 2775755097262850137}
-  - component: {fileID: 4852222201015382305}
   m_Layer: 0
   m_Name: dietrich
   m_TagString: Untagged
@@ -8837,7 +8814,6 @@ GameObject:
   - component: {fileID: 6497832117098573938}
   - component: {fileID: 101648034951098438}
   - component: {fileID: 678030841490465509}
-  - component: {fileID: 2740984835992111175}
   m_Layer: 0
   m_Name: alric
   m_TagString: Untagged
@@ -8854,7 +8830,7 @@ Transform:
   m_GameObject: {fileID: 9073089136684903599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.35, y: -8.63, z: 0}
+  m_LocalPosition: {x: 4.06, y: -0.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8961,28 +8937,6 @@ Transform:
   - {fileID: 949255437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2740984835992111175
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2362452592168101159}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2775755097262850137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9004,7 +8958,7 @@ MonoBehaviour:
   nextMoveTime: 2
   minArea: {x: 0, y: 0}
   maxArea: {x: 5, y: 5}
-  _animator: {fileID: 4852222201015382305}
+  _animator: {fileID: 0}
 --- !u!224 &2843540564863546192
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9334,7 +9288,7 @@ Transform:
   m_GameObject: {fileID: 2362452592168101159}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.15, y: 2.43, z: 0}
+  m_LocalPosition: {x: 2.51, y: 0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9378,7 +9332,7 @@ MonoBehaviour:
   nextMoveTime: 2
   minArea: {x: 0, y: 0}
   maxArea: {x: 5, y: 5}
-  _animator: {fileID: 579023641601415087}
+  _animator: {fileID: 0}
 --- !u!224 &3842736903357156431
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9529,7 +9483,7 @@ Transform:
   m_GameObject: {fileID: 4939838441919866198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.96, y: -8.64, z: 0}
+  m_LocalPosition: {x: 7.96, y: -2.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9667,28 +9621,6 @@ MonoBehaviour:
   minArea: {x: 0, y: 0}
   maxArea: {x: 5, y: 5}
   _animator: {fileID: 5368505798633032625}
---- !u!95 &4852222201015382305
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544780621588889394}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4853280862606797089
 GameObject:
   m_ObjectHideFlags: 0
@@ -22253,7 +22185,7 @@ Transform:
   m_GameObject: {fileID: 1544780621588889394}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.88, y: -0.21, z: 0}
+  m_LocalPosition: {x: 5.8, y: 0.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22268,7 +22200,7 @@ Transform:
   m_GameObject: {fileID: 7535386021039608453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.08, y: 2.54, z: 0}
+  m_LocalPosition: {x: 3.69, y: 1.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22742,7 +22674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &6377072622156248725
 Animator:
   serializedVersion: 7
@@ -23124,7 +23056,6 @@ GameObject:
   - component: {fileID: 5982060933079808841}
   - component: {fileID: 6860688022095880503}
   - component: {fileID: 3692195166896854915}
-  - component: {fileID: 579023641601415087}
   m_Layer: 0
   m_Name: 'lorenz '
   m_TagString: Untagged

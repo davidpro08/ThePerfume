@@ -32,12 +32,12 @@ ANIMATION,jang,,,,,,,,lay,,,누워있기
 EFFECT,,,,,,,,,FADE_IN,,,
 ON,jack,,,,,,,,,,,
 ANIMATION,jack,,,,,,,,walkWithJang,,,
-SLIDE,jack,0,0.003,0.34,0.003,,,8,,,,
+SLIDE,jack,0,0.16,0.503,0.16,,,8,,,,
 ANIMATION,,,,,,,,,stopWithJang,,,
 DIALOGUE,,,,,,,,,1,,,으…으윽…
 SFX_END,,,,,,,,,,,dragging,
 ON,jang,,,,,,,,,,,
-TELEPORT,jang,,,0.31,0.002,,,,,,,
+TELEPORT,jang,,,0.464,0.16,,,,,,,
 ANIMATION,jack,,,,,,,,surprise,,,
 DIALOGUE,,,,,,,,,2,,,"잭: 바, 방금… 소리가…?"
 LOOK,jack,,,,,1,,,,,,
@@ -45,7 +45,7 @@ ANIMATION,jack,,,,,,,,jump,,,뛰기
 LOOK,jack,,,,,1,,,,,,
 WAIT,,,,,,,,1,,,,
 ANIMATION,jang,,,,,,,,wake,,,올려다보기
-MOVE,jack,0.34,0.003,0.358,0.003,,,1,,,,
+MOVE,jack,0.503,0.16,0.528,0.16,,,1,,,,
 LOOK,jack,,,,,,-1,,,,,
 LOOK,jack,,,,,-1,,,,,,
 ANIMATION,jack,,,,,,,,wake,,,
@@ -62,25 +62,25 @@ ANIMATION,jack,,,,,,,,shake,,,떨림
 ANIMATION,jang,,,,,,,,wakeUp,,,일어나기
 LOOK,jang,,,,,1,,,,,,
 DIALOGUE,,,,,,,,,3,,,"잭: 으… 어, 어머니… … (29열까지"
-MOVE,jang,0.31,0.002,0.321,0.002,,,5,,,,
-MOVE,jack,0.321,0.002,0.402,0.003,,,2,,,,
+MOVE,jang,0.464,0.16,0.472,0.16,,,5,,,,
+MOVE,jack,0.528,0.16,0.561,0.16,,,2,,,,
 LOOK,jack,,,,,,-1,,,,,
 LOOK,jack,,,,,-1,,,,,,
 SFX,,,,,,,,,,,scared,
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,2,,,장: 멀쩡해요.
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.321,0.002,0.337,0.002,,,2,,,,
+MOVE,jang,0.472,0.16,0.478,0.16,,,2,,,,
 DIALOGUE,,,,,,,,,1,,,잭:저..정말이네?...
-MOVE,jang,0.337,0.002,0.342,0.002,,,1,,,,
+MOVE,jang,0.478,0.16,0.484,0.16,,,1,,,,
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.342,0.002,0.348,0.002,,,1,,,,// 근데 앉아있는데 어캐 흔들림
+MOVE,jang,0.484,0.16,0.489,0.16,,,1,,,,// 근데 앉아있는데 어캐 흔들림
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,1,,,잭: 오….오오…! …
 EFFECT,,,,,,,,,SHAKE,,,
 ANIMATION,jang,,,,,,,,lay,,,
 DIALOGUE,,,,,,,,,6,,,장: 아.
-MOVE,jack,0.402,0.003,0.39,0.003,,,,,,,
+MOVE,jack,0.561,0.16,0.543,0.16,,,,,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,perfume,,,
@@ -101,12 +101,12 @@ ANIMATION,jang,,,,,,,,arrest,,,
 ON,lorenz,,,,,,,,,,,
 ON,alric,,,,,,,,,,,
 ON,dietrich,,,,,,,,,,,
-TELEPORT,jack,,,0.75,0.2,,,,,,,
+TELEPORT,jack,,,0.824,0.264,,,,,,,
 LOOK,jack,,,,,,1,,,,,
-TELEPORT,alric,,,0.6,0.6,,,,,,,
-TELEPORT,dietrich,,,0.6,0.5,,,,,,,
-TELEPORT,lorenz,,,0.6,0.4,,,,,,,
-TELEPORT,jang,,,0.5,0.5,,,,,,,
+TELEPORT,alric,,,0.602,0.552,,,,,,,
+TELEPORT,dietrich,,,0.736,0.547,,,,,,,
+TELEPORT,lorenz,,,0.65,0.614,,,,,,,
+TELEPORT,jang,,,0.666,0.446,,,,,,,
 WAIT,,,,,,,,,2,,,
 EFFECT,,,,,,,,,FADE_TO_70,,,
 DIALOGUE,,,,,,,,,18,,,
