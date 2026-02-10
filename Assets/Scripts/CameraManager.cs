@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] Transform player;
-    [SerializeField] string[] followScenes = { "lab", "NPC_house", "Village" };
+    [SerializeField] string[] followScenes = { "lab", "Isolde_NPC_house", "Ansel_NPC_house", "Village" };
     [SerializeField] string[] overviewScenes = { "bench", "distiller", "Mixture", "StoryScene" };
 
     Bounds overviewBounds;
