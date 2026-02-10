@@ -64,6 +64,11 @@ public class TutorialManager : MonoBehaviour
 
     private void OnStorySceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (StoryManager.Instance != null && StoryManager.Instance.isStoryMode)
+        {
+            return;
+        }
+
         if (isFirstCheckDone)
         {
             StopAllCoroutines();
