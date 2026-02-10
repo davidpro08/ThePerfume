@@ -6,7 +6,7 @@ OFF,ansel,,,,,,,,,,,
 OFF,lorenz,,,,,,,,,,,
 OFF,alric,,,,,,,,,,,
 OFF,dietrich,,,,,,,,,,,
-BGM,,,,,,,,,,,,
+BGM_START,,,,,,,,,tutorial1,,,
 BACKGROUND,,,,,,,,,,black,,
 EFFECT,,,,,,,,,FADE_TO_70,,,
 BACKGROUND,,,,,,,,,,wasteLand,,
@@ -29,6 +29,7 @@ DIALOGUE,,,,,,,,,1,,,(지이익… 지이익…)
 SFX,,,,,,,,,,,turning,뒤척이기 sfx
 DIALOGUE,,,,,,,,,3,,,(장은 며칠 밤을 새며 몽롱해진 정신을…)
 ANIMATION,jang,,,,,,,,lay,,,누워있기
+BGM_END,,,,,,,,,tutorial1,,,
 EFFECT,,,,,,,,,FADE_IN,,,
 ON,jack,,,,,,,,,,,
 ANIMATION,jack,,,,,,,,walkWithJang,,,
@@ -88,11 +89,12 @@ DIALOGUE,,,,,,,,,8,,,장: …? 뭐하는 …겁니까?
 ANIMATION,jang,,,,,,,,wakeUp,,,
 LOOK,jack,,,,,1,,,,,,
 DIALOGUE,,,,,,,,,33,,,잭: 하하… 이거…
-BGM,,,,,,,,,tutorial2,,,
+BGM_START,,,,,,,,,tutorial2,,,
 DIALOGUE,,,,,,,,,4,,,
 EFFECT,,,,,,,,,SHAKE,,,
 EFFECT,,,,,,,,,FADE_TO_70,,,
 DIALOGUE,,,,,,,,,7,,,
+BGM_END,,,,,,,,,tutorial2,,,
 EFFECT,,,,,,,,,FADE_OUT,,,
 DIALOGUE,,,,,,,,,2,,,93번까지
 WAIT,,,,,,,,,3,,,

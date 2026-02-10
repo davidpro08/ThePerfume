@@ -6176,6 +6176,10 @@ MonoBehaviour:
   bgmList:
   - type: 0
     clip: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
+  - type: 1
+    clip: {fileID: 8300000, guid: 8064e068a58069445bef2947c224984f, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: fa2e5dd2d0db54749a00ac86f95545d2, type: 3}
   bgmSource: {fileID: 1646733346}
 --- !u!4 &1646733348
 Transform:
