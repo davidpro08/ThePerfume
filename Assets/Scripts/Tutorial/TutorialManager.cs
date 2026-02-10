@@ -67,20 +67,21 @@ public class TutorialManager : MonoBehaviour
         if (isFirstCheckDone)
         {
             StopAllCoroutines();
+            isProcessing = false;
             StartCoroutine(CheckSequence());
         }
     }
     private bool isProcessing = false;
     private IEnumerator CheckSequence()
     {
-        if(isProcessing) yield break;
+        if (isProcessing) yield break;
         isProcessing = true;
 
         yield return new WaitForSeconds(0.5f);
         var save = SaveManager.Instance.CurrentSave;
 
         string currentSceneName = SceneManager.GetActiveScene().name;
-        bool isAllowed = currentSceneName=="lab"||currentSceneName=="bench"||currentSceneName=="distiller"||currentSceneName=="Mixture";
+        bool isAllowed = currentSceneName == "lab" || currentSceneName == "bench" || currentSceneName == "distiller" || currentSceneName == "Mixture";
 
         if (!save.story.isPrologueCompleted)
         {
@@ -140,7 +141,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if(!StoryManager.Instance.isStoryMode) isProcessing = false;
+        if (!StoryManager.Instance.isStoryMode) isProcessing = false;
     }
 
     private List<TutorialStepSO> CurrentPhaseSteps
