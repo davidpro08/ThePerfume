@@ -125,17 +125,18 @@ public class CSVDialogueParser : MonoBehaviour
 
         foreach (var row in parsedData)
         {
-            string id = GetString(row, "ID");
+            string id = GetString(row, "ID").Trim();
             if (string.IsNullOrEmpty(id)) continue;
 
-            string nextDialogueIdsStr = GetString(row, "NEXT_DIALOGUE_IDS");
-            if (string.IsNullOrEmpty(nextDialogueIdsStr))
+            bool isEndDialogue = GetBool(row, "IS_END_DIALOGUE");
+
+            string nextDialogueIdsStr = GetString(row, "NEXT_DIALOGUE_IDS").Trim();
+            if (string.IsNullOrEmpty(nextDialogueIdsStr) && !isEndDialogue)
             {
                 Debug.LogWarning($"대화 ID {id}: NEXT_DIALOGUE_IDS가 비어있습니다. 건너뜁니다.");
                 continue;
             }
 
-            bool isEndDialogue = GetBool(row, "IS_END_DIALOGUE");
             string[] nextDialogueIds;
 
             if (isEndDialogue)
