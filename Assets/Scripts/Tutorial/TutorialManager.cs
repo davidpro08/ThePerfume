@@ -64,7 +64,6 @@ public class TutorialManager : MonoBehaviour
 
     private void OnStorySceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        currentStep = null;
         if (isFirstCheckDone)
         {
             StopAllCoroutines();
@@ -79,6 +78,9 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         var save = SaveManager.Instance.CurrentSave;
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        bool isAllowed = currentSceneName=="lab"||currentSceneName=="bench"||currentSceneName=="distiller"||currentSceneName=="Mixture";
 
         if (!save.story.isPrologueCompleted)
         {
@@ -104,7 +106,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (!save.tutorial.isTutorialEnd)
         {
-            if (SceneManager.GetActiveScene().name != "lab")
+            if (!isAllowed)
             {
                 SceneManager.LoadScene("lab");
                 yield break;
