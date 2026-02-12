@@ -16,7 +16,8 @@ public enum NpcState
     Calm,           // 차분한 상태
     Nervous,        // 긴장한 상태
     Friendly,       // 친근한 상태
-    Hostile         // 적대적인 상태
+    Hostile,        // 적대적인 상태
+    Nothing,        // 아무것도 없는 상태
 }
 
 /// <summary>
@@ -42,5 +43,5 @@ public static class NpcStateUtility
         Debug.LogWarning($"알 수 없는 NPC 상태: {stateString}. 기본 상태로 설정합니다.");
         return NpcState.Default;
     }
-    
+
 }

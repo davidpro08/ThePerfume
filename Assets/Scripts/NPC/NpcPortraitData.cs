@@ -9,7 +9,7 @@ public class NpcPortraitData : ScriptableObject
     [Header("NPC 정보")]
     public string npcId;
     public string npcName;
-    
+
     [Header("상태별 초상화")]
     [SerializeField] private Sprite defaultPortrait;
     [SerializeField] private Sprite happyPortrait;
@@ -22,6 +22,7 @@ public class NpcPortraitData : ScriptableObject
     [SerializeField] private Sprite nervousPortrait;
     [SerializeField] private Sprite friendlyPortrait;
     [SerializeField] private Sprite hostilePortrait;
+    [SerializeField] private Sprite nothingPortrait;
 
     /// <summary>
     /// 특정 상태에 대한 초상화를 반환합니다.
@@ -54,6 +55,8 @@ public class NpcPortraitData : ScriptableObject
                 return friendlyPortrait;
             case NpcState.Hostile:
                 return hostilePortrait;
+            case NpcState.Nothing:
+                return nothingPortrait;
             default:
                 return defaultPortrait;
         }

@@ -10,81 +10,84 @@ BGM_START,,,,,,,,,tutorial1,,,
 BACKGROUND,,,,,,,,,,black,,
 EFFECT,,,,,,,,,FADE_TO_70,,,
 BACKGROUND,,,,,,,,,,wasteLand,,
-SFX_START,,,,,,,,,0.7,,dragging,
+SFX_START,,,,,,,,,0.7,,Dragging,
 DIALOGUE,,,,,,,,,2,,,(지이익… 지이익…)
-SFX_END,,,,,,,,,,,dragging,
-SFX_START,,,,,,,,,0.5,,dragging,
+SFX_END,,,,,,,,,,,Dragging,
+SFX_START,,,,,,,,,0.5,,Dragging,
 DIALOGUE,,,,,,,,,2,,,(피곤하다.)
 SFX,,,,,,,,,,,sigh,한숨 sfx
 DIALOGUE,,,,,,,,,3,,,장: (돈이 아무리 궁해도 쓰리잡은 무리였나…)
-SFX_END,,,,,,,,,,,dragging,
-SFX_START,,,,,,,,,0.7,,dragging,
+SFX_END,,,,,,,,,,,Dragging,
+SFX_START,,,,,,,,,0.7,,Dragging,
 DIALOGUE,,,,,,,,,3,,,(지이익… 지이익…)
-SFX_END,,,,,,,,,,,dragging,
-SFX_START,,,,,,,,,0.85,,dragging,
+SFX_END,,,,,,,,,,,Dragging,
+SFX_START,,,,,,,,,0.85,,Dragging,
 DIALOGUE,,,,,,,,,2,,,장: (…?)
-SFX_END,,,,,,,,,,,dragging,
-SFX_START,,,,,,,,,1,,dragging,
+SFX_END,,,,,,,,,,,Dragging,
+SFX_START,,,,,,,,,1,,Dragging,
 DIALOGUE,,,,,,,,,1,,,(지이익… 지이익…)
-SFX,,,,,,,,,,,turning,뒤척이기 sfx
+SFX,,,,,,,,,,,Turning,뒤척이기 sfx
 DIALOGUE,,,,,,,,,3,,,(장은 며칠 밤을 새며 몽롱해진 정신을…)
 ANIMATION,jang,,,,,,,,lay,,,누워있기
 BGM_END,,,,,,,,,tutorial1,,,
 EFFECT,,,,,,,,,FADE_IN,,,
 ON,jack,,,,,,,,,,,
 ANIMATION,jack,,,,,,,,walkWithJang,,,
-SLIDE,jack,0,0.16,0.503,0.16,,,8,,,,
+SLIDE,jack,0,0.388,0.503,0.388,,,8,,,,
 ANIMATION,,,,,,,,,stopWithJang,,,
 DIALOGUE,,,,,,,,,1,,,으…으윽…
-SFX_END,,,,,,,,,,,dragging,
+SFX_END,,,,,,,,,,,Dragging,
 ON,jang,,,,,,,,,,,
-TELEPORT,jang,,,0.464,0.16,,,,,,,
+TELEPORT,jang,,,0.464,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,surprise,,,
 DIALOGUE,,,,,,,,,2,,,"잭: 바, 방금… 소리가…?"
 LOOK,jack,,,,,1,,,,,,
 ANIMATION,jack,,,,,,,,jump,,,뛰기
+SFX,,,,,,,,,,,Jump,
 LOOK,jack,,,,,1,,,,,,
 WAIT,,,,,,,,1,,,,
 ANIMATION,jang,,,,,,,,wake,,,올려다보기
-MOVE,jack,0.503,0.16,0.528,0.16,,,1,,,,
+MOVE,jack,0.503,0.388,0.528,0.388,,,1,,,,
 LOOK,jack,,,,,,-1,,,,,
 LOOK,jack,,,,,-1,,,,,,
 ANIMATION,jack,,,,,,,,wake,,,
 DIALOGUE,,,,,,,,,3,,,장: … …
 EFFECT,,,,,,,,,SHAKE,,,
 ANIMATION,jack,,,,,,,,shake,,,
-SFX,,,,,,,,,,,shock,충격 효과음
+SFX,,,,,,,,,,,Shock,충격 효과음
 DIALOGUE,,,,,,,,,2,,,"잭: 으, 으아아악! …"
 EFFECT,,,,,,,,,SHAKE,,,
 ANIMATION,jack,,,,,,,,shake,,,
-SFX,,,,,,,,,,,shock,충격 효과음
+SFX,,,,,,,,,,,Shock,충격 효과음
 DIALOGUE,,,,,,,,,1,,,잭: 으아아악! 시체가 살아있다
 ANIMATION,jack,,,,,,,,shake,,,떨림
 ANIMATION,jang,,,,,,,,wakeUp,,,일어나기
 LOOK,jang,,,,,1,,,,,,
 DIALOGUE,,,,,,,,,3,,,"잭: 으… 어, 어머니… … (29열까지"
-MOVE,jang,0.464,0.16,0.472,0.16,,,5,,,,
-MOVE,jack,0.528,0.16,0.561,0.16,,,2,,,,
+MOVE,jang,0.464,0.388,0.472,0.388,,,5,,,,
+MOVE,jack,0.528,0.388,0.561,0.388,,,2,,,,
 LOOK,jack,,,,,,-1,,,,,
 LOOK,jack,,,,,-1,,,,,,
-SFX,,,,,,,,,,,scared,
+SFX,,,,,,,,,,,Scared,
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,2,,,장: 멀쩡해요.
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.472,0.16,0.478,0.16,,,2,,,,
+MOVE,jang,0.472,0.388,0.478,0.388,,,2,,,,
 DIALOGUE,,,,,,,,,1,,,잭:저..정말이네?...
-MOVE,jang,0.478,0.16,0.484,0.16,,,1,,,,
+MOVE,jang,0.478,0.388,0.484,0.388,,,1,,,,
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.484,0.16,0.489,0.16,,,1,,,,// 근데 앉아있는데 어캐 흔들림
+MOVE,jang,0.484,0.388,0.489,0.388,,,1,,,,// 근데 앉아있는데 어캐 흔들림
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,1,,,잭: 오….오오…! …
 EFFECT,,,,,,,,,SHAKE,,,
 ANIMATION,jang,,,,,,,,lay,,,
+SFX,,,,,,,,,,,FallDown,
 DIALOGUE,,,,,,,,,6,,,장: 아.
-MOVE,jack,0.561,0.16,0.543,0.16,,,,,,,
+MOVE,jack,0.561,0.388,0.543,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,perfume,,,
+SFX,,,,,,,,,,,PerfumeSpray,
 DIALOGUE,,,,,,,,,8,,,장: …? 뭐하는 …겁니까?
 ANIMATION,jang,,,,,,,,wakeUp,,,
 LOOK,jack,,,,,1,,,,,,
@@ -105,10 +108,10 @@ ON,alric,,,,,,,,,,,
 ON,dietrich,,,,,,,,,,,
 TELEPORT,jack,,,0.824,0.264,,,,,,,
 LOOK,jack,,,,,,1,,,,,
-TELEPORT,alric,,,0.602,0.552,,,,,,,
-TELEPORT,dietrich,,,0.736,0.547,,,,,,,
-TELEPORT,lorenz,,,0.65,0.614,,,,,,,
-TELEPORT,jang,,,0.666,0.446,,,,,,,
+TELEPORT,alric,,,0.439,0.551,,,,,,,
+TELEPORT,dietrich,,,0.574,0.54,,,,,,,
+TELEPORT,lorenz,,,0.487,0.611,,,,,,,
+TELEPORT,jang,,,0.503,0.435,,,,,,,
 WAIT,,,,,,,,,2,,,
 EFFECT,,,,,,,,,FADE_TO_70,,,
 DIALOGUE,,,,,,,,,18,,,

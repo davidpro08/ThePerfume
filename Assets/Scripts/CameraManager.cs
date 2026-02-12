@@ -50,6 +50,12 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate()
     {
+        if (StoryManager.Instance != null && StoryManager.Instance.isStoryMode)
+        {
+            transform.position = new Vector3(0, 0, transform.position.z);
+            return;
+        }
+
         float currentAspect = (float)Screen.width / (float)Screen.height;
         float zoomMultiplier = 1f;
         if (currentAspect < TARGET_ASPECT)

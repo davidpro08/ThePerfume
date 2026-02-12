@@ -725,7 +725,7 @@ public class TutorialManager : MonoBehaviour
     {
         Mixture mixture = FindAnyObjectByType<Mixture>();
 
-        if (mixture != null && mixture.perfumeData != null)
+        if (mixture != null && mixture.CanGainPerfume())
         {
             Debug.Log("향수 혼합 확인!");
             return true;

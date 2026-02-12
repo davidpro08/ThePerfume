@@ -126,6 +126,16 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    public void ResetStory()
+    {
+        isPrologueDone = false;
+        currentDialogueIndex = 0;
+        isChapter1Done = false;
+        SetStoryMode(false);
+        currentDialogueIndex = 0;
+        dialogueID = "";
+    }
+
     IEnumerator ShowDialogue(int count)
     {
         if (dialogueFile == null)
@@ -142,12 +152,17 @@ public class StoryManager : MonoBehaviour
             Debug.LogError($"현재 할당된 파일: {dialogueFile.name}");
             yield break;
         }
+
+        Debug.Log($"대화 파일: 총 {dialogueFile.name}, 현재 인덱스: {currentDialogueIndex}, 요청된 대사 수: {count}");
+
         if (!string.IsNullOrEmpty(dialogueID))
         {
             int foundIndex = data.dialogues.FindIndex(x => x.id == dialogueID);
             if (foundIndex != -1)
             {
                 currentDialogueIndex = foundIndex;
+
+                Debug.Log($"ID '{dialogueID}'에 해당하는 대사 인덱스 {foundIndex}로 이동합니다.");
                 dialogueID = "";
             }
             else
@@ -161,6 +176,8 @@ public class StoryManager : MonoBehaviour
             if (currentDialogueIndex < data.dialogues.Count)
             {
                 var entry = data.dialogues[currentDialogueIndex];
+
+                Debug.Log($"대사 요청: {entry.id} {entry.dialogueText}");
 
                 yield return StartCoroutine(NpcDialogueManager.Instance.StartStoryDialogue(entry));
                 currentDialogueIndex++;
@@ -224,6 +241,21 @@ public class StoryManager : MonoBehaviour
             if (!string.IsNullOrEmpty(evt.background))
             {
                 yield return StartCoroutine(ChangeBackground(evt.background, currentLightingAlpha));
+            }
+
+            if (SceneManager.GetActiveScene().name == "StoryScene")
+            {
+                foreach (var character in characters)
+                {
+                    character.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+                }
+            }
+            else
+            {
+                foreach (var character in characters)
+                {
+                    character.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+                }
             }
 
             CharacterMotion targetChar = GetCharacter(evt.charID);

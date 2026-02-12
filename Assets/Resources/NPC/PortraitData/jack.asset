@@ -18,10 +18,11 @@ MonoBehaviour:
   happyPortrait: {fileID: 0}
   sadPortrait: {fileID: 0}
   angryPortrait: {fileID: 0}
-  surprisedPortrait: {fileID: 4755077970328992408, guid: f7b914efed1de5d429c9fe2ef8b9ef62, type: 3}
-  confusedPortrait: {fileID: 0}
+  surprisedPortrait: {fileID: 0}
+  confusedPortrait: {fileID: 4755077970328992408, guid: f7b914efed1de5d429c9fe2ef8b9ef62, type: 3}
   excitedPortrait: {fileID: 0}
   calmPortrait: {fileID: 0}
   nervousPortrait: {fileID: 0}
   friendlyPortrait: {fileID: 0}
   hostilePortrait: {fileID: 0}
+  nothingPortrait: {fileID: 7463831196914372325, guid: 79a5be79d180339419d791ef39685a34, type: 3}
