@@ -343,7 +343,7 @@ public class StoryManager : MonoBehaviour
                     SoundManager.Instance.PlayBGM(bgmType);
                     break;
 
-                case "BGM_STOP":
+                case "BGM_END":
                     SoundManager.Instance.StopBGM();
                     break;
             }

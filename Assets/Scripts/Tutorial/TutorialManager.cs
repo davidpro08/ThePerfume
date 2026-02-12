@@ -145,7 +145,7 @@ public class TutorialManager : MonoBehaviour
                 });
             }
         }
-
+        SoundManager.Instance.PlayBGM(BGMType.Title);
         if (!StoryManager.Instance.isStoryMode) isProcessing = false;
     }
 
