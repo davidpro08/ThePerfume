@@ -86,7 +86,7 @@ public class TutorialManager : MonoBehaviour
         var save = SaveManager.Instance.CurrentSave;
 
         string currentSceneName = SceneManager.GetActiveScene().name;
-        bool isAllowed = currentSceneName == "lab" || currentSceneName == "bench" || currentSceneName == "distiller" || currentSceneName == "Mixture";
+        bool isAllowed = currentSceneName == "lab" || currentSceneName == "bench" || currentSceneName == "distiller" || currentSceneName == "Mixture" || currentSceneName == "Main";
 
         if (!save.story.isPrologueCompleted)
         {
