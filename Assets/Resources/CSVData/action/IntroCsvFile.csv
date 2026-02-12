@@ -38,7 +38,7 @@ ANIMATION,,,,,,,,,stopWithJang,,,
 DIALOGUE,,,,,,,,,1,,,으…으윽…
 SFX_END,,,,,,,,,,,Dragging,
 ON,jang,,,,,,,,,,,
-TELEPORT,jang,,,0.464,0.388,,,,,,,
+TELEPORT,jang,,,0.442,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,surprise,,,
 DIALOGUE,,,,,,,,,2,,,"잭: 바, 방금… 소리가…?"
 LOOK,jack,,,,,1,,,,,,
@@ -64,30 +64,31 @@ ANIMATION,jack,,,,,,,,shake,,,떨림
 ANIMATION,jang,,,,,,,,wakeUp,,,일어나기
 LOOK,jang,,,,,1,,,,,,
 DIALOGUE,,,,,,,,,3,,,"잭: 으… 어, 어머니… … (29열까지"
-MOVE,jang,0.464,0.388,0.472,0.388,,,5,,,,
-MOVE,jack,0.528,0.388,0.561,0.388,,,2,,,,
+MOVE,jang,0.442,0.388,0.451,0.388,,,5,,,,
+MOVE,jack,0.528,0.388,0.56,0.388,,,2,,,,
 LOOK,jack,,,,,,-1,,,,,
 LOOK,jack,,,,,-1,,,,,,
 SFX,,,,,,,,,,,Scared,
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,2,,,장: 멀쩡해요.
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.472,0.388,0.478,0.388,,,2,,,,
+MOVE,jang,0.451,0.388,0.459,0.388,,,2,,,,
 DIALOGUE,,,,,,,,,1,,,잭:저..정말이네?...
-MOVE,jang,0.478,0.388,0.484,0.388,,,1,,,,
+MOVE,jang,0.459,0.388,0.468,0.388,,,1,,,,
 WAIT,,,,,,,,,1,,,
-MOVE,jang,0.484,0.388,0.489,0.388,,,1,,,,// 근데 앉아있는데 어캐 흔들림
+MOVE,jang,0.468,0.388,0.476,0.388,,,1,,,,// 근데 앉아있는데 어캐 흔들림
 ANIMATION,jack,,,,,,,,shake,,,
 DIALOGUE,,,,,,,,,1,,,잭: 오….오오…! …
 EFFECT,,,,,,,,,SHAKE,,,
 ANIMATION,jang,,,,,,,,lay,,,
 SFX,,,,,,,,,,,FallDown,
 DIALOGUE,,,,,,,,,6,,,장: 아.
-MOVE,jack,0.561,0.388,0.543,0.388,,,,,,,
+MOVE,jack,0.56,0.388,0.543,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,perfume,,,
 SFX,,,,,,,,,,,PerfumeSpray,
+MOVE,jack,0.543,0.388,0.554,0.388,,,,,,,
 DIALOGUE,,,,,,,,,8,,,장: …? 뭐하는 …겁니까?
 ANIMATION,jang,,,,,,,,wakeUp,,,
 LOOK,jack,,,,,1,,,,,,
