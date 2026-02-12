@@ -187,13 +187,20 @@ public class SaveManager : MonoBehaviour
     public void ResetGame()
     {
         CurrentSave = new GameSave();
-        Save(CurrentSave);
+
+        CurrentSave.story = new StorySaveData();
+        CurrentSave.tutorial = new TutorialSaveData();
+
+        if (StoryManager.Instance != null)
+            StoryManager.Instance.ResetStory();
 
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.ResetInventory();
 
         if (TutorialManager.Instance != null)
             TutorialManager.Instance.ResetTutorial();
+
+        Save(CurrentSave);
     }
 
     // ========== 모든 SaveManager 통합 =========

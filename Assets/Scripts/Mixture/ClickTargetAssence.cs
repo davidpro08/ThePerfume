@@ -91,6 +91,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     return;
                 }
                 mixture.PlaceEssence(mixture.baseData, mixture.baseL);
+                SoundManager.Instance.PlaySFX(SFXType.PutEssence);
                 break;
             case TargetEssenceType.Middle:
                 // 아이템 소환
@@ -101,6 +102,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     return;
                 }
                 mixture.PlaceEssence(mixture.middleData, mixture.middleL);
+                SoundManager.Instance.PlaySFX(SFXType.PutEssence);
                 break;
             case TargetEssenceType.Top:
                 // 아이템 소환
@@ -111,6 +113,7 @@ public class ClickTargetAssence : MonoBehaviour, IPointerDownHandler, IPointerUp
                     return;
                 }
                 mixture.PlaceEssence(mixture.topData, mixture.topL);
+                SoundManager.Instance.PlaySFX(SFXType.PutEssence);
                 break;
         }
     }

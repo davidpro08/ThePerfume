@@ -74,6 +74,7 @@ public class FlowerPetalUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private void HarvestPetal()
     {
         isHandled = true;
+        SoundManager.Instance.PlaySFX(SFXType.FlowerTrim);
         gameObject.SetActive(false);
 
         if (flowerManager != null)

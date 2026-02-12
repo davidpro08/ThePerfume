@@ -7,7 +7,6 @@ public class CharacterMotion : Npc
 {
     // 사용 가능 : SetStartDialogueId(string dialogueId),
     // GetNpcId(), GetCurrentPortraitSprite(NpcState npcState)
-    private Animator animator;
 
     protected override void Start()
     {
@@ -17,7 +16,7 @@ public class CharacterMotion : Npc
     protected void Awake()
     {
         InitializePortrait();
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     // 캐릭터 시작 위치
@@ -47,7 +46,7 @@ public class CharacterMotion : Npc
     {
         if (!gameObject.activeSelf)
             gameObject.SetActive(true);
-        animator.Play(animationName);
+        _animator.Play(animationName);
     }
 
     private IEnumerator WalkRoutine(UnityEngine.Vector2 startPos, UnityEngine.Vector2 endPos, float duration, bool useMoveAnim)

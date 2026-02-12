@@ -93,6 +93,7 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
                 if (!isWatered)
                 {
                     isWatered = true;
+                    SoundManager.Instance.PlaySFX(SFXType.Water);
                     // 물 주는 애니메이션이 이 아래에 들어가야함
                     // 여기!
                     toolData.nowDurability -= toolData.useDurability; // 내구도 감소
@@ -100,7 +101,6 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
                     Debug.Log($"물뿌리개 현재 내구도: {toolData.nowDurability}");
                     UpdateTile();
                     //FarmRuleTile.SetFarmState(gridPosition, FarmRuleTile.FarmState.Planted, tilemap);
-
                     SaveManager.Instance.SaveGame();
                 }
                 else
@@ -150,6 +150,8 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
         {
             farmCollider.enabled = false; // 씨앗 심으면 farm 콜라이더 종료
         }
+
+        SoundManager.Instance.PlaySFX(SFXType.PlantSeed);
 
         SaveManager.Instance.SaveGame();
     }
@@ -261,6 +263,7 @@ public class Farm : MonoBehaviour, IInteract, IInstallation
                 farmCollider.enabled = true; // 작물 수확하고 나서 콜라이더 활성화
             }
 
+            SoundManager.Instance.PlaySFX(SFXType.Harvest);
             SaveManager.Instance.SaveGame();
         }
     }

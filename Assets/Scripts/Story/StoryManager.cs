@@ -74,14 +74,10 @@ public class StoryManager : MonoBehaviour
         {
             DontDestroyOnLoad(characterParent);
         }
-        if (InventoryUIManager.Instance != null)
-        {
-            InventoryUIManager.Instance.CloseHotbar();
-        }
+
 
         LoadStoryData();
-
-        CheckAndResumeStory();
+        SetStoryMode(false);
     }
 
     public void PlayStorySequence(UnityEngine.TextAsset csvFile, string newDialogueID, System.Action onComplete)
@@ -130,6 +126,16 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    public void ResetStory()
+    {
+        isPrologueDone = false;
+        currentDialogueIndex = 0;
+        isChapter1Done = false;
+        SetStoryMode(false);
+        currentDialogueIndex = 0;
+        dialogueID = "";
+    }
+
     IEnumerator ShowDialogue(int count)
     {
         if (dialogueFile == null)
@@ -146,12 +152,17 @@ public class StoryManager : MonoBehaviour
             Debug.LogError($"현재 할당된 파일: {dialogueFile.name}");
             yield break;
         }
+
+        Debug.Log($"대화 파일: 총 {dialogueFile.name}, 현재 인덱스: {currentDialogueIndex}, 요청된 대사 수: {count}");
+
         if (!string.IsNullOrEmpty(dialogueID))
         {
             int foundIndex = data.dialogues.FindIndex(x => x.id == dialogueID);
             if (foundIndex != -1)
             {
                 currentDialogueIndex = foundIndex;
+
+                Debug.Log($"ID '{dialogueID}'에 해당하는 대사 인덱스 {foundIndex}로 이동합니다.");
                 dialogueID = "";
             }
             else
@@ -165,6 +176,8 @@ public class StoryManager : MonoBehaviour
             if (currentDialogueIndex < data.dialogues.Count)
             {
                 var entry = data.dialogues[currentDialogueIndex];
+
+                Debug.Log($"대사 요청: {entry.id} {entry.dialogueText}");
 
                 yield return StartCoroutine(NpcDialogueManager.Instance.StartStoryDialogue(entry));
                 currentDialogueIndex++;
@@ -228,6 +241,21 @@ public class StoryManager : MonoBehaviour
             if (!string.IsNullOrEmpty(evt.background))
             {
                 yield return StartCoroutine(ChangeBackground(evt.background, currentLightingAlpha));
+            }
+
+            if (SceneManager.GetActiveScene().name == "StoryScene")
+            {
+                foreach (var character in characters)
+                {
+                    character.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+                }
+            }
+            else
+            {
+                foreach (var character in characters)
+                {
+                    character.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+                }
             }
 
             CharacterMotion targetChar = GetCharacter(evt.charID);
@@ -347,7 +375,7 @@ public class StoryManager : MonoBehaviour
                     SoundManager.Instance.PlayBGM(bgmType);
                     break;
 
-                case "BGM_STOP":
+                case "BGM_END":
                     SoundManager.Instance.StopBGM();
                     break;
             }
@@ -439,7 +467,7 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    private void SetStoryMode(bool isStoryMode)
+    public void SetStoryMode(bool isStoryMode)
     {
         this.isStoryMode = isStoryMode;
 
@@ -447,6 +475,11 @@ public class StoryManager : MonoBehaviour
         if (player != null)
         {
             player.SetPlayerDisenabled(isStoryMode);
+        }
+
+        if (InventoryUIManager.Instance != null)
+        {
+            InventoryUIManager.Instance.CloseHotbar();
         }
 
         if (characterParent != null)
@@ -531,29 +564,6 @@ public class StoryManager : MonoBehaviour
         isStoryMode = storyData.isStoryMode;
 
         if (this.isStoryMode) SetStoryMode(true);
-    }
-
-    public void CheckAndResumeStory()
-    {
-        var save = SaveManager.Instance.CurrentSave;
-
-        if (!isPrologueDone)
-        {
-            PlayStorySequence(IntroCsvFile, "Intro_dialogue", onPrologueComplete);
-        }
-        else if (save.tutorial.isTutorialEnd && !isChapter1Done)
-        {
-            PlayStorySequence(nextStroyCsvFile, "dietrich_008", onChapter1Complete);
-            //SetStoryMode(false);
-        }
-        else
-        {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "StoryScene")
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("lab");
-            }
-            SetStoryMode(false);
-        }
     }
     #endregion
 }

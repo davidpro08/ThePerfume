@@ -87,6 +87,7 @@ public class Mixture : MonoBehaviour
     {
         if (essenceData == null || target == null) return false;
 
+        SoundManager.Instance.PlaySFX(SFXType.PutInPerfumeBottle);
         var sr = target.GetComponent<SpriteRenderer>();
         //if (sr.enabled == true) return false;
         var srF = from.GetComponent<SpriteRenderer>();

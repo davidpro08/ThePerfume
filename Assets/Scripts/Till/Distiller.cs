@@ -54,6 +54,11 @@ public class Distiller : MonoBehaviour
         if (essenceGO != null) essenceSR = essenceGO.GetComponent<SpriteRenderer>();
     }
 
+    void OnDisable()
+    {
+        SoundManager.Instance.StopLoopSFX("DistillerBoiling");
+    }
+
     // ================ 클릭 관련 ================
 
     public void PlaceFuel()
@@ -220,6 +225,8 @@ public class Distiller : MonoBehaviour
         float totalTime = craftDurationSec;
         float elapsed = 0f;
 
+        SoundManager.Instance.PlayLoopSFX("DistillerBoiling");
+
         // 물방울 애니메이션 오브젝트 활성화
         waterDrop.SetActive(true);
 
@@ -234,6 +241,7 @@ public class Distiller : MonoBehaviour
         }
 
         waterDrop.SetActive(false);
+        SoundManager.Instance.StopLoopSFX("DistillerBoiling");
 
         FinalizeCraft();
     }

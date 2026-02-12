@@ -25,3 +25,4 @@ MonoBehaviour:
   nervousPortrait: {fileID: 0}
   friendlyPortrait: {fileID: 0}
   hostilePortrait: {fileID: 0}
+  nothingPortrait: {fileID: 7463831196914372325, guid: 79a5be79d180339419d791ef39685a34, type: 3}

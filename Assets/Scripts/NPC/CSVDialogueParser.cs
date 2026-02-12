@@ -57,6 +57,7 @@ public class CSVDialogueParser : MonoBehaviour
 
             try
             {
+                Debug.Log($"{dialogueFile.dialogueName} 파싱하기");
                 var parsedData = CSVParser.ParseFromTextAsObject(dialogueFile.dialogueCSV.text, true);
 
                 if (!ValidateDialogueData(parsedData))
@@ -124,17 +125,18 @@ public class CSVDialogueParser : MonoBehaviour
 
         foreach (var row in parsedData)
         {
-            string id = GetString(row, "ID");
+            string id = GetString(row, "ID").Trim();
             if (string.IsNullOrEmpty(id)) continue;
 
-            string nextDialogueIdsStr = GetString(row, "NEXT_DIALOGUE_IDS");
-            if (string.IsNullOrEmpty(nextDialogueIdsStr))
+            bool isEndDialogue = GetBool(row, "IS_END_DIALOGUE");
+
+            string nextDialogueIdsStr = GetString(row, "NEXT_DIALOGUE_IDS").Trim();
+            if (string.IsNullOrEmpty(nextDialogueIdsStr) && !isEndDialogue)
             {
                 Debug.LogWarning($"대화 ID {id}: NEXT_DIALOGUE_IDS가 비어있습니다. 건너뜁니다.");
                 continue;
             }
 
-            bool isEndDialogue = GetBool(row, "IS_END_DIALOGUE");
             string[] nextDialogueIds;
 
             if (isEndDialogue)
@@ -182,8 +184,21 @@ public class CSVDialogueParser : MonoBehaviour
     {
         if (dialogueDataCollection.TryGetValue(dialogueName, out var dialogueData))
         {
-            return dialogueData.GetDialogueById(id);
+            var entry = dialogueData.GetDialogueById(id);
+            if (entry == null)
+            {
+                Debug.Log($"[Parser Error] '{dialogueName}' 파일 안에 {id} 존재 않음");
+                foreach (var d in dialogueData.dialogues)
+                {
+                    if (d.id.Contains(id) || id.Contains(d.id))
+                    {
+                        Debug.Log($"[힌트] 혹시 이걸 찾으셨나요? 저장된 ID: '{d.id}' (길이: {d.id.Length}) / 요청한 ID: '{id}' (길이: {id.Length})");
+                    }
+                }
+            }
+            return entry;
         }
+        Debug.LogError($"[Parser Error] '{dialogueName}' 파일 자체가 로드되지 않았습니다.");
         return null;
     }
 

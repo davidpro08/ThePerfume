@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] Transform player;
-    [SerializeField] string[] followScenes = { "lab", "NPC_house", "Village" };
+    [SerializeField] string[] followScenes = { "lab", "Isolde_NPC_house", "Ansel_NPC_house", "Village" };
     [SerializeField] string[] overviewScenes = { "bench", "distiller", "Mixture", "StoryScene" };
 
     Bounds overviewBounds;
@@ -50,6 +50,12 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate()
     {
+        if (StoryManager.Instance != null && StoryManager.Instance.isStoryMode)
+        {
+            transform.position = new Vector3(0, 0, transform.position.z);
+            return;
+        }
+
         float currentAspect = (float)Screen.width / (float)Screen.height;
         float zoomMultiplier = 1f;
         if (currentAspect < TARGET_ASPECT)
