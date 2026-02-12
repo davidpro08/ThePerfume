@@ -4564,6 +4564,7 @@ MonoBehaviour:
   - {fileID: 1481788876}
   - {fileID: 7089240412829669439}
   - {fileID: 1304543044}
+  - {fileID: 1646733345}
 --- !u!4 &1214307085
 Transform:
   m_ObjectHideFlags: 0
@@ -5111,64 +5112,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1349125768
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1349125770}
-  - component: {fileID: 1349125772}
-  m_Layer: 0
-  m_Name: SoundManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1349125770
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349125768}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0045776, y: -1.1364746, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1349125772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349125768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 966035904bb34ca2ad259c34cdd5a5f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmMixerGroup: {fileID: 513531789022766492, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  sfxMixerGroup: {fileID: 2473508087095233513, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  loopSfxParent: {fileID: 0}
-  sfxList:
-  - type: 0
-    clip: {fileID: 8300000, guid: 6141a7eed0dc39e47bfe4860fe71afca, type: 3}
-  - type: 4
-    clip: {fileID: 8300000, guid: 262ac28a85f521c4c9b154b336ea1f62, type: 3}
-  - type: 7
-    clip: {fileID: 8300000, guid: 59714508d2a3d8d41a72f6b9701dcbda, type: 3}
-  bgmList:
-  - type: 0
-    clip: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
-  bgmSource: {fileID: 0}
 --- !u!4 &1424289057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5071058245687883426, guid: 9e6ff6866fad9174a85d3a9a6459dfcc, type: 3}
@@ -6165,7 +6108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmMixerGroup: {fileID: 513531789022766492, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
   sfxMixerGroup: {fileID: 2473508087095233513, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  loopSfxParent: {fileID: 0}
   sfxList:
   - type: 0
     clip: {fileID: 8300000, guid: 6141a7eed0dc39e47bfe4860fe71afca, type: 3}
@@ -6173,6 +6115,22 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 262ac28a85f521c4c9b154b336ea1f62, type: 3}
   - type: 7
     clip: {fileID: 8300000, guid: 59714508d2a3d8d41a72f6b9701dcbda, type: 3}
+  - type: 10
+    clip: {fileID: 8300000, guid: 2254e3b3b3e6cdd45b6f277ade08bfee, type: 3}
+  - type: 11
+    clip: {fileID: 8300000, guid: aa5fdb44e98da4e41a946e38d9acb7bd, type: 3}
+  - type: 8
+    clip: {fileID: 8300000, guid: 2461769d563e44348baa602f0c4db6b3, type: 3}
+  - type: 9
+    clip: {fileID: 8300000, guid: 8f06ed25e83486b4aad83f7af0e4f5ba, type: 3}
+  - type: 12
+    clip: {fileID: 8300000, guid: 932bae24ad9b44d40a71b3f6d83ab638, type: 3}
+  - type: 13
+    clip: {fileID: 8300000, guid: 6ddcaa56ae57d944e89a7a0898a48e29, type: 3}
+  - type: 14
+    clip: {fileID: 8300000, guid: 9d888494a99978746b63fad685b81693, type: 3}
+  - type: 15
+    clip: {fileID: 8300000, guid: 1973f489adbb326428f298cef2786a0d, type: 3}
   bgmList:
   - type: 0
     clip: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
@@ -9001,7 +8959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 22.987976, y: -25}
+  m_AnchoredPosition: {x: 22.988037, y: -25}
   m_SizeDelta: {x: -914.023, y: -350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2881786164042881740
@@ -22791,7 +22749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcId: narration
   startDialogueId: 
-  portraitData: {fileID: 0}
+  portraitData: {fileID: 11400000, guid: 60fc6f79c2631734c98e0cd676445c34, type: 2}
   dialogueObjects: []
   moveSpeed: 1
   moveDuration: 0.8
@@ -23990,5 +23948,4 @@ SceneRoots:
   - {fileID: 1018056549}
   - {fileID: 2038711225}
   - {fileID: 808789314}
-  - {fileID: 1349125770}
   - {fileID: 6633822396277000660}

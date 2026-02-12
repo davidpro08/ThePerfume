@@ -12,6 +12,14 @@ public enum SFXType
     PlantSeed,
     Water,
     Harvest,
+    DistillerBoiling,
+    PutEssence,
+    PutInPerfumeBottle,
+    FlowerTrim,
+    WateringCan,
+    TillSound,
+    
+
 }
 
 public enum BGMType

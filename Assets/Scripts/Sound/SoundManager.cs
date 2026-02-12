@@ -25,10 +25,6 @@ public class SoundManager : MonoBehaviour
         public AudioClip clip;
     }
 
-    [Header("Loop SFX Settings")]
-    public Transform loopSfxParent;
-
-
     public List<SFXData> sfxList;
     public List<BGMData> bgmList;
 
@@ -94,8 +90,7 @@ public class SoundManager : MonoBehaviour
         if (System.Enum.TryParse(name, out SFXType type) && sfxDict.ContainsKey(type))
         {
             GameObject go = new GameObject($"LoopSFX_{name}");
-            if (loopSfxParent != null)
-                go.transform.SetParent(loopSfxParent);
+            go.transform.SetParent(this.transform);
 
             AudioSource source = go.AddComponent<AudioSource>();
             source.outputAudioMixerGroup = sfxMixerGroup;
