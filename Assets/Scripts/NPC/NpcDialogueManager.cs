@@ -187,12 +187,18 @@ public class NpcDialogueManager : MonoBehaviour
         if (portrait != null)
         {
             dialoguePortraitImage.sprite = portrait;
+            Color tempC = dialoguePortraitImage.color;
+            tempC.a = 1f;
+            dialoguePortraitImage.color = tempC;
 
             Debug.Log($"[Portrait Update] 초상화 갱신 성공! 이미지: {portrait.name}");
         }
         else
         {
-            Debug.LogWarning($"[Portrait Warning] {currentNpc.name}에게서 '{dialogue.condition}' 상태의 이미지를 못 가져왔습니다.");
+            dialoguePortraitImage.sprite = null;
+            Color tempC = dialoguePortraitImage.color;
+            tempC.a = 0f;
+            dialoguePortraitImage.color = tempC;
         }
 
         // // 현재 대화 중인 NPC 객체가 있으면 대화창 초상화만 업데이트
