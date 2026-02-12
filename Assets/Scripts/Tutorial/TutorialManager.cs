@@ -93,7 +93,15 @@ public class TutorialManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name != "StoryScene")
             {
                 isProcessing = false;
-                SceneManager.LoadScene("StoryScene");
+                // 로딩 UI를 사용하여 씬 전환
+                if (LoadingUIManager.Instance != null)
+                {
+                    LoadingUIManager.Instance.LoadScene("StoryScene");
+                }
+                else
+                {
+                    SceneManager.LoadScene("StoryScene");
+                }
                 yield break;
             }
 
@@ -106,7 +114,15 @@ public class TutorialManager : MonoBehaviour
                     save.story.isPrologueCompleted = true;
                     SaveManager.Instance.SaveGame();
                     isProcessing = false;
-                    SceneManager.LoadScene("lab");
+                    // 로딩 UI를 사용하여 씬 전환
+                    if (LoadingUIManager.Instance != null)
+                    {
+                        LoadingUIManager.Instance.LoadScene("lab");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("lab");
+                    }
                 }
             );
         }
@@ -114,7 +130,15 @@ public class TutorialManager : MonoBehaviour
         {
             if (!isAllowed)
             {
-                SceneManager.LoadScene("lab");
+                // 로딩 UI를 사용하여 씬 전환
+                if (LoadingUIManager.Instance != null)
+                {
+                    LoadingUIManager.Instance.LoadScene("lab");
+                }
+                else
+                {
+                    SceneManager.LoadScene("lab");
+                }
                 yield break;
             }
             Debug.Log(">>> [2] 향수 튜토리얼 진행 중");
@@ -128,7 +152,15 @@ public class TutorialManager : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name != "lab")
             {
-                SceneManager.LoadScene("lab");
+                // 로딩 UI를 사용하여 씬 전환
+                if (LoadingUIManager.Instance != null)
+                {
+                    LoadingUIManager.Instance.LoadScene("lab");
+                }
+                else
+                {
+                    SceneManager.LoadScene("lab");
+                }
                 yield break;
             }
             Debug.Log(">>> [3] 챕터1 시작");
@@ -305,7 +337,15 @@ public class TutorialManager : MonoBehaviour
                     save.tutorial.isTutorialEnd = true;
                     SaveManager.Instance.SaveGame();
                     currentStep = null;
-                    SceneManager.LoadScene("lab");
+                    // 로딩 UI를 사용하여 씬 전환
+                    if (LoadingUIManager.Instance != null)
+                    {
+                        LoadingUIManager.Instance.LoadScene("StoryScene");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("lab");
+                    }
                 }
             }
         }
