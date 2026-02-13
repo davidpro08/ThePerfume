@@ -15,7 +15,7 @@ DIALOGUE,,,,,,,,,2,,,(지이익… 지이익…)
 SFX_END,,,,,,,,,,,Dragging,
 SFX_START,,,,,,,,,0.5,,Dragging,
 DIALOGUE,,,,,,,,,2,,,(피곤하다.)
-SFX,,,,,,,,,,,Sigh,한숨 sfx
+SFX,,,,,,,,,,,sigh,한숨 sfx
 DIALOGUE,,,,,,,,,3,,,장: (돈이 아무리 궁해도 쓰리잡은 무리였나…)
 SFX_END,,,,,,,,,,,Dragging,
 SFX_START,,,,,,,,,0.7,,Dragging,
@@ -85,19 +85,26 @@ SFX,,,,,,,,,,,FallDown,
 DIALOGUE,,,,,,,,,6,,,장: 아.
 MOVE,jack,0.56,0.388,0.543,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,poket,,,
-LOOK,jack,,,,,-1,,,,,,
+ANIMATION,jack,,,,,,,,poket,,,
 ANIMATION,jack,,,,,,,,perfume,,,
 SFX,,,,,,,,,,,PerfumeSpray,
 MOVE,jack,0.543,0.388,0.554,0.388,,,,,,,
-LOOK,jack,,,,,-1,,,,,,
 DIALOGUE,,,,,,,,,8,,,장: …? 뭐하는 …겁니까?
 ANIMATION,jang,,,,,,,,wakeUp,,,
 LOOK,jack,,,,,1,,,,,,
-DIALOGUE,,,,,,,,,33,,,잭: 하하… 이거…
+DIALOGUE,,,,,,,,,16,,,잭: 하하… 이거…
+EFFECT,,,,,,,,,FADE_TO_70,,,
+DIALOGUE,,,,,,,,,12,,,장의 직업은 조향사.
+EFFECT,,,,,,,,,FADE_OUT,,,
+DIALOGUE,,,,,,,,,2,,,잭: … 알겠네.
+EFFECT,,,,,,,,,FADE_TO_70,,,
+DIALOGUE,,,,,,,,,5,,,장은 긴장감으로 울리는
+EFFECT,,,,,,,,,FADE_OUT,,,
+DIALOGUE,,,,,,,,,1,,,"잭: 그런데, 그 말을 하려면"
 BGM_START,,,,,,,,,tutorial2,,,
 DIALOGUE,,,,,,,,,4,,,
 EFFECT,,,,,,,,,SHAKE,,,
-EFFECT,,,,,,,,,FADE_TO_70,,,
+BACKGROUND,,,,,,,,,,black,,
 DIALOGUE,,,,,,,,,7,,,
 BGM_END,,,,,,,,,tutorial2,,,
 EFFECT,,,,,,,,,FADE_OUT,,,

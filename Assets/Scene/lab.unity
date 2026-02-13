@@ -423,7 +423,7 @@ MonoBehaviour:
   - dialogueName: Daily
     dialogueCSV: {fileID: 4900000, guid: 7c35c6f0a0fde294dbb50da31fb4d48c, type: 3}
   - dialogueName: Intro_dialogue
-    dialogueCSV: {fileID: 4900000, guid: 020823b0a2d10fa488287f7a125f9ca0, type: 3}
+    dialogueCSV: {fileID: 4900000, guid: f87085cae6dd75d43be496de80e171db, type: 3}
   - dialogueName: Tutorial_makingPerfume
     dialogueCSV: {fileID: 4900000, guid: e0c1f27b7b8f622469e40338ff738195, type: 3}
   - dialogueName: Tutorial_Flower
@@ -4564,7 +4564,7 @@ MonoBehaviour:
   - {fileID: 1481788876}
   - {fileID: 7089240412829669439}
   - {fileID: 1304543044}
-  - {fileID: 1646733345}
+  - {fileID: 0}
 --- !u!4 &1214307085
 Transform:
   m_ObjectHideFlags: 0
@@ -4877,7 +4877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -4924,7 +4924,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2048316220}
-  - {fileID: 1505156442}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5578,16 +5577,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505156441}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1304543048}
+  m_Father: {fileID: 2048316220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.3129, y: 150.3}
+  m_AnchoredPosition: {x: 0.00008177757, y: -0.39749146}
   m_SizeDelta: {x: 535.44, y: 36.271}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1505156443
@@ -5979,195 +5978,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567581003}
   m_CullTransparentMesh: 1
---- !u!1 &1646733345
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1646733348}
-  - component: {fileID: 1646733347}
-  - component: {fileID: 1646733346}
-  m_Layer: 0
-  m_Name: SoundManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1646733346
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646733345}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 513531789022766492, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
-  m_Resource: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &1646733347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646733345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 966035904bb34ca2ad259c34cdd5a5f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmMixerGroup: {fileID: 513531789022766492, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  sfxMixerGroup: {fileID: 2473508087095233513, guid: 303d3a7e518abe540ac8be3c5ab753f3, type: 2}
-  sfxList:
-  - type: 0
-    clip: {fileID: 8300000, guid: 6141a7eed0dc39e47bfe4860fe71afca, type: 3}
-  - type: 4
-    clip: {fileID: 8300000, guid: 262ac28a85f521c4c9b154b336ea1f62, type: 3}
-  - type: 7
-    clip: {fileID: 8300000, guid: 59714508d2a3d8d41a72f6b9701dcbda, type: 3}
-  - type: 10
-    clip: {fileID: 8300000, guid: 2254e3b3b3e6cdd45b6f277ade08bfee, type: 3}
-  - type: 11
-    clip: {fileID: 8300000, guid: aa5fdb44e98da4e41a946e38d9acb7bd, type: 3}
-  - type: 8
-    clip: {fileID: 8300000, guid: 2461769d563e44348baa602f0c4db6b3, type: 3}
-  - type: 9
-    clip: {fileID: 8300000, guid: 8f06ed25e83486b4aad83f7af0e4f5ba, type: 3}
-  - type: 12
-    clip: {fileID: 8300000, guid: 932bae24ad9b44d40a71b3f6d83ab638, type: 3}
-  - type: 13
-    clip: {fileID: 8300000, guid: 6ddcaa56ae57d944e89a7a0898a48e29, type: 3}
-  - type: 14
-    clip: {fileID: 8300000, guid: 9d888494a99978746b63fad685b81693, type: 3}
-  - type: 15
-    clip: {fileID: 8300000, guid: 1973f489adbb326428f298cef2786a0d, type: 3}
-  - type: 17
-    clip: {fileID: 8300000, guid: ab93dd5295c8f90499e94a43bb2023c4, type: 3}
-  - type: 18
-    clip: {fileID: 8300000, guid: 0237121ef2d6501458b06fb5c8dcabc9, type: 3}
-  - type: 19
-    clip: {fileID: 8300000, guid: 4af366632ca529245aaa5fe0201392fe, type: 3}
-  - type: 20
-    clip: {fileID: 8300000, guid: d468fd6c0cb70684f851001889e85a0f, type: 3}
-  - type: 22
-    clip: {fileID: 8300000, guid: 6ffd3c4702857cb45877a3f65b45dacb, type: 3}
-  - type: 23
-    clip: {fileID: 8300000, guid: ae807cdc0e328d3409b970864e13b4ae, type: 3}
-  - type: 24
-    clip: {fileID: 8300000, guid: ad3dafd7f26466d4d8c0e24df07299e8, type: 3}
-  bgmList:
-  - type: 0
-    clip: {fileID: 8300000, guid: 1bcdde4467349e24bb438fc3d7162932, type: 3}
-  - type: 1
-    clip: {fileID: 8300000, guid: 8064e068a58069445bef2947c224984f, type: 3}
-  - type: 2
-    clip: {fileID: 8300000, guid: fa2e5dd2d0db54749a00ac86f95545d2, type: 3}
-  bgmSource: {fileID: 1646733346}
---- !u!4 &1646733348
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646733345}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0045776, y: -1.1364746, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1665320981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7727,13 +7537,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1505156442}
   m_Father: {fileID: 1304543048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.3127136, y: 150.2982}
-  m_SizeDelta: {x: -236.2765, y: -397.7322}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -1.313, y: -74.399}
+  m_SizeDelta: {x: 535.44, y: 37.066}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048316221
 MonoBehaviour:
@@ -7748,7 +7559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7400352, g: 0.71125233, b: 0.76819396, a: 0.392}
+  m_Color: {r: 0.3366475, g: 0.30552304, b: 0.3638814, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8651,7 +8462,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.95
+  orthographic size: 6.9333334
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9534,9 +9345,9 @@ MonoBehaviour:
   - {fileID: 3692195166896854915}
   - {fileID: 678030841490465509}
   characterParent: {fileID: 6374291187219118250}
-  IntroCsvFile: {fileID: 4900000, guid: 05f77b5d1b2027a469a4a76c81bd471e, type: 3}
+  IntroCsvFile: {fileID: 4900000, guid: 360535d03a7da2d429db6595d9df722f, type: 3}
   nextStroyCsvFile: {fileID: 4900000, guid: 83f7a1e21dfe3ad4686b21ebc13db30b, type: 3}
-  dialogueFile: {fileID: 4900000, guid: 020823b0a2d10fa488287f7a125f9ca0, type: 3}
+  dialogueFile: {fileID: 4900000, guid: f87085cae6dd75d43be496de80e171db, type: 3}
   backgroundParent: {fileID: 3680740214352740029}
   isStoryMode: 0
   isPrologueDone: 0
@@ -24026,7 +23837,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 883179396}
   - {fileID: 1734265763}
-  - {fileID: 1646733348}
   - {fileID: 1214307085}
   - {fileID: 2730497970852263581}
   - {fileID: 988003427038816349}
@@ -24041,6 +23851,7 @@ SceneRoots:
   - {fileID: 1304543048}
   - {fileID: 1481788878}
   - {fileID: 2453016227555062285}
+  - {fileID: 6633822396277000660}
   - {fileID: 1068351679}
   - {fileID: 4968550428432087313}
   - {fileID: 2051033302}
@@ -24050,4 +23861,3 @@ SceneRoots:
   - {fileID: 1018056549}
   - {fileID: 2038711225}
   - {fileID: 808789314}
-  - {fileID: 6633822396277000660}

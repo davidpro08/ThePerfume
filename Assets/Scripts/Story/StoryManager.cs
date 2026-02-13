@@ -355,7 +355,7 @@ public class StoryManager : MonoBehaviour
                     SoundManager.Instance.PlayLoopSFX(evt.sfx, float.Parse(evt.value));
                     break;
 
-                case "SFX_STOP":
+                case "SFX_END":
                     SoundManager.Instance.StopLoopSFX(evt.sfx);
                     break;
 
