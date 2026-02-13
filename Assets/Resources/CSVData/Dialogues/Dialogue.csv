@@ -1,0 +1,151 @@
+﻿ID,NPC_ID,DIALOGUE_TEXT,CHOICES,NEXT_DIALOGUE_IDS,CONDITION,IS_END_DIALOGUE
+narration_001,narration,(지이익… 지이익…),,jang_001,,TRUE
+jang_001,jang,… …,,narration_002,Nothing,FALSE
+narration_002,narration,(피곤하다.),,narration_003,,FALSE
+narration_003,narration,(너무 피곤해서 환청이 다 들리는 것 같다. 마치 흙바닥 위로 무거운 물체가 끌려가는 듯한… 묘한 소음이다.),,jang_002,,FALSE
+jang_002,jang,(돈이 아무리 궁해도 쓰리잡은 무리였나…),,narration_004,Nothing,FALSE
+narration_004,narration,(일을 저질러 놓고서야 장은 일주일에 스무 시간씩 자는 삶도 젊을 때나 가능하다는 것을 뼈저리게 느끼고 있었다.),,jang_003,,FALSE
+jang_003,jang,(죽어도… 마저 잔다.),,narration_005,Nothing,FALSE
+narration_005,narration,(지이익… 지이익…),,narration_006,,FALSE
+narration_006,narration,(현대의 직장인은 알람이 울리기 전에는 하늘이 두 쪽 나도 기상하지 않는다.),,narration_007,,FALSE
+narration_007,narration,(거슬리는 소리가 계속해서 귓전을 때렸다. 하나 지금 잠에서 깨면 한국인이 아니다. 장은 편한 자세를 찾아 다시 잠들기로 했다.),,jang_004,,FALSE
+jang_004,jang,(…?),,jang_005,Nothing,FALSE
+jang_005,jang,(뭔가… 몸이 잘 움직여지지가…?),,narration_008,Nothing,FALSE
+narration_008,narration,(지이익… 지이익…),,narration_009,,FALSE
+narration_009,narration,(장은 며칠 밤을 새며 몽롱해진 정신을 겨우 붙들었다. 그리고 다시 한번 팔다리를 휘저어보려 했으나.),,narration_010,,FALSE
+narration_010,narration,(정말이다. 정말로 움직일 수가 없었다.),,narration_011,,FALSE
+narration_011,narration,(잠이 확 깼다. 한 번 정신이 드니 사위가 조금씩 선명해진다. 그러자 어째 무릎에서 화끈거리는 느낌이 들었다.),,jang_006,,FALSE
+jang_006,jang,으… 으윽...,,jack_001,Angry,FALSE
+jack_001,jack,"바, 방금… 소리가…?",,jang_007,Confused,FALSE
+jang_007,jang,으으으……,,jang_008,Angry,FALSE
+jang_008,jang,… …,,jack_002,Surprised,FALSE
+jack_002,jack,… 딸꾹.,,jang_009,Confused,FALSE
+jang_009,jang,"아, 저기…",,jack_003,Angry,FALSE
+jack_003,jack,"으, 으아아악! 시, 시체가…! 시체가……!!!",,jang_010,Confused,FALSE
+jang_010,jang,아니… 살아있습니다.,,jack_004,Surprised,FALSE
+jack_004,jack,으아아아악! 시체가 살아있다!!!,,jack_005,Confused,FALSE
+jack_005,jack,"으… 어, 어머니… 어머니이이……",,jang_011,Confused,FALSE
+jang_011,jang,… …,,jack_006,Angry,FALSE
+jack_006,jack,… 딸꾹…,,jang_012,Confused,FALSE
+jang_012,jang,멀쩡해요.,,jack_007,Angry,FALSE
+jack_007,jack,"… 지, 진짜?",,jack_008,Confused,FALSE
+jack_008,jack,저… 정말이네? 자네 어떻게… 대체 어떻게 그런 오염에서……,,jack_009,,FALSE
+jack_009,jack,"오… 오오…! 서, 설마 예언 속 면역자가…?!",,jang_013,,FALSE
+jang_013,jang,아.,,jack_010,Surprised,FALSE
+jack_010,jack,… …,,jang_014,Confused,FALSE
+jang_014,jang,… …,,jack_011,Angry,FALSE
+jack_011,jack,그럴 리가 없지. 응. 아무래도 힘들지. 나도 알고 있었네.,,jang_015,Confused,FALSE
+jang_015,jang,… …,,narration_012,Angry,FALSE
+narration_012,narration,(장은 말 할 기운이 없어서 입을 다물었다.),,jang_016,,FALSE
+jang_016,jang,…? 뭐하는… 겁니까?,,jack_012,Surprised,FALSE
+jack_012,jack,"쩝… 울 딸내미 줄 거 겨우 남았네. 자네, 날 만나서 얼마나 다행이야? 거기 그냥 있었으면 자넨 이미 죽은 목숨이었어! 감사한 줄 알게.",,jang_017,,FALSE
+jang_017,jang,… 향수?,,jack_013,Angry,FALSE
+jack_013,jack,마법부에서 직접 내려온 배급 포션이라 금방 정화될 걸세. 큼… 이 귀한 걸 이렇게 쓰네… 제기랄 아까워라……,,jack_014,,FALSE
+jack_014,jack,"그, 그리고 자네! 오, 오해하지 말게. 절대 이미 죽은 줄 알고 내다 팔려고 한 게 아니니까! 우연히 오염지에 갔는데 어? 누가 쓰러져 있지 뭐야. 근데 딱 보니까 숨이 붙어있지 않겠나…!",,jack_015,Confused,FALSE
+jack_015,jack,"데려가서 살려주려고 했지, 살려주려고. 암… 그렇고 말고… 저, 시체상인이니 뭐니 허, 헛소문 퍼뜨리면 생명의 은인 등에 칼 꽂는 줄로 알게! 알았지? 대답 좀 해봐! 알았지?",,jang_018,Confused,FALSE
+jang_018,jang,…,,narration_013,Angry,FALSE
+narration_013,narration,"(플로럴 계열의 향이 호흡기를 부드럽게 감싸자, 놀랍게도 몸에 힘이 돌아오는 느낌이 들었다.)",,jack_016,,FALSE
+jack_016,jack,"하하… 이거 봐 벌써 다 나았네! 내 말이 맞잖소, 하하하!",,jang_019,Confused,FALSE
+jang_019,jang,… …,,jack_017,Angry,FALSE
+jack_017,jack,… 왜 그렇게 봐… 무섭게……,,jang_020,Confused,FALSE
+jang_020,jang,"뒷주머니에 그건, 만들고 있는 겁니까?",,jack_018,Surprised,FALSE
+jack_018,jack,…뭐?,,jang_021,,FALSE
+jang_021,jang,‘포션’을 따라 만들었군요. 그런데 한 가지 재료가 부족합니다. 그리고 전체적으로 농도가 옅어요.,,jang_022,Angry,FALSE
+jang_022,jang,"오일로 추출하는 향에는 한계가 있습니다. 제대로 하려면 증류… 그러니까, 재료를 끓여서 만들어야해요.",,jack_019,Surprised,FALSE
+jack_019,jack,"자네, 그걸 어떻게…",,narration_014,Confused,FALSE
+narration_014,narration,"(방금 뿌린 향수는 장미, 라벤더, 수국의 세 가지 재료로 만들어진 것이었다.)",,jang_023,,FALSE
+jang_023,jang,"(분명, 귀한 물건이라고 했지.)",,narration_015,Angry,FALSE
+narration_015,narration,(정확한 가치는 알 수 없으나 적어도 쉽게 구할 수 없는 물건인 건 확실했다. 그렇다면.),,jang_024,,FALSE
+jang_024,jang,"제가 그걸 똑같이 만들면, 이곳에서 정착할 수 있도록 도와줄 수 있습니까?",,jack_020,Angry,FALSE
+jack_020,jack,… 정착 말인가.,,jang_025,Confused,FALSE
+jang_025,jang,"보시다시피, 외지인이라.",,jack_021,Surprised,FALSE
+jack_021,jack,그러고 보니 복색이 특이하군.,,jang_026,,FALSE
+jang_026,jang,아주 멀리서 왔습니다.,,jack_022,Angry,FALSE
+jack_022,jack,그런가…,,narration_016,,FALSE
+narration_016,narration,"(장의 직업은 조향사. 물론, 근 몇 년간 장사가 잘 되지 않아 결국 쓰리잡을 뛰게 되었으나… 어쨌든 향수에 조예가 깊었다. 그리고.)",,jang_027,,FALSE
+jang_027,jang,(카피 제품 만드는 데에는 도가 트여도 십 년은 더 전에 트였다…),,narration_017,Nothing,FALSE
+narration_017,narration,(정확히 말하자면 그는 유명 향수의 카피 제품’만’을 만드는 조향사였다.),,narration_018,,FALSE
+narration_018,narration,(그에게는 자신이 맡은 모든 향을 카피할 수 있는 능력이 있었다. 그래서 장은 한 때 자신이 세상에서 제일가는 조향사가 될 것이라 믿어 의심치 않았다.),,narration_019,,FALSE
+narration_019,narration,"(하지만 그가 알지 못했던 것이 있었으니, 그건 바로 카피와 창작은 엄연히 다른 분야의 것이라는 사실이었다.)",,jang_028,,FALSE
+jang_028,jang,(내가 만드는 향수는 죄다 망하는데 어떡해…),,narration_020,Nothing,FALSE
+narration_020,narration,"(핑계지만, 그에게도 방법이 없었다. 하여튼 그리하여 십대 시절부터 아버지의 가게를 물려받아 열심히 향수를 베끼고 또 베끼다 보니.)",,jang_029,,FALSE
+jang_029,jang,(웬만한 향수는 눈 감고도 베껴낼 수 있게 됐지.),,narration_021,Nothing,FALSE
+narration_021,narration,"(웬만한, 이라고 할 것도 없었다. 지금의 그는 아마 세상에 존재하는 모든 향을 베낄 수 있을 것이다.)",,jang_030,,FALSE
+jang_030,jang,"(자… 그래서 내가 건드린 게 대어냐, 아님 폭탄이냐.)",,narration_022,Nothing,FALSE
+narration_022,narration,(세상 모든 비밀 레시피는 극도의 민감함을 자랑한다.),,narration_023,,FALSE
+narration_023,narration,"(위험을 감수하고 찔러는 봤으나, 바늘에 걸린 것이 얌전히 낚여줄지 뻥 터져버릴지는 순전히 그의 운명에 달려있었다.)",,jack_023,,FALSE
+jack_023,jack,… 알겠네.,,jang_031,,FALSE
+jang_031,jang,"…! (설마, 이렇게 쉽게…?)",,narration_024,Nothing,FALSE
+narration_024,narration,(장은 긴장감으로 울리는 심장소리와 함께 약간의 희망을 품었다.),,narration_025,,FALSE
+narration_025,narration,"(이건, 혹시 말로만 듣던 가챠 성공의 순간인가. 언제나 불운으로 가득했던 인생, 버티고 버티니 천장 뚫을 때가 온 것일지도 몰랐다.)",,jack_024,,FALSE
+jack_024,jack,"연구회의 사람이 되고 싶다, 이 말인가.",,narration_026,,FALSE
+narration_026,narration,"(그때, 불길하게도 어떠한 쎄함이 뒷골을 싹 스쳤다.)",,jang_032,,FALSE
+jang_032,jang,"(잠깐만, 올해 삼재가…)",,jack_025,Nothing,FALSE
+jack_025,jack,"그런데, 그 말을 하려면 자네가 포션의 레시피를 알고 있어서는 안 되지.",,narration_027,,FALSE
+narration_027,narration,(퍽!),,jack_026,,FALSE
+jack_026,jack,연구회가 찾던 도망자가 여기에 있었군. 내 친히 데려다주도록 하지. 그들의 연구실에.,,narration_028,,FALSE
+narration_028,narration,(의식이 다시 꺼져간다.),,jang_033,,FALSE
+jang_033,jang,(젠장. 눌삼재…),,jang_034,Nothing,FALSE
+jang_034,jang,(… 일이 이렇게 쉽게 풀릴 리가 없지. 응. 아무래도 힘들지. 나도 알고 있었다.),,jang_035,Nothing,FALSE
+jang_035,jang,(제기랄…),,jang_036,Nothing,FALSE
+jang_036,jang,(역시 난 인생 날먹할 팔자는 아니구나.),,narration_029,Nothing,FALSE
+narration_029,narration,(… …),,narration_030,,FALSE
+narration_030,narration,"(고요히, 암전이 찾아들었다.)",,???_001,,TRUE
+???_001,???,… … 레시피 도둑…,,???_002,,FALSE
+???_002,???,… 스파이의 거래자가…,,???_003,,FALSE
+???_003,???,… … 이 자… 생긴 게 이상하군…,,???_004,,FALSE
+???_004,???,"… 음, 확실히… …",,narration_031,,FALSE
+narration_031,narration,(웅성거리는 소음에 정신이 들었다. 대화를 듣다 보니 대강 상황 파악을 할 만했다. 마지막에 썩 유쾌하지 않은 말이 오간 것 같기는 하지만.),,lorenz_001,,FALSE
+lorenz_001,lorenz,"오, 일어난 것 같은데요?",,alric_001,,FALSE
+alric_001,alric,눈 떴네요.,,dietrich_001,,FALSE
+dietrich_001,dietrich,음.,,narration_032,,FALSE
+narration_032,narration,(공기가 무겁다. 네 쌍의 눈이 모두 장을 향해 있었다.),,jang_037,,FALSE
+jang_037,jang,… (괜히 입 열었다가 그르칠 분위기다…),,narration_033,Angry,FALSE
+narration_033,narration,(장은 일단 닥치고 있기로 했다.),,dietrich_002,,FALSE
+dietrich_002,dietrich,외지인이시라고.,,jang_038,,FALSE
+jang_038,jang,… 그렇습니다.,,dietrich_003,Angry,FALSE
+dietrich_003,dietrich,으음.,,narration_034,,FALSE
+narration_034,narration,"(경계하는 것 같기도, 흥미로워하는 것 같기도 한 눈빛이 장의 복장을 훑어보았다.)",,jack_027,,FALSE
+jack_027,jack,"하하, 어때 디트리히. 내가 이번엔 제대로 한 건 물어왔다고!",,narration_035,,FALSE
+narration_035,narration,(장은 잭을 노려보고 싶은 마음을 간신히 참았다.),,jack_028,,FALSE
+jack_028,jack,나는 이만 갈 테니 잘들 해 보시게!,,jang_039,,FALSE
+jang_039,jang,… …,,lorenz_002,Angry,FALSE
+lorenz_002,lorenz,"디츠, 잘 생각하세요. 아무나 알 수 있는 레시피는 아니에요.",,alric_002,,FALSE
+alric_002,alric,맞는 말입니다.,,dietrich_004,,FALSE
+dietrich_004,dietrich,하지만 정황이 좀 부족하군. 그들이 연구실에 침입한 것은 벌써 한 달이 넘은 일이야.,,dietrich_005,,FALSE
+dietrich_005,dietrich,"이 자는… 의심스럽지만, 그래. 그 일과는 가닥이 좀 달라보여.",,alric_003,,FALSE
+alric_003,alric,그럼 저 자의 입으로 직접 듣는 건 어떻습니까.,,lorenz_003,,FALSE
+lorenz_003,lorenz,동의합니다.,,narration_036,,FALSE
+narration_036,narration,"(모두가 장에게로 시선을 맞추었다. 장은 가볍게 한숨을 내쉰 후 입을 열었다. 이래봬도, 고객 응대 십수년 경력의 자영업자다.)",,jang_040,,FALSE
+jang_040,jang,제게는 어떤 향이든지 똑같이 복제해낼 수 있는 능력이 있습니다.,,dietrich_006,Angry,FALSE
+dietrich_006,dietrich,…!,,dietrich_007,,FALSE
+dietrich_007,dietrich,"그건, 말이 안 되는데.",,narration_037,,FALSE
+narration_037,narration,(사람 상대할 때 가장 잘 먹히는 방식은 언제나 백 마디 말보다 한 번의 행동이다.),,jang_041,,FALSE
+jang_041,jang,"지금 아무런 향수나 만들어보세요. 그것과 똑같은 향수를, 이 자리에서 제가 만들어보이겠습니다.",,dietrich_008,Surprised,TRUE
+dietrich_008,dietrich,… …,,dietrich_009,,FALSE
+dietrich_009,dietrich,… 진짜였군. 정말…,,alric_004,,FALSE
+alric_004,alric,… 놀랍네요.,,lorenz_004,,FALSE
+lorenz_004,lorenz,"디츠, 이건…",,dietrich_010,,FALSE
+dietrich_010,dietrich,"릭, 로르.",,dietrich_011,,FALSE
+dietrich_011,dietrich,"우리 연구회의 인원은 오늘부로 4인이네. 릭, 이 자에게 열쇠를 내어주게나.",,alric_005,,FALSE
+alric_005,alric,네. 디츠.,,lorenz_005,,FALSE
+lorenz_005,lorenz,디츠…! 이 자를 절대 놓쳐서는 안 됩니다.,,dietrich_012,,FALSE
+dietrich_012,dietrich,그래. 상대 측에 빼앗기기라도 하면 연구회의 존재 자체가 위태로워지겠지,,lorenz_006,,FALSE
+lorenz_006,lorenz,"네, 그러니 이 자에게 씨앗을 내어줍시다.",,dietrich_013,,FALSE
+dietrich_013,dietrich,… 로르. 씨앗이 귀하다고는 하지만 일부 내어주는 것쯤이야 내겐 문제가 되지 않네.,,dietrich_014,,FALSE
+dietrich_014,dietrich,다만 자네도 알고 있겠지. 화원을 가꾸는 일은 가호를 타고나야만 할 수 있어.,,dietrich_015,,FALSE
+dietrich_015,dietrich,이 자에게 드래곤의 가호가 깃들어있을 것이라 보나? 그는 외지인이야.,,lorenz_007,,FALSE
+lorenz_007,lorenz,저는… 예언을 믿어보고 싶습니다.,,dietrich_016,,FALSE
+dietrich_016,dietrich,… 예언이라.,,alric_006,,FALSE
+alric_006,alric,외지인에게 가호가 깃든 사례는 종종 있었습니다. 물론 그 힘이 세지는 않았으나...,,alric_007,,FALSE
+alric_007,alric,혹시 모를 일이죠. 예외란 언제나 존재하는 법이니.,,lorenz_008,,FALSE
+lorenz_008,lorenz,디츠. 이 자는 제3 오염지대에서 발견되었습니다. 심지어는 발견 당시 기절해있었어요. 원래라면 그는…,,alric_008,,FALSE
+alric_008,alric,한참 전에 숨이 끊어졌어야 맞겠군요.,,dietrich_017,,FALSE
+dietrich_017,dietrich,… …,,dietrich_018,,FALSE
+dietrich_018,dietrich,그렇군. 그래.,,dietrich_019,,FALSE
+dietrich_019,dietrich,로르.,,lorenz_009,,FALSE
+lorenz_009,lorenz,"네, 디츠.",,dietrich_020,,FALSE
+dietrich_020,dietrich,화원의 사용법을 전수하게.,,lorenz_010,,FALSE
+lorenz_010,lorenz,받들겠습니다.,,dietrich_021,,FALSE
+dietrich_021,dietrich,릭. 자네는 전수가 끝나면 마을의 의뢰를 전하도록 하게.,,alric_009,,FALSE
+alric_009,alric,"네, 디츠. 받들겠습니다.",,,,TRUE

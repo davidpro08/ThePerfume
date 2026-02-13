@@ -423,7 +423,7 @@ MonoBehaviour:
   - dialogueName: Daily
     dialogueCSV: {fileID: 4900000, guid: 7c35c6f0a0fde294dbb50da31fb4d48c, type: 3}
   - dialogueName: Intro_dialogue
-    dialogueCSV: {fileID: 4900000, guid: 020823b0a2d10fa488287f7a125f9ca0, type: 3}
+    dialogueCSV: {fileID: 4900000, guid: f87085cae6dd75d43be496de80e171db, type: 3}
   - dialogueName: Tutorial_makingPerfume
     dialogueCSV: {fileID: 4900000, guid: e0c1f27b7b8f622469e40338ff738195, type: 3}
   - dialogueName: Tutorial_Flower
@@ -8651,7 +8651,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.95
+  orthographic size: 6.9333334
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9534,9 +9534,9 @@ MonoBehaviour:
   - {fileID: 3692195166896854915}
   - {fileID: 678030841490465509}
   characterParent: {fileID: 6374291187219118250}
-  IntroCsvFile: {fileID: 4900000, guid: 05f77b5d1b2027a469a4a76c81bd471e, type: 3}
+  IntroCsvFile: {fileID: 4900000, guid: 360535d03a7da2d429db6595d9df722f, type: 3}
   nextStroyCsvFile: {fileID: 4900000, guid: 83f7a1e21dfe3ad4686b21ebc13db30b, type: 3}
-  dialogueFile: {fileID: 4900000, guid: 020823b0a2d10fa488287f7a125f9ca0, type: 3}
+  dialogueFile: {fileID: 4900000, guid: f87085cae6dd75d43be496de80e171db, type: 3}
   backgroundParent: {fileID: 3680740214352740029}
   isStoryMode: 0
   isPrologueDone: 0
