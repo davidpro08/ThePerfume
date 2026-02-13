@@ -15,7 +15,7 @@ DIALOGUE,,,,,,,,,2,,,(지이익… 지이익…)
 SFX_END,,,,,,,,,,,Dragging,
 SFX_START,,,,,,,,,0.5,,Dragging,
 DIALOGUE,,,,,,,,,2,,,(피곤하다.)
-SFX,,,,,,,,,,,sigh,한숨 sfx
+SFX,,,,,,,,,,,Sigh,한숨 sfx
 DIALOGUE,,,,,,,,,3,,,장: (돈이 아무리 궁해도 쓰리잡은 무리였나…)
 SFX_END,,,,,,,,,,,Dragging,
 SFX_START,,,,,,,,,0.7,,Dragging,
