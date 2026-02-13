@@ -85,10 +85,11 @@ SFX,,,,,,,,,,,FallDown,
 DIALOGUE,,,,,,,,,6,,,장: 아.
 MOVE,jack,0.56,0.388,0.543,0.388,,,,,,,
 ANIMATION,jack,,,,,,,,poket,,,
-ANIMATION,jack,,,,,,,,poket,,,
+LOOK,jack,,,,,-1,,,,,,
 ANIMATION,jack,,,,,,,,perfume,,,
 SFX,,,,,,,,,,,PerfumeSpray,
 MOVE,jack,0.543,0.388,0.554,0.388,,,,,,,
+LOOK,jack,,,,,-1,,,,,,
 DIALOGUE,,,,,,,,,8,,,장: …? 뭐하는 …겁니까?
 ANIMATION,jang,,,,,,,,wakeUp,,,
 LOOK,jack,,,,,1,,,,,,
